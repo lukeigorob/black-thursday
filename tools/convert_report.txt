@@ -1,0 +1,210 @@
+
+==================== b17 ====================
+  removed object TireInner1
+  removed object TireInner
+  removed object TireShell
+  removed object TireRear
+  removed object RearWheelSupport
+  removed object Wheel_Support.001
+  removed object Wheel_Support
+  removed object TireOuter.001
+  removed object TireOuter
+  removed object TireShell.001
+  removed object TireInner.002
+  removed object TireInner.001
+  removed object TireShell1
+  removed object Wheel_Support2
+  removed object TireInner3
+  removed object TireOuter3
+  textures:
+    B17BomberFinal1030_BallTurret_WSupport_Bas.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_BallTurret_WSupport_Met.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_BallTurret_WSupport_Rou.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_BallTurret_WSupport_Nor.jpg                 2048x2048 -> 2048x2048
+    BallTurret_WSupport_Opacity.jpg                                2048x2048 -> 2048x2048
+  material BallTurret_WSupport: ['base', 'met', 'nor', 'opa', 'rou']
+    B17BomberFinal1030_Engines_BaseColor.jpg                       2048x2048 -> 2048x2048
+    B17BomberFinal1030_Engines_Metallic.jpg                        2048x2048 -> 2048x2048
+    B17BomberFinal1030_Engines_Normal.jpg                          2048x2048 -> 2048x2048
+  material Engines: ['base', 'met', 'nor']
+    B17BomberFinal1030_EngineShellWWheels_Base.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_EngineShellWWheels_Meta.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_EngineShellWWheels_Roug.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_EngineShellWWheels_Norm.jpg                 2048x2048 -> 2048x2048
+  material EngineShellWWheels: ['base', 'met', 'nor', 'rou']
+    B17BomberFinal1030_Guns_BaseColor.jpg                          2048x2048 -> 2048x2048
+    B17BomberFinal1030_Guns_Metallic.jpg                           2048x2048 -> 2048x2048
+    B17BomberFinal1030_Guns_Roughness.jpg                          2048x2048 -> 2048x2048
+    B17BomberFinal1030_Guns_Normal.jpg                             2048x2048 -> 2048x2048
+  material Guns: ['base', 'met', 'nor', 'rou']
+    LeftFrontWing_baseColor.jpg                                    4096x4096 -> 2048x2048
+    LeftFrontWing_metallic.jpg                                     4096x4096 -> 2048x2048
+    LeftFrontWing_roughness.jpg                                    4096x4096 -> 2048x2048
+    LeftFrontWing_normal.png                                       4096x4096 -> 2048x2048
+  material LeftFrontWing: ['base', 'met', 'nor', 'rou']
+    B17BomberFinal1030_MainHull_BaseColor.jpg                      4096x4096 -> 2048x2048
+    B17BomberFinal1030_MainHull_Metallic.jpg                       4096x4096 -> 2048x2048
+    B17BomberFinal1030_MainHull_Roughness.jpg                      4096x4096 -> 2048x2048
+    B17BomberFinal1030_MainHull_Normal.jpg                         4096x4096 -> 2048x2048
+    MainHull_Opacity.jpg                                           4096x4096 -> 2048x2048
+  material MainHull: ['base', 'met', 'nor', 'opa', 'rou']
+    B17BomberFinal1030_RearWings_BaseColor.jpg                     2048x2048 -> 2048x2048
+    B17BomberFinal1030_RearWings_Metallic.jpg                      2048x2048 -> 2048x2048
+    B17BomberFinal1030_RearWings_Roughness.jpg                     2048x2048 -> 2048x2048
+    B17BomberFinal1030_RearWings_Normal.jpg                        2048x2048 -> 2048x2048
+  material RearWings: ['base', 'met', 'nor', 'rou']
+    B17BomberFinal1030_FrontWings_BaseColor.jpg                    4096x4096 -> 2048x2048
+    B17BomberFinal1030_FrontWings_Metallic.jpg                     4096x4096 -> 2048x2048
+    B17BomberFinal1030_FrontWings_Roughness.jpg                    4096x4096 -> 2048x2048
+    B17BomberFinal1030_FrontWings_Normal.jpg                       4096x4096 -> 2048x2048
+  material RightFrontWing: ['base', 'met', 'nor', 'rou']
+    B17BomberFinal1030_Tail_TBTurrets_BaseColo.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_Tail_TBTurrets_Metallic.jpg                 2048x2048 -> 2048x2048
+    B17BomberFinal1030_Tail_TBTurrets_Normal.jpg                   2048x2048 -> 2048x2048
+    Tail_TBTurrets_Opacity.jpg                                     2048x2048 -> 2048x2048
+  material Tail_TBTurrets: ['base', 'met', 'nor', 'opa']
+    B17BomberFinal1030_Tires_Nav_BaseColor.jpg                     2048x2048 -> 2048x2048
+    B17BomberFinal1030_Tires_Nav_Metallic.jpg                      2048x2048 -> 2048x2048
+    B17BomberFinal1030_Tires_Nav_Roughness.jpg                     2048x2048 -> 2048x2048
+    B17BomberFinal1030_Tires_Nav_Normal.jpg                        2048x2048 -> 2048x2048
+  material Tires_Nav: ['base', 'met', 'nor', 'rou']
+  scale x66.141  ->  span 32.62 m, height 5.97 m, length 22.70 m (nose towards -Z)
+  wrote public\models\b17.glb (20.9 MB)
+  nodes (three.js coordinates, metres):
+  AsymWings                                EMPTY  pos=(   1.96,   -0.75,   -6.96)
+    EngineInside1                          MESH   pos=(   7.15,   -0.64,   -8.30) size=(   1.13,    1.13,    0.95) verts=1869
+    EngineInside4                          MESH   pos=(  -3.93,   -0.65,   -8.59) size=(   1.13,    1.13,    0.95) verts=1869
+    EnginePipe                             EMPTY  pos=(   4.59,   -0.87,   -7.17)
+      EnginePipe.001                       MESH   pos=(   4.59,   -0.87,   -7.17) size=(   0.32,    0.31,    1.28) verts=401
+    EngineShellInner                       EMPTY  pos=(   3.94,   -0.79,   -6.08)
+      EngineShellInner.001                 MESH   pos=(   3.94,   -0.79,   -6.08) size=(   1.64,    1.79,    4.97) verts=551
+    EngineShellOuter                       MESH   pos=(   7.15,   -0.76,   -5.80) size=(   1.60,    1.76,    4.96) verts=401
+    EngineShellOuter2                      MESH   pos=(  -7.15,   -0.76,   -5.80) size=(   1.60,    1.76,    4.96) verts=401
+  AsymWings1                               EMPTY  pos=(  -0.01,   -1.66,    7.38)
+    HuuuuuuugeWingGuy2                     MESH   pos=(  -3.52,   -1.65,    7.38) size=(   6.45,    0.98,    4.05) verts=870
+    HuuuuuuugeWingGuy3                     MESH   pos=(   3.50,   -1.67,    7.38) size=(   6.45,    0.98,    4.05) verts=870
+  BallStabilizer1                          MESH   pos=(  -0.00,   -2.27,   -0.13) size=(   1.24,    0.37,    1.24) verts=894
+  BallTurret                               MESH   pos=(  -0.00,   -2.32,   -0.13) size=(   1.03,    1.33,    1.34) verts=1217
+  BallTurretGuns                           EMPTY  pos=(   0.32,   -2.61,   -1.06)
+    GunBarrel.003                          EMPTY  pos=(   0.32,   -2.61,   -1.06)
+      GunBarrel.004                        MESH   pos=(   0.32,   -2.61,   -1.06) size=(   0.06,    0.33,    0.69) verts=4442
+  BallTurretGuns1                          EMPTY  pos=(  -0.09,   -2.42,   10.93)
+    GunBarrel.006                          EMPTY  pos=(  -0.09,   -2.42,   10.93)
+      GunBarrel.007                        MESH   pos=(  -0.09,   -2.42,   10.93) size=(   0.07,    0.30,    0.84) verts=4442
+  BallTurretTracks                         MESH   pos=(  -0.00,   -2.31,    0.24) size=(   0.96,    0.37,    0.07) verts=2468
+  EngineInside2                            MESH   pos=(   3.94,   -0.65,   -8.59) size=(   1.13,    1.13,    0.95) verts=1869
+  EngineInside3                            MESH   pos=(  -7.15,   -0.64,   -8.30) size=(   1.13,    1.13,    0.95) verts=1869
+  EnginePipe2                              MESH   pos=(  -4.59,   -0.87,   -7.17) size=(   0.32,    0.31,    1.28) verts=401
+  EngineShellInner2                        MESH   pos=(  -3.93,   -0.79,   -6.08) size=(   1.64,    1.79,    4.97) verts=551
+  FrontGunCapsule                          MESH   pos=(   0.00,   -1.26,   -9.93) size=(   0.99,    0.90,    1.03) verts=490
+  FrontGunPanels                           MESH   pos=(  -0.00,    0.09,  -10.17) size=(   2.08,    0.75,    0.99) verts=318
+  GunBarrel12                              MESH   pos=(   0.09,   -2.42,   10.93) size=(   0.07,    0.30,    0.84) verts=4442
+  GunBarrel14                              MESH   pos=(  -0.32,   -2.61,   -1.06) size=(   0.06,    0.33,    0.69) verts=4442
+  Hull.001                                 EMPTY  pos=(  -0.00,    0.85,    6.23)
+    Tail                                   MESH   pos=(  -0.00,    0.85,    6.23) size=(   0.35,    4.27,    8.03) verts=2529
+  LateralGuns                              EMPTY  pos=(  -0.07,   -1.18,    2.01)
+    GunBarrel.005                          MESH   pos=(   1.19,   -1.22,    2.18) size=(   0.35,    0.31,    0.77) verts=4442
+    GunBarrel10                            MESH   pos=(  -1.39,   -1.19,    2.06) size=(   0.70,    0.21,    0.54) verts=4442
+    LateralGunPivots                       MESH   pos=(   0.00,   -1.12,    1.77) size=(   2.25,    0.20,    0.25) verts=84
+  LowerFrontGuns                           EMPTY  pos=(  -0.00,   -1.51,  -10.82)
+    GunBarrel.001                          MESH   pos=(   0.21,   -1.51,  -10.82) size=(   0.07,    0.26,    0.84) verts=4442
+    GunBarrel5                             MESH   pos=(  -0.21,   -1.51,  -10.82) size=(   0.07,    0.26,    0.84) verts=4442
+  MainFuselage2                            MESH   pos=(   0.00,   -0.66,   -0.18) size=(   2.53,    3.90,   21.13) verts=11679
+  NavigationKnob                           MESH   pos=(   0.00,   -2.17,   -6.06) size=(   0.27,    0.44,    0.60) verts=462
+  NoseGuns                                 EMPTY  pos=(  -0.02,   -0.02,  -10.81)
+    GunBarrel.002                          MESH   pos=(   1.05,   -0.03,  -10.83) size=(   0.37,    0.17,    0.63) verts=3580
+    GunBarrel16                            MESH   pos=(  -1.08,   -0.02,  -10.79) size=(   0.43,    0.17,    0.60) verts=3580
+  Planee                                   EMPTY  pos=(  -0.00,   -0.06,  -10.99)
+    Hull                                   EMPTY  pos=(  -0.00,   -0.06,  -10.99)
+      Nose                                 MESH   pos=(  -0.00,   -0.06,  -10.99) size=(   1.55,    1.42,    0.71) verts=442
+  Prop_1                                   EMPTY  pos=(  -7.16,   -0.57,   -8.39)
+    Propeller10                            MESH   pos=(  -6.39,   -0.08,   -8.33) size=(   1.33,    0.96,    0.20) verts=1562
+    Propeller11                            MESH   pos=(  -7.12,   -1.52,   -8.49) size=(   0.21,    1.58,    0.27) verts=1562
+    Propeller9                             MESH   pos=(  -7.96,   -0.10,   -8.34) size=(   1.36,    0.92,    0.17) verts=1562
+  Prop_2                                   EMPTY  pos=(  -3.93,   -0.58,   -8.67)
+    Propeller12                            MESH   pos=(  -3.91,   -1.54,   -8.77) size=(   0.21,    1.58,    0.27) verts=1562
+    Propeller13                            MESH   pos=(  -4.73,   -0.11,   -8.63) size=(   1.36,    0.92,    0.17) verts=1562
+    Propeller14                            MESH   pos=(  -3.15,   -0.08,   -8.62) size=(   1.33,    0.96,    0.20) verts=1562
+  Prop_3                                   EMPTY  pos=(   3.94,   -0.58,   -8.67)
+    Propeller                              MESH   pos=(   3.14,   -0.11,   -8.63) size=(   1.36,    0.92,    0.17) verts=1562
+    Propeller1                             MESH   pos=(   4.72,   -0.08,   -8.62) size=(   1.33,    0.96,    0.20) verts=1562
+    Propeller2                             MESH   pos=(   3.97,   -1.54,   -8.77) size=(   0.21,    1.58,    0.27) verts=1562
+  Prop_4                                   EMPTY  pos=(   7.15,   -0.57,   -8.39)
+    Propeller6                             MESH   pos=(   6.35,   -0.10,   -8.34) size=(   1.36,    0.92,    0.17) verts=1562
+    Propeller7                             MESH   pos=(   7.18,   -1.52,   -8.49) size=(   0.21,    1.58,    0.27) verts=1562
+    Propeller8                             MESH   pos=(   7.92,   -0.08,   -8.33) size=(   1.33,    0.96,    0.20) verts=1562
+  SideGunPanels                            MESH   pos=(  -0.00,   -1.00,    1.78) size=(   2.16,    0.74,    0.80) verts=128
+  TailGunPod                               MESH   pos=(   0.00,   -2.21,   10.43) size=(   0.85,    0.79,    0.32) verts=675
+  TopGuns                                  EMPTY  pos=(  -0.00,    1.49,   -7.52)
+    GunBarrel                              MESH   pos=(   0.29,    1.49,   -7.52) size=(   0.06,    0.28,    0.86) verts=4588
+    GunBarrel15                            MESH   pos=(  -0.30,    1.49,   -7.52) size=(   0.06,    0.28,    0.86) verts=4588
+  TopTurret                                MESH   pos=(   0.00,    1.26,   -6.71) size=(   1.24,    0.74,    1.26) verts=276
+  WingLights_NavBubble1                    MESH   pos=(  -0.00,   -0.37,   -7.09) size=(   5.12,    2.60,    6.01) verts=683
+  polySurface2                             MESH   pos=(   8.36,   -1.01,   -4.32) size=(  15.90,    1.69,    6.02) verts=2953
+  polySurface4                             MESH   pos=(  -8.36,   -1.01,   -4.32) size=(  15.90,    1.69,    6.02) verts=2953
+  wrote public\models\b17_mid.glb (4.8 MB, 223620 -> 44694 triangles)
+  wrote public\models\b17_lod.glb (1.4 MB, 223620 -> 11677 triangles)
+
+==================== bf109 ====================
+  removed 6618 landing-gear vertices from BF109_F2_Final (vertex groups ['Gear_L', 'Gear_R'])
+  removed 9032 tail-wheel vertices from BF109_F2_Final
+  textures:
+    BF_109_F2_Base_Color.tga.png                                   4096x4096 -> 2048x2048
+    BF_109_F2_Metallic.tga.png                                     4096x4096 -> 2048x2048
+    BF_109_F2_Roughness.tga.png                                    4096x4096 -> 2048x2048
+    BF_109_F2_Normal_DirectX.tga.png                               4096x4096 -> 2048x2048  (green flipped)
+  material BF_109_F2: ['base', 'met', 'nor', 'rou']
+    Rotating_Propeller_baseColor.png                               2048x2048 -> 2048x2048
+    Rotating_Propeller_opacity.png                                 2048x2048 -> 2048x2048
+  material Fake_Blades_Mat: ['base', 'opa']
+  material Glass_Mat: glass
+  scale x1.044  ->  span 10.37 m, height 3.30 m, length 8.94 m (nose towards -Z)
+  wrote public\models\bf109.glb (3.0 MB)
+  nodes (three.js coordinates, metres):
+  BF109_F2_Blades                          MESH   pos=(  -0.00,    0.00,   -4.07) size=(   3.00,    2.38,    0.19) verts=1542
+  BF109_F2_Final                           MESH   pos=(   0.00,   -1.13,    0.00) size=(  10.37,    2.13,    8.94) verts=17730
+  Fake_Blades                              MESH   pos=(  -0.00,    0.00,   -4.07) size=(   3.30,    3.30,    0.00) verts=8
+  wrote public\models\bf109_lod.glb (0.3 MB, 37562 -> 2257 triangles)
+
+==================== p51 ====================
+  removed object Light
+  removed object Camera
+  removed object Gear 1L
+  removed object Gear 2L
+  removed object Gear 3L
+  removed object Gear 1L.001
+  removed object Gear 2L.001
+  removed object Gear 3R
+  removed object Gear 1P
+  removed object Gear 2P
+  removed object Gear 2P.001
+  textures:
+    Material_albedo.jpeg                                           1024x1024 -> 1024x1024
+    Material_metallic-Material_roughness@channels=B.png            1024x1024 -> 1024x1024
+    Material_metallic-Material_roughness@channels=G.png            1024x1024 -> 1024x1024
+    Material_normal.png                                            1024x1024 -> 1024x1024
+  material Main: ['base', 'met', 'nor', 'rou']
+    parts_Base_Color.png                                           1024x1024 -> 1024x1024
+    parts_metallic-parts_roughness@channels=B.png                  1024x1024 -> 1024x1024
+    parts_metallic-parts_roughness@channels=G.png                  1024x1024 -> 1024x1024
+    parts_normal.png                                               1024x1024 -> 1024x1024
+  material parts: ['base', 'met', 'nor', 'rou']
+  scale x1.127  ->  span 11.18 m, height 3.12 m, length 9.83 m (nose towards -Z)
+  wrote public\models\p51.glb (1.3 MB)
+  nodes (three.js coordinates, metres):
+  Plane                                    MESH   pos=(   0.00,   -0.28,   -0.27) size=(  11.18,    2.81,    8.52) verts=2403
+    Elevators                              MESH   pos=(  -0.00,    0.15,    3.90) size=(   3.50,    0.11,    0.48) verts=68
+    Exhaust                                MESH   pos=(   0.00,   -0.05,   -3.45) size=(   0.96,    0.12,    0.91) verts=864
+    Guns                                   MESH   pos=(  -0.04,   -0.95,   -1.58) size=(   4.68,    0.18,    0.22) verts=672
+    LeftAileron                            MESH   pos=(  -4.22,   -0.45,   -0.56) size=(   2.10,    0.30,    0.71) verts=48
+    LeftFlap                               MESH   pos=(  -1.79,   -0.63,   -0.28) size=(   2.83,    0.31,    1.04) verts=60
+    Nose                                   MESH   pos=(   0.00,   -0.11,   -4.55) size=(   0.62,    0.62,    0.74) verts=84
+      Prop                                 MESH   pos=(   0.00,   -0.11,   -4.62) size=(   1.21,    0.62,    0.25) verts=120
+      Prop.001                             MESH   pos=(   0.00,   -0.11,   -4.62) size=(   0.62,    1.21,    0.25) verts=120
+      Prop.002                             MESH   pos=(   0.00,   -0.11,   -4.62) size=(   1.21,    0.62,    0.25) verts=120
+      Prop.003                             MESH   pos=(   0.00,   -0.11,   -4.62) size=(   0.62,    1.21,    0.25) verts=120
+    RightAileron                           MESH   pos=(   4.22,   -0.45,   -0.56) size=(   2.10,    0.30,    0.71) verts=48
+    RightFlap                              MESH   pos=(   1.79,   -0.63,   -0.28) size=(   2.83,    0.31,    1.04) verts=60
+    Rudder                                 MESH   pos=(  -0.00,    1.31,    4.29) size=(   0.17,    1.82,    0.72) verts=60
+    Tank L                                 MESH   pos=(  -0.00,   -1.16,   -1.43) size=(   5.49,    0.82,    2.32) verts=728
+  wrote public\models\p51_lod.glb (0.4 MB, 6654 -> 1660 triangles)

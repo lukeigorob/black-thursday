@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>B-17</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d10; color: #ece8dc; font: 14px/1.5 system-ui, sans-serif; }
+      canvas { display: block; }
+      body.free-look canvas { cursor: none; } /* the crosshair is the aim point */
+      .menu { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at center, #0b0d1066, #0b0d10dd); }
+      .panel { text-align: center; max-width: 520px; padding: 28px 36px; }
+      .panel h1 { font: 600 44px/1.1 Georgia, serif; letter-spacing: 6px; margin: 0 0 10px; }
+      .panel p { color: #c8c3b4; margin: 0 0 18px; }
+      .panel button { font: 600 16px system-ui; letter-spacing: 2px; padding: 11px 34px; background: #4a5634; color: #f3f0e6; border: 1px solid #9aab74; border-radius: 4px; cursor: pointer; }
+      .panel button:hover { background: #5b6a40; }
+      .quality { display: block; margin: 18px 0 8px; color: #c8c3b4; }
+      .quality select { margin-left: 8px; font: inherit; background: #1b1f17; color: inherit; border: 1px solid #555e45; border-radius: 3px; padding: 3px 6px; }
+      .keys { font-size: 12px; color: #8f8a7d !important; }
+      #map { display: none; }
+      .map-panel { max-width: none; }
+      .map-row { display: flex; gap: 22px; align-items: flex-start; justify-content: center; }
+      #map-canvas { width: min(560px, 60vh); height: min(560px, 60vh); border: 1px solid #555e45; border-radius: 4px; cursor: crosshair; }
+      #map-side { width: 260px; text-align: left; max-height: 60vh; overflow: auto; }
+      #map-side h3 { margin: 0 0 2px; font: 600 15px system-ui; }
+      .muted { color: #8f8a7d !important; font-size: 13px; margin: 0 0 10px; }
+      button.role { display: flex; justify-content: space-between; align-items: baseline; width: 100%; margin: 0 0 4px; padding: 6px 10px !important; letter-spacing: 0 !important; font: 600 13px system-ui !important; text-align: left; }
+      button.role small { font-weight: 400; opacity: .75; margin-left: 10px; }
+      button.role:disabled { opacity: .35; cursor: default; background: #2a2f22; }
+      #hud { display: none; pointer-events: none; }
+      #crosshair { position: fixed; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px; border-radius: 50%; background: #ffffffaa; box-shadow: 0 0 2px #000; }
+      #crosshair.gun { width: 26px; height: 26px; margin: -13px; background: none; border: 1.5px solid #ffffff99; }
+      #location { position: fixed; left: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
+      #prompt { position: fixed; left: 0; right: 0; bottom: 18%; text-align: center; font-size: 16px; text-shadow: 0 1px 3px #000; opacity: 0; transition: opacity .15s; }
+      #prompt b { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; }
+      #hint { display: none; position: fixed; left: 50%; top: 14px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10b0; font-size: 13px; text-align: center; }
+      #gun { display: none; position: fixed; right: 24px; bottom: 22px; width: 220px; text-align: right; text-shadow: 0 1px 3px #000; }
+      #gun-ammo { font: 600 15px ui-monospace, Consolas, monospace; color: #ece8dcbb; }
+      #gun-ammo b { font-size: 30px; color: #ece8dc; }
+      #gun .bar { height: 5px; margin: 6px 0 2px; background: #0007; border: 1px solid #ece8dc44; border-radius: 2px; overflow: hidden; }
+      #gun .bar i { display: block; height: 100%; width: 0; background: #d9d2b8; }
+      #gun .bar.reload i { background: #b6d47a; }
+      #gun .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc88; }
+      #gun-state { min-height: 18px; margin-top: 6px; font-size: 13px; }
+      #gun-state.warn { color: #ffb36a; }
+      #hitmarker { position: fixed; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; }
+      #hitmarker i { position: absolute; width: 11px; height: 2px; background: #fff; box-shadow: 0 0 2px #000; }
+      #hitmarker i:nth-child(1) { left: 6px; top: 6px; transform: rotate(45deg); }
+      #hitmarker i:nth-child(2) { left: -17px; top: 6px; transform: rotate(-45deg); }
+      #hitmarker i:nth-child(3) { left: 6px; top: -8px; transform: rotate(-45deg); }
+      #hitmarker i:nth-child(4) { left: -17px; top: -8px; transform: rotate(45deg); }
+      #hitmarker.hit { animation: hm .18s ease-out; }
+      #hitmarker.kill { animation: hm .5s ease-out; }
+      #hitmarker.kill i { background: #ff4a3a; width: 15px; }
+      @keyframes hm { from { opacity: 1; } to { opacity: 0; } }
+      #kills { position: fixed; right: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 1px 3px #000; }
+      #toasts { position: fixed; left: 0; right: 0; top: 22%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .toast { padding: 5px 14px; background: #0b0d10a0; border-radius: 3px; font: 600 17px system-ui; letter-spacing: 1px; text-shadow: 0 1px 3px #000; transition: opacity .5s; }
+      .toast.kill { color: #ffb36a; }
+      .toast.out { opacity: 0; }
+      #crew { position: fixed; left: 18px; top: 40px; font: 11px/1.55 system-ui; letter-spacing: .5px; text-shadow: 0 1px 2px #000; color: #ece8dcaa; }
+      #crew div { display: flex; justify-content: space-between; gap: 14px; min-width: 190px; }
+      #crew b { font-weight: 600; }
+      #crew .ok { color: #8fcf6a; } #crew .you { color: #fff; } #crew .busy { color: #d9d2b8; }
+      #crew .hurt { color: #ffb36a; animation: blink 1s infinite; } #crew .dead { color: #ff5a4a; }
+      #crew div.dead { opacity: .6; text-decoration: line-through; }
+      @keyframes blink { 50% { opacity: .35; } }
+      #engines { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; }
+      .eng { display: inline-flex; flex-direction: column; align-items: center; min-width: 34px; padding: 3px 6px; border: 1px solid #ece8dc55; border-radius: 3px; background: #0b0d1080; font: 600 13px system-ui; }
+      .eng small { font-size: 9px; letter-spacing: .5px; min-height: 11px; }
+      .eng.smoking { color: #ffd36a; border-color: #ffd36a; } .eng.dead { color: #888; border-color: #666; }
+      .eng.fire { color: #ff5a3a; border-color: #ff5a3a; animation: blink .6s infinite; }
+      .eng.wing { font-size: 11px; justify-content: center; }
+      #aid { display: none; position: fixed; left: 50%; bottom: calc(18% - 22px); width: 220px; transform: translateX(-50%); }
+      #aid .bar { height: 6px; background: #0007; border: 1px solid #ece8dc55; border-radius: 2px; overflow: hidden; }
+      #aid .bar i { display: block; height: 100%; width: 0; background: #b6d47a; }
+      #hurt { display: none; position: fixed; inset: 0; align-items: flex-end; justify-content: center; padding-bottom: 30%; box-shadow: inset 0 0 220px 60px #6a0000; }
+      #hurt-text { font: 600 20px system-ui; color: #ffd0c0; text-shadow: 0 1px 4px #000; }
+      #mission { position: fixed; left: 50%; top: 12px; transform: translateX(-50%); font: 600 12px system-ui; letter-spacing: 1.5px; text-transform: uppercase; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
+      #sight { display: none; position: fixed; inset: 0; }
+      #sight .ring { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 0 34vmin, #000 34.3vmin); }
+      #sight .h, #sight .v { position: absolute; left: 50%; top: 50%; background: #1a1a1acc; }
+      #sight .h { width: 68vmin; height: 1px; transform: translate(-50%, 0); }
+      #sight .v { width: 1px; height: 68vmin; transform: translate(0, -50%); }
+      #sight-info { position: absolute; left: 0; right: 0; bottom: 6%; text-align: center; font-size: 14px; line-height: 1.6; text-shadow: 0 1px 3px #000; }
+      .debrief { margin: 0 auto 6px; border-collapse: collapse; font-size: 14px; text-align: left; }
+      .debrief td { padding: 3px 12px; border-bottom: 1px solid #ece8dc22; }
+      .debrief td:last-child { text-align: right; color: #ece8dc; }
+      #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
+    </style>
+  </head>
+  <body>
+    <div id="ui"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Viewer</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1014; color: #e8e6df; font: 13px/1.45 system-ui, sans-serif; }
+      canvas { display: block; }
+      #bar { position: fixed; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+      #bar button, #bar label { background: #1d232b; border: 1px solid #39424e; color: inherit; padding: 6px 10px; border-radius: 6px; cursor: pointer; font: inherit; }
+      #bar button.on { background: #3d4a2c; border-color: #8fa36a; }
+      #info { position: fixed; left: 12px; bottom: 12px; background: #0d1014cc; padding: 8px 12px; border-radius: 6px; max-width: 60ch; }
+      #nodes { position: fixed; top: 12px; right: 12px; bottom: 12px; width: 330px; overflow: auto; background: #0d1014dd; border: 1px solid #262d36; border-radius: 6px; padding: 8px; }
+      #nodes div { padding: 1px 4px; border-radius: 3px; cursor: pointer; white-space: nowrap; font: 12px ui-monospace, Consolas, monospace; }
+      #nodes div:hover { background: #262d36; }
+      #nodes div.sel { background: #3d4a2c; }
+      #nodes .muted { color: #7d8794; }
+    </style>
+  </head>
+  <body>
+    <div id="bar"></div>
+    <div id="info">Loading…</div>
+    <div id="nodes"></div>
+    <script type="module" src="/src/viewer.js"></script>
+  </body>
+</html>

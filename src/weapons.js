@@ -1,0 +1,370 @@
+// Browning M2 .50 calibre guns: firing, ballistics (muzzle velocity, gravity, air drag), tracers,
+// muzzle flash, ammo, reloading and overheating. The model's guns swing to follow the aim.
+import * as THREE from 'three';
+import { AIRSPEED } from './bomber.js';
+
+const V = THREE.Vector3;
+const MUZZLE_SPEED = 890; // m/s
+const GRAVITY = 9.81;
+const DRAG = 0.00025; // simple quadratic drag on the bullet's speed through the air
+const WIND = new V(0, 0, AIRSPEED); // the air streams past the formation (which stays at the origin)
+const LIFE = 2.5; // seconds a round is simulated (~1.7 km, well past effective range)
+const TRACER_EVERY = 4;
+const CONVERGENCE = 350; // m: guns are harmonised so rounds cross the sight line here
+const SPREAD = 0.0018; // rad, gun dispersion
+const MAX_BULLETS = 3000, MAX_TRACERS = 800;
+const ALLIED_TRACER = [1, 0.42, 0.12], ENEMY_TRACER = [0.75, 1, 0.45]; // red-orange vs. German yellow-green
+
+// per position: rounds per load (all guns of the position together) and reload time
+const LOADS = { twin: { ammo: 500, reload: 5 }, single: { ammo: 250, reload: 3.5 } };
+const RPM = 750;
+const HEAT_PER_SHOT = 1 / 45; // at 12.5 rounds/s a barrel overheats after ~6 s of non-stop fire
+const COOL = 0.12; // per second (so short bursts never overheat)
+const UNJAM = 0.45; // an overheated gun fires again below this heat
+
+/** All rounds in flight. Tracers are drawn as glowing streaks; ball rounds are only simulated. */
+export class Bullets {
+  constructor(scene) {
+    this.p = new Float32Array(MAX_BULLETS * 3);
+    this.v = new Float32Array(MAX_BULLETS * 3);
+    this.age = new Float32Array(MAX_BULLETS);
+    this.tracer = new Uint8Array(MAX_BULLETS);
+    this.team = []; this.owner = []; this.cannon = new Uint8Array(MAX_BULLETS);
+    this.count = 0;
+    const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, -0.5);
+    const mat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1, 1, 1).multiplyScalar(60), // far above the bloom threshold
+      blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, fog: false,
+    });
+    this.mesh = new THREE.InstancedMesh(geo, mat, MAX_TRACERS);
+    this.mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(MAX_TRACERS * 3), 3);
+    this.mesh.frustumCulled = false;
+    this.mesh.count = 0;
+    scene.add(this.mesh);
+    // glowing head: a few pixels wide at any distance, so tracers seen end-on still show
+    this.heads = new Float32Array(MAX_TRACERS * 3);
+    this.headColors = new Float32Array(MAX_TRACERS * 3);
+    const pg = new THREE.BufferGeometry();
+    pg.setAttribute('position', new THREE.BufferAttribute(this.heads, 3));
+    pg.setAttribute('color', new THREE.BufferAttribute(this.headColors, 3));
+    this.points = new THREE.Points(pg, new THREE.PointsMaterial({
+      map: glowTexture(), size: 7, sizeAttenuation: false, color: new THREE.Color(1, 1, 1).multiplyScalar(40), vertexColors: true,
+      blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, fog: false,
+    }));
+    this.points.frustumCulled = false;
+    scene.add(this.points);
+    this.m = new THREE.Matrix4();
+    this.q = new THREE.Quaternion();
+  }
+
+  /** team 'allied' | 'enemy'; owner = who fired ('player', a fighter...); cannon = 20 mm shell. */
+  spawn(pos, vel, tracer, team = 'allied', owner = null, cannon = false) {
+    if (this.count >= MAX_BULLETS) return;
+    const i = this.count++, j = i * 3;
+    this.p[j] = pos.x; this.p[j + 1] = pos.y; this.p[j + 2] = pos.z;
+    this.v[j] = vel.x; this.v[j + 1] = vel.y; this.v[j + 2] = vel.z;
+    this.age[i] = 0;
+    this.tracer[i] = tracer ? 1 : 0;
+    this.team[i] = team; this.owner[i] = owner; this.cannon[i] = cannon ? 1 : 0;
+  }
+
+  /**
+   * camPos: tracers keep a minimum on-screen width (a real tracer's glow stays visible far away).
+   * collide(a, b, team, owner, cannon): tests this frame's path of a round, true = it hit something.
+   */
+  update(dt, camPos, collide) {
+    const p = this.p, v = this.v, dir = new V(), pos = new V(), scale = new V(1, 1, 1), from = new V(), to = new V();
+    let t = 0;
+    for (let i = 0; i < this.count; i++) {
+      const j = i * 3;
+      if ((this.age[i] += dt) > LIFE) { this.remove(i--); continue; }
+      from.set(p[j], p[j + 1], p[j + 2]);
+      // drag acts on the speed through the air, gravity pulls down
+      const rx = v[j] - WIND.x, ry = v[j + 1] - WIND.y, rz = v[j + 2] - WIND.z;
+      const k = DRAG * Math.hypot(rx, ry, rz) * dt;
+      v[j] -= rx * k; v[j + 1] -= ry * k + GRAVITY * dt; v[j + 2] -= rz * k;
+      p[j] += v[j] * dt; p[j + 1] += v[j + 1] * dt; p[j + 2] += v[j + 2] * dt;
+      // test the whole path since last frame, so fast rounds can't skip through a plane
+      if (collide && collide(from, to.set(p[j], p[j + 1], p[j + 2]), this.team[i], this.owner[i], this.cannon[i])) {
+        this.remove(i--);
+        continue;
+      }
+      if (this.tracer[i] && t < MAX_TRACERS) {
+        dir.set(v[j], v[j + 1], v[j + 2]);
+        const speed = dir.length();
+        pos.set(p[j], p[j + 1], p[j + 2]);
+        const w = camPos ? Math.max(1, pos.distanceTo(camPos) * 0.0011 / 0.05) : 1;
+        scale.set(w, w, Math.min(speed * 0.022, 20)); // streak length ~ motion blur
+        this.q.setFromUnitVectors(new V(0, 0, -1), dir.divideScalar(speed));
+        this.mesh.setMatrixAt(t, this.m.compose(pos, this.q, scale));
+        const c = this.team[i] === 'enemy' ? ENEMY_TRACER : ALLIED_TRACER;
+        this.mesh.instanceColor.setXYZ(t, c[0], c[1], c[2]);
+        this.heads.set([pos.x, pos.y, pos.z], t * 3);
+        this.headColors.set(c, t * 3);
+        t++;
+      }
+    }
+    this.mesh.count = t;
+    this.mesh.instanceMatrix.needsUpdate = true;
+    this.mesh.instanceColor.needsUpdate = true;
+    this.points.geometry.setDrawRange(0, t);
+    this.points.geometry.attributes.position.needsUpdate = true;
+    this.points.geometry.attributes.color.needsUpdate = true;
+  }
+
+  remove(i) { // swap with the last round
+    const last = --this.count;
+    if (i === last) return;
+    for (let k = 0; k < 3; k++) { this.p[i * 3 + k] = this.p[last * 3 + k]; this.v[i * 3 + k] = this.v[last * 3 + k]; }
+    this.age[i] = this.age[last];
+    this.tracer[i] = this.tracer[last];
+    this.team[i] = this.team[last]; this.owner[i] = this.owner[last]; this.cannon[i] = this.cannon[last];
+  }
+}
+
+/** Main axis of a set of points (power iteration on the covariance). */
+function principalAxis(pts) {
+  const c = pts.reduce((a, p) => a.add(p), new V()).divideScalar(pts.length);
+  const m = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (const p of pts) {
+    const d = [p.x - c.x, p.y - c.y, p.z - c.z];
+    for (let r = 0; r < 3; r++) for (let s = 0; s < 3; s++) m[r * 3 + s] += d[r] * d[s];
+  }
+  let a = new V(0.3, 0.2, 1).normalize();
+  for (let n = 0; n < 30; n++) {
+    a = new V(m[0] * a.x + m[1] * a.y + m[2] * a.z, m[3] * a.x + m[4] * a.y + m[5] * a.z, m[6] * a.x + m[7] * a.y + m[8] * a.z).normalize();
+  }
+  return { centre: c, axis: a };
+}
+
+function glowTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 32;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grd.addColorStop(0, 'rgba(255,255,255,1)');
+  grd.addColorStop(0.35, 'rgba(255,255,255,0.6)');
+  grd.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 32, 32);
+  return new THREE.CanvasTexture(c);
+}
+
+function flashTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grd.addColorStop(0, 'rgba(255,255,255,1)');
+  grd.addColorStop(0.25, 'rgba(255,210,140,0.9)');
+  grd.addColorStop(1, 'rgba(255,140,40,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 64, 64);
+  g.strokeStyle = 'rgba(255,220,160,0.8)';
+  g.lineWidth = 3;
+  for (let i = 0; i < 4; i++) { // star-shaped flash
+    const a = (i * Math.PI) / 4;
+    g.beginPath(); g.moveTo(32 - Math.cos(a) * 30, 32 - Math.sin(a) * 30); g.lineTo(32 + Math.cos(a) * 30, 32 + Math.sin(a) * 30); g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+const FLASH_TEX = flashTexture();
+
+/** One gun position on a bomber: its barrels, the pivot they turn on, ammo, heat and reload state. */
+class GunPosition {
+  constructor(bomber, station) {
+    this.station = station;
+    const model = bomber.model;
+    bomber.group.updateMatrixWorld(true);
+    const toLocal = bomber.group.matrixWorld.clone().invert();
+    const fwd = new V(-Math.sin(station.yaw), 0, -Math.cos(station.yaw));
+
+    // barrels: every mesh under the named gun nodes
+    const barrels = [];
+    for (const n of station.guns) model.getObjectByName(n)?.traverse((o) => { if (o.isMesh) barrels.push(o); });
+    const info = barrels.map((b) => {
+      const pos = b.geometry.attributes.position, pts = [], m = new THREE.Matrix4().multiplyMatrices(toLocal, b.matrixWorld);
+      for (let i = 0; i < pos.count; i += Math.max(1, Math.floor(pos.count / 600))) pts.push(new V().fromBufferAttribute(pos, i).applyMatrix4(m));
+      const { centre, axis } = principalAxis(pts);
+      if (axis.dot(fwd) < 0) axis.negate(); // point out of the aircraft
+      let lo = Infinity, hi = -Infinity;
+      for (const p of pts) { const d = p.clone().sub(centre).dot(axis); lo = Math.min(lo, d); hi = Math.max(hi, d); }
+      return { mesh: b, axis, muzzle: centre.clone().addScaledVector(axis, hi), breech: centre.clone().addScaledVector(axis, lo) };
+    });
+    this.restDir = info.reduce((a, g) => a.add(g.axis), new V()).normalize();
+    const pivotPos = station.pivot ? new V(...station.pivot) : info.reduce((a, g) => a.add(g.breech), new V()).divideScalar(info.length);
+
+    // pivot the guns turn on; parts listed in `turret` turn with them (yaw only or fully)
+    this.pivot = new THREE.Object3D();
+    this.pivot.position.copy(pivotPos);
+    model.add(this.pivot);
+    this.pivot.updateMatrixWorld(true);
+    for (const g of info) this.pivot.attach(g.mesh);
+    this.yawPart = this.makeTurret(model, station.turret?.yaw, pivotPos);
+    this.fullPart = this.makeTurret(model, station.turret?.full, pivotPos);
+
+    this.guns = info.map((g, i) => {
+      const flash = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: FLASH_TEX, color: new THREE.Color(1, 0.8, 0.5).multiplyScalar(25), blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+      flash.position.copy(g.muzzle).sub(pivotPos).addScaledVector(g.axis, 0.12);
+      flash.visible = false;
+      this.pivot.add(flash);
+      return { muzzle: g.muzzle.clone().sub(pivotPos), flash, timer: (i * 60) / RPM / info.length, heat: 0, jammed: false };
+    });
+    this.light = new THREE.PointLight(0xffb060, 0, 9, 2);
+    this.light.position.copy(this.guns.reduce((a, g) => a.add(g.muzzle), new V()).divideScalar(this.guns.length));
+    this.pivot.add(this.light);
+
+    this.load = LOADS[this.guns.length > 1 ? 'twin' : 'single'];
+    this.ammo = this.load.ammo;
+    this.reloadLeft = 0;
+    this.rounds = 0;
+    this.aimQ = new THREE.Quaternion();
+  }
+
+  makeTurret(model, names, pivotPos) {
+    if (!names) return null;
+    const part = new THREE.Object3D();
+    part.position.copy(pivotPos);
+    model.add(part);
+    part.updateMatrixWorld(true);
+    for (const n of names) for (const o of [model.getObjectByName(n), model.getObjectByName(`${n}_lining`)]) if (o) part.attach(o);
+    return part;
+  }
+
+  get heat() { return Math.max(...this.guns.map((g) => g.heat)); }
+  get jammed() { return this.guns.every((g) => g.jammed); }
+  get reloading() { return this.reloadLeft > 0; }
+
+  reload() {
+    if (this.reloading || this.ammo === this.load.ammo) return false;
+    this.reloadLeft = this.load.reload;
+    return true;
+  }
+
+  /** Turn the guns towards a direction given in bomber space (smoothly, like a real traverse). */
+  aim(dirLocal, yawRel, dt) {
+    const target = new THREE.Quaternion().setFromUnitVectors(this.restDir, dirLocal);
+    this.aimQ.slerp(target, 1 - Math.exp(-dt * 16));
+    this.pivot.quaternion.copy(this.aimQ);
+    if (this.fullPart) this.fullPart.quaternion.copy(this.aimQ);
+    if (this.yawPart) this.yawPart.rotation.y += (yawRel - this.yawPart.rotation.y) * (1 - Math.exp(-dt * 16));
+  }
+}
+
+/** Runs every gun position of the player's bomber (AI gunners will reuse the same positions later). */
+export class Weapons {
+  constructor(scene, audio) {
+    this.bullets = new Bullets(scene);
+    this.audio = audio;
+    this.positions = new Map(); // station id -> GunPosition
+  }
+
+  attach(bomber) {
+    this.bomber = bomber;
+    for (const s of bomber.interior.stations) if (s.guns) this.positions.set(s.id, new GunPosition(bomber, s));
+  }
+
+  /** Fresh ammo and cool barrels: the player has moved to another bomber's guns. */
+  rearm() {
+    for (const gp of this.positions.values()) {
+      gp.ammo = gp.load.ammo;
+      gp.reloadLeft = 0;
+      for (const g of gp.guns) { g.heat = 0; g.jammed = false; }
+    }
+  }
+
+  /** The player's current gun position (or null). */
+  current(player) { return player.station ? this.positions.get(player.station.id) ?? null : null; }
+
+  /** Runs every gun position of the player's bomber: the player's own, and the AI gunners' (crew). */
+  update(dt, player, camera, crew, fighters) {
+    const tmp = new V(), aimPoint = new V(), dir = new V();
+    for (const gp of this.positions.values()) {
+      // cool down, reload, flashes off
+      for (const g of gp.guns) {
+        g.heat = Math.max(0, g.heat - COOL * dt);
+        if (g.jammed && g.heat < UNJAM) g.jammed = false;
+        g.flash.visible = false;
+      }
+      gp.light.intensity = 0;
+      if (gp.reloadLeft > 0 && (gp.reloadLeft -= dt) <= 0) {
+        gp.reloadLeft = 0;
+        gp.ammo = gp.load.ammo;
+        this.audio.reload(false, this.volume(gp, camera));
+      }
+      if (gp.ammo === 0 && !gp.reloading) { gp.reload(); this.audio.reload(true, this.volume(gp, camera)); }
+      // an AI gunner works every manned gun the player isn't on
+      if (gp !== this.current(player) && crew?.manned(gp.station.id, player) && !this.bomber.down && dt > 0) {
+        const a = crew.aim(gp.station, fighters, dt);
+        if (a) gp.aim(a.dir, a.yawRel, dt);
+        if (a?.fire) this.fire(gp, a.aimPoint, dt, 'crew', null, camera); else this.stagger(gp);
+      }
+    }
+
+    const gp = this.current(player);
+    if (!gp) return;
+    // aim the model's guns where the player looks
+    const s = gp.station, yaw = s.yaw + player.sYaw, pitch = player.sPitch;
+    gp.aim(dir.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)), player.sYaw, dt);
+
+    if (player.reloadPressed) {
+      player.reloadPressed = false;
+      if (gp.reload()) this.audio.reload(true);
+    }
+    if (!(player.firing && player.blend > 0.9)) { this.stagger(gp); return; }
+    // rounds converge on the sight line, so the crosshair is where they go
+    camera.getWorldPosition(tmp);
+    camera.getWorldDirection(aimPoint).multiplyScalar(CONVERGENCE).add(tmp);
+    this.fire(gp, aimPoint, dt, 'player', player, camera);
+  }
+
+  /** Keep twin guns staggered for the next burst. */
+  stagger(gp) { gp.guns.forEach((g, i) => { g.timer = Math.max(g.timer, (i * 60) / RPM / gp.guns.length); }); }
+
+  /** Loudness of a gun position for the camera (the player's own gun = 1). */
+  volume(gp, camera) {
+    const d = gp.pivot.getWorldPosition(new V()).distanceTo(camera.getWorldPosition(new V()));
+    return THREE.MathUtils.clamp(2.5 / Math.max(d, 1), 0.12, 1);
+  }
+
+  /** Fire the guns of a position at a point (world space) for one frame. */
+  fire(gp, aimPoint, dt, owner, player, camera) {
+    if (gp.reloading || gp.ammo <= 0) return;
+    const tmp = new V(), dir = new V(), vol = player ? 1 : this.volume(gp, camera);
+    for (const g of gp.guns) {
+      g.timer -= dt;
+      while (g.timer <= 0 && gp.ammo > 0 && !g.jammed) {
+        g.timer += 60 / RPM;
+        const muzzle = gp.pivot.localToWorld(tmp.copy(g.muzzle));
+        dir.subVectors(aimPoint, muzzle).normalize();
+        dir.x += (Math.random() - 0.5) * SPREAD * 2;
+        dir.y += (Math.random() - 0.5) * SPREAD * 2;
+        dir.z += (Math.random() - 0.5) * SPREAD * 2;
+        this.bullets.spawn(muzzle, dir.normalize().multiplyScalar(MUZZLE_SPEED), gp.rounds++ % TRACER_EVERY === 0, 'allied', owner);
+        gp.ammo--;
+        g.heat += HEAT_PER_SHOT;
+        if (g.heat >= 1) { g.jammed = true; if (player) this.audio.overheat(); }
+        g.flash.visible = true;
+        g.flash.scale.setScalar(0.35 + Math.random() * 0.35);
+        g.flash.material.rotation = Math.random() * Math.PI;
+        gp.light.intensity = 30;
+        this.audio.gunshot(vol);
+        player?.kick(gp.guns.length > 1 ? 0.6 : 1);
+      }
+      if (g.jammed) g.timer = Math.max(g.timer, 0);
+    }
+  }
+
+  /** HUD info for the player's gun position. */
+  status(player) {
+    const gp = this.current(player);
+    if (!gp) return null;
+    return {
+      ammo: gp.ammo, max: gp.load.ammo, heat: Math.min(1, gp.heat), jammed: gp.jammed,
+      reloading: gp.reloading, reloadLeft: gp.reloadLeft, reloadTime: gp.load.reload,
+    };
+  }
+}
