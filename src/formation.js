@@ -8,11 +8,14 @@
 // else is drawn as instanced low-detail copies (one draw call per part) to keep the frame rate up.
 import * as THREE from 'three';
 
-const ELEMENT = [[0, 0, 0], [-34, -5, 20], [34, 5, 20]];
-const SQUADRON = [[0, 0, 0], [0, -18, 62]];
-const GROUP = [[0, 0, 0, 'Lead'], [115, 45, 70, 'High'], [-115, -45, 70, 'Low']];
-const WING = [[0, 0, 0, 'Lead'], [560, 300, 420, 'High'], [-560, -300, 420, 'Low']];
-const STREAM = [[0, 0, 0], [-250, 150, -2600], [300, -150, 2600]]; // ours, one ahead, one behind
+const ELEMENT = [[0, 0, 0], [-29, -5, 18], [29, 5, 18]];
+const SQUADRON = [[0, 0, 0], [0, -16, 50]];
+const GROUP = [[0, 0, 0, 'Lead'], [92, 36, 58, 'High'], [-92, -36, 58, 'Low']];
+const WING = [[0, 0, 0, 'Lead'], [250, 120, 180, 'High'], [-250, -120, 180, 'Low']];
+// ours, one ahead, one behind, and a wing either side: 5 combat wings, 270 bombers
+// packed close, the way the bombers flew for mutual protection: wings a few hundred metres apart
+const STREAM = [[0, 0, 0, ''], [-90, 70, -780, 'Leading wing, '], [110, -70, 760, 'Trailing wing, '],
+  [-720, 160, -260, 'Left wing, '], [740, -150, 240, 'Right wing, ']];
 const NEAR = 150; // m from the player's bomber: closer than this gets the full model
 
 /** Every slot in the stream, shifted so the player's bomber sits at the origin. */
@@ -21,7 +24,7 @@ export function formationSlots() {
   for (const [wi, w] of STREAM.entries()) for (const g of WING) for (const s of GROUP) for (const [ei, e] of SQUADRON.entries()) for (const [pi, p] of ELEMENT.entries()) {
     slots.push({
       pos: new THREE.Vector3(w[0] + g[0] + s[0] + e[0] + p[0], w[1] + g[1] + s[1] + e[1] + p[1], w[2] + g[2] + s[2] + e[2] + p[2]),
-      label: `${wi === 0 ? '' : wi === 1 ? 'Leading wing, ' : 'Trailing wing, '}${g[3]} group, ${s[3]} squadron`,
+      label: `${w[3]}${g[3]} group, ${s[3]} squadron`,
       group: `${wi}-${g[3]}`, // the 18-ship group: it bombs together, on its lead bombardier
       lead: s[3] === 'Lead' && ei === 0 && pi === 0,
       player: wi === 0 && g[3] === 'Lead' && s[3] === 'Lead' && ei === 0 && pi === 1, // left wingman of the lead
@@ -118,7 +121,7 @@ function contrailTexture() { // alpha along the trail: forms a little behind the
 }
 
 const ENGINES = [-7.16, -3.93, 3.94, 7.15]; // engine x in the B-17 model
-const TRAIL = 500; // m
+const TRAIL = 260, TRAIL_START = 70, TRAIL_WIDTH = 3.2; // m: thin, short wisps that start well behind the tail
 
 /** Four condensation trails behind every bomber (two crossed ribbons each, one draw call). */
 export class Contrails {
@@ -142,13 +145,13 @@ export class Contrails {
     const n = geo.attributes.position.count;
     merged.setIndex([...geo.index.array, ...Array.from(second.index.array, (i) => i + n)]);
     this.mesh = new THREE.InstancedMesh(merged, new THREE.MeshBasicMaterial({
-      color: new THREE.Color(2.2, 2.25, 2.35), alphaMap: contrailTexture(), transparent: true,
+      color: new THREE.Color(1.35, 1.38, 1.45), alphaMap: contrailTexture(), transparent: true, opacity: 0.4, // wispy, not a wall
       depthWrite: false, side: THREE.DoubleSide, fog: true,
     }), bombers.length * ENGINES.length);
     this.mesh.frustumCulled = false;
     scene.add(this.mesh);
     // trails condense a few dozen metres behind the engines (and so don't fill the tail gunner's view)
-    this.locals = ENGINES.map((x) => new THREE.Matrix4().compose(new THREE.Vector3(x, -0.6, 35), new THREE.Quaternion(), new THREE.Vector3(9, 9, TRAIL)));
+    this.locals = ENGINES.map((x) => new THREE.Matrix4().compose(new THREE.Vector3(x, -0.6, TRAIL_START), new THREE.Quaternion(), new THREE.Vector3(TRAIL_WIDTH, TRAIL_WIDTH, TRAIL)));
     this.m = new THREE.Matrix4();
   }
 

@@ -80,6 +80,7 @@ function mergeByMaterial(root, keep) {
       g.setAttribute(n, src.attributes[n] ?? new THREE.BufferAttribute(new Float32Array(src.attributes.position.count * (n === 'uv' ? 2 : 3)), n === 'uv' ? 2 : 3));
     }
     g.setIndex(src.index ?? [...Array(src.attributes.position.count).keys()]);
+    if (!src.attributes.normal) g.computeVertexNormals(); // zero normals would light as NaN
     g.applyMatrix4(o.matrixWorld);
     if (!byMat.has(o.material)) byMat.set(o.material, []);
     byMat.get(o.material).push(g);

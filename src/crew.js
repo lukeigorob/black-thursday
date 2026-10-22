@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { SECTIONS } from './bomber.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
+const _ab = new V(), _ap = new V();
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
@@ -47,6 +48,12 @@ const CORRIDOR = [[0, -0.72, -10.0], [0, -0.72, -8.8], [0, -0.40, -8.4], [0, -0.
   [0, -1.32, -5.72], [0, -1.62, -5.4], [0, -1.62, -2.75], [0, -1.80, -2.45], [0, -1.80, -1.4], [0, -1.95, -1.05], [0.6, -1.95, -0.7],
   [0.6, -1.95, 0.4], [0, -1.95, 0.8], [0, -1.95, 5.0], [0, -2.15, 5.4], [0, -2.15, 8.0], [0, -2.32, 8.4], [0, -2.32, 9.5]].map((p) => new V(...p));
 
+/** How the man at a station sits or stands there (for the player's own body). */
+export function spotFor(stationId) {
+  const role = ROLES.find((r) => r.station === stationId);
+  return role ? SPOTS[role.id] : null;
+}
+
 function sectionAt(z) { return SECTIONS.find(([, z0, z1]) => z >= z0 && z < z1)?.[0] ?? 'waist'; }
 
 function walkPath(from, to) {
@@ -68,7 +75,7 @@ function limb(len, r, mat) { // a capsule hanging down from its joint
 }
 
 /** A low-poly airman in flight gear. Feet at the origin, facing -Z. */
-function makeFigure() {
+export function makeFigure() {
   const root = new THREE.Group();
   const hips = new THREE.Group(); hips.position.y = 0.95; root.add(hips);
   const torso = new THREE.Group(); hips.add(torso);
@@ -98,7 +105,7 @@ function makeFigure() {
 }
 
 /** Set a pose: joint angles in radians (x = forward/back, z = sideways). `t` animates walking. */
-function pose(fig, name, t = 0) {
+export function pose(fig, name, t = 0) {
   const j = fig.userData.j;
   const set = (o, x = 0, z = 0) => o.rotation.set(x, 0, z);
   fig.visible = name !== 'hidden';
@@ -182,7 +189,8 @@ export class Crew {
 
   /** Is this gun crewed right now (by an AI man at his post)? */
   manned(stationId, player) {
-    if (player && player.station?.id === stationId) return false;
+    const at = player?.station?.id === 'bombsight' ? 'chin' : player?.station?.id; // the bombardier mans both
+    if (player && at === stationId) return false;
     const m = this.members.find((x) => x.role.station === stationId);
     return !!m && m.state === 'ok' && m.task === 'station';
   }
@@ -205,10 +213,12 @@ export class Crew {
   }
 
   wound(m) {
+    const walking = m.task !== 'station' && m.pos; // hit on his way somewhere: he falls where he is
     m.state = 'wounded';
     m.woundLeft = WOUND_TIME;
     m.task = 'down';
-    m.pos = new V(...m.spot.lie);
+    m.pos = walking ? m.pos.clone() : new V(...m.spot.lie);
+    if (walking) m.spot = { ...m.spot, lie: m.pos.toArray() };
     if (this.visible) this.place(m);
     this.emit(`${m.role.title}'s hit!`);
     this.findHelper({ member: m });
@@ -240,6 +250,13 @@ export class Crew {
       if (m.task === 'helping') this.updateHelper(m, dt, player, time);
       else if (m.task === 'returning') this.walk(m, dt, time, () => { m.task = 'station'; this.place(m); });
     }
+    // a helper can be hit, or nobody was free at the time: look again about once a second
+    if ((this.recheck = (this.recheck ?? rand(0, 1)) - dt) <= 0) {
+      this.recheck = 1;
+      const helped = (pat) => this.members.some((h) => h.task === 'helping' && (h.patient?.member === pat.member && h.patient?.player === pat.player));
+      for (const m of this.members) if (m.state === 'wounded' && !helped({ member: m })) this.findHelper({ member: m });
+      if (player?.wounded && !helped({ player })) this.findHelper({ player });
+    }
   }
 
   updateHelper(m, dt, player, time) {
@@ -257,7 +274,7 @@ export class Crew {
   }
 
   revive(p, byPlayer = false) {
-    tally.saved++;
+    if (this.visible) tally.saved++;
     if (byPlayer) tally.savedByYou++;
     if (p.player) { p.player.revive(); this.emit("You're patched up. Back to your post!"); } else {
       p.member.state = 'ok';
@@ -325,9 +342,10 @@ export class Crew {
     for (const m of other.members) { // the crew we join: at their posts, or where they fell
       if (m.task === 'helping' || m.task === 'returning') { m.task = 'station'; m.patient = null; }
       if (m.state === 'wounded' || m.state === 'dead') { m.task = 'down'; m.pos = new V(...m.spot.lie); }
-      if (m.state === 'wounded') other.findHelper({ member: m });
       other.place(m);
     }
+    // then send helpers (in a second pass, so resetting a later man can't cancel one just sent)
+    for (const m of other.members) if (m.state === 'wounded') other.findHelper({ member: m });
   }
 
   /** The player takes this man's place (a living AI crewman). The man you were is `previous`. */
@@ -392,16 +410,29 @@ export class Crew {
       if ((g.pause -= dt) <= 0) {
         g.burst = rand(0.8, 1.8);
         g.err.set(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(dist * AIM_ERROR);
+        // friendly fire is real: a gunner holds his burst if another B-17 is in the line of fire
+        g.clear = this.lineClear(origin, aimPoint, fighters.nearBombers());
       }
     } else if ((g.burst -= dt) <= 0) g.pause = rand(0.6, 2.2);
     const dir = aimPoint.clone().applyMatrix4(inv).sub(local).normalize();
     const yawRel = wrap(Math.atan2(-dir.x, -dir.z) - station.yaw);
-    return { dir, yawRel, fire: g.pause <= 0 && dist < FIRE_RANGE, aimPoint, origin };
+    return { dir, yawRel, fire: g.pause <= 0 && dist < FIRE_RANGE && g.clear !== false, aimPoint, origin };
+  }
+
+  /** No other bomber within 30 m of the line from `from` to `to`? */
+  lineClear(from, to, bombers) {
+    const ab = _ab.subVectors(to, from), len2 = ab.lengthSq() || 1;
+    for (const b of bombers) {
+      if (b === this.bomber || b.gone) continue;
+      const t = THREE.MathUtils.clamp(_ap.subVectors(b.group.position, from).dot(ab) / len2, 0, 1);
+      if (_ap.copy(from).addScaledVector(ab, t).distanceToSquared(b.group.position) < 900) return false;
+    }
+    return true;
   }
 
   /** AI gunners of a bomber we don't see from inside: fire straight from their positions. */
   fireUnseen(stations, fighters, bullets, audio, playerPos, dt) {
-    if (this.bomber.down || this.bomber.group.position.distanceTo(playerPos) > ACTIVE_RANGE) return;
+    if (this.bomber.down || !this.bomber.gunsActive || this.bomber.group.position.distanceTo(playerPos) > ACTIVE_RANGE) return;
     for (const s of stations) {
       if (!s.guns || !this.manned(s.id)) continue;
       const a = this.aim(s, fighters, dt);
@@ -412,7 +443,7 @@ export class Crew {
         g.timer += 60 / AI_RPM; // one simulated stream per position, even for twin guns, to save work
         const d = a.aimPoint.clone().sub(a.origin).normalize();
         d.x += rand(-1, 1) * AI_SPREAD; d.y += rand(-1, 1) * AI_SPREAD; d.z += rand(-1, 1) * AI_SPREAD;
-        bullets.spawn(a.origin.clone().addScaledVector(d, 1.5), d.normalize().multiplyScalar(890), (g.n = (g.n ?? 0) + 1) % 4 === 0, 'allied', 'crew');
+        bullets.spawn(a.origin.clone().addScaledVector(d, 1.5), d.normalize().multiplyScalar(890), (g.n = (g.n ?? 0) + 1) % 4 === 0, 'allied', 'crew', false, this.bomber, 1.4);
       }
       if (Math.random() < dt * 6) audio.distantGun(a.origin.distanceTo(playerPos));
     }

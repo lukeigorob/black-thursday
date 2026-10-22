@@ -16,6 +16,8 @@
       .panel button:hover { background: #5b6a40; }
       .quality { display: block; margin: 18px 0 8px; color: #c8c3b4; }
       .quality select { margin-left: 8px; font: inherit; background: #1b1f17; color: inherit; border: 1px solid #555e45; border-radius: 3px; padding: 3px 6px; }
+      .browser-note { font-size: 13px; color: #e8d9a8 !important; margin: 14px 0 0 !important; }
+      .browser-note.warn { color: #ffb36a !important; }
       .keys { font-size: 12px; color: #8f8a7d !important; }
       #map { display: none; }
       .map-panel { max-width: none; }
@@ -86,6 +88,15 @@
       .debrief { margin: 0 auto 6px; border-collapse: collapse; font-size: 14px; text-align: left; }
       .debrief td { padding: 3px 12px; border-bottom: 1px solid #ece8dc22; }
       .debrief td:last-child { text-align: right; color: #ece8dc; }
+      #health { position: fixed; left: 50%; bottom: 58px; width: 260px; transform: translateX(-50%); text-align: center; text-shadow: 0 1px 3px #000; }
+      #health .bar, #flight .bar { height: 7px; margin: 2px 0; background: #0007; border: 1px solid #ece8dc55; border-radius: 2px; overflow: hidden; }
+      #health .bar i, #flight .bar i { display: block; height: 100%; width: 100%; background: #8fcf6a; transition: width .3s; }
+      #health .lbl, #flight .lbl { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc99; }
+      #health-pct { font-size: 11px; color: #ece8dccc; }
+      #flight { display: none; position: fixed; left: 18px; bottom: 22px; width: 210px; font: 13px/1.5 ui-monospace, Consolas, monospace; text-shadow: 0 1px 3px #000; }
+      #flight b { font-size: 16px; }
+      #nose { display: none; position: fixed; width: 18px; height: 18px; margin: -9px; border: 2px solid #b6ff9acc; border-radius: 50%; box-shadow: 0 0 2px #000; }
+      #nose::after { content: ''; position: absolute; left: 6px; top: 6px; width: 2px; height: 2px; background: #b6ff9a; }
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
     </style>
   </head>

@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { AIRSPEED } from './bomber.js';
 
 const V = THREE.Vector3;
+const UP = new V(0, 1, 0), FWD = new V(0, 0, -1);
 const MUZZLE_SPEED = 890; // m/s
 const GRAVITY = 9.81;
 const DRAG = 0.00025; // simple quadratic drag on the bullet's speed through the air
@@ -12,7 +13,9 @@ const LIFE = 2.5; // seconds a round is simulated (~1.7 km, well past effective 
 const TRACER_EVERY = 4;
 const CONVERGENCE = 350; // m: guns are harmonised so rounds cross the sight line here
 const SPREAD = 0.0018; // rad, gun dispersion
-const MAX_BULLETS = 3000, MAX_TRACERS = 800;
+// the same numbers the lead indicator uses to predict where a round goes
+export const BALLISTICS = { MUZZLE_SPEED, GRAVITY, DRAG, WIND };
+const MAX_BULLETS = 6000, MAX_TRACERS = 1000;
 const ALLIED_TRACER = [1, 0.42, 0.12], ENEMY_TRACER = [0.75, 1, 0.45]; // red-orange vs. German yellow-green
 
 // per position: rounds per load (all guns of the position together) and reload time
@@ -29,7 +32,7 @@ export class Bullets {
     this.v = new Float32Array(MAX_BULLETS * 3);
     this.age = new Float32Array(MAX_BULLETS);
     this.tracer = new Uint8Array(MAX_BULLETS);
-    this.team = []; this.owner = []; this.cannon = new Uint8Array(MAX_BULLETS);
+    this.team = []; this.owner = []; this.src = []; this.cannon = new Uint8Array(MAX_BULLETS);
     this.count = 0;
     const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, -0.5);
     const mat = new THREE.MeshBasicMaterial({
@@ -57,15 +60,18 @@ export class Bullets {
     this.q = new THREE.Quaternion();
   }
 
-  /** team 'allied' | 'enemy'; owner = who fired ('player', a fighter...); cannon = 20 mm shell. */
-  spawn(pos, vel, tracer, team = 'allied', owner = null, cannon = false) {
+  /**
+   * team 'allied' | 'enemy'; owner = who gets the credit ('player', 'crew', a fighter); cannon = 20 mm shell;
+   * src = the aircraft it was fired from (its own rounds can't hit it); life = seconds to simulate it.
+   */
+  spawn(pos, vel, tracer, team = 'allied', owner = null, cannon = false, src = null, life = LIFE) {
     if (this.count >= MAX_BULLETS) return;
     const i = this.count++, j = i * 3;
     this.p[j] = pos.x; this.p[j + 1] = pos.y; this.p[j + 2] = pos.z;
     this.v[j] = vel.x; this.v[j + 1] = vel.y; this.v[j + 2] = vel.z;
-    this.age[i] = 0;
+    this.age[i] = LIFE - life;
     this.tracer[i] = tracer ? 1 : 0;
-    this.team[i] = team; this.owner[i] = owner; this.cannon[i] = cannon ? 1 : 0;
+    this.team[i] = team; this.owner[i] = owner; this.src[i] = src; this.cannon[i] = cannon ? 1 : 0;
   }
 
   /**
@@ -85,7 +91,7 @@ export class Bullets {
       v[j] -= rx * k; v[j + 1] -= ry * k + GRAVITY * dt; v[j + 2] -= rz * k;
       p[j] += v[j] * dt; p[j + 1] += v[j + 1] * dt; p[j + 2] += v[j + 2] * dt;
       // test the whole path since last frame, so fast rounds can't skip through a plane
-      if (collide && collide(from, to.set(p[j], p[j + 1], p[j + 2]), this.team[i], this.owner[i], this.cannon[i])) {
+      if (collide && collide(from, to.set(p[j], p[j + 1], p[j + 2]), this.team[i], this.owner[i], this.cannon[i], this.src[i])) {
         this.remove(i--);
         continue;
       }
@@ -95,12 +101,12 @@ export class Bullets {
         pos.set(p[j], p[j + 1], p[j + 2]);
         const w = camPos ? Math.max(1, pos.distanceTo(camPos) * 0.0011 / 0.05) : 1;
         scale.set(w, w, Math.min(speed * 0.022, 20)); // streak length ~ motion blur
-        this.q.setFromUnitVectors(new V(0, 0, -1), dir.divideScalar(speed));
+        this.q.setFromUnitVectors(FWD, dir.divideScalar(speed));
         this.mesh.setMatrixAt(t, this.m.compose(pos, this.q, scale));
         const c = this.team[i] === 'enemy' ? ENEMY_TRACER : ALLIED_TRACER;
         this.mesh.instanceColor.setXYZ(t, c[0], c[1], c[2]);
-        this.heads.set([pos.x, pos.y, pos.z], t * 3);
-        this.headColors.set(c, t * 3);
+        this.heads[t * 3] = pos.x; this.heads[t * 3 + 1] = pos.y; this.heads[t * 3 + 2] = pos.z;
+        this.headColors[t * 3] = c[0]; this.headColors[t * 3 + 1] = c[1]; this.headColors[t * 3 + 2] = c[2];
         t++;
       }
     }
@@ -118,7 +124,7 @@ export class Bullets {
     for (let k = 0; k < 3; k++) { this.p[i * 3 + k] = this.p[last * 3 + k]; this.v[i * 3 + k] = this.v[last * 3 + k]; }
     this.age[i] = this.age[last];
     this.tracer[i] = this.tracer[last];
-    this.team[i] = this.team[last]; this.owner[i] = this.owner[last]; this.cannon[i] = this.cannon[last];
+    this.team[i] = this.team[last]; this.owner[i] = this.owner[last]; this.src[i] = this.src[last]; this.cannon[i] = this.cannon[last];
   }
 }
 
@@ -222,6 +228,12 @@ class GunPosition {
     this.reloadLeft = 0;
     this.rounds = 0;
     this.aimQ = new THREE.Quaternion();
+    // the guns traverse (yaw) and elevate (pitch) like a real mount, so they never roll about the barrel
+    this.yaw0 = Math.atan2(-this.restDir.x, -this.restDir.z);
+    this.pitch0 = Math.asin(THREE.MathUtils.clamp(this.restDir.y, -1, 1));
+    this.elevAxis = new V(Math.cos(this.yaw0), 0, -Math.sin(this.yaw0));
+    this.yaw = this.yaw0; this.pitch = this.pitch0;
+    this.qYaw = new THREE.Quaternion(); this.qPitch = new THREE.Quaternion();
   }
 
   makeTurret(model, names, pivotPos) {
@@ -246,11 +258,17 @@ class GunPosition {
 
   /** Turn the guns towards a direction given in bomber space (smoothly, like a real traverse). */
   aim(dirLocal, yawRel, dt) {
-    const target = new THREE.Quaternion().setFromUnitVectors(this.restDir, dirLocal);
-    this.aimQ.slerp(target, 1 - Math.exp(-dt * 16));
+    const k = 1 - Math.exp(-dt * 16);
+    const yaw = Math.atan2(-dirLocal.x, -dirLocal.z), pitch = Math.asin(THREE.MathUtils.clamp(dirLocal.y, -1, 1));
+    // the short way round, so a turret passing behind you doesn't spin all the way back
+    this.yaw += Math.atan2(Math.sin(yaw - this.yaw), Math.cos(yaw - this.yaw)) * k;
+    this.pitch += (pitch - this.pitch) * k;
+    this.qYaw.setFromAxisAngle(UP, this.yaw - this.yaw0);
+    this.qPitch.setFromAxisAngle(this.elevAxis, this.pitch - this.pitch0);
+    this.aimQ.multiplyQuaternions(this.qYaw, this.qPitch);
     this.pivot.quaternion.copy(this.aimQ);
     if (this.fullPart) this.fullPart.quaternion.copy(this.aimQ);
-    if (this.yawPart) this.yawPart.rotation.y += (yawRel - this.yawPart.rotation.y) * (1 - Math.exp(-dt * 16));
+    if (this.yawPart) this.yawPart.rotation.y = this.yaw - this.yaw0;
   }
 }
 
@@ -305,7 +323,7 @@ export class Weapons {
     }
 
     const gp = this.current(player);
-    if (!gp) return;
+    if (!gp) { player.reloadPressed = false; return; } // R away from a gun doesn't carry over
     // aim the model's guns where the player looks
     const s = gp.station, yaw = s.yaw + player.sYaw, pitch = player.sPitch;
     gp.aim(dir.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)), player.sYaw, dt);
@@ -343,7 +361,7 @@ export class Weapons {
         dir.x += (Math.random() - 0.5) * SPREAD * 2;
         dir.y += (Math.random() - 0.5) * SPREAD * 2;
         dir.z += (Math.random() - 0.5) * SPREAD * 2;
-        this.bullets.spawn(muzzle, dir.normalize().multiplyScalar(MUZZLE_SPEED), gp.rounds++ % TRACER_EVERY === 0, 'allied', owner);
+        this.bullets.spawn(muzzle, dir.normalize().multiplyScalar(MUZZLE_SPEED), gp.rounds++ % TRACER_EVERY === 0, 'allied', owner, false, this.bomber);
         gp.ammo--;
         g.heat += HEAT_PER_SHOT;
         if (g.heat >= 1) { g.jammed = true; if (player) this.audio.overheat(); }
@@ -351,7 +369,7 @@ export class Weapons {
         g.flash.scale.setScalar(0.35 + Math.random() * 0.35);
         g.flash.material.rotation = Math.random() * Math.PI;
         gp.light.intensity = 30;
-        this.audio.gunshot(vol);
+        if (player || gp.rounds % 3 === 0) this.audio.gunshot(vol); // AI guns: fewer sounds, same rhythm
         player?.kick(gp.guns.length > 1 ? 0.6 : 1);
       }
       if (g.jammed) g.timer = Math.max(g.timer, 0);

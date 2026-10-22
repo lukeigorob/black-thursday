@@ -23,6 +23,7 @@ export const DECKS = [
 const STEPS = [ // from the flight deck down into the bomb bay
   { z0: -6.35, z1: -6.1, y: -0.72 }, { z0: -6.1, z1: -5.85, y: -1.02 }, { z0: -5.85, z1: -5.6, y: -1.32 },
 ];
+const ROOF = 1.12; // m: just under the top of the fuselage at the cockpit (the turret dome rises above it)
 const BULKHEADS = [ // door: [x0, x1, height above floor]
   { z: -6.35, floor: -0.40, door: [-0.32, 0.32, 1.45] },
   { z: -2.6, floor: -1.62, door: [-0.3, 0.3, 1.75] },
@@ -33,21 +34,21 @@ const BULKHEADS = [ // door: [x0, x1, height above floor]
 // yaw: 0 = forward (-Z), 90 = left, 180 = backwards. guns = node names in b17.glb.
 // pivot = what the guns turn about (default: their breech); turret = parts that turn with them.
 export const STATIONS = [
-  { id: 'chin', name: 'Chin turret', stand: [0, -0.72, -9.85], eye: [0, -0.25, -10.45], yaw: 0, yawLim: 55, pitch: [-50, 15], guns: ['LowerFrontGuns'],
+  { id: 'chin', name: 'Chin turret', stand: [0, -0.72, -9.85], eye: [0, -0.12, -10.78], yaw: 0, yawLim: 55, pitch: [-50, 15], guns: ['LowerFrontGuns'], // ahead of the Norden sight, in the nose glass
     pivot: [0, -1.09, -9.93], turret: { yaw: ['FrontGunCapsule'] } },
   // the Norden bombsight: a telescope looking down-ahead to where the bombs would land (no gun)
   { id: 'bombsight', name: 'Norden bombsight', stand: [0.32, -0.72, -10.05], eye: [0, -0.42, -11.05], yaw: 0, yawLim: 4, pitch: [-4, 4], sight: true,
     hide: ['FrontGunCapsule', 'FrontGunPanels'] }, // looks down through the flat panel in the nose bottom
-  { id: 'cheekL', name: 'Left cheek gun', stand: [-0.35, -0.72, -9.45], eye: [-0.55, 0.1, -10.0], yaw: 70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel16'] },
-  { id: 'cheekR', name: 'Right cheek gun', stand: [0.35, -0.72, -9.45], eye: [0.55, 0.1, -10.0], yaw: -70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel002'] },
-  { id: 'pilot', name: 'Pilot seat', stand: [-0.18, -0.40, -7.2], eye: [-0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true },
-  { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true },
-  { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.62, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'],
-    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] } },
-  { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.2, -0.13], yaw: 0, yawLim: 180, pitch: [-89, 0], guns: ['GunBarrel004', 'GunBarrel14'],
-    pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] } },
-  { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.55, -0.72, 1.72], yaw: 90, yawLim: 60, pitch: [-45, 40], guns: ['GunBarrel10'] },
-  { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.55, -0.72, 1.82], yaw: -90, yawLim: 60, pitch: [-45, 40], guns: ['GunBarrel005'] },
+  { id: 'cheekL', name: 'Left cheek gun', stand: [-0.35, -0.72, -9.45], eye: [-0.55, 0.1, -10.0], yaw: 70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel16'], ghost: ['FrontGunPanels'] },
+  { id: 'cheekR', name: 'Right cheek gun', stand: [0.35, -0.72, -9.45], eye: [0.55, 0.1, -10.0], yaw: -70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel002'], ghost: ['FrontGunPanels'] },
+  { id: 'pilot', name: 'Pilot seat', stand: [-0.18, -0.40, -7.2], eye: [-0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
+  { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
+  { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.4, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'],
+    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, ghost: ['TopTurret'] },
+  { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.42, -0.1], yaw: 0, yawLim: 180, pitch: [-89, 5], guns: ['GunBarrel004', 'GunBarrel14'],
+    pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] }, ghost: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks'] },
+  { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'] }, // in the window, over the gun
+  { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'] },
   { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], hide: ['TailGunPod'] },
 ].map((s) => ({ ...s, stand: new V(...s.stand), eye: new V(...s.eye), yaw: s.yaw * D, yawLim: s.yawLim * D, pitch: [s.pitch[0] * D, s.pitch[1] * D] }));
 
@@ -163,9 +164,46 @@ function gauges() {
   return t;
 }
 
+/**
+ * Remove zero-area triangles (non-indexed geometry). Filling an outline whose wall runs straight puts
+ * several points in a line, and the triangulation then makes slivers with no area, so they have no
+ * normal: lighting them gives NaN, and the bloom pass spread that one pixel into a black screen.
+ */
+function dropDegenerate(geo) {
+  const pos = geo.attributes.position, keep = [];
+  const a = new V(), b = new V(), c = new V();
+  for (let t = 0; t < pos.count; t += 3) {
+    a.fromBufferAttribute(pos, t); b.fromBufferAttribute(pos, t + 1); c.fromBufferAttribute(pos, t + 2);
+    if (c.sub(a).cross(b.sub(a)).lengthSq() > 1e-12) keep.push(t);
+  }
+  if (keep.length * 3 === pos.count) return geo;
+  const out = new THREE.BufferGeometry();
+  for (const [name, attr] of Object.entries(geo.attributes)) {
+    const n = attr.itemSize, arr = new Float32Array(keep.length * 3 * n);
+    keep.forEach((t, k) => { for (let v = 0; v < 3; v++) for (let j = 0; j < n; j++) arr[(k * 3 + v) * n + j] = attr.array[(t + v) * n + j]; });
+    out.setAttribute(name, new THREE.BufferAttribute(arr, n));
+  }
+  // any normal still zero-length (a vertex averaged from opposite faces) points up instead of NaN
+  const nm = out.attributes.normal;
+  if (nm) for (let i = 0; i < nm.count; i++) if (Math.hypot(nm.getX(i), nm.getY(i), nm.getZ(i)) < 1e-6) nm.setXYZ(i, 0, 1, 0);
+  return out;
+}
+
+const ghosts = new Map();
+function ghostOf(m) {
+  if (!ghosts.has(m)) {
+    ghosts.set(m, new THREE.MeshStandardMaterial({
+      map: m.map, color: 0xb8c8d0, roughness: 0.15, metalness: 0.2, transparent: true, opacity: 0.16,
+      depthWrite: false, side: THREE.DoubleSide, envMapIntensity: 0.6,
+    }));
+  }
+  return ghosts.get(m);
+}
+
 // ---------- the interior ----------
 export class Interior {
   constructor(model) {
+    this.model = model;
     model.updateMatrixWorld(true);
     const hull = [];
     model.traverse((o) => { if (o.isMesh && HULL.test(o.name)) hull.push(o); });
@@ -205,18 +243,34 @@ export class Interior {
     return k < 0 || k >= T.nz || r < 0 || r >= T.ny ? 0 : this.table[k * T.ny + r];
   }
 
+  /** Half-width blended between table cells, so walls and ceilings are smooth to walk along. */
+  hwSmooth(z, y) {
+    const fz = (z - T.z0) / T.dz, fy = (y - T.y0) / T.dy;
+    const k = Math.floor(fz), r = Math.floor(fy), tz = fz - k, ty = fy - r;
+    const cell = (k, r) => (k < 0 || k >= T.nz || r < 0 || r >= T.ny ? 0 : this.table[k * T.ny + r]);
+    // open cells (Infinity) can't be blended: take the nearer one
+    const mix = (a, b, t) => (a === Infinity || b === Infinity ? (t < 0.5 ? a : b) : a + (b - a) * t);
+    return mix(mix(cell(k, r), cell(k + 1, r), tz), mix(cell(k, r + 1), cell(k + 1, r + 1), tz), ty);
+  }
+
   /** Narrowest half-width of the cabin between heights y0 and y1 at z. */
   wallLimit(z, y0, y1) {
     let m = Infinity;
-    for (let y = y0; y <= y1 + 1e-6; y += T.dy) m = Math.min(m, this.hw(z, y));
-    return m;
+    for (let y = y0; y <= y1 + 1e-6; y += T.dy) m = Math.min(m, this.hwSmooth(z, y));
+    return Math.min(m, this.hwSmooth(z, y1));
   }
 
   /** First height above y0 where the hull is too narrow for a head at x. */
   ceilingAt(z, x, y0) {
-    let y = y0;
-    const top = T.y0 + T.ny * T.dy;
-    while (y < top && this.hw(z, y) >= Math.abs(x) + 0.15) y += T.dy; // 0.15 = half a head; the thin tail fin is not headroom
+    const top = T.y0 + T.ny * T.dy, need = Math.abs(x) + 0.15; // 0.15 = half a head; the thin tail fin is not headroom
+    let y = y0, prev = this.hwSmooth(z, y) - need;
+    if (prev < 0) return y;
+    while (y < top) {
+      const g = this.hwSmooth(z, y + T.dy) - need;
+      if (g < 0) return y + (Number.isFinite(prev) ? T.dy * prev / (prev - g) : 0); // where the wall crosses
+      prev = g;
+      y += T.dy;
+    }
     return y;
   }
 
@@ -237,6 +291,29 @@ export class Interior {
       if ((x - cx) ** 2 + (z - cz) ** 2 < r * r) return true;
     }
     return false;
+  }
+
+  /** Pushes a circle (radius r, centre p.x/p.z) out of every box between heights y0 and y1, so you slide round corners. */
+  pushOut(p, r, y0, y1) {
+    for (let pass = 0; pass < 3; pass++) {
+      let moved = false;
+      for (const b of this.boxes) {
+        if (b.max.y <= y0 || b.min.y >= y1) continue;
+        const dx = p.x - Math.max(b.min.x, Math.min(p.x, b.max.x)), dz = p.z - Math.max(b.min.z, Math.min(p.z, b.max.z));
+        const d2 = dx * dx + dz * dz;
+        if (d2 >= r * r) continue;
+        if (d2 > 1e-10) {
+          const k = (r - Math.sqrt(d2)) / Math.sqrt(d2);
+          p.x += dx * k; p.z += dz * k;
+        } else { // centre inside the box: leave through the nearest side
+          const out = [p.x - b.min.x, b.max.x - p.x, p.z - b.min.z, b.max.z - p.z], i = out.indexOf(Math.min(...out));
+          if (i === 0) p.x = b.min.x - r; else if (i === 1) p.x = b.max.x + r; else if (i === 2) p.z = b.min.z - r; else p.z = b.max.z + r;
+        }
+        moved = true;
+      }
+      if (!moved) break;
+    }
+    return p;
   }
 
   /** Free height above the feet at (x, z): hull ceiling or the underside of a box overhead. */
@@ -273,7 +350,7 @@ export class Interior {
 
   add(mat, geo) {
     if (!this.geos.has(mat)) this.geos.set(mat, []);
-    this.geos.get(mat).push(geo.index ? geo.toNonIndexed() : geo); // extrusions are non-indexed
+    this.geos.get(mat).push(dropDegenerate(geo.index ? geo.toNonIndexed() : geo)); // extrusions are non-indexed
   }
 
   cylinder(r, len, x, y, z, axis, mat, seg = 14) {
@@ -314,6 +391,26 @@ export class Interior {
     for (const n of names) for (const m of this.parts.get(n) ?? []) m.visible = !hidden;
   }
 
+  /** Turret shells turn to faint glass while you're in them, so the frame never blocks the view. */
+  setGhost(names, on) {
+    for (const n of names) {
+      const [outer, lining] = this.parts.get(n) ?? [this.model.getObjectByName(n)];
+      if (lining) lining.visible = !on;
+      outer?.traverse((o) => {
+        if (!o.isMesh) return;
+        if (on && !o.userData.solid) {
+          o.userData.solid = o.material;
+          o.material = ghostOf(o.material);
+          o.castShadow = false;
+        } else if (!on && o.userData.solid) {
+          o.material = o.userData.solid;
+          o.userData.solid = null;
+          o.castShadow = true;
+        }
+      });
+    }
+  }
+
   buildFloors() {
     for (const d of DECKS) {
       this.box(-d.hw, d.hw, d.y - 0.1, d.y, d.z0, d.z1, null);
@@ -326,10 +423,10 @@ export class Interior {
   }
 
   /** Cabin outline at z (shrunk by `inset`), as points going round: [lo, hi, points]. */
-  outline(z, mid, inset) {
+  outline(z, mid, inset, maxY = Infinity) {
     let lo = mid, hi = mid;
     while (this.hw(z, lo - 0.05) > 0.08 + inset && lo > T.y0) lo -= 0.05;
-    while (this.hw(z, hi + 0.05) > 0.08 + inset && hi < T.y0 + T.ny * T.dy) hi += 0.05;
+    while (this.hw(z, hi + 0.05) > 0.08 + inset && hi < T.y0 + T.ny * T.dy && hi + 0.05 <= maxY) hi += 0.05;
     const pts = [];
     for (let y = lo; y <= hi + 1e-6; y += 0.05) pts.push(new THREE.Vector2(this.hw(z, y) - inset, y));
     for (let y = hi; y >= lo - 1e-6; y -= 0.05) pts.push(new THREE.Vector2(-(this.hw(z, y) - inset), y));
@@ -352,7 +449,9 @@ export class Interior {
 
   buildBulkheads() {
     for (const b of BULKHEADS) {
-      const [, hi, pts] = this.outline(b.z, b.floor + 0.6, 0.01);
+      // stop at the fuselage roof: the hull table also holds the top turret's dome, and a bulkhead
+      // traced up into it stood right behind the turret gunner's head, filling his view aft
+      const [, hi, pts] = this.outline(b.z, b.floor + 0.6, 0.01, ROOF);
       const shape = new THREE.Shape(pts);
       const [x0, x1, h] = b.door, top = Math.min(b.floor + h, hi - 0.1);
       shape.holes.push(new THREE.Path([new THREE.Vector2(x0, b.floor), new THREE.Vector2(x1, b.floor),

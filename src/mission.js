@@ -184,6 +184,12 @@ export class Mission {
 
   onEnd(fn) { this.listeners.push(fn); }
 
+  /** Rebuild who bombs with whom: swapBombers moves `squad` between bomber objects. */
+  regroup() {
+    for (const g of this.groups.values()) g.bombers.length = 0;
+    for (const b of this.bombers) this.groups.get(b.squad)?.bombers.push(b);
+  }
+
   /** The point on the ground the bombs of bomber `b` would hit if released now (formation frame). */
   aimPoint(b) { return b.group.position.clone().add(aimOffset(b.group.position.y)); }
 
@@ -222,6 +228,8 @@ export class Mission {
     fighters.suppressed = flak.on; // fighters stood off while their own flak was firing
 
     // releases: every group on its lead bombardier; yours on you if you're at the sight
+    const releasePressed = player.releasePressed;
+    player.releasePressed = false; // a Space press only counts on the frame it happens
     if (this.phase === 'bombrun') {
       for (const [squad, g] of this.groups) {
         if (g.released) continue;
@@ -229,14 +237,13 @@ export class Mission {
         if (!lead) { g.released = true; continue; }
         const along = this.aimPoint(lead).z - this.target.center.z;
         if (g === mine && this.atSight) {
-          if (player.firing || player.releasePressed) this.release(squad, 0);
+          if (player.firing || releasePressed) this.release(squad, 0);
           else if (along < -400) this.release(squad, 0); // overshot: the toggliers drop anyway
         } else if (along <= g.err * (g === mine ? 0.5 : 1)) {
           const across = g === mine ? 0 : this.target.center.x - this.aimPoint(lead).x + g.wide;
           this.release(squad, across);
         }
       }
-      player.releasePressed = false;
       if ([...this.groups.values()].every((g) => g.released)) {
         this.phase = 'rally';
         this.ui.toast('All groups away. Rally right, and keep it tight!');
@@ -294,9 +301,9 @@ export class Mission {
   }
 
   /** Point the camera down through the Norden sight (crosshair = where the bombs would hit now). */
-  sightCamera(camera, player) {
+  sightCamera(camera, player, viewFov = 72) {
     const on = this.atSight;
-    const fov = on ? 14 : 72; // the telescope shows ~1 km of ground round the crosshair
+    const fov = on ? 14 : viewFov; // the telescope shows ~1 km of ground round the crosshair
     if (camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); }
     if (!on) return null;
     camera.lookAt(this.aimPoint(this.playerBomber)); // the bombers sit in the scene root: formation frame = world

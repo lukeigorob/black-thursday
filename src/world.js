@@ -7,6 +7,9 @@ export const ALTITUDE = 7600; // ~25,000 ft
 const SUN_ELEVATION = 38, SUN_AZIMUTH = 150; // degrees
 const CLOUD_RECYCLE_Z = 4000, CLOUD_SPAN_Z = 18000;
 const HAZE = new THREE.Color(0.32, 0.42, 0.56); // linear
+// at 25,000 ft the sky is a deep blue: draw it darker than the raw sky model so planes, smoke and
+// fires stand out against it instead of being lost in the glare
+const SKY_DIM = 0.55, FOG_DENSITY = 2.4e-5; // half the old haze: you can see the battle 2-3x further
 
 export class World {
   constructor(renderer, scene) {
@@ -39,8 +42,8 @@ export class World {
     const sky = new Sky();
     sky.scale.setScalar(100);
     const u = sky.material.uniforms;
-    u.turbidity.value = 5;
-    u.rayleigh.value = 1.4;
+    u.turbidity.value = 2.2;
+    u.rayleigh.value = 1.6;
     u.mieCoefficient.value = 0.004;
     u.mieDirectionalG.value = 0.82;
     u.sunPosition.value.copy(this.sunDir);
@@ -52,6 +55,7 @@ export class World {
     const rt = new THREE.WebGLCubeRenderTarget(512, { type: THREE.HalfFloatType });
     new THREE.CubeCamera(1, 1000, rt).update(renderer, envScene);
     this.scene.background = rt.texture;
+    this.scene.backgroundIntensity = SKY_DIM;
     this.buildSun();
     const envRT = new THREE.WebGLCubeRenderTarget(128, { type: THREE.HalfFloatType });
     new THREE.CubeCamera(1, 1000, envRT).update(renderer, envScene);
@@ -59,7 +63,7 @@ export class World {
     this.scene.environmentIntensity = 0.6;
 
     // haze matched to the sky just above the horizon, so the far ground melts into the sky
-    this.scene.fog = new THREE.FogExp2(horizonColor(renderer, envScene) ?? HAZE, 4.8e-5);
+    this.scene.fog = new THREE.FogExp2((horizonColor(renderer, envScene) ?? HAZE).multiplyScalar(SKY_DIM), FOG_DENSITY);
   }
 
   buildSun() {
@@ -75,7 +79,7 @@ export class World {
     g.fillRect(0, 0, 128, 128);
     const tex = new THREE.CanvasTexture(c);
     tex.colorSpace = THREE.SRGBColorSpace;
-    const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: new THREE.Color(1, 0.96, 0.9).multiplyScalar(30), fog: false, depthWrite: false, blending: THREE.AdditiveBlending }));
+    const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: new THREE.Color(1, 0.96, 0.9).multiplyScalar(18), fog: false, depthWrite: false, blending: THREE.AdditiveBlending }));
     sun.position.copy(this.sunDir).multiplyScalar(90000);
     sun.scale.setScalar(9000);
     sun.renderOrder = -1;
@@ -106,7 +110,7 @@ export class World {
   }
 
   setCloudCount(n) {
-    while (this.clouds.length > n) this.scene.remove(this.clouds.pop());
+    while (this.clouds.length > n) { const c = this.clouds.pop(); this.scene.remove(c); c.material.dispose(); }
     while (this.clouds.length < n) {
       const c = new THREE.Sprite(new THREE.SpriteMaterial({
         map: this.cloudTextures[this.clouds.length % 4], depthWrite: false, fog: true }));
@@ -118,8 +122,8 @@ export class World {
 
   placeCloud(c, z) {
     const layer = Math.random();
-    let y, size, opacity = 1, bright = 2.6; // sunlit cloud is about as bright as the horizon sky
-    if (layer < 0.5) { y = rand(-2700, -2200); size = rand(700, 1500); bright = 2.3; } // broken deck far below
+    let y, size, opacity = 1, bright = 1.55; // sunlit cloud, a little brighter than the dimmed horizon
+    if (layer < 0.5) { y = rand(-2700, -2200); size = rand(700, 1500); bright = 1.35; } // broken deck far below
     else if (layer < 0.85) { y = rand(-1500, -350); size = rand(250, 650); } // cumulus we fly over
     else { y = rand(350, 900); size = rand(400, 900); opacity = 0.35; } // thin wisps above
     let x = rand(-9000, 9000);

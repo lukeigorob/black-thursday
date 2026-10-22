@@ -1,14 +1,17 @@
 // First-person crew member. Lives in the bomber's LOCAL space (feet position relative to the plane),
 // so the plane can move and rock without the player sliding or falling through the floor.
 import * as THREE from 'three';
+import { makeFigure, pose, spotFor } from './crew.js';
 
 const R = 0.2; // body radius
 const STAND_EYE = 1.58, MIN_EYE = 0.42, MIN_HEADROOM = 0.55;
 const STEP = 0.42, WALK = 1.7, GRAVITY = 9.8, LOOK = 0.0022;
+const BODY_DROP = 0.14, BODY_BACK = 0.22; // m: your body's neck sits this far below and behind your eye
 const TO_STATION = 4; // 1 / seconds to move into a gun position
-const EDGE = 0.75; // without mouse capture: the outer quarter of the screen keeps turning the view
+const EDGE = 0.9; // without mouse capture: only the outer edge of the screen keeps turning the view
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const clamp = THREE.MathUtils.clamp;
+const _inv = new THREE.Quaternion(), _walkPos = new THREE.Vector3(), _walkRot = new THREE.Quaternion(), _gunRot = new THREE.Quaternion(), _euler = new THREE.Euler();
 
 export class Player {
   constructor(bomber, camera) {
@@ -34,20 +37,35 @@ export class Player {
     this.firing = false; // left mouse held
     this.reloadPressed = false;
     this.recoil = 0;
+    this.aimYaw = 0; this.aimPitch = 0; // pilot's aim, in the formation's frame
+    this.throttle = 0.5;
     this.wounded = false; // down on the floor, waiting for first aid
     this.woundLeft = 0;
     this.dead = false;
+    // your own body: look down and you see your chest, arms and boots (the head is left off)
+    this.body = makeFigure();
+    this.body.userData.j.head.visible = false;
+    for (const c of this.body.userData.j.torso.children) if (c.geometry?.type === 'TorusGeometry') c.visible = false; // the collar sits round your eyes
+    this.it.group.add(this.body);
+    this.stride = 0;
 
     addEventListener('keydown', (e) => {
       this.keys[e.code] = true;
       if (e.code === 'KeyE' && this.enabled && !e.repeat) this.interact();
       if (e.code === 'KeyR' && this.enabled && !e.repeat) this.reloadPressed = true;
+      if (/^Digit[1-4]$/.test(e.code) && this.enabled && this.station?.flies && !e.repeat) this.bottlePressed = +e.code.slice(5) - 1;
       if (e.code === 'Space' && this.enabled && this.station?.sight) { e.preventDefault(); this.releasePressed = true; } // bombs away
     });
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
-    addEventListener('blur', () => { this.keys = {}; this.firing = false; });
-    addEventListener('mousedown', (e) => { if (e.button === 0 && this.enabled) this.firing = true; });
-    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; });
+    addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
+    addEventListener('mousedown', (e) => {
+      if (e.button === 0 && this.enabled) this.firing = true;
+      if (e.button === 2 && this.enabled) this.zoom = true; // hold right click to zoom in
+    });
+    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; if (e.button === 2) this.zoom = false; });
+    addEventListener('contextmenu', (e) => e.preventDefault());
+    this.zoom = false;
+    this.lookScale = 1; // mouse turns slower while zoomed
     // fallback when the browser won't capture the mouse: moving the mouse still turns the view,
     // and holding the cursor near a screen edge keeps turning (so you never run out of screen)
     this.freeLook = false;
@@ -55,13 +73,18 @@ export class Player {
     document.addEventListener('mousemove', (e) => {
       this.cursor = { x: (e.clientX / innerWidth) * 2 - 1, y: (e.clientY / innerHeight) * 2 - 1 };
       if (!this.enabled) return;
-      if (document.pointerLockElement || this.freeLook) this.look(-e.movementX * LOOK, -e.movementY * LOOK);
+      // Chrome on Windows sometimes reports one huge bogus jump (on capture, or a stray event): skip it
+      if (Math.abs(e.movementX) > 300 || Math.abs(e.movementY) > 300) return;
+      if (document.pointerLockElement || this.freeLook) this.look(-e.movementX * LOOK * this.lookScale, -e.movementY * LOOK * this.lookScale);
     });
     document.addEventListener('mouseout', (e) => { if (!e.relatedTarget) this.cursor = null; }); // left the window
   }
 
   look(dYaw, dPitch) {
-    if (this.station) {
+    if (this.station?.flies) { // War Thunder style: the mouse points where you want to fly
+      this.aimYaw = wrap(this.aimYaw + dYaw);
+      this.aimPitch = clamp(this.aimPitch + dPitch, -0.6, 0.6);
+    } else if (this.station) {
       const s = this.station;
       this.sYaw = s.yawLim >= Math.PI ? wrap(this.sYaw + dYaw) : clamp(this.sYaw + dYaw, -s.yawLim, s.yawLim);
       this.sPitch = clamp(this.sPitch + dPitch, s.pitch[0], s.pitch[1]);
@@ -93,6 +116,11 @@ export class Player {
   becomes(stand, yaw) {
     this.dead = false;
     this.wounded = false;
+    // a man who died at a gun can't leave it himself (interact() ignores the dead): start clean
+    this.station = null; this.lastStation = null; this.blend = 0;
+    this.firing = false; this.vy = 0; this.woundLeft = 0;
+    this.reloadPressed = this.releasePressed = false;
+    this.eye = STAND_EYE; this.camY = stand.y + STAND_EYE;
     this.feet.copy(stand);
     this.safe.copy(stand);
     this.yaw = yaw;
@@ -111,6 +139,10 @@ export class Player {
       this.station = null;
     } else if (this.near) {
       const s = (this.station = this.near);
+      if (s.flies) {
+        const f = this.bomber.flight;
+        this.aimYaw = f.heading; this.aimPitch = f.pitch; this.throttle = f.throttle;
+      }
       const rel = wrap(this.yaw - s.yaw);
       this.sYaw = s.yawLim >= Math.PI ? rel : clamp(rel, -s.yawLim, s.yawLim);
       this.sPitch = clamp(this.pitch, s.pitch[0], s.pitch[1]);
@@ -119,9 +151,20 @@ export class Player {
 
   get location() { return this.station ? this.station.name : this.it.zoneAt(this.feet.z); }
 
+  /** The controls while you fly (null when you're not at the controls). */
+  get controls() {
+    if (!this.station?.flies || this.blend < 0.5 || this.wounded || this.dead) return null;
+    const k = this.keys;
+    return { aimYaw: this.aimYaw, aimPitch: this.aimPitch, throttle: this.throttle, roll: (k.KeyA ? 1 : 0) - (k.KeyD ? 1 : 0) };
+  }
+
   get prompt() {
     if (this.wounded || this.dead) return '';
     if (this.firstAid) return this.firstAid;
+    if (this.station?.flies) {
+      const fire = this.bomber.engines.findIndex((e) => e.state === 'fire');
+      if (fire >= 0) return `<b>${fire + 1}</b> Pull the fire bottle on engine ${fire + 1} (${this.bomber.bottles} left)`;
+    }
     if (this.station) return `<b>E</b> Leave the ${this.station.name.toLowerCase()}`;
     if (this.near) return `<b>E</b> ${this.near.seat ? 'Sit in the' : 'Take the'} ${this.near.name.toLowerCase()}`;
     return '';
@@ -136,6 +179,10 @@ export class Player {
 
   update(dt) {
     if (this.enabled) this.edgeTurn(dt);
+    if (this.station?.flies && this.enabled) { // W / S: throttle
+      const k = this.keys;
+      this.throttle = clamp(this.throttle + ((k.KeyW ? 1 : 0) - (k.KeyS ? 1 : 0)) * dt * 0.4, 0, 1);
+    }
     if (this.wounded) {
       if ((this.woundLeft -= dt) <= 0) { this.wounded = false; this.dead = true; }
       this.firing = false;
@@ -150,7 +197,48 @@ export class Player {
       if (hide) this.it.setHidden(hide, true);
       this.hidden = hide;
     }
+    const ghost = this.blend > 0.3 ? this.station?.ghost : null;
+    if (ghost !== this.ghosted) {
+      if (this.ghosted) this.it.setGhost(this.ghosted, false);
+      if (ghost) this.it.setGhost(ghost, true);
+      this.ghosted = ghost;
+    }
     this.pose(dt);
+    this.updateBody(dt);
+  }
+
+  updateBody(dt) {
+    const b = this.body, j = b.userData.j, s = this.station;
+    if (this.dead) { b.visible = false; return; }
+    j.legL.hip.visible = j.legR.hip.visible = true;
+    if (this.wounded) {
+      b.position.copy(this.feet);
+      b.rotation.y = this.yaw;
+      pose(b, 'lie');
+      return;
+    }
+    if (s && this.blend > 0.5) {
+      const spot = spotFor(s.id);
+      if (!spot || spot.pose === 'hidden') { b.visible = false; return; }
+      // pick the pose that puts the neck just under the gun position's eye point
+      const need = s.eye.y - 0.7 - spot.at.y;
+      const name = spot.pose === 'sit' ? 'sit' : need > 0.8 ? 'gun' : need > 0.56 ? 'crouch' : 'kneel';
+      pose(b, name);
+      const yaw = s.yaw + this.sYaw * (s.yawLim >= Math.PI ? 1 : 0.6);
+      const y = s.eye.y - 0.6 - BODY_DROP - j.hips.position.y;
+      b.rotation.y = yaw;
+      b.position.set(s.eye.x + Math.sin(yaw) * BODY_BACK, y, s.eye.z + Math.cos(yaw) * BODY_BACK);
+      if (spot.at.y - y > 0.3) j.legL.hip.visible = j.legR.hip.visible = false; // cramped: legs would go through the floor
+      return;
+    }
+    const speed = Math.hypot(this.vel.x, this.vel.z);
+    this.stride += speed * dt;
+    pose(b, this.eye < 1.3 ? 'crouch' : speed > 0.15 ? 'walk' : 'stand', this.stride * 0.55);
+    b.rotation.y = this.yaw;
+    // the neck always sits just under and behind the eye, however low you duck, so the camera
+    // never ends up inside your own shoulders (arms flashing across the view as you walk)
+    const y = this.camY - (j.hips.position.y + 0.6) - BODY_DROP;
+    b.position.set(this.feet.x + Math.sin(this.yaw) * BODY_BACK, y, this.feet.z + Math.cos(this.yaw) * BODY_BACK);
   }
 
   walk(dt) {
@@ -159,17 +247,17 @@ export class Player {
     const crouch = clamp(this.eye / STAND_EYE, 0.45, 1);
     const speed = WALK * crouch * (k.ShiftLeft || k.ShiftRight ? 1.5 : 1);
     const sin = Math.sin(this.yaw), cos = Math.cos(this.yaw);
-    const want = new THREE.Vector3(-sin * f + cos * s, 0, -cos * f - sin * s);
+    const want = (this._want ??= new THREE.Vector3()).set(-sin * f + cos * s, 0, -cos * f - sin * s);
     if (want.lengthSq() > 0) want.normalize().multiplyScalar(speed);
     this.vel.lerp(want, 1 - Math.exp(-dt * 12));
 
-    // horizontal: one axis at a time so you slide along walls
-    this.tryMove(this.feet.x + this.vel.x * dt, this.feet.z);
-    this.tryMove(this.feet.x, this.feet.z + this.vel.z * dt);
+    // horizontal: small fixed sub-steps so a slow frame can't jump through anything
+    const n = Math.min(8, Math.ceil(dt * 120)), h = dt / n;
+    for (let i = 0; i < n; i++) this.move(this.vel.x * h, this.vel.z * h);
 
-    // vertical: step up onto anything low enough, otherwise fall
+    // vertical: step up onto anything low enough, step down small drops, otherwise fall
     const floor = it.floorAt(this.feet.x, this.feet.z, this.feet.y + STEP);
-    if (floor >= this.feet.y) { this.feet.y = floor; this.vy = 0; }
+    if (floor >= this.feet.y || (this.vy === 0 && floor >= this.feet.y - STEP)) { this.feet.y = floor; this.vy = 0; }
     else {
       this.vy -= GRAVITY * dt;
       this.feet.y = Math.max(floor, this.feet.y + this.vy * dt);
@@ -184,26 +272,38 @@ export class Player {
     this.eye += (target - this.eye) * (1 - Math.exp(-dt * (target < this.eye ? 14 : 5)));
   }
 
+  /** One small step: the whole move if it fits, otherwise slide along whichever axis does. */
+  move(dx, dz) {
+    if (dx === 0 && dz === 0) return;
+    if (this.tryMove(this.feet.x + dx, this.feet.z + dz)) return;
+    if (Math.abs(dx) > Math.abs(dz)) this.tryMove(this.feet.x + dx, this.feet.z) || this.tryMove(this.feet.x, this.feet.z + dz);
+    else this.tryMove(this.feet.x, this.feet.z + dz) || this.tryMove(this.feet.x + dx, this.feet.z);
+  }
+
   tryMove(x, z) {
-    const it = this.it;
+    const it = this.it, p = (this._p ??= new THREE.Vector3()).set(x, 0, z);
     // judge the move from the floor we'd be standing on there (so stepping up onto a deck works)
     const feet = Math.max(this.feet.y, it.floorAt(x, z, this.feet.y + STEP));
-    // only things below chest height block; anything higher you duck under (headroom check)
-    if (it.blocked(x, z, R, feet + STEP, feet + MIN_HEADROOM)) return;
-    if (it.headroom(x, z, feet, R, STEP) < MIN_HEADROOM) return;
+    // only things below chest height block; anything higher you duck under (headroom check).
+    // Boxes push you out sideways instead of stopping you dead, so you glide round corners and through doors.
+    it.pushOut(p, R, feet + STEP, feet + MIN_HEADROOM);
+    if (Math.hypot(p.x - this.feet.x, p.z - this.feet.z) > 0.1) return false; // squeezed between boxes
+    if (it.blocked(p.x, p.z, R * 0.95, feet + STEP, feet + MIN_HEADROOM)) return false;
+    if (it.headroom(p.x, p.z, feet, R, STEP) < MIN_HEADROOM) return false;
     // the body (up to the shoulders) must fit between the hull walls; the head is checked by headroom
-    const lim = it.wallLimit(z, feet + 0.3, feet + Math.max(this.eye - 0.25, 0.35)) - R;
-    if (lim <= 0.02) return;
-    this.feet.x = clamp(x, -lim, lim);
-    this.feet.z = z;
+    const lim = it.wallLimit(p.z, feet + 0.3, feet + Math.max(this.eye - 0.25, 0.35)) - R;
+    if (lim <= 0.02) return false;
+    this.feet.x = clamp(p.x, -lim, lim);
+    this.feet.z = p.z;
+    return true;
   }
 
   pose(dt) {
     // smooth the camera height so steps and crouching don't snap
     const walkY = this.feet.y + this.eye;
-    this.camY += (walkY - this.camY) * (1 - Math.exp(-dt * 12));
-    const walkPos = new THREE.Vector3(this.feet.x, this.camY, this.feet.z);
-    const walkRot = new THREE.Quaternion().setFromEuler(new THREE.Euler(this.pitch, this.yaw, 0, 'YXZ'));
+    this.camY += (walkY - this.camY) * (1 - Math.exp(-dt * 8));
+    const walkPos = _walkPos.set(this.feet.x, this.camY, this.feet.z);
+    const walkRot = _walkRot.setFromEuler(_euler.set(this.pitch, this.yaw, 0, 'YXZ'));
     const t = THREE.MathUtils.smoothstep(this.blend, 0, 1);
     const s = this.station ?? this.lastStation;
     if (this.station) this.lastStation = this.station;
@@ -213,7 +313,10 @@ export class Player {
       return;
     }
     const yaw = this.station ? s.yaw + this.sYaw : this.yaw, pitch = this.station ? this.sPitch : this.pitch;
-    const gunRot = new THREE.Quaternion().setFromEuler(new THREE.Euler(pitch, yaw, 0, 'YXZ'));
+    const gunRot = _gunRot.setFromEuler(_euler.set(pitch, yaw, 0, 'YXZ'));
+    if (this.station?.flies) { // the view follows the aim through the sky, steady while the plane banks under you
+      gunRot.setFromEuler(_euler.set(this.aimPitch, this.aimYaw, 0, 'YXZ')).premultiply(_inv.copy(this.bomber.group.quaternion).invert());
+    }
     this.camera.position.lerpVectors(walkPos, s.eye, t);
     this.camera.quaternion.slerpQuaternions(walkRot, gunRot, t);
     // recoil shake: small random jolts that die away quickly

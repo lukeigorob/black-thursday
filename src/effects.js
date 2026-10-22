@@ -85,8 +85,9 @@ class ParticlePool {
   emit(p, v, { life, s0, s1, a0 = 1, c0, c1 = c0, drag = 0.6, grav = 0 }) {
     if (this.n >= this.max) return;
     const i = this.n++;
-    this.pos.set([p.x, p.y, p.z], i * 3);
-    this.vel.set([v.x, v.y, v.z], i * 3);
+    const j = i * 3;
+    this.pos[j] = p.x; this.pos[j + 1] = p.y; this.pos[j + 2] = p.z;
+    this.vel[j] = v.x; this.vel[j + 1] = v.y; this.vel[j + 2] = v.z;
     this.age[i] = 0; this.life[i] = life;
     this.s0[i] = s0; this.s1[i] = s1; this.a0[i] = a0;
     this.c0.set(c0, i * 3); this.c1.set(c1, i * 3);
@@ -118,6 +119,7 @@ class ParticlePool {
   }
 }
 
+const _q = new V(), _w = new V();
 const SMOKE_GREY = [0.32, 0.32, 0.32], SMOKE_BLACK = [0.05, 0.05, 0.05], SMOKE_WHITE = [0.85, 0.86, 0.88];
 const FIRE_HOT = [40, 22, 6], FIRE_DIM = [6, 1.2, 0.2];
 
@@ -138,8 +140,9 @@ function chuteTexture() {
 export class Effects {
   constructor(scene) {
     this.scene = scene;
-    this.smoke = new ParticlePool(scene, 6000, { additive: false, soft: true });
-    this.fire = new ParticlePool(scene, 3000, { additive: true, soft: false });
+    this.smoke = new ParticlePool(scene, 12000, { additive: false, soft: true });
+    this.fire = new ParticlePool(scene, 6000, { additive: true, soft: false });
+    this.camPos = null; // set each frame: far trails use fewer, bigger puffs so burning planes show from km away
     this.chutes = [];
     this.chuteMat = new THREE.SpriteMaterial({ map: chuteTexture(), fog: true });
   }
@@ -162,18 +165,22 @@ export class Effects {
 
   /** Continuous trail behind a damaged plane: kind = 'smoke' | 'black' | 'fire' | 'glycol'. */
   trail(p, v, kind, dt) {
-    // spread puffs evenly along the path flown this frame so the trail is continuous
-    const n = Math.ceil(dt * (kind === 'fire' ? 160 : 110));
-    const jitter = () => new V((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2);
+    const dist = this.camPos ? p.distanceTo(this.camPos) : 0;
+    if (dist > 9000) return;
+    const far = Math.min(6, Math.max(1, dist / 500)); // fewer, bigger puffs far away: same look, less work
+    // spread puffs evenly along the path flown this frame so the trail is continuous;
+    // round at random so the rate doesn't depend on the frame rate
+    const n = Math.floor((dt * (kind === 'fire' ? 160 : 110)) / far + Math.random());
     for (let i = 0; i < n; i++) {
-      const q = p.clone().addScaledVector(v, -((i + Math.random()) / n) * dt);
-      const w = v.clone().multiplyScalar(0.3).add(jitter());
+      const q = _q.copy(p).addScaledVector(v, -((i + Math.random()) / n) * dt);
+      const w = _w.copy(v).multiplyScalar(0.3);
+      w.x += (Math.random() - 0.5) * 2; w.y += (Math.random() - 0.5) * 2; w.z += (Math.random() - 0.5) * 2;
       if (kind === 'fire') {
-        this.fire.emit(q, w, { life: 0.3 + Math.random() * 0.3, s0: 3.2, s1: 1, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
-        this.smoke.emit(q, w, { life: 6 + Math.random() * 4, s0: 4, s1: 22, a0: 0.8, c0: SMOKE_BLACK, drag: 1.2 });
+        this.fire.emit(q, w, { life: (0.3 + Math.random() * 0.3) * Math.sqrt(far), s0: 3.6 * far, s1: 1.2 * far, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
+        this.smoke.emit(q, w, { life: 7 + Math.random() * 5, s0: 4 * far, s1: 26 * far, a0: 0.85, c0: SMOKE_BLACK, drag: 1.2 });
       } else {
         const c = kind === 'black' ? SMOKE_BLACK : kind === 'glycol' ? SMOKE_WHITE : SMOKE_GREY;
-        this.smoke.emit(q, w, { life: 4 + Math.random() * 2, s0: 2.5, s1: kind === 'glycol' ? 12 : 16, a0: kind === 'glycol' ? 0.5 : 0.7, c0: c, drag: 1.2 });
+        this.smoke.emit(q, w, { life: 4 + Math.random() * 2, s0: 2.5 * far, s1: (kind === 'glycol' ? 12 : 16) * far, a0: kind === 'glycol' ? 0.5 : 0.7, c0: c, drag: 1.2 });
       }
     }
   }

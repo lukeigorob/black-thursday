@@ -14,8 +14,9 @@ const WIND = new V(0, 0, AIRSPEED);
 const UP = new V(0, 1, 0);
 const FIRE_RANGE = 650, BREAK_RANGE = 170, DOGFIGHT_RANGE = 450;
 const SPREAD = 0.012; // rad
-const AXIS_ACTIVE = 14, HUNTERS = 4, ALLIED_ACTIVE = 10;
-const FIRST_WAVE = 8, RESPAWN = [10, 18], ESCORT_RESPAWN = [25, 40]; // s
+const AXIS_ACTIVE = 36, HUNTERS = 9, ALLIED_ACTIVE = 22;
+const FIRST_WAVE = 8, RESPAWN = [6, 14], ESCORT_RESPAWN = [18, 30]; // s
+const CELL = 100, CELL_PAD = 65; // m: bombers are filed in a grid so a round only tests the ones near it
 const LOD_DISTANCE = 800; // m: beyond this a fighter uses the low-detail model
 
 const KINDS = {
@@ -73,10 +74,13 @@ function segBox(a, b, box) {
 
 /** Shortest distance from point p to segment a-b, and the closest point. */
 function segPoint(a, b, p, out) {
-  const ab = new V().subVectors(b, a), t = THREE.MathUtils.clamp(new V().subVectors(p, a).dot(ab) / (ab.lengthSq() || 1), 0, 1);
+  const ab = _ab.subVectors(b, a), t = THREE.MathUtils.clamp(_ap.subVectors(p, a).dot(ab) / (ab.lengthSq() || 1), 0, 1);
   out.copy(a).addScaledVector(ab, t);
   return out.distanceTo(p);
 }
+
+const _near = new V(), _ab = new V(), _ap = new V();
+const cellKey = (x, y, z) => (x + 512) * 1048576 + (y + 512) * 1024 + (z + 512);
 
 function clock(bomber, p) {
   const d = bomber.group.worldToLocal(p.clone());
@@ -224,13 +228,18 @@ export class Fighters {
 
   update(dt, player) {
     this.time += dt;
+    this.fileBombers();
+    // who's flying on each side, and who's already being chased (instead of searching per fighter)
+    this.axis = this.list.filter((g) => g.alive && g.side === 'axis');
+    this.allied = this.list.filter((g) => g.alive && g.side === 'allied');
+    this.chased = new Set(this.list.map((g) => g.prey).filter(Boolean));
     this.tickSlots(this.axisSlots, 'bf109', dt);
     this.tickSlots(this.alliedSlots, 'p51', dt);
     let nearest = Infinity, closing = 0;
     const cam = player.camera.getWorldPosition(new V());
     for (const f of this.list) {
       if (f.alive) {
-        if (!['evade', 'break'].includes(f.state) && this.threatened(f)) { f.resume = f.state; this.startEvade(f); }
+        if (f.state !== 'evade' && f.state !== 'break' && this.threatened(f)) { f.resume = f.state; this.startEvade(f); }
         this.fly(f, dt);
       } else this.fall(f, dt);
       if (f.state === 'gone') continue;
@@ -257,7 +266,7 @@ export class Fighters {
     }
   }
 
-  enemies(f) { return this.list.filter((g) => g.alive && g.side !== f.side); }
+  enemies(f) { return (f.side === 'axis' ? this.allied : this.axis) ?? []; }
 
   /** An enemy fighter sitting on our tail, close and pointing at us? */
   threatened(f) {
@@ -281,6 +290,7 @@ export class Fighters {
     const k = f.k;
     switch (f.state) {
       case 'approach': { // raider getting into position for its pass
+        if (f.target.down || f.target.gone) { this.newAttack(f); break; } // already going down: pick another
         const p = f.target.group.position.clone().add(f.setup);
         f.speed += (k.setup - f.speed) * dt * 0.5; // full throttle to get ahead of the bombers
         f.steer(p.clone().sub(f.pos), k.turn, dt);
@@ -335,6 +345,7 @@ export class Fighters {
           f.prey = bandit;
           f.state = 'engage';
           f.timer = 25;
+          this.chased.add(bandit);
           const c = clock(this.playerBomber, f.pos);
           if (f.pos.distanceTo(this.playerBomber.group.position) < 1500 && this.time - this.lastFriendsCall > 20) {
             this.lastFriendsCall = this.time;
@@ -344,7 +355,7 @@ export class Fighters {
         break;
       }
       case 'hunt': { // 109 hunter: find an escort and get on its tail
-        if (!f.prey?.alive) f.prey = this.pickPrey(f, 3500);
+        if (!f.prey?.alive) { f.prey = this.pickPrey(f, 3500); if (f.prey) this.chased.add(f.prey); }
         if (!f.prey) { f.role = 'raider'; this.newAttack(f); break; }
         f.state = 'engage';
         f.timer = 30;
@@ -382,7 +393,7 @@ export class Fighters {
     let best = null, bd = Infinity;
     for (const e of this.enemies(f)) {
       if (e.pos.distanceTo(this.center) > range) continue;
-      if (this.list.some((g) => g.prey === e)) continue; // one chaser each, so some raiders get through
+      if (this.chased.has(e)) continue; // one chaser each, so some raiders get through
 
       const d = e.pos.distanceTo(f.pos);
       if (d < bd) { bd = d; best = e; }
@@ -398,18 +409,26 @@ export class Fighters {
         f.gunTimers[i] += 60 / g.rpm;
         const muzzle = new V(...g.at).applyMatrix4(f.obj.matrixWorld);
         const d = f.dir.clone().add(new V(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(SPREAD)).normalize();
-        this.bullets.spawn(muzzle, d.multiplyScalar(f.k.muzzle).add(vel), f.rounds++ % g.tracer === 0, team, f, g.cannon);
+        this.bullets.spawn(muzzle, d.multiplyScalar(f.k.muzzle).add(vel), f.rounds++ % g.tracer === 0, team, f, g.cannon, f, 1.8);
       }
     });
     if (Math.random() < dt * 10) this.audio.distantGun(f.pos.distanceTo(this.playerBomber.group.position));
   }
 
   /** A round's path a -> b this frame. Returns true if it hit something (the round is used up). */
-  collide(a, b, team, owner, cannon) {
-    if (team === 'enemy' && this.hitBomber(a, b, cannon)) return true;
-    const near = new V(), reach = a.distanceTo(b) + 8;
+  collide(a, b, team, owner, cannon, src) {
+    // friendly fire is on: any round can hit any aircraft except the one that fired it
+    const hitB = this.hitBomber(a, b, cannon, src);
+    if (hitB) {
+      if (team === 'allied' && owner === 'player' && this.time - (this.lastFF ?? -99) > 4) {
+        this.lastFF = this.time;
+        this.ui.toast("Cease fire! You're hitting our own bombers!", 'kill');
+      }
+      return true;
+    }
+    const near = _near, reach = a.distanceTo(b) + 8;
     for (const f of this.list) {
-      if (f.state === 'gone' || f === owner || (team === 'enemy') === (f.side === 'axis')) continue; // no friendly fire
+      if (f.state === 'gone' || f === src) continue;
       const dx = a.x - f.pos.x, dy = a.y - f.pos.y, dz = a.z - f.pos.z;
       if (dx * dx + dy * dy + dz * dz > reach * reach) continue; // cheap reject first: most rounds are nowhere near
       if (segPoint(a, b, f.pos, near) > 7) continue;
@@ -422,14 +441,18 @@ export class Fighters {
       if (!best) continue;
       this.effects.impact(a.clone().lerp(b, bt));
       const wasAlive = f.alive;
-      if (wasAlive) this.damage(f, best, owner);
-      if (owner === 'player') this.ui.hitMarker(wasAlive && !f.alive);
+      if (wasAlive) this.damage(f, best, owner, team);
+      if (owner === 'player') {
+        this.ui.hitMarker(wasAlive && !f.alive);
+        if (f.side === 'allied' && this.time - (this.lastFF ?? -99) > 4) { this.lastFF = this.time; this.ui.toast("Cease fire! That's a P-51!", 'kill'); }
+      }
       return true;
     }
     return false;
   }
 
-  damage(f, part, owner) {
+  damage(f, part, owner, team) {
+    if ((team === 'enemy') === (f.side === 'axis')) owner = 'friendly'; // shot by its own side: nobody's kill
     f.parts[part] -= 1;
     const hp = f.parts[part], full = f.k.parts[part].hp;
     if (part === 'engine' && hp < full * 0.5) f.smoking = true;
@@ -450,7 +473,7 @@ export class Fighters {
     const t = (this.tally ??= { player: 0, crew: 0, escorts: 0, axisLost: 0, alliedLost: 0 });
     if (f.side === 'axis') {
       t.axisLost++;
-      if (owner === 'player') t.player++; else if (owner === 'crew') t.crew++; else t.escorts++;
+      if (owner === 'player') t.player++; else if (owner === 'crew') t.crew++; else if (owner !== 'friendly') t.escorts++;
     } else t.alliedLost++;
     f.downTime = rand(8, 14);
     if (!f.spin) f.spin = rand(-0.8, 0.8);
@@ -495,16 +518,39 @@ export class Fighters {
   }
 
   // ----- German rounds against the bombers -----
-  hitBomber(a, b, cannon) {
-    const reach = a.distanceTo(b) + 20;
+  /** File every bomber into the grid cells it (plus a frame's flight of a round) reaches. Once per frame. */
+  fileBombers() {
+    const grid = (this.grid ??= new Map());
+    for (const list of grid.values()) list.length = 0;
     for (const bomber of this.bombers) {
       if (bomber.gone) continue;
       const g = bomber.group.position;
+      bomber.group.updateMatrixWorld();
+      (bomber._inv ??= new THREE.Matrix4()).copy(bomber.group.matrixWorld).invert();
+      const x0 = Math.floor((g.x - CELL_PAD) / CELL), x1 = Math.floor((g.x + CELL_PAD) / CELL);
+      const y0 = Math.floor((g.y - CELL_PAD) / CELL), y1 = Math.floor((g.y + CELL_PAD) / CELL);
+      const z0 = Math.floor((g.z - CELL_PAD) / CELL), z1 = Math.floor((g.z + CELL_PAD) / CELL);
+      for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) for (let z = z0; z <= z1; z++) {
+        const key = cellKey(x, y, z);
+        let list = grid.get(key);
+        if (!list) grid.set(key, (list = []));
+        list.push(bomber);
+      }
+    }
+  }
+
+  hitBomber(a, b, cannon, src) {
+    if (!this.grid) this.fileBombers();
+    const list = this.grid.get(cellKey(Math.floor(a.x / CELL), Math.floor(a.y / CELL), Math.floor(a.z / CELL)));
+    if (!list?.length) return false;
+    const reach = a.distanceTo(b) + 20;
+    for (const bomber of list) {
+      if (bomber.gone || bomber === src) continue;
+      const g = bomber.group.position;
       const dx = a.x - g.x, dy = a.y - g.y, dz = a.z - g.z;
       if (dx * dx + dy * dy + dz * dz > reach * reach) continue; // quick reject
-      if (segPoint(a, b, g, new V()) > 20) continue;
-      bomber.group.updateMatrixWorld();
-      const inv = bomber.group.matrixWorld.clone().invert();
+      if (segPoint(a, b, g, _near) > 20) continue;
+      const inv = bomber._inv;
       const la = a.clone().applyMatrix4(inv), lb = b.clone().applyMatrix4(inv);
       let part = null, t = 2;
       for (const p of BOMBER_PARTS) {

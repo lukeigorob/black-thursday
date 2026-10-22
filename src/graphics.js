@@ -13,6 +13,20 @@ export const QUALITY = {
 };
 const KEY = 'bomber.quality';
 
+// A broken pixel (NaN / Infinity from any shader) would be spread by the bloom blur until the whole
+// screen is black. This pass runs first and turns such pixels black and clamps absurd brightness.
+const SanitizeShader = {
+  uniforms: { tDiffuse: { value: null } },
+  vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `uniform sampler2D tDiffuse; varying vec2 vUv;
+    void main() {
+      vec4 c = texture2D(tDiffuse, vUv);
+      // (three compiles this as GLSL ES 3.0, which has isnan / isinf)
+      bool bad = any(isnan(c)) || any(isinf(c)) || max(max(c.r, c.g), c.b) > 6e4;
+      gl_FragColor = bad ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(min(c.rgb, vec3(1000.0)), c.a);
+    }`,
+};
+
 const VignetteShader = {
   uniforms: { tDiffuse: { value: null }, strength: { value: 0.35 } },
   vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
@@ -37,7 +51,7 @@ export class Graphics {
       reversedDepthBuffer: this.reversed, logarithmicDepthBuffer: !this.reversed,
     });
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 0.6;
+    this.renderer.toneMappingExposure = 0.55;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.setSize(innerWidth, innerHeight);
@@ -64,11 +78,12 @@ export class Graphics {
     const q = this.quality;
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, q.pixelRatio));
     const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
-    this.composer?.dispose();
+    if (this.composer) { for (const p of this.composer.passes) p.dispose?.(); this.composer.dispose(); } // passes own render targets too
     const target = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: q.msaa });
     if (this.reversed) target.depthTexture = new THREE.DepthTexture(size.x, size.y, THREE.FloatType); // 32-bit float depth
     this.composer = new EffectComposer(this.renderer, target);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
+    this.composer.addPass(new ShaderPass(SanitizeShader));
     if (q.bloom) {
       // threshold is above the bright horizon sky, so only the sun, tracers and fire glow
       this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.4, 0.4, 20);

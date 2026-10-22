@@ -10,10 +10,13 @@ export class UI {
       <div id="menu" class="menu"><div class="panel">
         <h1 id="menu-title"></h1><p id="menu-text"></p>
         <button id="menu-go"></button>
+        <p class="browser-note" id="menu-browser">For proper mouse control play in <b>Chrome</b> or <b>Edge</b> at <b>localhost:5173</b>.
+          Other windows, like the Claude app's preview pane, don't let a game capture the mouse, so the cursor drifts off the screen.</p>
         <label class="quality">Graphics <select id="menu-quality">
           ${Object.entries(QUALITY).map(([k, q]) => `<option value="${k}">${q.label}</option>`).join('')}
         </select></label>
-        <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · R reload · Shift walk faster · Esc pause · F3 fps</p>
+        <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · Right click zoom · R reload · Shift walk faster · Esc pause · F3 fps<br>
+          Pilot seat: mouse steers the plane · W / S throttle · A / D roll · 1–4 engine fire bottles</p>
       </div></div>
       <div id="map" class="menu"><div class="panel map-panel">
         <h1 id="map-title"></h1><p id="map-text"></p>
@@ -34,7 +37,10 @@ export class UI {
         <div id="sight"><div class="ring"></div><div class="h"></div><div class="v"></div>
           <div id="sight-info"></div></div>
         <div id="crew"></div>
+        <div id="health"><span class="lbl">Airframe</span><div class="bar"><i id="health-bar"></i></div><span id="health-pct"></span></div>
         <div id="engines"></div>
+        <div id="nose"></div>
+        <div id="flight"></div>
         <div id="aid"><div class="bar"><i id="aid-bar"></i></div></div>
         <div id="hurt"><div id="hurt-text"></div></div>
         <div id="kills"></div>
@@ -183,12 +189,12 @@ export class UI {
   }
 
   /** End-of-mission debrief. */
-  debrief(d, onAgain) {
+  debrief(d, onAgain, onQuality = () => {}) {
     const pct = d.dropped ? Math.round((d.onTarget / d.dropped) * 100) : 0;
     const mine = d.playerDropped ? Math.round((d.playerOnTarget / d.playerDropped) * 100) : null;
     const rating = pct > 45 ? 'Excellent' : pct > 30 ? 'Good' : pct > 15 ? 'Fair' : 'Poor';
     const row = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`;
-    this.menu({ title: 'Mission complete', text: '', button: 'Fly again', onClick: onAgain, quality: this.el('menu-quality').value, onQuality: () => {} });
+    this.menu({ title: 'Mission complete', text: '', button: 'Fly again', onClick: onAgain, quality: this.el('menu-quality').value, onQuality });
     this.el('menu-text').innerHTML = `<table class="debrief">
       ${row('Bombing', `<b>${rating}</b>`)}
       ${row('Bombs within 1,000 ft of the aiming point', `${pct}% of ${d.dropped}`)}
@@ -223,6 +229,30 @@ export class UI {
     if (bomber.tankFire[-1] || bomber.tankFire[1]) html += '<span class="eng fire wing">WING FIRE</span>';
     if (bomber.down) html += '<span class="eng fire wing">GOING DOWN</span>';
     if (html !== this.lastEng) this.el('engines').innerHTML = this.lastEng = html;
+  }
+
+  /** The airframe health bar (0..1) and the fire bottles left. */
+  health(h, bottles) {
+    const pct = Math.round(h * 100);
+    if (pct === this.lastHealth && bottles === this.lastBottles) return;
+    this.lastHealth = pct; this.lastBottles = bottles;
+    const bar = this.el('health-bar');
+    bar.style.width = `${pct}%`;
+    bar.style.background = h > 0.6 ? '#8fcf6a' : h > 0.3 ? '#ffd36a' : '#ff5a3a';
+    this.el('health-pct').textContent = `${pct}% · ${bottles} fire bottle${bottles === 1 ? '' : 's'}`;
+  }
+
+  /** Flight instruments while you're at the controls (null hides them). */
+  flight(f) {
+    const box = this.el('flight'), nose = this.el('nose');
+    box.style.display = f ? 'block' : 'none';
+    nose.style.display = f?.nose ? 'block' : 'none';
+    if (!f) return;
+    if (f.nose) { nose.style.left = `${f.nose.x * 100}%`; nose.style.top = `${f.nose.y * 100}%`; }
+    box.innerHTML = `<div><b>${Math.round(f.mph)}</b> mph</div><div><b>${Math.round(f.feet).toLocaleString()}</b> ft</div>
+      <div>Heading <b>${Math.round(f.heading).toString().padStart(3, '0')}°</b> · bank ${Math.round(f.bank)}°</div>
+      <div class="bar"><i style="width:${f.throttle * 100}%"></i></div><span class="lbl">Throttle ${Math.round(f.throttle * 100)}%</span>
+      <div class="lbl">${f.offset > 60 ? `${Math.round(f.offset)} m out of formation` : 'In formation'}</div>`;
   }
 
   /** First-aid progress (0..1), or null to hide. */
