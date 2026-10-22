@@ -2,6 +2,7 @@
 // Everything is left behind in the air, so it streams aft with the wind past the formation.
 import * as THREE from 'three';
 import { AIRSPEED } from './bomber.js';
+import { Parachutes } from './parachutes.js';
 
 const V = THREE.Vector3;
 
@@ -170,19 +171,6 @@ class Wreckage {
 const SMOKE_GREY = [0.32, 0.32, 0.32], SMOKE_BLACK = [0.05, 0.05, 0.05], SMOKE_WHITE = [0.85, 0.86, 0.88];
 const FIRE_HOT = [40, 22, 6], FIRE_DIM = [6, 1.2, 0.2];
 
-function chuteTexture() {
-  const c = document.createElement('canvas');
-  c.width = c.height = 64;
-  const g = c.getContext('2d');
-  g.fillStyle = '#e9e4d6'; // silk canopy
-  g.beginPath(); g.ellipse(32, 22, 26, 16, 0, Math.PI, 0); g.fill();
-  g.strokeStyle = '#bdb6a3'; g.lineWidth = 1;
-  for (let x = 8; x <= 56; x += 8) { g.beginPath(); g.moveTo(x, 22); g.lineTo(32, 52); g.stroke(); } // shroud lines
-  g.fillStyle = '#4a4130'; g.fillRect(29, 50, 6, 10); // the airman
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
 
 export class Effects {
   constructor(scene) {
@@ -191,19 +179,11 @@ export class Effects {
     this.fire = new ParticlePool(scene, 6000, { additive: true, soft: false });
     this.camPos = null; // set each frame: far trails use fewer, bigger puffs so burning planes show from km away
     this.wreckage = new Wreckage(scene);
-    this.chutes = [];
-    this.chuteMat = new THREE.SpriteMaterial({ map: chuteTexture(), fog: true });
+    this.parachutes = new Parachutes(scene); // everyone who bails out
   }
 
-  /** An airman bailing out: falls a few seconds, then the chute opens and drifts back and down. */
-  parachute(p) {
-    if (this.chutes.length > 120) return;
-    const s = new THREE.Sprite(this.chuteMat);
-    s.position.copy(p);
-    s.scale.setScalar(1.2);
-    this.scene.add(s);
-    this.chutes.push({ s, age: 0, open: 2 + Math.random() * 3, sway: Math.random() * 6 });
-  }
+  /** An airman bailing out: a few seconds of free fall, then the chute opens and drifts back and down. */
+  parachute(p) { this.parachutes.add(p); }
 
   setPixelScale(heightPx, fovDeg) { // point size in world metres -> pixels
     const s = heightPx / (2 * Math.tan(THREE.MathUtils.degToRad(fovDeg) / 2));
@@ -321,15 +301,6 @@ export class Effects {
     this.smoke.update(dt);
     this.fire.update(dt);
     this.wreckage.update(dt, this);
-    for (let i = this.chutes.length - 1; i >= 0; i--) {
-      const c = this.chutes[i];
-      c.age += dt;
-      const open = c.age > c.open;
-      c.s.scale.setScalar(open ? 8 : 1.2);
-      c.s.position.x += Math.sin(c.age * 0.7 + c.sway) * dt;
-      c.s.position.y -= (open ? 6 : 40) * dt;
-      c.s.position.z += AIRSPEED * dt; // left behind in the air
-      if (c.age > 150) { this.scene.remove(c.s); this.chutes.splice(i, 1); }
-    }
+    this.parachutes.update(dt);
   }
 }

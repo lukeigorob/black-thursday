@@ -35,7 +35,7 @@
       #location { position: fixed; left: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
       #prompt { position: fixed; left: 0; right: 0; bottom: 18%; text-align: center; font-size: 16px; text-shadow: 0 1px 3px #000; opacity: 0; transition: opacity .15s; }
       #prompt b { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; }
-      #hint { display: none; position: fixed; left: 50%; top: 14px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10b0; font-size: 13px; text-align: center; }
+      #hint { display: none; position: fixed; left: 50%; top: 96px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10b0; font-size: 13px; text-align: center; }
       #gun { display: none; position: fixed; right: 24px; bottom: 22px; width: 220px; text-align: right; text-shadow: 0 1px 3px #000; }
       #gun-ammo { font: 600 15px ui-monospace, Consolas, monospace; color: #ece8dcbb; }
       #gun-ammo b { font-size: 30px; color: #ece8dc; }
@@ -45,16 +45,19 @@
       #gun .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc88; }
       #gun-state { min-height: 18px; margin-top: 6px; font-size: 13px; }
       #gun-state.warn { color: #ffb36a; }
+      /* hit marker: a red X round the crosshair that pulses out; the killing blow is bigger, brighter and longer */
       #hitmarker { position: fixed; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; }
-      #hitmarker i { position: absolute; width: 11px; height: 2px; background: #fff; box-shadow: 0 0 2px #000; }
-      #hitmarker i:nth-child(1) { left: 6px; top: 6px; transform: rotate(45deg); }
-      #hitmarker i:nth-child(2) { left: -17px; top: 6px; transform: rotate(-45deg); }
-      #hitmarker i:nth-child(3) { left: 6px; top: -8px; transform: rotate(-45deg); }
-      #hitmarker i:nth-child(4) { left: -17px; top: -8px; transform: rotate(45deg); }
-      #hitmarker.hit { animation: hm .18s ease-out; }
-      #hitmarker.kill { animation: hm .5s ease-out; }
-      #hitmarker.kill i { background: #ff4a3a; width: 15px; }
-      @keyframes hm { from { opacity: 1; } to { opacity: 0; } }
+      #hitmarker i { position: absolute; left: -9px; top: -2px; width: 18px; height: 4px; border-radius: 2px; background: #ff3a2a;
+        box-shadow: 0 0 4px #ff3a2acc, 0 0 1px #000; transform-origin: 9px 2px; }
+      #hitmarker i:nth-child(1) { transform: rotate(45deg) translateX(17px); }
+      #hitmarker i:nth-child(2) { transform: rotate(135deg) translateX(17px); }
+      #hitmarker i:nth-child(3) { transform: rotate(225deg) translateX(17px); }
+      #hitmarker i:nth-child(4) { transform: rotate(315deg) translateX(17px); }
+      #hitmarker.hit { animation: hm .28s ease-out; }
+      #hitmarker.kill { animation: hmk .7s ease-out; }
+      #hitmarker.kill i { left: -13px; width: 26px; height: 5px; transform-origin: 13px 2.5px; background: #ff2a1a; box-shadow: 0 0 10px #ff2a1a, 0 0 1px #000; }
+      @keyframes hm { 0% { opacity: 1; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1.15); } 100% { opacity: 0; transform: scale(1.3); } }
+      @keyframes hmk { 0% { opacity: 1; transform: scale(0.7); } 25% { opacity: 1; transform: scale(1.35); } 70% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1.5); } }
       #kills { position: fixed; right: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 1px 3px #000; }
       #toasts { position: fixed; left: 0; right: 0; top: 22%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
       .toast { padding: 5px 14px; background: #0b0d10a0; border-radius: 3px; font: 600 17px system-ui; letter-spacing: 1px; text-shadow: 0 1px 3px #000; transition: opacity .5s; }
@@ -136,6 +139,12 @@
       #hud[data-mode="eject"] #crew, #hud[data-mode="eject"] #engines, #hud[data-mode="eject"] #gun, #hud[data-mode="eject"] #flight,
       #hud[data-mode="eject"] #health, #hud[data-mode="eject"] #crosshair, #hud[data-mode="eject"] #nose, #hud[data-mode="eject"] #gunsight,
       #hud[data-mode="eject"] #prompt { display: none !important; }
+      #forces { position: fixed; left: 50%; top: 30px; transform: translateX(-50%); font: 11px/1.5 system-ui; color: #ece8dcaa; text-shadow: 0 1px 2px #000;
+        background: #0b0d1066; padding: 3px 10px; border-radius: 3px; white-space: nowrap; }
+      #forces b { color: #fff; margin-right: 2px; } #forces i { font-style: normal; }
+      #forces .side { display: inline-block; min-width: 46px; font-weight: 700; letter-spacing: 1px; }
+      #forces .side.us { color: #7ab8ff; } #forces .side.them { color: #ff7a6a; }
+      #forces .ok { color: #8fcf6a; } #forces .dmg { color: #ffd36a; } #forces .down { color: #ff6a5a; } #forces .air { color: #ece8dc; }
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
     </style>
   </head>

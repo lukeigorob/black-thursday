@@ -2,21 +2,26 @@
 // overhead while you drift down and back behind the bomber stream (the air streams past at AIRSPEED).
 import * as THREE from 'three';
 import { AIRSPEED } from './bomber.js';
+import { canopyGeometry, linesGeometry, chuteShape, chuteSwing, SILK, CORD, DROP } from './parachutes.js';
 
 const FREEFALL = 1.8, HANG = 6; // s: falling before the chute opens; then hanging before you can go again
 const LOOK = 0.0022;
-const _e = new THREE.Euler(0, 0, 0, 'YXZ');
+const _e = new THREE.Euler(0, 0, 0, 'YXZ'), _q = new THREE.Quaternion(), _qv = new THREE.Quaternion(), _s = new THREE.Vector3(), _o = new THREE.Vector3();
+const EYE = DROP - 0.35; // m from the canopy's centre down to your eyes
 
 export class Eject {
-  constructor(scene, chuteMat) {
+  constructor(scene) {
     this.active = false;
     this.pos = new THREE.Vector3();
     this.vel = new THREE.Vector3();
     this.yaw = 0; this.pitch = 0;
     this.lookScale = 1; this.freeLook = false;
-    // your own canopy above you (look up and you see it)
-    this.canopy = new THREE.Sprite(chuteMat);
+    // your own chute above you: look up and you see the canopy and the lines running down to you
+    this.canopy = new THREE.Group();
+    // (the lines stop at the risers above your head: ending right by your eyes, they smeared across the view)
+    this.canopy.add(new THREE.Mesh(canopyGeometry(), SILK), new THREE.Mesh(linesGeometry(-EYE + 1.1), CORD));
     this.canopy.visible = false;
+    this.centre = new THREE.Vector3();
     scene.add(this.canopy);
     document.addEventListener('mousemove', (e) => {
       if (!this.active || !(document.pointerLockElement || this.freeLook)) return;
@@ -56,12 +61,20 @@ export class Eject {
       this.vel.x *= d; this.vel.y = -6 + (this.vel.y + 6) * d; this.vel.z = AIRSPEED + (this.vel.z - AIRSPEED) * d;
     }
     this.pos.addScaledVector(this.vel, dt);
-    const sway = open ? Math.sin(this.t * 0.9) : 0;
-    camera.position.copy(this.pos);
-    camera.position.x += sway * 0.6;
-    camera.quaternion.setFromEuler(_e.set(this.pitch + (open ? Math.sin(this.t * 0.7) * 0.03 : Math.sin(this.t * 9) * 0.08), this.yaw, sway * 0.06));
+    const look = _qv.setFromEuler(_e.set(this.pitch + (open ? 0 : Math.sin(this.t * 9) * 0.08), this.yaw, 0));
     this.canopy.visible = open;
-    if (open) { this.canopy.position.copy(camera.position).y += 10; this.canopy.scale.setScalar(Math.min(6.5, (this.t - FREEFALL) * 10)); }
+    if (!open) { camera.position.copy(this.pos); camera.quaternion.copy(look); }
+    else { // you hang under the canopy and swing with it like a pendulum
+      const t = this.t - FREEFALL;
+      this.centre.copy(this.pos).y += EYE;
+      chuteSwing(t, 0.7, _q);
+      this.canopy.position.copy(this.centre);
+      this.canopy.quaternion.copy(_q);
+      this.canopy.children[0].scale.copy(chuteShape(t, _s));
+      this.canopy.children[1].scale.copy(_s).setY(1);
+      camera.position.copy(this.centre).add(_o.set(0, -EYE, 0).applyQuaternion(_q));
+      camera.quaternion.copy(_q).multiply(look); // your view swings with you
+    }
     this.ready = this.t > FREEFALL + HANG;
   }
 }

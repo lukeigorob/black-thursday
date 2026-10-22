@@ -49,7 +49,7 @@ export const STATIONS = [
     pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] }, ghost: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks'] },
   { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'] }, // in the window, over the gun
   { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'] },
-  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], hide: ['TailGunPod'] },
+  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'] }, // the pod turns to glass; its frame is built in buildTail
 ].map((s) => ({ ...s, stand: new V(...s.stand), eye: new V(...s.eye), yaw: s.yaw * D, yawLim: s.yawLim * D, pitch: [s.pitch[0] * D, s.pitch[1] * D] }));
 
 // hull cross-section table: half-width of the cabin at (z, y), 10 cm x 5 cm cells
@@ -704,5 +704,22 @@ export class Interior {
 
   buildTail() {
     this.box(-0.25, 0.25, -2.32, -2.17, 9.65, 9.95, MAT.leather); // knee pad
+    // the tail gunner's compartment (the pod's skin turns to glass while you're in it, so this is what
+    // you see): the framed rear window, small side windows, the armour panel with the guns' slot, and
+    // the ring sight in front of your eye
+    const fz = 10.5, r = 0.014;
+    // rear window: one big pane, framed at the pod's edges (outside the gun's arc, so the frame never sits in your sight line)
+    for (const [a, b] of [[[-0.33, -1.82, fz], [0.33, -1.82, fz]], [[-0.33, -2.27, fz], [0.33, -2.27, fz]], [[-0.33, -1.82, fz], [-0.33, -2.27, fz]], [[0.33, -1.82, fz], [0.33, -2.27, fz]]]) this.rod(a, b, r, MAT.dark, 5);
+    for (const s of [-1, 1]) { // side windows
+      const x = s * 0.35;
+      for (const [a, b] of [[[x, -1.88, 10.3], [s * 0.31, -1.88, fz]], [[x, -2.15, 10.3], [s * 0.31, -2.15, fz]], [[x, -1.88, 10.3], [x, -2.15, 10.3]]]) this.rod(a, b, r, MAT.dark, 5);
+      this.box(s > 0 ? 0.16 : -0.3, s > 0 ? 0.3 : -0.16, -2.55, -2.29, fz - 0.01, fz + 0.02, MAT.metal, false); // armour either side of the slot
+    }
+    this.box(-0.16, 0.16, -2.6, -2.5, fz - 0.01, fz + 0.02, MAT.metal, false); // under the slot
+    this.box(-0.3, 0.3, -2.29, -2.27, fz - 0.02, fz + 0.02, MAT.dark, false); // window sill
+    // ring and bead sight on a post above the guns
+    this.add(MAT.dark, new THREE.TorusGeometry(0.045, 0.0035, 6, 24).translate(0, -1.95, 10.36));
+    this.rod([0, -1.995, 10.36], [0, -2.06, 10.37], 0.006, MAT.dark, 4); // (a short post: the sight sits on the gun cradle)
+    this.add(MAT.yellow, new THREE.SphereGeometry(0.006, 6, 4).translate(0, -1.95, 10.47));
   }
 }

@@ -22,6 +22,8 @@ const F_BURST = [0.6, 1.4], F_PAUSE = [0.5, 1.6]; // s: fighters fire in bursts 
 const AXIS_ACTIVE = 150, ALLIED_ACTIVE = 20, HUNTER_SHARE = 0.2; // a fifth of each gaggle goes for the escorts
 const GAGGLE = [15, 28], FIRST_WAVE = 8, WAVE_GAP = [5, 10], ESCORT_RESPAWN = [18, 30]; // fighters, s
 const FREE = -1; // an axis slot waiting for the next gaggle
+// each side's strength for the whole mission: when the reserves are gone, no more come up
+export const AXIS_TOTAL = 320, ALLIED_TOTAL = 50;
 const CELL = 100, CELL_PAD = 65; // m: bombers are filed in a grid so a round only tests the ones near it
 const FCELL = 100, FCELL_PAD = 60; // m: fighters are filed too (a frame's flight of a round plus a wingspan)
 const RAM = 6; // m between two fighters' centres: closer than that their wings or props meet
@@ -213,6 +215,7 @@ export class Fighters {
     this.time = 0;
     this.crewView = true; // you're in a B-17 (crew callouts); false while you fly a fighter
     this.report = null; // (kind, name, dmg) -> your score: 'hit' | 'crit' | 'kill' | 'assist'
+    this.reserve = { axis: AXIS_TOTAL, allied: ALLIED_TOTAL }; // still to come up (the player's own fighter doesn't count)
     this.playerSide = 'allied';
   }
 
@@ -339,13 +342,24 @@ export class Fighters {
 
   freeAxisSlot(slot) { this.axisSlots[slot] = FREE; }
 
+  /** Each side's strength: in the air, shot down, still to come. */
+  counts() {
+    const t = this.tally ?? {}, c = { axis: { air: 0 }, allied: { air: 0 } };
+    for (const f of this.list) if (f.alive && !f.player) c[f.side].air++;
+    c.axis.down = t.axisLost ?? 0; c.allied.down = t.alliedLost ?? 0;
+    c.axis.reserve = this.reserve.axis; c.allied.reserve = this.reserve.allied;
+    c.axis.total = AXIS_TOTAL; c.allied.total = ALLIED_TOTAL;
+    return c;
+  }
+
   /** Bf 109s arrive in gaggles: when enough are missing, a whole group comes in together from one direction. */
   tickWaves(dt) {
     if ((this.waveT -= dt) > 0) return;
     const free = [];
     for (let i = 0; i < this.axisSlots.length; i++) if (this.axisSlots[i] === FREE) free.push(i);
     if (free.length < GAGGLE[0]) { this.waveT = 2; return; }
-    const n = Math.min(free.length, Math.round(rand(...GAGGLE)));
+    const n = Math.min(free.length, Math.round(rand(...GAGGLE)), this.reserve.axis);
+    if (n <= 0) { this.waveT = 5; return; } // the Luftwaffe has nothing left to send
     const c = this.center, a = rand(-2.2, 2.2), dist = rand(3600, 4600);
     const near = this.nearBombers();
     const pickOne = near[Math.floor(Math.random() * near.length)];
@@ -353,6 +367,7 @@ export class Fighters {
       from: new V(Math.sin(a) * dist, rand(300, 1000), -Math.cos(a) * dist).add(c),
       attack: pick(ATTACKS), side3: Math.random() < 0.5 ? -1 : 1, squad: pickOne?.squad,
     };
+    this.reserve.axis -= n;
     for (let i = 0; i < n; i++) { this.axisSlots[free[i]] = 0; this.spawn('bf109', free[i], plan, i, n); }
     this.waveT = rand(...WAVE_GAP);
     if (this.crewView && this.time > 20) this.ui.toast(`Large formation of fighters coming in! ${n} of them.`);
@@ -360,7 +375,11 @@ export class Fighters {
 
   tickSlots(slots, kind, dt) {
     for (let i = 0; i < slots.length; i++) {
-      if (slots[i] > 0 && (slots[i] -= dt) <= 0) { slots[i] = 0; this.spawn(kind, i); }
+      if (slots[i] > 0 && (slots[i] -= dt) <= 0) {
+        if (this.reserve.allied <= 0) { slots[i] = -1; continue; } // no more escorts to send
+        this.reserve.allied--;
+        slots[i] = 0; this.spawn(kind, i);
+      }
     }
   }
 
@@ -561,7 +580,7 @@ export class Fighters {
         if (f.alive && critLevel(f) > crits) this.report?.('crit', f.k.name);
       }
       if (owner === 'player') {
-        this.ui.hitMarker(wasAlive && !f.alive);
+        if (f.side !== this.playerSide) this.ui.hitMarker(wasAlive && !f.alive); // (no marker for hitting your own side)
         if (f.side === this.playerSide && this.time - (this.lastFF ?? -99) > 4) { this.lastFF = this.time; this.ui.toast(`Cease fire! That's one of ours, a ${f.k.name}!`, 'kill'); }
       }
       return true;
@@ -795,6 +814,7 @@ export class Fighters {
       const crits = mine ? bomber.deadEngines + (bomber.burning ? 10 : 0) : 0;
       bomber.hit(part, cannon);
       if (mine) {
+        this.ui.hitMarker(bomber.down); // a 109 pilot's rounds on a B-17 (red and bigger if that brought it down)
         bomber.playerHitT = this.time;
         this.report?.('hit', 'B-17', cannon ? 3 : 1);
         if (!bomber.down && bomber.deadEngines + (bomber.burning ? 10 : 0) > crits) this.report?.('crit', 'B-17');

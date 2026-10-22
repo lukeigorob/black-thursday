@@ -37,6 +37,7 @@ export class UI {
         <div id="hint"></div>
         <div id="hitmarker"><i></i><i></i><i></i><i></i></div>
         <div id="mission"></div>
+        <div id="forces"></div>
         <div id="sight"><div class="ring"></div><div class="h"></div><div class="v"></div>
           <div id="sight-info"></div></div>
         <div id="crew"></div>
@@ -226,6 +227,14 @@ export class UI {
 
   mission(text) { if (text !== this.lastMission) this.el('mission').textContent = this.lastMission = text; }
 
+  /** The strength of both sides, at a glance (b: bombers { total, healthy, damaged, down }, f: Fighters.counts()). */
+  forces(b, f) {
+    const html = `<div><span class="side us">B-17</span><b>${b.total}</b> · <i class="ok">${b.healthy} healthy</i> · <i class="dmg">${b.damaged} damaged</i> · <i class="down">${b.down} shot down</i></div>
+      <div><span class="side them">Bf 109</span><b>${f.axis.total}</b> · <i class="air">${f.axis.air} in the air</i> · <i class="down">${f.axis.down} shot down</i> · ${f.axis.reserve} to come</div>
+      <div><span class="side us">P-51</span><b>${f.allied.total}</b> · <i class="air">${f.allied.air} in the air</i> · <i class="down">${f.allied.down} shot down</i> · ${f.allied.reserve} to come</div>`;
+    if (html !== this.lastForces) this.el('forces').innerHTML = this.lastForces = html;
+  }
+
   /** The Norden bombsight view (null hides it). */
   sight(s) {
     this.el('sight').style.display = s ? 'block' : 'none';
@@ -258,6 +267,9 @@ export class UI {
       ${row('B-17s lost', `${d.bombersLost} of ${d.bombers}`)}
       ${row('Crewmen saved by first aid', `${d.saved} (${d.savedByYou} by you)`)}
       ${row('Your crew home safe', `${d.crewHome} of 10`)}
+      ${row('B-17s at the end', `${d.forces.b.healthy} healthy, ${d.forces.b.damaged} damaged, ${d.forces.b.down} lost of ${d.forces.b.total}`)}
+      ${row('Bf 109s', `${d.forces.f.axis.down} shot down of ${d.forces.f.axis.total - d.forces.f.axis.reserve} sent up`)}
+      ${row('P-51s', `${d.forces.f.allied.down} lost of ${d.forces.f.allied.total - d.forces.f.allied.reserve} sent up`)}
     </table>${this.lifeCard(d.score, `Your whole mission (${d.lives} ${d.lives === 1 ? 'life' : 'lives'})`)}`;
   }
 
@@ -274,6 +286,7 @@ export class UI {
       ${row('B-17s lost', `${d.bombersLost} of ${d.bombers}`)}
       ${row('Bf 109s lost (all)', d.kills.axisLost ?? 0)}
       ${row('P-51s lost (all)', d.kills.alliedLost)}
+      ${row('B-17s at the end', `${d.forces.b.healthy} healthy, ${d.forces.b.damaged} damaged, ${d.forces.b.down} lost of ${d.forces.b.total}`)}
       ${row('Bombs within 1,000 ft of the aiming point', `${d.dropped ? Math.round((d.onTarget / d.dropped) * 100) : 0}% of ${d.dropped}`)}
     </table>${this.lifeCard(d.score, `Your whole mission (${d.lives} ${d.lives === 1 ? 'life' : 'lives'})`)}`;
   }

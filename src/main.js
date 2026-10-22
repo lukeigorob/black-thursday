@@ -8,7 +8,7 @@ import { Player } from './player.js';
 import { GameAudio } from './audio.js';
 import { Weapons } from './weapons.js';
 import { Effects } from './effects.js';
-import { Fighters } from './fighters.js';
+import { Fighters, AXIS_TOTAL, ALLIED_TOTAL } from './fighters.js';
 import { UI } from './ui.js';
 import { formationSlots, Fleet, Contrails, Detail } from './formation.js';
 import { Crew, WOUND_TIME, REVIVE_TIME } from './crew.js';
@@ -64,7 +64,7 @@ const pilot = new Pilot(audio);
 fighters.pilot = pilot;
 const pilotStats = { bombers: 0, deaths: 0, killBase: null };
 const stats = new Stats(); // your score, this life and the whole mission
-const eject = new Eject(scene, effects.chuteMat); // hanging under a parachute after bailing out
+const eject = new Eject(scene); // hanging under a parachute after bailing out
 let bailedOut = false;
 // the fighters report your hits, crits, kills and assists
 fighters.report = (kind, name, dmg) => {
@@ -144,7 +144,7 @@ function pause() {
 function showMenu(paused) {
   ui.menu({
     title: paused ? 'Paused' : 'B-17',
-    text: paused ? '' : '25,000 feet over Germany, 1944. Fly with the bomber stream, or against it.',
+    text: paused ? '' : `25,000 feet over Germany, 1944. ${bombers.length} B-17s, escorted by ${ALLIED_TOTAL} P-51s, against ${AXIS_TOTAL} Bf 109s. Fly with the bomber stream, or against it.`,
     button: paused ? 'Resume' : null,
     onClick: play,
     roles: paused ? null : chooseRole,
@@ -420,7 +420,7 @@ function missionComplete(d) {
     saved: tally.saved, savedByYou: tally.savedByYou,
     crewHome: crew.members.filter((m) => m.state === 'ok' || m.state === 'wounded' || m.state === 'player').length,
     pilot: { bombers: pilotStats.bombers, fighters: fighters.kills - (pilotStats.killBase ?? fighters.kills), deaths: pilotStats.deaths, saved: fighters.saved ?? 0 },
-    score: stats.mission, lives: stats.lives,
+    score: stats.mission, lives: stats.lives, forces: { b: bomberCounts(), f: fighters.counts() },
   }, () => location.reload(), (q) => gfx.setQuality(q), mode);
 }
 
@@ -448,6 +448,14 @@ function pickActiveGunners(dt) {
   live.sort((a, b) => a.group.position.distanceToSquared(here) - b.group.position.distanceToSquared(here));
   live.forEach((b, i) => { b.gunsActive = i < ACTIVE_GUNS; });
 }
+
+/** How the bomber stream stands: healthy, damaged (any part below 70%), shot down. */
+function bomberCounts() {
+  const c = { total: bombers.length, healthy: 0, damaged: 0, down: 0 };
+  for (const b of bombers) { if (b.down || b.gone) c.down++; else if (b.damaged) c.damaged++; else c.healthy++; }
+  return c;
+}
+let forcesT = 0;
 
 /** Speed, height, heading and where the nose points, while you fly. */
 const _nose = new THREE.Vector3();
@@ -544,6 +552,7 @@ gfx.renderer.setAnimationLoop((now) => {
     safely('hud', () => {
       ui.mission(mission.status(missionTime));
       ui.lifeStats(stats.life);
+      if ((forcesT -= dt) <= 0) { forcesT = 0.3; ui.forces(bomberCounts(), fighters.counts()); } // a few times a second
       if (eject.active) { // under the parachute: the battle goes on above you
         ui.hud({ location: eject.t > 1.8 ? 'Under the parachute' : 'Bailing out', prompt: '', atStation: false });
         ui.ejected(ui.lifeCard(stats.life, eject.from === 'crew' ? 'That life' : 'This sortie'), eject.ready);

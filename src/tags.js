@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { BALLISTICS } from './weapons.js';
 
 const V = THREE.Vector3;
-const MAX_RANGE = 2500, LEAD_RANGE = 1000; // m
+const MAX_RANGE = 2500, LEAD_RANGE = 500; // m: lead markers only on enemies this close
 const LABEL_RANGE = 1000; // m: closer than this a tag shows the range
 const BOMBER_RANGE = 1500, BOMBER_TAGS = 20; // flying a fighter: only the nearest B-17s get a tag
 const FOE = [255, 74, 58], FRIEND = [80, 170, 255]; // red enemies, blue friends, from the player's side
