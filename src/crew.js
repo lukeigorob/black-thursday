@@ -5,12 +5,13 @@ import * as THREE from 'three';
 import { SECTIONS } from './bomber.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
-const _ab = new V(), _ap = new V();
+const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
 const GUN_RANGE = 900, FIRE_RANGE = 650, AI_RPM = 750, AI_SPREAD = 0.006;
-const AIM_ERROR = 0.02; // rad: real bomber gunners hit very little at range
+const AIM_ERROR = 0.03; // rad: real bomber gunners hit very little at range (grows with crossing speed)
+const ACQUIRE = [0.8, 2.2], BURST = [0.5, 1.3], PAUSE = [1.4, 3.5], SPRAY = 0.1; // s, s, s, chance of a burst at nothing much
 const ACTIVE_RANGE = 1200; // bombers further than this from the player don't simulate their gunners
 export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 
@@ -312,7 +313,7 @@ export class Crew {
   place(m) {
     if (!m.fig) return;
     const s = m.spot;
-    if (m.state === 'player') { m.fig.visible = false; return; }
+    if (m.state === 'player' || m.state === 'bailed') { m.fig.visible = false; return; } // (you, or out of the plane)
     const down = m.state === 'wounded' || m.state === 'dead';
     m.fig.position.set(...(down ? s.lie : s.at));
     m.fig.rotation.y = s.yaw + (down && s.liePose === 'lie' ? 1.2 : 0);
@@ -378,7 +379,7 @@ export class Crew {
    * Returns { dir (bomber space), yawRel, fire, aimPoint (world) } or null when there's nothing to shoot.
    */
   aim(station, fighters, dt) {
-    const g = this.gunners.get(station.id) ?? { target: null, retarget: 0, burst: 0, pause: rand(0, 1), err: new V() };
+    const g = this.gunners.get(station.id) ?? { target: null, retarget: 0, burst: 0, pause: rand(0, 1), err: new V(), lead: 1 };
     this.gunners.set(station.id, g);
     const bm = this.bomber.group.matrixWorld;
     const local = station.local ?? (station.local = new V(...(station.pivot ?? station.eye.toArray())));
@@ -400,20 +401,31 @@ export class Crew {
         const s = d * (f.target === this.bomber && f.state === 'attack' ? 0.5 : 1); // the one coming at us first
         if (s < score) { score = s; best = f; }
       }
+      // a new target takes him a moment: spotting it, swinging the guns round, getting it in the sight
+      if (best && best !== g.target) g.pause = Math.max(g.pause, rand(...ACQUIRE));
       g.target = best;
     }
     if (!g.target) return null;
-    const f = g.target, dist = f.pos.distanceTo(origin);
-    // lead the target; a real gunner's error grows with range and changes every burst
-    const aimPoint = f.pos.clone().addScaledVector(f.velocity, dist / 850).add(g.err);
+    const f = g.target, dist = f.pos.distanceTo(origin), vel = f.velocity;
+    // how fast it crosses his line of sight: the hard deflection shots are where gunners missed most
+    const los = _los.copy(f.pos).sub(origin).normalize();
+    const crossing = _cross.copy(vel).addScaledVector(los, -vel.dot(los)).length();
+    // a human lead, judged by eye (each burst a bit under or over), plus an aiming error that grows with
+    // range and crossing speed and shrinks as he walks his tracers onto the target
+    const aimPoint = f.pos.clone().addScaledVector(vel, (dist / 850) * g.lead).add(g.err);
     if (g.pause > 0) {
       if ((g.pause -= dt) <= 0) {
-        g.burst = rand(0.8, 1.8);
-        g.err.set(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(dist * AIM_ERROR);
+        g.burst = rand(...BURST);
+        g.lead = rand(0.45, 1.25);
+        const spray = Math.random() < SPRAY ? 4 : 1; // a nervous burst at nothing much
+        g.err.set(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(dist * AIM_ERROR * (1 + crossing / 90) * spray);
         // friendly fire is real: a gunner holds his burst if another B-17 is in the line of fire
         g.clear = this.lineClear(origin, aimPoint, fighters.nearBombers());
       }
-    } else if ((g.burst -= dt) <= 0) g.pause = rand(0.6, 2.2);
+    } else {
+      g.err.multiplyScalar(Math.exp(-dt * 0.6)); // walking the tracers in
+      if ((g.burst -= dt) <= 0) g.pause = rand(...PAUSE);
+    }
     const dir = aimPoint.clone().applyMatrix4(inv).sub(local).normalize();
     const yawRel = wrap(Math.atan2(-dir.x, -dir.z) - station.yaw);
     return { dir, yawRel, fire: g.pause <= 0 && dist < FIRE_RANGE && g.clear !== false, aimPoint, origin };

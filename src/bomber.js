@@ -4,29 +4,30 @@
 import * as THREE from 'three';
 import { Interior } from './interior.js';
 
-export const AIRSPEED = 72; // m/s, ~160 mph cruise
+export const AIRSPEED = 75; // m/s: 270 km/h (~170 mph), a loaded B-17's cruise at altitude
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const MAX_BANK = 0.6; // rad (~35 degrees): a loaded B-17 turns gently
 const clamp = THREE.MathUtils.clamp, wrapA = (a) => Math.atan2(Math.sin(a), Math.cos(a));
-const _vel = new V(), _at = new V(), _d = new V(), _rock = new THREE.Euler(), _fe = new THREE.Euler(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
+const _vel = new V(), _at = new V(), _w = new V(), _d = new V(), _rock = new THREE.Euler(), _fe = new THREE.Euler(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
 
 export const ENGINE_X = [-7.16, -3.93, 3.94, 7.15]; // engines 1-4, numbered left to right as the pilot sees them
 export const SECTIONS = [['nose', -11.4, -8.6], ['cockpit', -8.6, -6.35], ['bombbay', -6.35, -2.6], ['radio', -2.6, -1.25], ['waist', -1.25, 5.2], ['tail', 5.2, 11.4]];
 
 // hit boxes in bomber space [x0, x1, y0, y1, z0, z1] (nose -Z), from the model's measurements
 export const PARTS = [
-  ...ENGINE_X.map((x, i) => ({ name: `engine${i + 1}`, kind: 'engine', engine: i, box: [x - 0.85, x + 0.85, -1.45, 0.3, -8.8, -3.3], hp: 22 })),
+  // a B-17 could take a lot: hit points are rounds of .30/.50 (a 20 mm shell counts 3)
+  ...ENGINE_X.map((x, i) => ({ name: `engine${i + 1}`, kind: 'engine', engine: i, box: [x - 0.85, x + 0.85, -1.45, 0.3, -8.8, -3.3], hp: 32 })),
   { name: 'tankL', kind: 'tank', side: -1, box: [-8.0, -1.25, -1.35, -0.25, -6.8, -2.6], hp: 20 }, // wing tanks round the engines
   { name: 'tankR', kind: 'tank', side: 1, box: [1.25, 8.0, -1.35, -0.25, -6.8, -2.6], hp: 20 },
-  { name: 'wingL', kind: 'wing', side: -1, box: [-16.3, -8.0, -1.5, -0.1, -7.3, -1.3], hp: 70 },
-  { name: 'wingR', kind: 'wing', side: 1, box: [8.0, 16.3, -1.5, -0.1, -7.3, -1.3], hp: 70 },
+  { name: 'wingL', kind: 'wing', side: -1, box: [-16.3, -8.0, -1.5, -0.1, -7.3, -1.3], hp: 95 },
+  { name: 'wingR', kind: 'wing', side: 1, box: [8.0, 16.3, -1.5, -0.1, -7.3, -1.3], hp: 95 },
   { name: 'tailplane', kind: 'tail', box: [-6.5, 6.5, -2.2, 3.2, 6.0, 10.5], hp: 45 },
   ...SECTIONS.map(([name, z0, z1]) => ({ name, kind: 'section', section: name, box: [-1.25, 1.25, -2.45, 1.8, z0, z1], hp: 60 })),
 ];
 
 // everything that makes a bomber "that bomber" (where it flies, its damage), but not how it's drawn
-const STATE = ['base', 'home', 'flight', 'bottles', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes'];
+const STATE = ['base', 'home', 'flight', 'bottles', 'leak', 'fx', 'spiral', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes'];
 
 /**
  * Swap two bombers' identities. The player's bomber (full model, interior, guns) takes over another
@@ -67,6 +68,9 @@ export class Bomber {
     this.hp = Object.fromEntries(PARTS.map((p) => [p.name, p.hp]));
     this.engines = ENGINE_X.map(() => ({ state: 'ok', fireT: 0 })); // ok | smoking | dead | fire
     this.tankFire = { '-1': 0, 1: 0 }; // seconds a wing tank has been burning (0 = not burning)
+    this.leak = { '-1': 0, 1: 0 }; // seconds of fuel still streaming from a holed tank
+    this.fx = []; // things to show next frame: a wing or the tail breaking off, a tank blowing up
+    this.spiral = null; // how it falls once it's going down
     this.down = false; // shot down: leaving the formation for good
     this.gone = false; // fallen out of sight
     this.drift = new V(); // a straggler falls back and down
@@ -128,12 +132,19 @@ export class Bomber {
       }
     } else if (part.kind === 'tank') {
       // self-sealing tanks: each hit leaks a little, and may set the fuel alight
-      if (this.tankFire[part.side] === 0 && (hp <= 0 || Math.random() < (cannon ? 0.15 : 0.03))) {
+      this.leak[part.side] = Math.max(this.leak[part.side], cannon ? 30 : 12); // holed: fuel streams out
+      if (this.tankFire[part.side] === 0 && (hp <= 0 || Math.random() < (cannon ? 0.06 : 0.01))) {
         this.tankFire[part.side] = 0.001;
         this.emit(`Fire in the ${part.side < 0 ? 'left' : 'right'} wing!`);
       }
-    } else if (part.kind === 'wing' && hp <= 0) this.goDown(`The ${part.side < 0 ? 'left' : 'right'} wing is coming apart!`);
-    else if (part.kind === 'tail' && hp <= 0) this.goDown('We lost the tail controls!');
+    } else if (part.kind === 'wing' && hp <= 0 && !this.down) {
+      this.fx.push({ type: 'wing', side: part.side });
+      this.spiral = { r: 30, w: 0.7, side: part.side }; // with a wing gone it rolls over and spins in
+      this.goDown(`The ${part.side < 0 ? 'left' : 'right'} wing is coming apart!`);
+    } else if (part.kind === 'tail' && hp <= 0 && !this.down) {
+      this.fx.push({ type: 'tail' });
+      this.goDown('We lost the tail controls!');
+    }
     else if (part.section === 'cockpit' && hp <= 0) this.goDown('The cockpit is hit!');
     if (this.deadEngines >= 3) this.goDown('Three engines out, we can\'t hold her!');
     return part;
@@ -144,7 +155,7 @@ export class Bomber {
     this.down = true;
     this.downT = 0;
     this.roll = 0;
-    this.rollRate = rand(0.05, 0.25) * (Math.random() < 0.5 ? -1 : 1);
+    this.rollRate = this.spiral ? this.spiral.side * -rand(0.5, 0.9) : rand(0.05, 0.25) * (Math.random() < 0.5 ? -1 : 1);
     this.chutes = Math.floor(rand(0, 10.99)); // how many of the crew get out
     this.emit(reason);
     this.emit('Bail out! Bail out!');
@@ -184,14 +195,35 @@ export class Bomber {
       if (!this.tankFire[side]) continue;
       this.tankFire[side] += dt;
       effects?.trail(_at.set(side * 5.5, -0.8, -4.5).applyMatrix4(m), vel, 'fire', dt);
-      if (this.tankFire[side] > 25 && !this.down) this.goDown('The wing\'s burning through!');
+      if (this.tankFire[side] > 25 && !this.down) { // the fire reaches the main tank: it blows, and the wing goes
+        this.fx.push({ type: 'blowup', side }, { type: 'wing', side });
+        this.spiral = { r: 30, w: 0.7, side };
+        this.goDown('The wing\'s burning through!');
+      }
+    }
+    for (const side of [-1, 1]) { // fuel streaming from a holed tank
+      if (this.leak[side] > 0 && !this.tankFire[side]) {
+        this.leak[side] -= dt;
+        effects?.trail(_at.set(side * 6.5, -0.7, -4.0).applyMatrix4(m), vel, 'fuel', dt);
+      }
+    }
+    // the moments it breaks up: pieces fly off, a tank goes up in a fireball
+    while (this.fx.length && effects) {
+      const e = this.fx.shift();
+      _q.setFromRotationMatrix(m);
+      if (e.type === 'wing') effects.wreck(_at.set(e.side * 12, -0.8, -4.3).applyMatrix4(m), vel, 5, _w.set(4, 0.35, 2.2), 0.5, _q);
+      if (e.type === 'tail') effects.wreck(_at.set(0, 0.6, 9).applyMatrix4(m), vel, 4, _w.set(3, 0.3, 1.6), 0.2, _q);
+      if (e.type === 'blowup') effects.explosion(_at.set(e.side * 5.5, -0.8, -4.5).applyMatrix4(m).clone(), vel.clone(), 3);
     }
     // stragglers: each engine out costs speed and height, so the bomber falls out of the box
     const n = this.deadEngines;
     this.drift.set(0, n >= 2 ? -2 : 0, [0, 1.5, 4, 8, 8][n]);
     if (this.down) {
       this.downT += dt;
-      this.drift.set(0, -Math.min(45, 4 + this.downT * 2.5), 22);
+      // falling in a spiral: round and round as it goes down (tight and fast with a wing gone)
+      const sp = (this.spiral ??= { r: rand(15, 40), w: rand(0.2, 0.45), side: Math.random() < 0.5 ? -1 : 1 });
+      const a = this.downT * sp.w * sp.side, v = sp.r * sp.w * Math.min(1, this.downT / 4);
+      this.drift.set(Math.cos(a) * v, -Math.min(45, 4 + this.downT * 2.5), 22 + Math.sin(a) * v);
       this.roll += this.rollRate * dt * (1 + this.downT * 0.08);
       if (this.chutes > 0 && this.downT > 3 && Math.random() < dt * 0.8) {
         this.chutes--;
@@ -261,7 +293,7 @@ export class Bomber {
     this.group.position.set(this.base.x + Math.sin(s * 0.21) * 0.4, this.base.y + Math.sin(s * 0.37) * 0.25 + turb * 0.04, this.base.z);
     _rock.set(
       Math.sin(s * 0.29) * 0.008 + turb * 0.0015 - (this.down ? Math.min(0.35, this.downT * 0.02) : 0),
-      Math.sin(s * 0.13) * 0.004,
+      Math.sin(s * 0.13) * 0.004 + (this.down && this.spiral ? this.downT * this.spiral.w * this.spiral.side * Math.min(1, this.downT / 4) : 0),
       Math.sin(s * 0.23) * 0.018 + Math.sin(s * 0.9) * 0.002 + this.roll + (this.deadEngines ? (this.engines[0].state !== 'ok' || this.engines[1].state !== 'ok' ? 0.02 : -0.02) : 0),
     );
     const f = this.flight;

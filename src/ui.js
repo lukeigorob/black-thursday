@@ -10,13 +10,15 @@ export class UI {
       <div id="menu" class="menu"><div class="panel">
         <h1 id="menu-title"></h1><p id="menu-text"></p>
         <button id="menu-go"></button>
+        <div id="menu-roles" class="roles"></div>
         <p class="browser-note" id="menu-browser">For proper mouse control play in <b>Chrome</b> or <b>Edge</b> at <b>localhost:5173</b>.
           Other windows, like the Claude app's preview pane, don't let a game capture the mouse, so the cursor drifts off the screen.</p>
         <label class="quality">Graphics <select id="menu-quality">
           ${Object.entries(QUALITY).map(([k, q]) => `<option value="${k}">${q.label}</option>`).join('')}
         </select></label>
         <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · Right click zoom · R reload · Shift walk faster · Esc pause · F3 fps<br>
-          Pilot seat: mouse steers the plane · W / S throttle · A / D roll · 1–4 engine fire bottles</p>
+          Pilot seat: mouse steers the plane · W / S throttle · A / D roll · 1–4 engine fire bottles<br>
+          Fighters: mouse aims where you fly · W / S throttle · A / D roll · Left click guns · V chase / nose view · J bail out</p>
       </div></div>
       <div id="map" class="menu"><div class="panel map-panel">
         <h1 id="map-title"></h1><p id="map-text"></p>
@@ -25,6 +27,7 @@ export class UI {
           <div id="map-side"><p class="muted">Click a bomber on the map.</p></div>
         </div>
         <p class="keys">Mouse wheel zooms · green fit · yellow damaged · red burning · brighter = higher in the stack · ring = where you were</p>
+        <div id="map-roles" class="roles small"></div>
       </div></div>
       <div id="hud">
         <div id="crosshair"></div>
@@ -40,10 +43,14 @@ export class UI {
         <div id="health"><span class="lbl">Airframe</span><div class="bar"><i id="health-bar"></i></div><span id="health-pct"></span></div>
         <div id="engines"></div>
         <div id="nose"></div>
+        <div id="gunsight"><i></i></div>
         <div id="flight"></div>
         <div id="aid"><div class="bar"><i id="aid-bar"></i></div></div>
         <div id="hurt"><div id="hurt-text"></div></div>
         <div id="kills"></div>
+        <div id="lifestats"></div>
+        <div id="banners"></div>
+        <div id="ejectcard"></div>
         <div id="toasts"></div>
         <div id="gun">
           <div id="gun-ammo"></div>
@@ -61,7 +68,48 @@ export class UI {
     });
   }
 
-  menu({ title, text, button, onClick, quality, onQuality }) {
+  /**
+   * Role buttons: crew / bf109 / p51. `into` is the element id; onRole(id) is called with the choice.
+   * only: the ids to offer (all three by default).
+   */
+  roles(into, onRole, only = ['crew', 'bf109', 'p51']) {
+    const box = this.el(into);
+    if (!onRole) { box.innerHTML = ''; return; }
+    const info = {
+      crew: ['B-17 crewman', 'Man the guns, fly the bomber, drop the bombs'],
+      bf109: ['Bf 109 pilot', 'Luftwaffe: break up the bomber stream'],
+      p51: ['P-51 pilot', 'Escort: keep the 109s off the bombers'],
+    };
+    box.innerHTML = only.map((id) => `<button class="role-btn ${id}" data-role="${id}"><b>${info[id][0]}</b><small>${info[id][1]}</small></button>`).join('');
+    for (const b of box.querySelectorAll('button')) b.onclick = () => onRole(b.dataset.role);
+  }
+
+  /** Which HUD to show: the bomber's (crew) or the fighter pilot's. */
+  setMode(mode) {
+    this.el('hud').dataset.mode = mode === 'crew' || mode === 'eject' ? mode : 'fighter';
+    if (mode === 'crew') { this.el('gunsight').style.display = 'none'; this.el('flight').style.display = 'none'; }
+  }
+
+  /** The fighter pilot's instruments (null hides them). */
+  fighter(s) {
+    const box = this.el('flight'), nose = this.el('nose'), sight = this.el('gunsight');
+    box.style.display = s ? 'block' : 'none';
+    sight.style.display = s?.view === 'nose' ? 'block' : 'none';
+    this.el('crosshair').style.display = s?.view === 'nose' ? 'none' : '';
+    nose.style.display = s?.marker ? 'block' : 'none';
+    if (!s) return;
+    if (s.marker) { nose.style.left = `${s.marker.x * 100}%`; nose.style.top = `${s.marker.y * 100}%`; }
+    const ammo = Object.entries(s.ammo).map(([k, a]) => `<div>${k === 'cannon' ? '20 mm' : 'MG'} <b>${a.n}</b></div>`).join('');
+    box.innerHTML = `<div class="lbl">${s.kind}${s.damage ? ` · <span class="warn">${s.damage}</span>` : ''}</div>
+      <div><b>${Math.round(s.speed * 3.6)}</b> km/h · <b>${Math.round(s.alt).toLocaleString()}</b> ft</div>
+      <div class="bar"><i style="width:${s.throttle * 100}%"></i></div><span class="lbl">Throttle ${Math.round(s.throttle * 100)}%</span>
+      ${ammo}
+      <div class="bar"><i style="width:${Math.min(1, s.heat) * 100}%;background:${s.jammed ? '#ff4a3a' : s.heat > 0.7 ? '#ffa23a' : '#d9d2b8'}"></i></div>
+      <span class="lbl">${s.jammed ? 'Guns overheated' : 'Gun heat'}</span>`;
+    this.health(s.health, null);
+  }
+
+  menu({ title, text, button, onClick, quality, onQuality, roles = null }) {
     this.el('menu-title').textContent = title;
     this.el('menu-text').textContent = text ?? '';
     const go = this.el('menu-go');
@@ -71,6 +119,7 @@ export class UI {
     const q = this.el('menu-quality');
     q.value = quality;
     q.onchange = () => onQuality(q.value);
+    this.roles('menu-roles', roles);
     this.el('menu').style.display = 'flex';
     this.el('hud').style.display = 'none';
   }
@@ -104,13 +153,14 @@ export class UI {
    * The formation map: pick any surviving bomber, then any fit AI crewman to take over.
    * crewOf(bomber) -> Crew. onPick(bomber, member) is called with the choice.
    */
-  map({ title, text, bombers, crewOf, mine, onPick }) {
+  map({ title, text, bombers, crewOf, mine, onPick, onRole }) {
     const box = this.el('map'), cv = this.el('map-canvas'), g = cv.getContext('2d'), side = this.el('map-side');
     this.el('map-title').textContent = title;
     this.el('map-text').textContent = text;
     this.el('menu').style.display = 'none';
     this.el('hud').style.display = 'none';
     box.style.display = 'flex';
+    this.roles('map-roles', onRole ? (id) => { box.style.display = 'none'; onRole(id); } : null, ['bf109', 'p51']);
     const live = bombers.filter((b) => !b.down && !b.gone && crewOf(b).members.some((m) => m.state === 'ok'));
     // fit the stream into the canvas, nose up
     const xs = bombers.map((b) => b.base.x), zs = bombers.map((b) => b.base.z), ys = bombers.map((b) => b.base.y);
@@ -189,7 +239,8 @@ export class UI {
   }
 
   /** End-of-mission debrief. */
-  debrief(d, onAgain, onQuality = () => {}) {
+  debrief(d, onAgain, onQuality = () => {}, role = 'crew') {
+    if (role !== 'crew') return this.pilotDebrief(d, onAgain, onQuality, role);
     const pct = d.dropped ? Math.round((d.onTarget / d.dropped) * 100) : 0;
     const mine = d.playerDropped ? Math.round((d.playerOnTarget / d.playerDropped) * 100) : null;
     const rating = pct > 45 ? 'Excellent' : pct > 30 ? 'Good' : pct > 15 ? 'Fair' : 'Poor';
@@ -207,7 +258,24 @@ export class UI {
       ${row('B-17s lost', `${d.bombersLost} of ${d.bombers}`)}
       ${row('Crewmen saved by first aid', `${d.saved} (${d.savedByYou} by you)`)}
       ${row('Your crew home safe', `${d.crewHome} of 10`)}
-    </table>`;
+    </table>${this.lifeCard(d.score, `Your whole mission (${d.lives} ${d.lives === 1 ? 'life' : 'lives'})`)}`;
+  }
+
+  /** End of the mission as a fighter pilot. */
+  pilotDebrief(d, onAgain, onQuality, role) {
+    const row = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`;
+    const p = d.pilot;
+    this.menu({ title: role === 'bf109' ? 'Einsatz beendet' : 'Mission complete', text: '', button: 'Fly again', onClick: onAgain, quality: this.el('menu-quality').value, onQuality });
+    this.el('menu-text').innerHTML = `<table class="debrief">
+      ${role === 'bf109'
+        ? row('B-17s you brought down', `<b>${p.bombers}</b>`) + row('P-51s you shot down', p.fighters)
+        : row('Bf 109s you shot down', `<b>${p.fighters}</b>`) + row('Attacks you broke up (bombers saved)', p.saved)}
+      ${row('Times you were shot down', p.deaths)}
+      ${row('B-17s lost', `${d.bombersLost} of ${d.bombers}`)}
+      ${row('Bf 109s lost (all)', d.kills.axisLost ?? 0)}
+      ${row('P-51s lost (all)', d.kills.alliedLost)}
+      ${row('Bombs within 1,000 ft of the aiming point', `${d.dropped ? Math.round((d.onTarget / d.dropped) * 100) : 0}% of ${d.dropped}`)}
+    </table>${this.lifeCard(d.score, `Your whole mission (${d.lives} ${d.lives === 1 ? 'life' : 'lives'})`)}`;
   }
 
   /** Crew list: who's on which gun, who's hit (with time left), who's gone. */
@@ -216,7 +284,8 @@ export class UI {
       const s = m.state === 'player' ? '<span class="you">YOU</span>'
         : m.state === 'wounded' ? `<span class="hurt">WOUNDED ${Math.ceil(m.woundLeft)}s</span>`
           : m.state === 'dead' ? '<span class="dead">KIA</span>'
-            : m.task === 'helping' ? '<span class="busy">FIRST AID</span>' : '<span class="ok">●</span>';
+            : m.state === 'bailed' ? '<span class="busy">BAILED OUT</span>'
+              : m.task === 'helping' ? '<span class="busy">FIRST AID</span>' : '<span class="ok">●</span>';
       return `<div class="${m.state}">${m.role.title}<b>${s}</b></div>`;
     }).join('');
     if (html !== this.lastCrew) this.el('crew').innerHTML = this.lastCrew = html;
@@ -239,7 +308,7 @@ export class UI {
     const bar = this.el('health-bar');
     bar.style.width = `${pct}%`;
     bar.style.background = h > 0.6 ? '#8fcf6a' : h > 0.3 ? '#ffd36a' : '#ff5a3a';
-    this.el('health-pct').textContent = `${pct}% · ${bottles} fire bottle${bottles === 1 ? '' : 's'}`;
+    this.el('health-pct').textContent = bottles == null ? `${pct}%` : `${pct}% · ${bottles} fire bottle${bottles === 1 ? '' : 's'}`;
   }
 
   /** Flight instruments while you're at the controls (null hides them). */
@@ -284,9 +353,48 @@ export class UI {
     m.className = kill ? 'kill' : 'hit';
   }
 
-  kill(count, name = 'Bf 109') {
-    this.el('kills').textContent = `Kills ${count}`;
-    this.toast(`${name} destroyed!`, 'kill');
+  kill(count) { this.el('kills').textContent = `Kills ${count}`; } // (the banner announces it)
+
+  /**
+   * War Thunder style banner across the upper middle: kind 'kill' | 'assist' | 'crit', the aircraft
+   * type, the points. Fades after ~3 s; several stack.
+   */
+  banner(kind, name, points) {
+    const head = { kill: 'AIRCRAFT SHOT DOWN', assist: `ASSIST: ${name}`, crit: 'CRITICAL DAMAGE' }[kind];
+    const b = document.createElement('div');
+    b.className = `banner ${kind}`;
+    b.innerHTML = `<div class="head">${head}</div><div class="sub">${kind === 'assist' ? '' : name}<span class="pts">+${points}</span></div>`;
+    const box = this.el('banners');
+    box.prepend(b);
+    while (box.children.length > 4) box.lastChild.remove();
+    setTimeout(() => b.classList.add('out'), kind === 'crit' ? 1800 : 2800);
+    setTimeout(() => b.remove(), kind === 'crit' ? 2400 : 3400);
+  }
+
+  /** Your current life on the HUD: kills, assists, hits. */
+  lifeStats(s) {
+    const html = `<b>${s.kills + s.bombers}</b> kills · <b>${s.assists}</b> assists · <b>${s.hits}</b> hits`;
+    if (html !== this.lastLife) this.el('lifestats').innerHTML = this.lastLife = html;
+  }
+
+  /** A life's summary: on the eject / death screens (and the parachute view). */
+  lifeCard(s, title = 'This sortie') {
+    const mm = Math.floor(s.time / 60), ss = Math.floor(s.time % 60).toString().padStart(2, '0');
+    const acc = s.fired ? ((100 * s.hits) / s.fired).toFixed(1) : '0.0';
+    return `<div class="lifecard"><div class="lbl">${title}</div><table>
+      <tr><td>Kills</td><td>${s.kills}</td>${s.role === 'bf109' ? `<td>B-17s</td><td>${s.bombers}</td>` : '<td></td><td></td>'}</tr>
+      <tr><td>Assists</td><td>${s.assists}</td><td>Crits</td><td>${s.crits}</td></tr>
+      <tr><td>Hits</td><td>${s.hits} / ${s.fired}</td><td>Accuracy</td><td>${acc}%</td></tr>
+      <tr><td>Damage</td><td>${s.damage}</td><td>Time alive</td><td>${mm}:${ss}</td></tr>
+      <tr><td>Score</td><td colspan="3"><b>${s.points}</b></td></tr></table></div>`;
+  }
+
+  /** The parachute view: the life card in a corner, and when you can go again. */
+  ejected(card, ready) {
+    const el = this.el('ejectcard');
+    el.style.display = card ? 'block' : 'none';
+    if (card && card !== this.lastCard) el.innerHTML = this.lastCard = card;
+    this.hint(card ? (ready ? 'Click to fly again' : 'Bailed out · click to skip') : '');
   }
 
   /** Short message, e.g. a crew callout. */

@@ -119,7 +119,54 @@ class ParticlePool {
   }
 }
 
-const _q = new V(), _w = new V();
+const _q = new V(), _w = new V(), _v = new V();
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+/**
+ * Pieces of aircraft: wing panels, a tailplane, chunks of fuselage. Tumbling, falling, some trailing
+ * fire, all in one instanced mesh.
+ */
+class Wreckage {
+  constructor(scene) {
+    this.max = 260;
+    this.items = [];
+    this.mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshStandardMaterial({ color: 0x45483b, roughness: 0.65, metalness: 0.45, envMapIntensity: 0.5 }), this.max);
+    this.mesh.frustumCulled = false;
+    this.mesh.count = 0;
+    scene.add(this.mesh);
+    this.m = new THREE.Matrix4(); this.dq = new THREE.Quaternion(); this.e = new THREE.Euler();
+  }
+
+  /** size: V3 in metres; quat: the orientation it broke off at (or random). */
+  add(pos, vel, size, burning = false, quat = null) {
+    if (this.items.length >= this.max) this.items.shift();
+    this.items.push({
+      pos: pos.clone(), vel: vel.clone(), size: size.clone(), burnT: burning ? rnd(3, 7) : 0, life: rnd(20, 30),
+      q: quat ? quat.clone() : new THREE.Quaternion().setFromEuler(this.e.set(rnd(0, 6), rnd(0, 6), rnd(0, 6))),
+      spin: new V(rnd(-1, 1), rnd(-1, 1), rnd(-1, 1)).multiplyScalar(rnd(1, 4) / Math.max(1, size.x * 0.25)),
+    });
+  }
+
+  update(dt, effects) {
+    const items = this.items;
+    for (let i = items.length - 1; i >= 0; i--) {
+      const w = items[i];
+      if ((w.life -= dt) <= 0) { items.splice(i, 1); continue; }
+      // falls; the air drags it back towards the wind's speed (a flat panel flutters down slowly)
+      const d = Math.exp(-dt * 0.35);
+      w.vel.x *= d; w.vel.z = AIRSPEED + (w.vel.z - AIRSPEED) * d;
+      w.vel.y = Math.max(w.vel.y - 9.81 * dt, -60);
+      w.pos.addScaledVector(w.vel, dt);
+      w.q.multiply(this.dq.setFromEuler(this.e.set(w.spin.x * dt, w.spin.y * dt, w.spin.z * dt)));
+      if (w.burnT > 0) { w.burnT -= dt; effects.trail(w.pos, w.vel, 'ember', dt); } // burns for a few seconds
+    }
+    const n = Math.min(items.length, this.max);
+    for (let i = 0; i < n; i++) this.mesh.setMatrixAt(i, this.m.compose(items[i].pos, items[i].q, items[i].size));
+    this.mesh.count = n;
+    this.mesh.instanceMatrix.needsUpdate = true;
+  }
+}
 const SMOKE_GREY = [0.32, 0.32, 0.32], SMOKE_BLACK = [0.05, 0.05, 0.05], SMOKE_WHITE = [0.85, 0.86, 0.88];
 const FIRE_HOT = [40, 22, 6], FIRE_DIM = [6, 1.2, 0.2];
 
@@ -143,6 +190,7 @@ export class Effects {
     this.smoke = new ParticlePool(scene, 12000, { additive: false, soft: true });
     this.fire = new ParticlePool(scene, 6000, { additive: true, soft: false });
     this.camPos = null; // set each frame: far trails use fewer, bigger puffs so burning planes show from km away
+    this.wreckage = new Wreckage(scene);
     this.chutes = [];
     this.chuteMat = new THREE.SpriteMaterial({ map: chuteTexture(), fog: true });
   }
@@ -168,16 +216,24 @@ export class Effects {
     const dist = this.camPos ? p.distanceTo(this.camPos) : 0;
     if (dist > 9000) return;
     const far = Math.min(6, Math.max(1, dist / 500)); // fewer, bigger puffs far away: same look, less work
+    // when the smoke pool fills up (a big battle), trails thin out instead of crowding out hits and explosions
+    const load = this.smoke.n / this.smoke.max, thin = load > 0.7 ? Math.max(0.1, (1 - load) / 0.3) : 1;
     // spread puffs evenly along the path flown this frame so the trail is continuous;
     // round at random so the rate doesn't depend on the frame rate
-    const n = Math.floor((dt * (kind === 'fire' ? 160 : 110)) / far + Math.random());
+    const rate = kind === 'fire' ? 160 : kind === 'ember' ? 30 : 110;
+    const n = Math.floor((dt * rate * thin) / far + Math.random());
     for (let i = 0; i < n; i++) {
       const q = _q.copy(p).addScaledVector(v, -((i + Math.random()) / n) * dt);
       const w = _w.copy(v).multiplyScalar(0.3);
       w.x += (Math.random() - 0.5) * 2; w.y += (Math.random() - 0.5) * 2; w.z += (Math.random() - 0.5) * 2;
-      if (kind === 'fire') {
+      if (kind === 'ember') { // a burning piece of wreckage: flames and a short wisp of smoke
+        this.fire.emit(q, w, { life: 0.4 + Math.random() * 0.3, s0: 1.6 * far, s1: 0.5 * far, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
+        this.smoke.emit(q, w, { life: 2.5 + Math.random() * 1.5, s0: 1.5 * far, s1: 7 * far, a0: 0.6, c0: SMOKE_BLACK, drag: 1.2 });
+      } else if (kind === 'fire') {
         this.fire.emit(q, w, { life: (0.3 + Math.random() * 0.3) * Math.sqrt(far), s0: 3.6 * far, s1: 1.2 * far, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
         this.smoke.emit(q, w, { life: 7 + Math.random() * 5, s0: 4 * far, s1: 26 * far, a0: 0.85, c0: SMOKE_BLACK, drag: 1.2 });
+      } else if (kind === 'fuel') { // fuel streaming from a holed tank: a thin white vapour that hangs a long way back
+        this.smoke.emit(q, w, { life: 5 + Math.random() * 3, s0: 0.9 * far, s1: 7 * far, a0: 0.35, c0: SMOKE_WHITE, drag: 1.5 });
       } else {
         const c = kind === 'black' ? SMOKE_BLACK : kind === 'glycol' ? SMOKE_WHITE : SMOKE_GREY;
         this.smoke.emit(q, w, { life: 4 + Math.random() * 2, s0: 2.5 * far, s1: (kind === 'glycol' ? 12 : 16) * far, a0: kind === 'glycol' ? 0.5 : 0.7, c0: c, drag: 1.2 });
@@ -185,17 +241,35 @@ export class Effects {
     }
   }
 
-  /** Small flash and sparks where a round strikes. */
+  /** Where a round strikes: a flash, sparks, a puff of smoke and bits of skin flying off. Bigger far away, so you see hits on other planes. */
   impact(p, big = false) {
+    const far = this.camPos ? Math.min(5, Math.max(1, p.distanceTo(this.camPos) / 250)) : 1;
+    this.fire.emit(p, _v.set(0, 0, 0), { life: 0.07, s0: (big ? 1.6 : 0.8) * far, s1: 0.2 * far, c0: [90, 70, 35], c1: [20, 8, 2], drag: 1 }); // the flash
     for (let i = 0; i < (big ? 10 : 5); i++) {
-      const v = new V(Math.random() - 0.5, Math.random() - 0.3, Math.random() - 0.5).multiplyScalar(big ? 30 : 18);
-      this.fire.emit(p, v, { life: 0.12 + Math.random() * 0.15, s0: big ? 0.5 : 0.3, s1: 0.05, c0: [60, 40, 15], c1: [8, 3, 0.5], drag: 3, grav: 9.8 });
+      const v = _v.set(Math.random() - 0.5, Math.random() - 0.3, Math.random() - 0.5).multiplyScalar(big ? 30 : 18);
+      this.fire.emit(p, v, { life: 0.12 + Math.random() * 0.15, s0: (big ? 0.5 : 0.3) * far, s1: 0.05, c0: [60, 40, 15], c1: [8, 3, 0.5], drag: 3, grav: 9.8 });
     }
-    this.smoke.emit(p, new V(), { life: 0.8, s0: 0.4, s1: 2, a0: 0.5, c0: SMOKE_GREY, drag: 1 });
+    for (let i = 0; i < (big ? 4 : 2); i++) { // fragments of skin and rivets
+      const v = _v.set(Math.random() - 0.5, Math.random() * 0.4, Math.random() - 0.5).multiplyScalar(big ? 26 : 14);
+      this.smoke.emit(p, v, { life: 1.2 + Math.random(), s0: 0.22 * far, s1: 0.18 * far, a0: 0.95, c0: [0.06, 0.06, 0.05], drag: 0.4, grav: 9.8 });
+    }
+    this.smoke.emit(p, _v.set(0, 0, 0), { life: 0.8, s0: 0.4 * far, s1: 2 * far, a0: 0.5, c0: SMOKE_GREY, drag: 1 });
+  }
+
+  /** An aircraft breaking up: n pieces of `size` (V3, m) flung from `at` with the plane's velocity. */
+  wreck(at, vel, n, size, burning = 0.4, quat = null) {
+    for (let i = 0; i < n; i++) {
+      const s = _w.copy(size).multiplyScalar(rnd(0.5, 1));
+      const v = _q.set(rnd(-1, 1), rnd(-0.5, 1), rnd(-1, 1)).multiplyScalar(rnd(4, 16)).add(vel);
+      this.wreckage.add(at, v, s, Math.random() < burning, i === 0 ? quat : null);
+    }
   }
 
   /** A plane blowing up: fireball, debris sparks and a hanging cloud of black smoke. */
   explosion(p, v = new V(), scale = 1) {
+    // far away it's drawn bigger (fewer pixels would hide it), and pieces fly out of it
+    if (this.camPos) scale *= Math.min(3, Math.max(1, p.distanceTo(this.camPos) / 700));
+    this.wreck(p, v, Math.round(3 + scale * 2), _v.set(1.6 * scale, 0.25, 1.1 * scale), 0.5);
     for (let i = 0; i < 40; i++) {
       const d = new V(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
       this.fire.emit(p, d.clone().multiplyScalar(6 + Math.random() * 14).add(v.clone().multiplyScalar(0.4)),
@@ -246,6 +320,7 @@ export class Effects {
   update(dt) {
     this.smoke.update(dt);
     this.fire.update(dt);
+    this.wreckage.update(dt, this);
     for (let i = this.chutes.length - 1; i >= 0; i--) {
       const c = this.chutes[i];
       c.age += dt;

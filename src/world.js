@@ -6,6 +6,7 @@ import { Sky } from 'three/addons/objects/Sky.js';
 export const ALTITUDE = 7600; // ~25,000 ft
 const SUN_ELEVATION = 38, SUN_AZIMUTH = 150; // degrees
 const CLOUD_RECYCLE_Z = 4000, CLOUD_SPAN_Z = 18000;
+const GROUND_TILE = 6000; // m of countryside per texture tile (blended at a second scale so it doesn't repeat)
 const HAZE = new THREE.Color(0.32, 0.42, 0.56); // linear
 // at 25,000 ft the sky is a deep blue: draw it darker than the raw sky model so planes, smoke and
 // fires stand out against it instead of being lost in the glare
@@ -89,11 +90,23 @@ export class World {
   buildGround(renderer) {
     const tex = groundTexture();
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    tex.repeat.set(400, 400); // 1 km per tile
+    tex.repeat.set(400000 / GROUND_TILE, 400000 / GROUND_TILE);
     this.groundTex = tex;
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(400000, 400000),
-      new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0, envMapIntensity: 0.3 }));
+    const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0, envMapIntensity: 0.3 });
+    // break up the tiling: blend the same farmland at a second, rotated scale, under a slow
+    // patchwork of lighter and darker country (all in the shader, one texture)
+    mat.onBeforeCompile = (sh) => {
+      sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', `#ifdef USE_MAP
+        vec2 uvA = vMapUv;
+        vec2 uvB = mat2(0.8, -0.6, 0.6, 0.8) * vMapUv * 0.37 + vec2(0.31, 0.71);
+        float n = sin(vMapUv.x * 0.61 + sin(vMapUv.y * 0.43) * 2.0) * sin(vMapUv.y * 0.53 + sin(vMapUv.x * 0.37) * 2.0);
+        vec4 a = texture2D(map, uvA), b = texture2D(map, uvB);
+        vec4 texel = mix(a, b, smoothstep(-0.35, 0.35, n));
+        texel.rgb *= 0.92 + 0.16 * sin(vMapUv.x * 0.21 + vMapUv.y * 0.17); // big gentle variations
+        diffuseColor *= texel;
+      #endif`);
+    };
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400000, 400000), mat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -ALTITUDE;
     this.scene.add(ground);
@@ -141,7 +154,7 @@ export class World {
   }
 
   update(dt, speed) {
-    this.groundTex.offset.y += (speed * dt) / 1000;
+    this.groundTex.offset.y += (speed * dt) / GROUND_TILE;
     for (const c of this.clouds) {
       c.position.z += speed * dt;
       if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);
@@ -195,30 +208,95 @@ function cloudTexture(seed) {
   return t;
 }
 
+/**
+ * Farmland seen from 25,000 ft, tileable: patchwork fields (crops, pasture, ploughed earth) edged with
+ * hedgerows, woods, villages along the roads, and a river. Everything is laid out first, then drawn
+ * wrapped round the edges, so the tiles join without a seam.
+ */
 function groundTexture() {
-  const c = document.createElement('canvas');
-  c.width = c.height = 1024;
+  const S = 2048, c = document.createElement('canvas');
+  c.width = c.height = S;
   const g = c.getContext('2d');
-  const fields = ['#5d6b3f', '#6f7a46', '#7c7650', '#55603a', '#867f58', '#68744a', '#4d5a36'];
-  for (let i = 0; i < 1400; i++) { // patchwork farmland
-    g.fillStyle = fields[(Math.random() * fields.length) | 0];
-    const w = 20 + Math.random() * 90, h = 20 + Math.random() * 90;
-    g.fillRect(Math.random() * 1024, Math.random() * 1024, w, h);
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const wrap = (draw) => { for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) { g.save(); g.translate(ox, oy); draw(); g.restore(); } };
+  const CROPS = ['#5f7036', '#6d7b3a', '#7f8a44', '#8c8a4e', '#a39a5c', '#b5a464', '#76653f', '#6a5a3a', '#586a34', '#90955a', '#9a8a52'];
+
+  // lay it all out
+  const blocks = []; // blocks of land at their own angle, cut into strips and parcels (old field systems)
+  for (let by = 0; by < S; by += 256) for (let bx = 0; bx < S; bx += 256) {
+    const fields = [];
+    const split = (x, y, w, h, depth) => {
+      if (depth > 4 || (w < 90 && h < 90) || (depth > 2 && rnd() < 0.25)) {
+        fields.push({ x, y, w, h, col: CROPS[Math.floor(rnd() * CROPS.length)], furrows: rnd() < 0.35 });
+        return;
+      }
+      if (w > h ? rnd() < 0.8 : rnd() < 0.2) { const k = w * (0.3 + rnd() * 0.4); split(x, y, k, h, depth + 1); split(x + k, y, w - k, h, depth + 1); }
+      else { const k = h * (0.3 + rnd() * 0.4); split(x, y, w, k, depth + 1); split(x, y + k, w, h - k, depth + 1); }
+    };
+    split(-170, -170, 340, 340, 0);
+    blocks.push({ x: bx + 128 + rnd() * 40, y: by + 128 + rnd() * 40, a: (rnd() - 0.5) * 1.2, fields });
   }
-  g.fillStyle = 'rgba(40,52,30,0.55)'; // woods
-  for (let i = 0; i < 70; i++) {
-    g.beginPath();
-    g.ellipse(Math.random() * 1024, Math.random() * 1024, 20 + Math.random() * 60, 15 + Math.random() * 40, Math.random() * 3, 0, 7);
-    g.fill();
+  const crowns = [];
+  for (let i = 0; i < 60; i++) {
+    const x = rnd() * S, y = rnd() * S, r = 25 + rnd() * 70, n = 20 + Math.floor(rnd() * 50);
+    for (let k = 0; k < n; k++) {
+      const a = rnd() * 6.28, d = Math.sqrt(rnd()) * r;
+      crowns.push({ x: x + Math.cos(a) * d, y: y + Math.sin(a) * d * 0.8, r: 6 + rnd() * 10, dark: rnd() < 0.5 });
+    }
   }
-  g.strokeStyle = 'rgba(170,160,135,0.5)'; // roads
-  g.lineWidth = 2;
-  for (let i = 0; i < 8; i++) {
-    g.beginPath();
-    g.moveTo(Math.random() * 1024, 0);
-    g.bezierCurveTo(Math.random() * 1024, 340, Math.random() * 1024, 680, Math.random() * 1024, 1024);
-    g.stroke();
-  }
+  const villages = Array.from({ length: 14 }, () => ({ x: rnd() * S, y: rnd() * S, n: 12 + Math.floor(rnd() * 40) }));
+  const roads = villages.map((v, i) => {
+    const w = villages[(i + 1) % villages.length];
+    return { v, w, cx: (v.x + w.x) / 2 + (rnd() - 0.5) * 300, cy: (v.y + w.y) / 2 + (rnd() - 0.5) * 300 };
+  });
+  const ROOFS = ['#7a4a3a', '#8a5a44', '#6c6a66', '#9a8a7a', '#704036'];
+  const houses = villages.flatMap((v) => Array.from({ length: v.n }, () => {
+    const a = rnd() * 6.28, d = Math.sqrt(rnd()) * (12 + v.n * 0.9);
+    return { x: v.x + Math.cos(a) * d, y: v.y + Math.sin(a) * d, rot: rnd() * 3, len: 5 + rnd() * 3, col: ROOFS[Math.floor(rnd() * ROOFS.length)] };
+  }));
+
+  // then draw it (the same every time round the wrap)
+  g.fillStyle = '#5d6a39';
+  g.fillRect(0, 0, S, S);
+  wrap(() => {
+    for (const b of blocks) {
+      g.save();
+      g.translate(b.x, b.y);
+      g.rotate(b.a);
+      for (const f of b.fields) {
+        g.fillStyle = f.col;
+        g.fillRect(f.x, f.y, f.w, f.h);
+        if (f.furrows) { // ploughed or harvested: faint furrows
+          g.strokeStyle = 'rgba(40,34,20,0.18)'; g.lineWidth = 1;
+          g.beginPath();
+          for (let k = 3; k < f.w; k += 5) { g.moveTo(f.x + k, f.y); g.lineTo(f.x + k, f.y + f.h); }
+          g.stroke();
+        }
+        g.strokeStyle = 'rgba(38,52,26,0.75)'; g.lineWidth = 2.2; // hedgerow
+        g.strokeRect(f.x, f.y, f.w, f.h);
+      }
+      g.restore();
+    }
+    for (const t of crowns) { // woods
+      g.fillStyle = t.dark ? 'rgba(34,48,26,0.85)' : 'rgba(44,58,30,0.85)';
+      g.beginPath(); g.arc(t.x, t.y, t.r, 0, 7); g.fill();
+    }
+    // a river: a slow meander right across the tile (it joins up with the next tile)
+    g.lineCap = 'round';
+    g.beginPath(); g.moveTo(-10, 300);
+    for (let x = 0; x <= S + 10; x += 32) g.lineTo(x, 300 + Math.sin((x / S) * Math.PI * 6) * 140 + Math.sin((x / S) * Math.PI * 18) * 40);
+    g.strokeStyle = 'rgba(60,80,60,0.5)'; g.lineWidth = 14; g.stroke(); // banks and water meadows
+    g.strokeStyle = '#56686e'; g.lineWidth = 6; g.stroke();
+    g.strokeStyle = 'rgba(178,168,140,0.8)'; g.lineWidth = 2; // roads between the villages
+    for (const r of roads) { g.beginPath(); g.moveTo(r.v.x, r.v.y); g.quadraticCurveTo(r.cx, r.cy, r.w.x, r.w.y); g.stroke(); }
+    for (const h of houses) {
+      g.fillStyle = h.col;
+      g.save(); g.translate(h.x, h.y); g.rotate(h.rot); g.fillRect(-2.5, -1.8, h.len, 3.6); g.restore();
+    }
+    g.fillStyle = '#8f8a80';
+    for (const v of villages) g.fillRect(v.x - 3, v.y - 3, 6, 6); // the church
+  });
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.wrapS = t.wrapT = THREE.RepeatWrapping;

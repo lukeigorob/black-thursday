@@ -11,6 +11,7 @@ const DRAG = 0.00025; // simple quadratic drag on the bullet's speed through the
 const WIND = new V(0, 0, AIRSPEED); // the air streams past the formation (which stays at the origin)
 const LIFE = 2.5; // seconds a round is simulated (~1.7 km, well past effective range)
 const TRACER_EVERY = 4;
+const TRACER_RANGE = 500; // m from the camera
 const CONVERGENCE = 350; // m: guns are harmonised so rounds cross the sight line here
 const SPREAD = 0.0018; // rad, gun dispersion
 // the same numbers the lead indicator uses to predict where a round goes
@@ -34,6 +35,7 @@ export class Bullets {
     this.tracer = new Uint8Array(MAX_BULLETS);
     this.team = []; this.owner = []; this.src = []; this.cannon = new Uint8Array(MAX_BULLETS);
     this.count = 0;
+    this.playerFired = 0;
     const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, -0.5);
     const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(1, 1, 1).multiplyScalar(60), // far above the bloom threshold
@@ -72,6 +74,7 @@ export class Bullets {
     this.age[i] = LIFE - life;
     this.tracer[i] = tracer ? 1 : 0;
     this.team[i] = team; this.owner[i] = owner; this.src[i] = src; this.cannon[i] = cannon ? 1 : 0;
+    if (owner === 'player') this.playerFired++; // (for your accuracy)
   }
 
   /**
@@ -95,7 +98,9 @@ export class Bullets {
         this.remove(i--);
         continue;
       }
-      if (this.tracer[i] && t < MAX_TRACERS) {
+      // tracers are drawn only within TRACER_RANGE of you: further off they cluttered the whole sky
+      const near = !camPos || (p[j] - camPos.x) ** 2 + (p[j + 1] - camPos.y) ** 2 + (p[j + 2] - camPos.z) ** 2 < TRACER_RANGE * TRACER_RANGE;
+      if (this.tracer[i] && near && t < MAX_TRACERS) {
         dir.set(v[j], v[j + 1], v[j + 2]);
         const speed = dir.length();
         pos.set(p[j], p[j + 1], p[j + 2]);

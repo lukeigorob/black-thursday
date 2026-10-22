@@ -97,6 +97,45 @@
       #flight b { font-size: 16px; }
       #nose { display: none; position: fixed; width: 18px; height: 18px; margin: -9px; border: 2px solid #b6ff9acc; border-radius: 50%; box-shadow: 0 0 2px #000; }
       #nose::after { content: ''; position: absolute; left: 6px; top: 6px; width: 2px; height: 2px; background: #b6ff9a; }
+      .roles { display: flex; gap: 10px; justify-content: center; margin: 4px 0 6px; flex-wrap: wrap; }
+      .roles .role-btn { display: flex; flex-direction: column; align-items: center; min-width: 150px; padding: 10px 14px; letter-spacing: 0; }
+      .roles .role-btn b { font: 600 15px system-ui; letter-spacing: 1px; }
+      .roles .role-btn small { font-size: 11px; opacity: .8; margin-top: 3px; max-width: 160px; }
+      .roles .role-btn.bf109 { background: #4d4f52; border-color: #9a9ea4; }
+      .roles .role-btn.p51 { background: #3a4a66; border-color: #8aa4d4; }
+      .roles.small { margin-top: 12px; }
+      .roles.small .role-btn { min-width: 120px; padding: 6px 10px; }
+      #hud[data-mode="fighter"] #crew, #hud[data-mode="fighter"] #engines, #hud[data-mode="fighter"] #gun { display: none !important; }
+      #hud[data-mode="fighter"] #health { bottom: 22px; }
+      #flight .warn { color: #ffb36a; }
+      #gunsight { display: none; position: fixed; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px; border: 2px solid #ffb34aaa; border-radius: 50%; box-shadow: 0 0 6px #ff9a2a66; }
+      #gunsight::before, #gunsight::after { content: ''; position: absolute; background: #ffb34aaa; }
+      #gunsight::before { left: 50%; top: 10px; bottom: 10px; width: 2px; margin-left: -1px; }
+      #gunsight::after { top: 50%; left: 10px; right: 10px; height: 2px; margin-top: -1px; }
+      #gunsight i { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: #ffb34a; }
+      #lifestats { position: fixed; right: 18px; top: 34px; font: 12px system-ui; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
+      #lifestats b { color: #fff; }
+      #banners { position: fixed; left: 0; right: 0; top: 13%; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+      .banner { min-width: 360px; padding: 7px 26px 8px; text-align: center; text-shadow: 0 1px 3px #000;
+        background: linear-gradient(90deg, transparent, #0b0d10ee 18%, #0b0d10ee 82%, transparent); border-top: 1px solid #ffcf6a55; border-bottom: 1px solid #ffcf6a55;
+        animation: bannerIn .25s ease-out; transition: opacity .6s, transform .6s; }
+      .banner .head { font: 800 21px system-ui; letter-spacing: 4px; color: #ffd36a; text-shadow: 0 0 8px #ff9a2a88, 0 1px 2px #000; }
+      .banner .sub { font: 600 14px system-ui; letter-spacing: 1px; color: #ece8dc; }
+      .banner .pts { margin-left: 12px; color: #b6ff9a; }
+      .banner.assist .head { font-size: 16px; color: #9ad0ff; }
+      .banner.crit { min-width: 260px; padding: 4px 20px; }
+      .banner.crit .head { font-size: 14px; color: #ff9a6a; letter-spacing: 3px; }
+      .banner.crit .sub { font-size: 12px; }
+      .banner.out { opacity: 0; transform: translateY(-8px); }
+      @keyframes bannerIn { from { opacity: 0; transform: scale(1.15); } to { opacity: 1; transform: none; } }
+      #ejectcard { display: none; position: fixed; right: 18px; bottom: 22px; }
+      .lifecard { padding: 10px 14px; background: #0b0d10b8; border: 1px solid #ece8dc33; border-radius: 4px; font-size: 13px; text-align: left; }
+      .lifecard .lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #ece8dc99; margin-bottom: 4px; }
+      .lifecard td { padding: 1px 10px 1px 0; color: #ece8dcbb; } .lifecard td:nth-child(even) { color: #fff; font-weight: 600; padding-right: 18px; }
+      .menu .lifecard { display: inline-block; margin: 0 0 14px; }
+      #hud[data-mode="eject"] #crew, #hud[data-mode="eject"] #engines, #hud[data-mode="eject"] #gun, #hud[data-mode="eject"] #flight,
+      #hud[data-mode="eject"] #health, #hud[data-mode="eject"] #crosshair, #hud[data-mode="eject"] #nose, #hud[data-mode="eject"] #gunsight,
+      #hud[data-mode="eject"] #prompt { display: none !important; }
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
     </style>
   </head>

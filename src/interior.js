@@ -110,14 +110,40 @@ const MAT = {
   bombBand: std(0xb8932c, 0.6), // only on the bombs, so the whole load can be hidden after the drop
   yellow: std(0xb8932c, 0.6),
   radio: std(0x3d3f38, 0.5, 0.4),
+  ammo: std(0x4b5230, 0.7, 0.15), // olive drab ammunition boxes
+  chute: std(0x8a8d82, 0.45, 0.7), // flexible steel feed chutes
+  hose: std(0x161616, 0.85, 0.0), // rubber oxygen hoses
+  cable: std(0x2a2a28, 0.4, 0.8),
+  red: std(0x8a1c14, 0.5, 0.2),
+  pad: new THREE.MeshStandardMaterial({ map: quiltTexture(), roughness: 0.95, envMapIntensity: 0.05 }), // quilted insulation
 };
 
 function liningMaterial(src, inverted) {
-  // interior paint, cut out where the outer skin has windows
-  return windowCutout(new THREE.MeshStandardMaterial({
+  // interior paint, cut out where the outer skin has windows; worn: blotchy, scuffed through to
+  // bare aluminium here and there (noise from the position, so no extra texture)
+  const m = windowCutout(new THREE.MeshStandardMaterial({
     color: 0x6f7462, roughness: 0.75, metalness: 0.3, envMapIntensity: 0.08,
     side: inverted ? THREE.FrontSide : THREE.BackSide, map: src.map,
   }), false);
+  const cutout = m.onBeforeCompile;
+  m.onBeforeCompile = (sh, r) => {
+    cutout(sh, r);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vPosM;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosM = position;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vPosM;
+      float h3(vec3 p) { p = fract(p * 0.3183 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+      float n3(vec3 p) { vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(h3(i), h3(i + vec3(1,0,0)), f.x), mix(h3(i + vec3(0,1,0)), h3(i + vec3(1,1,0)), f.x), f.y),
+                   mix(mix(h3(i + vec3(0,0,1)), h3(i + vec3(1,0,1)), f.x), mix(h3(i + vec3(0,1,1)), h3(i + vec3(1,1,1)), f.x), f.y), f.z); }`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+      float blotch = n3(vPosM * 2.3) * 0.6 + n3(vPosM * 9.0) * 0.4;
+      diffuseColor.rgb *= 0.82 + 0.3 * blotch;
+      float worn = smoothstep(0.78, 0.9, n3(vPosM * 5.0 + 3.1) * 0.7 + n3(vPosM * 31.0) * 0.3);
+      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.63, 0.6), worn * 0.7); // bare metal`);
+  };
+  m.customProgramCacheKey = () => 'lining-worn';
+  return m;
 }
 
 /** Copy of geo without the end caps: triangles beyond zFront / zBack (bomber space) facing along Z. */
@@ -146,6 +172,48 @@ function facesInward(geo) {
   let s = 0;
   for (let i = 0; i < p.count; i++) s += nv.fromBufferAttribute(n, i).dot(v.fromBufferAttribute(p, i).sub(c));
   return s < 0;
+}
+
+function quiltTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#5e5a44'; g.fillRect(0, 0, 128, 128);
+  g.strokeStyle = 'rgba(30,28,20,0.55)'; g.lineWidth = 2;
+  for (let k = -128; k < 256; k += 32) { // diamond stitching
+    g.beginPath(); g.moveTo(k, 0); g.lineTo(k + 128, 128); g.stroke();
+    g.beginPath(); g.moveTo(k + 128, 0); g.lineTo(k, 128); g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+}
+
+/** A stencilled marking: white or yellow letters on a transparent plate. */
+function stencilTexture(lines, colour = '#e8e2c8') {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 64 * lines.length;
+  const g = c.getContext('2d');
+  g.fillStyle = colour; g.font = 'bold 44px "Courier New", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  lines.forEach((l, i) => g.fillText(l, 128, 32 + i * 64, 248));
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+function radioFace() { // the radio sets' faces: dials, knobs and a tuning window
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#2c2e29'; g.fillRect(0, 0, 256, 128);
+  g.fillStyle = '#c9b27a'; g.fillRect(16, 14, 110, 34); // tuning dial
+  g.fillStyle = '#1b1b18'; for (let x = 22; x < 122; x += 8) g.fillRect(x, 18, 1, x % 24 === 6 ? 14 : 8);
+  for (let i = 0; i < 5; i++) { g.fillStyle = '#111'; g.beginPath(); g.arc(28 + i * 46, 92, 14, 0, 7); g.fill(); g.strokeStyle = '#888'; g.beginPath(); g.arc(28 + i * 46, 92, 14, 0, 7); g.stroke(); }
+  g.fillStyle = '#d8d2bd'; g.font = '12px monospace'; g.fillText('BC-348', 150, 36);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
 }
 
 function gauges() {
@@ -189,6 +257,7 @@ function dropDegenerate(geo) {
   return out;
 }
 
+const _sd = new V(), _sd2 = new V(), _up = new V(0, 1, 0);
 const ghosts = new Map();
 function ghostOf(m) {
   if (!ghosts.has(m)) {
@@ -224,6 +293,7 @@ export class Interior {
     this.buildRadioRoom();
     this.buildWaist();
     this.buildTail();
+    this.buildDetails();
 
     this.bombMeshes = [];
     for (const [mat, geos] of this.geos) {
@@ -524,6 +594,111 @@ export class Interior {
       this.box(s > 0 ? 0.5 : -0.74, s > 0 ? 0.74 : -0.5, f, f + 0.35, 2.75, 3.15, MAT.green); // ammo boxes
       this.cylinder(0.11, 0.55, s * 0.72, -1.15, 0.8, 'y', MAT.yellow); // oxygen bottles
       this.cylinder(0.11, 0.55, s * 0.72, -1.15, 1.05, 'y', MAT.yellow);
+    }
+  }
+
+  /** A thin rod (cable, hose, chute) from a to b. */
+  rod(a, b, r, mat, seg = 6) {
+    const A = new V(...a), B = new V(...b), len = A.distanceTo(B);
+    const g = new THREE.CylinderGeometry(r, r, len, seg, 1, true);
+    g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new V(0, 1, 0), B.clone().sub(A).normalize()));
+    this.add(mat, g.translate((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2));
+  }
+
+  /** A stencilled marking on a flat surface (facing +Z when rotY = 0). */
+  stencil(lines, w, pos, rotY = 0, colour) {
+    const h = (w / 4) * lines.length;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({
+      map: stencilTexture(lines, colour), transparent: true, alphaTest: 0.3, roughness: 0.8, envMapIntensity: 0.05,
+      polygonOffset: true, polygonOffsetFactor: -2 }));
+    m.position.set(...pos); m.rotation.y = rotY;
+    this.group.add(m);
+  }
+
+  /**
+   * The clutter of a real B-17: ammunition boxes and feed chutes at the guns, oxygen bottles and hoses,
+   * control cables along the walls, the ball turret's support, the radio sets, padding and stencils.
+   * All decoration (no colliders), kept clear of the walkway and every gun position's view.
+   */
+  buildDetails() {
+    // waist guns: an ammo box on the floor by each gun, the chute up to the gun's breech
+    for (const s of [-1, 1]) {
+      this.box(s * 0.62 - 0.14, s * 0.62 + 0.14, -1.95, -1.6, 2.15, 2.5, MAT.ammo, false);
+      this.rod([s * 0.66, -1.6, 2.3], [s * 0.9, -1.3, 2.0], 0.045, MAT.chute, 8);
+      this.rod([s * 0.9, -1.3, 2.0], [s * 1.0, -1.17, 1.88], 0.045, MAT.chute, 8);
+      this.stencil(['CAL .50', 'LINKED'], 0.22, [s * 0.62, -1.75, s > 0 ? 2.151 : 2.149], s > 0 ? Math.PI : Math.PI);
+    }
+    // tail guns: boxes along the walls, chutes forward to the guns
+    for (const s of [-1, 1]) {
+      this.box(s * 0.32 - 0.12, s * 0.32 + 0.12, -2.32, -2.02, 8.55, 9.15, MAT.ammo, false);
+      this.rod([s * 0.3, -2.05, 9.1], [s * 0.18, -2.12, 9.85], 0.04, MAT.chute, 8);
+    }
+    // the ball turret hangs from a beam across the fuselage on a post
+    this.box(-0.85, 0.85, -0.55, -0.45, -0.2, -0.06, MAT.metal, false);
+    this.cylinder(0.06, 0.9, 0, -1.0, -0.13, 'y', MAT.metal, 10);
+    // oxygen: yellow bottles in the cockpit and radio room, hoses to each crew position
+    for (const [x, y, z] of [[-0.85, -0.15, -7.05], [0.85, -0.15, -7.05], [0.8, -1.5, -2.2], [0.8, -1.5, -1.95]]) {
+      this.cylinder(0.1, 0.5, x, y, z, 'y', MAT.yellow, 12);
+      this.rod([x, y + 0.27, z], [x * 0.92, y + 0.55, z + 0.25], 0.012, MAT.hose);
+    }
+    this.stencil(['OXYGEN'], 0.2, [0.69, -1.45, -2.08], -Math.PI / 2, '#1a1a1a');
+    for (const s of [-1, 1]) this.rod([s * 0.62, -1.2, 1.05], [s * 0.85, -0.95, 1.6], 0.012, MAT.hose); // waist gunners' hoses
+    // fire extinguisher by the radio room door
+    this.cylinder(0.07, 0.42, 0.55, -1.58, -1.4, 'y', MAT.red, 12);
+    this.stencil(['FIRE', 'EXTINGUISHER'], 0.26, [0.55, -1.1, -1.32], 0);
+    // control cables to the tail, along both walls just under the windows
+    for (const s of [-1, 1]) {
+      let prev = null;
+      for (let z = -1.0; z <= 9.0; z += 0.5) {
+        const deck = DECKS.find((d) => z >= d.z0 && z < d.z1) ?? DECKS.at(-1);
+        const y = deck.y + 1.32, x = s * (this.hw(z, y) - 0.06);
+        if (!Number.isFinite(x) || Math.abs(x) < 0.2) { prev = null; continue; }
+        if (prev && !(z > 1.3 && z < 2.3)) this.rod(prev, [x, y, z], 0.006, MAT.cable, 4); // (not across the waist windows)
+        prev = [x, y, z];
+      }
+    }
+    // radio room: the sets get faces, and a rack of spare sets over the desk
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.45), new THREE.MeshStandardMaterial({ map: radioFace(), roughness: 0.6, envMapIntensity: 0.1 }));
+    face.position.set(-0.595, -0.8, -2.15); face.rotation.y = Math.PI / 2;
+    this.group.add(face);
+    this.box(-0.98, -0.62, -0.5, -0.25, -2.45, -1.9, MAT.radio, false);
+    // padded walls: quilted insulation on the radio room bulkheads, either side of the doors
+    for (const [z, dir] of [[-2.57, 1], [-1.28, -1]]) for (const s of [-1, 1]) {
+      const g = new THREE.PlaneGeometry(0.42, 1.0); if (dir < 0) g.rotateY(Math.PI);
+      this.add(MAT.pad, g.translate(s * 0.58, -1.2, z));
+    }
+    // stencils: the things painted on every B-17
+    this.stencil(['NO SMOKING'], 0.36, [0, -0.25, -6.31], Math.PI);
+    this.stencil(['DANGER', 'BOMB BAY'], 0.3, [0.5, -0.95, -2.56], 0);
+    this.stencil(['WALK ON', 'CATWALK ONLY'], 0.3, [-0.5, -0.95, -2.64], Math.PI);
+    this.stencil(['42-31909'], 0.3, [0.68, -0.6, 4.0], -Math.PI / 2, '#d8c86a');
+  }
+
+  /** Sunlight falling through the windows: soft shafts that follow the sun as the bomber turns. */
+  buildShafts() {
+    const c = document.createElement('canvas');
+    c.width = 4; c.height = 64;
+    const g = c.getContext('2d'), grd = g.createLinearGradient(0, 0, 0, 64);
+    grd.addColorStop(0, 'rgba(255,240,210,0.0)'); grd.addColorStop(0.15, 'rgba(255,240,210,1)'); grd.addColorStop(1, 'rgba(255,240,210,0)');
+    g.fillStyle = grd; g.fillRect(0, 0, 4, 64);
+    const map = new THREE.CanvasTexture(c);
+    this.shafts = [[-1.0, -1.0, 1.78, -1], [1.0, -1.0, 1.82, 1], [-1.0, -1.0, -1.9, -1], [1.0, -1.0, -1.9, 1]].map(([x, y, z, side]) => {
+      const geo = new THREE.CylinderGeometry(0.28, 0.45, 2.4, 10, 1, true).translate(0, -1.2, 0); // from the window inwards
+      const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false }));
+      mesh.position.set(x, y, z);
+      mesh.renderOrder = 2;
+      this.group.add(mesh);
+      return { mesh, side };
+    });
+  }
+
+  /** sunLocal: the direction to the sun in bomber space. A shaft shows when the sun is on its side. */
+  updateShafts(sunLocal) {
+    if (!this.shafts) this.buildShafts();
+    const down = _sd.copy(sunLocal).negate();
+    for (const { mesh, side } of this.shafts) {
+      mesh.quaternion.setFromUnitVectors(_up, _sd2.copy(down).negate()); // its axis points back up the sun ray
+      mesh.material.opacity = 0.05 * THREE.MathUtils.clamp(sunLocal.x * side, 0, 1);
     }
   }
 

@@ -6,9 +6,12 @@ import { BALLISTICS } from './weapons.js';
 
 const V = THREE.Vector3;
 const MAX_RANGE = 2500, LEAD_RANGE = 1000; // m
-const COLOURS = { axis: [255, 74, 58], allied: [80, 170, 255] };
+const LABEL_RANGE = 1000; // m: closer than this a tag shows the range
+const BOMBER_RANGE = 1500, BOMBER_TAGS = 20; // flying a fighter: only the nearest B-17s get a tag
+const FOE = [255, 74, 58], FRIEND = [80, 170, 255]; // red enemies, blue friends, from the player's side
 const SIM_STEP = 1 / 240; // s: bullet flight is integrated like the real rounds (drag, gravity, wind)
 
+const STILL = new V(); // the bombers hold their place in the formation's frame
 const _p = new V(), _aim = new V(), _dir = new V(), _b = new V(), _v = new V(), _err = new V();
 
 /**
@@ -16,9 +19,9 @@ const _p = new V(), _aim = new V(), _dir = new V(), _b = new V(), _v = new V(), 
  * Iterates: guess the flight time, aim at where the target will be, fly a simulated round there,
  * then correct the aim by how far that round missed (drop, drift in the airstream).
  */
-export function leadPoint(from, pos, vel, out = new V()) {
-  const { MUZZLE_SPEED, GRAVITY, DRAG, WIND } = BALLISTICS;
-  let t = from.distanceTo(pos) / MUZZLE_SPEED;
+export function leadPoint(from, pos, vel, out = new V(), shooterVel = null, muzzle = BALLISTICS.MUZZLE_SPEED) {
+  const { GRAVITY, DRAG, WIND } = BALLISTICS;
+  let t = from.distanceTo(pos) / muzzle;
   out.copy(pos).addScaledVector(vel, t);
   _err.set(0, 0, 0);
   for (let it = 0; it < 3; it++) {
@@ -27,7 +30,8 @@ export function leadPoint(from, pos, vel, out = new V()) {
     _dir.subVectors(_aim, from).normalize();
     // fly a round at the aim point until it is as far out as the meeting point
     const range = from.distanceTo(meet);
-    _b.copy(from); _v.copy(_dir).multiplyScalar(MUZZLE_SPEED);
+    _b.copy(from); _v.copy(_dir).multiplyScalar(muzzle);
+    if (shooterVel) _v.add(shooterVel); // a fighter's rounds leave with the fighter's own speed added
     let s = 0;
     while (s < 3 && _b.distanceTo(from) < range) {
       const rx = _v.x - WIND.x, ry = _v.y - WIND.y, rz = _v.z - WIND.z;
@@ -52,8 +56,12 @@ export class Tags {
     this.cam = new V(); this.scr = new V(); this.lead = new V();
   }
 
-  /** fighters: the Fighters list; onGun: draw lead markers too. */
-  update(camera, fighters, onGun) {
+  /**
+   * fighters: the Fighters list. side: the player's side ('allied' | 'axis'). lead: draw lead markers.
+   * self: the player's own fighter (not tagged), whose speed and muzzle velocity the lead uses.
+   * bombers: tagged too while you fly a fighter.
+   */
+  update(camera, fighters, { side = 'allied', lead = false, self = null, bombers = null } = {}) {
     const c = this.canvas, g = this.g, dpr = Math.min(devicePixelRatio, 2);
     const w = innerWidth, h = innerHeight;
     if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); }
@@ -63,29 +71,37 @@ export class Tags {
     g.font = '600 11px system-ui, sans-serif';
     g.textAlign = 'center';
     g.lineWidth = 1.5;
-    for (const f of fighters) {
-      if (!f.alive) continue;
-      const d = f.pos.distanceTo(this.cam);
-      if (d > MAX_RANGE) continue;
-      const s = this.toScreen(f.pos, camera, w, h);
-      if (!s) continue;
-      const [r, gr, b] = COLOURS[f.side];
+    const shooterVel = self ? self.velocity.clone() : null, muzzle = self ? self.k.muzzle : undefined;
+    const tag = (pos, vel, foe, big) => {
+      const d = pos.distanceTo(this.cam);
+      if (d > (big ? BOMBER_RANGE : MAX_RANGE)) return;
+      const s = this.toScreen(pos, camera, w, h);
+      if (!s) return;
+      const [r, gr, b] = foe ? FOE : FRIEND;
       const a = THREE.MathUtils.clamp(1 - (d - 600) / (MAX_RANGE - 600) * 0.65, 0.35, 1);
       const col = `rgba(${r},${gr},${b},${a})`;
       g.strokeStyle = g.fillStyle = col;
       // a small down-pointing triangle above the plane, plus the range
-      const y = s.y - 14;
-      g.beginPath(); g.moveTo(s.x - 5, y - 6); g.lineTo(s.x + 5, y - 6); g.lineTo(s.x, y); g.closePath(); g.stroke();
-      g.fillText(d < 1000 ? `${Math.round(d / 10) * 10} m` : `${(d / 1000).toFixed(1)} km`, s.x, y - 9);
-      if (onGun && f.side === 'axis' && d < LEAD_RANGE) {
-        leadPoint(this.cam, f.pos, f.velocity, this.lead);
+      const y = s.y - (big ? 22 : 14), q = big ? 7 : 5;
+      g.beginPath(); g.moveTo(s.x - q, y - q - 1); g.lineTo(s.x + q, y - q - 1); g.lineTo(s.x, y); g.closePath(); g.stroke();
+      if (d < LABEL_RANGE) g.fillText(`${Math.round(d / 10) * 10} m`, s.x, y - q - 4); // the range only once it's close
+      if (lead && foe && d < LEAD_RANGE) {
+        leadPoint(self ? self.pos : this.cam, pos, vel, this.lead, shooterVel, muzzle); // rounds start at your guns
         const l = this.toScreen(this.lead, camera, w, h);
-        if (!l) continue;
+        if (!l) return;
         g.strokeStyle = `rgba(255,74,58,${Math.min(1, a + 0.2)})`;
         g.setLineDash([3, 3]); g.beginPath(); g.moveTo(s.x, s.y); g.lineTo(l.x, l.y); g.stroke(); g.setLineDash([]);
         g.beginPath(); g.arc(l.x, l.y, 7, 0, Math.PI * 2); g.stroke();
         g.beginPath(); g.arc(l.x, l.y, 1.5, 0, Math.PI * 2); g.fill();
       }
+    };
+    for (const f of fighters) if (f.alive && f !== self) tag(f.pos, f.velocity, f.side !== side, false);
+    if (bombers) { // flying a fighter: the nearest B-17s are tagged too (bigger), friend or foe; not all 270
+      const near = this.nearBombers ??= [];
+      near.length = 0;
+      for (const b of bombers) if (!b.down && !b.gone && b.group.position.distanceToSquared(this.cam) < BOMBER_RANGE * BOMBER_RANGE) near.push(b);
+      near.sort((a, b) => a.group.position.distanceToSquared(this.cam) - b.group.position.distanceToSquared(this.cam));
+      for (let i = 0; i < Math.min(near.length, BOMBER_TAGS); i++) tag(near[i].group.position, STILL, side !== 'allied', true);
     }
   }
 
