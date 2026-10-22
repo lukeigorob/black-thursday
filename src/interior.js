@@ -6,6 +6,8 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { windowCutout } from './models.js';
+import { buildBallTurret } from './ballturret.js';
+import { buildTopTurret } from './topturret.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const HULL = /^(MainFuselage2|Nose|Tail|TailGunPod|SideGunPanels|FrontGunPanels|TopTurret)$/;
@@ -44,12 +46,15 @@ export const STATIONS = [
   { id: 'pilot', name: 'Pilot seat', stand: [-0.18, -0.40, -7.2], eye: [-0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
   { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
   { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.4, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'],
-    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, ghost: ['TopTurret'] },
+    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] },
+    hide: ['TopTurret'], attach: 'topCockpit' }, // inside, the model's dome is replaced by a glass one (topturret.js)
   { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.42, -0.1], yaw: 0, yawLim: 180, pitch: [-89, 5], guns: ['GunBarrel004', 'GunBarrel14'],
-    pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] }, ghost: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks'] },
+    pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] },
+    // inside, the model's ball is replaced by a glass and steel one that turns with your aim (ballturret.js)
+    hide: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks'], attach: 'ballCockpit' },
   { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'] }, // in the window, over the gun
   { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'] },
-  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'] }, // the pod turns to glass; its frame is built in buildTail
+  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'], attach: 'ironSight' }, // the pod turns to glass; its frame is built in buildTail
 ].map((s) => ({ ...s, stand: new V(...s.stand), eye: new V(...s.eye), yaw: s.yaw * D, yawLim: s.yawLim * D, pitch: [s.pitch[0] * D, s.pitch[1] * D] }));
 
 // hull cross-section table: half-width of the cabin at (z, y), 10 cm x 5 cm cells
@@ -458,7 +463,7 @@ export class Interior {
 
   /** Hide (or show again) hull parts by name, e.g. the painted tail cap while at the tail gun. */
   setHidden(names, hidden) {
-    for (const n of names) for (const m of this.parts.get(n) ?? []) m.visible = !hidden;
+    for (const n of names) for (const m of this.parts.get(n) ?? [this.model.getObjectByName(n)]) if (m) m.visible = !hidden;
   }
 
   /** Turret shells turn to faint glass while you're in them, so the frame never blocks the view. */
@@ -717,9 +722,20 @@ export class Interior {
     }
     this.box(-0.16, 0.16, -2.6, -2.5, fz - 0.01, fz + 0.02, MAT.metal, false); // under the slot
     this.box(-0.3, 0.3, -2.29, -2.27, fz - 0.02, fz + 0.02, MAT.dark, false); // window sill
-    // ring and bead sight on a post above the guns
-    this.add(MAT.dark, new THREE.TorusGeometry(0.045, 0.0035, 6, 24).translate(0, -1.95, 10.36));
-    this.rod([0, -1.995, 10.36], [0, -2.06, 10.37], 0.006, MAT.dark, 4); // (a short post: the sight sits on the gun cradle)
-    this.add(MAT.yellow, new THREE.SphereGeometry(0.006, 6, 4).translate(0, -1.95, 10.47));
+    // the ring and bead sight rides on the guns, so it swings with your aim: it's mounted in front of
+    // your eye (on the camera) while you're at the tail gun, the bead dead centre like the crosshair
+    this.ironSight = new THREE.Group();
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0026, 6, 40), MAT.dark);
+    ring.position.set(0, 0, -0.21);
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.006, 0.07, 5), MAT.dark);
+    post.position.set(0, -0.08, -0.215);
+    // the front sight: a small open ring (not a solid bead), so the target stays visible in its middle
+    const bead = new THREE.Mesh(new THREE.TorusGeometry(0.0042, 0.0007, 4, 24), MAT.yellow);
+    bead.position.set(0, 0, -0.32);
+    const beadPost = new THREE.Mesh(new THREE.CylinderGeometry(0.0009, 0.0013, 0.045, 4), MAT.dark);
+    beadPost.position.set(0, -0.0267, -0.32);
+    this.ironSight.add(ring, post, bead, beadPost);
+    this.ballCockpit = buildBallTurret(); // the inside of the ball turret, mounted on the camera while you're in it
+    this.topCockpit = buildTopTurret(); // and the upper turret's dome
   }
 }

@@ -565,7 +565,7 @@ gfx.renderer.setAnimationLoop((now) => {
         tags.update(camera, fighters.list, { side: fighters.playerSide, lead: pilot.alive, self: pilot.f, bombers });
         return;
       }
-      ui.hud({ location: player.location, prompt: player.prompt, atStation: !!player.station });
+      ui.hud({ location: player.location, prompt: player.prompt, atStation: !!player.station, ironSight: !!player.ironOn && player.station?.attach === 'ironSight' });
       ui.gun(weapons.status(player));
       ui.crew(crew.members);
       ui.engines(bomber);

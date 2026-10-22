@@ -9,6 +9,7 @@ import * as THREE from 'three';
 import { AIRSPEED, PARTS as BOMBER_PARTS } from './bomber.js';
 import { loadModel } from './models.js';
 import { FarFighters } from './farfighters.js';
+import { BATTLE } from './battle.js';
 
 const V = THREE.Vector3;
 const WIND = new V(0, 0, AIRSPEED);
@@ -19,11 +20,11 @@ const WOBBLE = 0.014, PASS_WOBBLE = 0.026; // rad: a pilot can't hold his sight 
 // (diving through the bombers' return fire at a closing speed of 200 m/s, he holds it even worse)
 const F_BURST = [0.6, 1.4], F_PAUSE = [0.5, 1.6]; // s: fighters fire in bursts too
 // the Luftwaffe outnumbers the escorts several times over
-const AXIS_ACTIVE = 150, ALLIED_ACTIVE = 20, HUNTER_SHARE = 0.2; // a fifth of each gaggle goes for the escorts
-const GAGGLE = [15, 28], FIRST_WAVE = 8, WAVE_GAP = [5, 10], ESCORT_RESPAWN = [18, 30]; // fighters, s
+const AXIS_ACTIVE = BATTLE.axisActive, ALLIED_ACTIVE = BATTLE.alliedActive, HUNTER_SHARE = 0.2; // a fifth of each gaggle goes for the escorts
+const GAGGLE = BATTLE.gaggle, FIRST_WAVE = 8, WAVE_GAP = [5, 10], ESCORT_RESPAWN = [18, 30]; // fighters, s
 const FREE = -1; // an axis slot waiting for the next gaggle
 // each side's strength for the whole mission: when the reserves are gone, no more come up
-export const AXIS_TOTAL = 320, ALLIED_TOTAL = 50;
+export const AXIS_TOTAL = BATTLE.axisTotal, ALLIED_TOTAL = BATTLE.alliedTotal; // (from the battle size)
 const CELL = 100, CELL_PAD = 65; // m: bombers are filed in a grid so a round only tests the ones near it
 const FCELL = 100, FCELL_PAD = 60; // m: fighters are filed too (a frame's flight of a round plus a wingspan)
 const RAM = 6; // m between two fighters' centres: closer than that their wings or props meet

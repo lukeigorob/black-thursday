@@ -1,5 +1,6 @@
 // Menus (start / pause with the graphics setting) and the HUD (crosshair, prompts, location, fps).
 import { QUALITY } from './graphics.js';
+import { BATTLES, battleName, setBattle } from './battle.js';
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
@@ -15,6 +16,9 @@ export class UI {
           Other windows, like the Claude app's preview pane, don't let a game capture the mouse, so the cursor drifts off the screen.</p>
         <label class="quality">Graphics <select id="menu-quality">
           ${Object.entries(QUALITY).map(([k, q]) => `<option value="${k}">${q.label}</option>`).join('')}
+        </select></label>
+        <label class="quality">Battle size <select id="menu-battle">
+          ${Object.entries(BATTLES).map(([k, b]) => `<option value="${k}">${b.label}: ${b.wings * 54} B-17s, ${b.axisActive} Bf 109s at once</option>`).join('')}
         </select></label>
         <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · Right click zoom · R reload · Shift walk faster · Esc pause · F3 fps<br>
           Pilot seat: mouse steers the plane · W / S throttle · A / D roll · 1–4 engine fire bottles<br>
@@ -117,6 +121,9 @@ export class UI {
     go.textContent = button ?? '';
     go.style.display = button ? '' : 'none';
     go.onclick = onClick;
+    const bs = this.el('menu-battle'); // (changing it rebuilds the battle: the page reloads)
+    bs.value = battleName;
+    bs.onchange = () => setBattle(bs.value);
     const q = this.el('menu-quality');
     q.value = quality;
     q.onchange = () => onQuality(q.value);
@@ -425,13 +432,14 @@ export class UI {
     this.el('hint').style.display = text ? 'block' : 'none';
   }
 
-  hud({ location, prompt, atStation }) {
+  hud({ location, prompt, atStation, ironSight = false }) {
     if (location !== this.lastLoc) this.el('location').textContent = this.lastLoc = location;
     if (prompt !== this.lastPrompt) {
       this.el('prompt').innerHTML = this.lastPrompt = prompt;
       this.el('prompt').style.opacity = prompt ? 1 : 0;
     }
     this.el('crosshair').className = atStation ? 'gun' : '';
+    if (ironSight) this.el('crosshair').style.display = 'none'; // the gun's own sight is the crosshair
   }
 
   tick(dt) {

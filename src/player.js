@@ -203,7 +203,17 @@ export class Player {
       if (ghost) this.it.setGhost(ghost, true);
       this.ghosted = ghost;
     }
+    // things that turn with your aim: the tail's iron sight, the ball and upper turrets you sit in
+    const iron = this.blend > 0.6 && this.station?.attach ? this.it[this.station.attach] : null;
+    if (iron !== this.ironOn) {
+      if (this.ironOn) this.camera.remove(this.ironOn);
+      if (iron) this.camera.add(iron);
+      this.ironOn = iron;
+    }
     this.pose(dt);
+    // the upper turret's dome turns with the guns but doesn't tilt when they elevate
+    const level = this.ironOn?.userData.level;
+    if (level) level.rotation.x = -_euler.setFromQuaternion(this.camera.quaternion, 'YXZ').x;
     this.updateBody(dt);
   }
 

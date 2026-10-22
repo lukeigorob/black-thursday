@@ -7,6 +7,7 @@
 // Only the player's bomber uses the full model, its close neighbours a mid-detail one; everything
 // else is drawn as instanced low-detail copies (one draw call per part) to keep the frame rate up.
 import * as THREE from 'three';
+import { BATTLE } from './battle.js';
 
 const ELEMENT = [[0, 0, 0], [-29, -5, 18], [29, 5, 18]];
 const SQUADRON = [[0, 0, 0], [0, -16, 50]];
@@ -21,7 +22,7 @@ const NEAR = 150; // m from the player's bomber: closer than this gets the full 
 /** Every slot in the stream, shifted so the player's bomber sits at the origin. */
 export function formationSlots() {
   const slots = [];
-  for (const [wi, w] of STREAM.entries()) for (const g of WING) for (const s of GROUP) for (const [ei, e] of SQUADRON.entries()) for (const [pi, p] of ELEMENT.entries()) {
+  for (const [wi, w] of STREAM.slice(0, BATTLE.wings).entries()) for (const g of WING) for (const s of GROUP) for (const [ei, e] of SQUADRON.entries()) for (const [pi, p] of ELEMENT.entries()) {
     slots.push({
       pos: new THREE.Vector3(w[0] + g[0] + s[0] + e[0] + p[0], w[1] + g[1] + s[1] + e[1] + p[1], w[2] + g[2] + s[2] + e[2] + p[2]),
       label: `${w[3]}${g[3]} group, ${s[3]} squadron`,
