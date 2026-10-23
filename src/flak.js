@@ -20,7 +20,7 @@ export class Flak {
     const on = this.on;
     if (on !== this.active) {
       this.active = on;
-      this.ui.toast(on ? 'Flak! Flak dead ahead!' : "We're through the flak.");
+      this.ui.log(on ? 'Flak! Flak dead ahead!' : "We're through the flak.");
     }
     if (!on || (this.timer -= dt) > 0) return;
     // the gunners below fire at the part of the stream around us; bursts come in bunches
@@ -51,7 +51,7 @@ export class Flak {
         const hits = Math.round(rand(0, 1) * (1 - pd / LETHAL) * (pd < 10 ? 14 : 6));
         for (let i = 0; i < hits; i++) {
           b.hit(p, pd < 8);
-          this.onBomberHit?.(b, p, c, pd < 8);
+          this.onBomberHit?.(b, p, c, pd < 8, new V((p.box[0] + p.box[1]) / 2, (p.box[2] + p.box[3]) / 2, (p.box[4] + p.box[5]) / 2).sub(c)); // (the shrapnel flies in from the burst)
         }
         if (hits && b === this.playerBomber) this.audio.impact(pd < 10);
       }

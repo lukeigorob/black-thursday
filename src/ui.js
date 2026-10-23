@@ -4,6 +4,33 @@ import { BATTLES, battleName, setBattle } from './battle.js';
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
+// ---------- the damage diagram ----------
+const K = 5.6, X = (x) => (100 + x * K).toFixed(1), Y = (z) => (70 + z * K).toFixed(1);
+const poly = (part, pts, extra = '') => `<polygon data-part="${part}" points="${pts.map(([x, z]) => `${X(x)},${Y(z)}`).join(' ')}" ${extra}/>`;
+const le = (x) => -7.3 + ((Math.abs(x) - 1.25) / 15) * 2.2, te = (x) => -1.3 - ((Math.abs(x) - 1.25) / 15) * 2.4; // wing leading / trailing edges
+const wing = (part, x0, x1) => poly(part, [[x0, le(x0)], [x1, le(x1)], [x1, te(x1)], [x0, te(x0)]]);
+const section = (part, z0, z1, w0, w1) => poly(part, [[-w0, z0], [w0, z0], [w1, z1], [-w1, z1]]);
+const DIAGRAM = `<g class="dmg-body">
+  ${wing('wingLo', -16.3, -8)}${wing('wingLi', -8, -1.2)}${wing('wingRi', 1.2, 8)}${wing('wingRo', 8, 16.3)}
+  ${poly('tailplane', [[-6.5, 9.2], [-6.2, 8.1], [-1, 7.1], [1, 7.1], [6.2, 8.1], [6.5, 9.2], [1, 10.1], [-1, 10.1]])}
+  ${section('nose', -11.4, -8.6, 0.35, 1.0)}${section('cockpit', -8.6, -6.35, 1.0, 1.25)}${section('bombbay', -6.35, -2.6, 1.25, 1.3)}
+  ${section('radio', -2.6, -1.25, 1.3, 1.25)}${section('waist', -1.25, 5.2, 1.25, 0.95)}${section('tail', 5.2, 11.4, 0.95, 0.3)}
+  ${[-7.16, -3.93, 3.94, 7.15].map((x, i) => `<rect data-part="engine${i + 1}" x="${X(x - 0.6)}" y="${Y(-9.2)}" width="${(1.2 * K).toFixed(1)}" height="${(3.6 * K).toFixed(1)}" rx="2"/>`).join('')}
+  <circle data-part="top" cx="${X(0)}" cy="${Y(-6.7)}" r="${(0.6 * K).toFixed(1)}"/>
+  <circle data-part="ball" cx="${X(0)}" cy="${Y(-0.1)}" r="${(0.55 * K).toFixed(1)}" stroke-dasharray="2 1.5"/>
+</g>`;
+const STOPS = [[0, [143, 165, 138]], [0.25, [240, 170, 160]], [0.55, [205, 60, 45]], [0.8, [95, 18, 14]], [1, [12, 10, 10]]];
+/** normal -> light red -> dark red -> black */
+function damageColour(d) {
+  d = Math.min(1, Math.max(0, d));
+  let i = 0;
+  while (i < STOPS.length - 2 && d > STOPS[i + 1][0]) i++;
+  const [a, ca] = STOPS[i], [b, cb] = STOPS[i + 1], t = (d - a) / (b - a);
+  return `rgb(${ca.map((c, k) => Math.round(c + (cb[k] - c) * t)).join(',')})`;
+}
+const DMG_PARTS = ['wingLo', 'wingLi', 'wingRi', 'wingRo', 'tailplane', 'nose', 'cockpit', 'bombbay', 'radio', 'waist', 'tail', 'engine1', 'engine2', 'engine3', 'engine4', 'top', 'ball'];
+const damageKey = (b) => DMG_PARTS.map((n) => Math.round(b.damage(n) * 40)).join() + b.engines.map((e) => e.state).join() + Object.values(b.secFire ?? {}).map(Boolean).join() + b.tankFire[-1] + b.tankFire[1];
+
 export class UI {
   constructor() {
     const root = document.getElementById('ui');
@@ -20,9 +47,9 @@ export class UI {
         <label class="quality">Battle size <select id="menu-battle">
           ${Object.entries(BATTLES).map(([k, b]) => `<option value="${k}">${b.label}: ${b.wings * 54} B-17s, ${b.axisActive} Bf 109s at once</option>`).join('')}
         </select></label>
-        <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · Right click zoom · R reload · Shift walk faster · Esc pause · F3 fps<br>
-          Pilot seat: mouse steers the plane · W / S throttle · A / D roll · 1–4 engine fire bottles<br>
-          Fighters: mouse aims where you fly · W / S throttle · A / D roll · Left click guns · V chase / nose view · J bail out</p>
+        <p class="keys">WASD move · Mouse look · E take / leave a position · Left click fire · Right click zoom · R reload · Shift walk faster · Esc pause · F3 fps · M mission map<br>
+          Pilot seat: mouse steers the plane · hold C look round · W / S throttle · A / D roll · 1–4 engine fire bottles<br>
+          Fighters: mouse aims where you fly · W / S throttle · A / D roll · Left click guns · hold C look round · J bail out</p>
       </div></div>
       <div id="map" class="menu"><div class="panel map-panel">
         <h1 id="map-title"></h1><p id="map-text"></p>
@@ -45,7 +72,7 @@ export class UI {
         <div id="sight"><div class="ring"></div><div class="h"></div><div class="v"></div>
           <div id="sight-info"></div></div>
         <div id="crew"></div>
-        <div id="health"><span class="lbl">Airframe</span><div class="bar"><i id="health-bar"></i></div><span id="health-pct"></span></div>
+        <div id="health"><svg id="dmg" viewBox="0 0 200 140"></svg><span id="health-pct"></span></div>
         <div id="engines"></div>
         <div id="nose"></div>
         <div id="gunsight"><i></i></div>
@@ -57,6 +84,7 @@ export class UI {
         <div id="banners"></div>
         <div id="ejectcard"></div>
         <div id="toasts"></div>
+        <div id="mmap"><canvas id="mmap-canvas" width="720" height="720"></canvas><div id="mmap-side"></div></div>
         <div id="gun">
           <div id="gun-ammo"></div>
           <div class="bar"><i id="gun-heat"></i></div><span class="lbl">Barrel heat</span>
@@ -92,18 +120,22 @@ export class UI {
   /** Which HUD to show: the bomber's (crew) or the fighter pilot's. */
   setMode(mode) {
     this.el('hud').dataset.mode = mode === 'crew' || mode === 'eject' ? mode : 'fighter';
-    if (mode === 'crew') { this.el('gunsight').style.display = 'none'; this.el('flight').style.display = 'none'; }
+    if (mode === 'crew') { this.el('gunsight').style.display = 'none'; this.el('flight').style.display = 'none'; this.el('nose').style.display = 'none'; Object.assign(this.el('crosshair').style, { left: '', top: '', display: '' }); }
   }
 
   /** The fighter pilot's instruments (null hides them). */
   fighter(s) {
     const box = this.el('flight'), nose = this.el('nose'), sight = this.el('gunsight');
     box.style.display = s ? 'block' : 'none';
-    sight.style.display = s?.view === 'nose' ? 'block' : 'none';
-    this.el('crosshair').style.display = s?.view === 'nose' ? 'none' : '';
+    // the gunsight and the nose circle sit where the guns point; the crosshair is where you're steering
+    const cross = this.el('crosshair'), flying = s && s.view !== 'chase';
+    sight.style.display = flying && s.marker ? 'block' : 'none';
     nose.style.display = s?.marker ? 'block' : 'none';
+    cross.style.display = !s || s.view === 'chase' || s.aim ? '' : 'none';
+    const at = (el, p) => { el.style.left = p ? `${p.x * 100}%` : ''; el.style.top = p ? `${p.y * 100}%` : ''; };
+    at(cross, flying ? s.aim : null);
     if (!s) return;
-    if (s.marker) { nose.style.left = `${s.marker.x * 100}%`; nose.style.top = `${s.marker.y * 100}%`; }
+    if (s.marker) { at(nose, s.marker); at(sight, s.marker); }
     const ammo = Object.entries(s.ammo).map(([k, a]) => `<div>${k === 'cannon' ? '20 mm' : 'MG'} <b>${a.n}</b></div>`).join('');
     box.innerHTML = `<div class="lbl">${s.kind}${s.damage ? ` · <span class="warn">${s.damage}</span>` : ''}</div>
       <div><b>${Math.round(s.speed * 3.6)}</b> km/h · <b>${Math.round(s.alt).toLocaleString()}</b> ft</div>
@@ -301,7 +333,7 @@ export class UI {
   /** Crew list: who's on which gun, who's hit (with time left), who's gone. */
   crew(members) {
     const html = members.map((m) => {
-      const s = m.state === 'player' ? '<span class="you">YOU</span>'
+      const s = m.state === 'player' ? `<span class="you">YOU</span>${m.standIn ? ' <span class="ok" title="manned while you are away">●</span>' : ''}`
         : m.state === 'wounded' ? `<span class="hurt">WOUNDED ${Math.ceil(m.woundLeft)}s</span>`
           : m.state === 'dead' ? '<span class="dead">KIA</span>'
             : m.state === 'bailed' ? '<span class="busy">BAILED OUT</span>'
@@ -321,13 +353,30 @@ export class UI {
   }
 
   /** The airframe health bar (0..1) and the fire bottles left. */
-  health(h, bottles) {
+  /**
+   * The damage diagram: a top-down B-17 made of its parts (wings inner and outer, engines, tail,
+   * turrets, the fuselage section by section), each tinted from its normal colour through light red
+   * and dark red to black as it's shot up. A part that has broken off is gone from the picture.
+   * Burning parts flicker orange. Plus the overall figure and the fire bottles left.
+   */
+  health(h, bottles, bomber) {
+    const svg = this.el('dmg');
+    if (!svg.childElementCount) svg.innerHTML = DIAGRAM;
+    const key = bomber ? damageKey(bomber) : '';
     const pct = Math.round(h * 100);
+    if (key !== this.lastDmg) {
+      this.lastDmg = key;
+      if (bomber) for (const el of svg.querySelectorAll('[data-part]')) {
+        const name = el.dataset.part, d = bomber.damage(name);
+        const e = name.startsWith('engine') ? bomber.engines[+name.slice(6) - 1] : null;
+        const burning = e?.state === 'fire' || (name === 'wingLi' && bomber.tankFire[-1] > 0) || (name === 'wingRi' && bomber.tankFire[1] > 0) || bomber.secFire?.[name] > 0;
+        el.style.display = bomber.lost[name] ? 'none' : '';
+        el.style.fill = e?.state === 'dead' ? '#1b1b1b' : damageColour(d);
+        el.classList.toggle('burning', !!burning);
+      }
+    }
     if (pct === this.lastHealth && bottles === this.lastBottles) return;
     this.lastHealth = pct; this.lastBottles = bottles;
-    const bar = this.el('health-bar');
-    bar.style.width = `${pct}%`;
-    bar.style.background = h > 0.6 ? '#8fcf6a' : h > 0.3 ? '#ffd36a' : '#ff5a3a';
     this.el('health-pct').textContent = bottles == null ? `${pct}%` : `${pct}% · ${bottles} fire bottle${bottles === 1 ? '' : 's'}`;
   }
 
@@ -417,7 +466,105 @@ export class UI {
     this.hint(card ? (ready ? 'Click to fly again' : 'Bailed out · click to skip') : '');
   }
 
-  /** Short message, e.g. a crew callout. */
+  /**
+   * Something that happened (a crew call, a phase of the mission, a collision): kept for the mission
+   * map (M) rather than popped up, so the only pop-ups in play are kills, assists, crits and your death.
+   */
+  log(text) {
+    (this.events ??= []).push({ text, t: performance.now() });
+    if (this.events.length > 6) this.events.shift();
+  }
+
+  /**
+   * The mission map, held open with M: a 1944 briefing map of the route out from England to the target
+   * town, the initial point, the flak belt, the rally, the bomber stream (you in yellow), fighters near
+   * you, and the town itself in a corner. `d` = Mission.mapData plus where everyone is; null closes it.
+   */
+  missionMap(d) {
+    const box = this.el('mmap');
+    box.style.display = d ? 'flex' : 'none';
+    if (!d) return;
+    const cv = this.el('mmap-canvas'), g = cv.getContext('2d'), W = cv.width;
+    const z0 = d.home - 1500, z1 = d.start + 1500, sc = (W - 60) / (z1 - z0);
+    const P = ([x, z]) => [W / 2 + x * sc, 30 + (z - z0) * sc]; // the way we fly is up the map
+    const INK = '#3b2f22', RED = '#a3271c';
+    g.fillStyle = '#e8dcbc'; g.fillRect(0, 0, W, W);
+    g.strokeStyle = '#cdbf9a'; g.lineWidth = 1; // the grid, 5 km squares
+    for (let k = Math.ceil(z0 / 5000) * 5000; k < z1; k += 5000) {
+      const y = P([0, k])[1]; g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke();
+      const x = P([k - (z0 + z1) / 2, 0])[0]; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, W); g.stroke();
+    }
+    g.font = '13px "Courier New", monospace'; g.textBaseline = 'middle';
+    const label = (t, [x, y], col = INK, dx = 12) => { g.fillStyle = col; g.fillText(t, x + dx, y); };
+    // the flak belt, hatched
+    const fy0 = P([0, d.flak[0]])[1], fy1 = P([0, d.flak[1]])[1], fx = 3500 * sc;
+    g.save(); g.beginPath(); g.rect(W / 2 - fx, fy1, fx * 2, fy0 - fy1); g.clip();
+    g.strokeStyle = '#8f8070'; g.lineWidth = 1;
+    for (let k = -W; k < W * 2; k += 9) { g.beginPath(); g.moveTo(k, fy1); g.lineTo(k + (fy0 - fy1), fy0); g.stroke(); }
+    g.restore();
+    g.strokeStyle = '#6d5f50'; g.setLineDash([4, 3]); g.strokeRect(W / 2 - fx, fy1, fx * 2, fy0 - fy1); g.setLineDash([]);
+    label('FLAK', [W / 2 + fx, (fy0 + fy1) / 2], '#5d5045', 6);
+    // the route: in from the coast, the initial point, the target, the rally and home
+    g.strokeStyle = RED; g.lineWidth = 3; g.beginPath();
+    g.moveTo(...P([0, d.start])); g.lineTo(...P([0, d.home])); g.stroke();
+    for (const [name, z] of [['FROM ENGLAND', d.start], ['I.P.', d.ip], ['RALLY', d.rally], ['HOME', d.home]]) {
+      const p = P([0, z]); g.fillStyle = RED; g.beginPath(); g.arc(p[0], p[1], 5, 0, 7); g.fill(); label(name, p, RED);
+    }
+    // the target town: a ringed square
+    const t = P([0, 0]), half = (d.city.size / 2) * sc;
+    g.fillStyle = '#9b8f7a'; g.fillRect(t[0] - half, t[1] - half, half * 2, half * 2);
+    g.strokeStyle = RED; g.lineWidth = 2;
+    for (const r of [10, 18]) { g.beginPath(); g.arc(t[0], t[1], r, 0, 7); g.stroke(); }
+    label('TARGET', t, RED, 24);
+    // the bomber stream, fighters near you, and you
+    g.fillStyle = '#2d3a55';
+    for (const b of d.bombers) { const p = P(b); g.fillRect(p[0] - 1.5, p[1] - 1.5, 3, 3); }
+    for (const f of d.fighters) {
+      const p = P(f.at); g.fillStyle = f.side === 'axis' ? '#c0281c' : '#1d5fc0';
+      g.beginPath(); g.arc(p[0], p[1], 2.2, 0, 7); g.fill();
+    }
+    if (d.self) {
+      const p = P(d.self); g.fillStyle = '#e8b400'; g.strokeStyle = INK; g.lineWidth = 1.5;
+      g.beginPath(); g.moveTo(p[0], p[1] - 8); g.lineTo(p[0] + 6, p[1] + 6); g.lineTo(p[0] - 6, p[1] + 6); g.closePath(); g.fill(); g.stroke();
+      label('YOU', p, INK, 10);
+    }
+    this.townInset(g, d, W);
+    g.strokeStyle = INK; g.lineWidth = 2; g.strokeRect(1, 1, W - 2, W - 2);
+    g.fillStyle = INK; g.font = 'bold 15px "Courier New", monospace'; g.fillText('MISSION MAP  ·  SECRET', 14, 18);
+    const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+    const now = performance.now();
+    const log = (this.events ?? []).slice().reverse().map((e) => `<div class="ev">${mmss((now - e.t) / 1000)} ago · ${e.text}</div>`).join('');
+    this.el('mmap-side').innerHTML = `<h3>${d.phase}</h3>
+      <div>${d.toTarget != null ? `Target in <b>${mmss(d.toTarget)}</b>` : 'Target behind us'}</div>
+      <div>Town wrecked: <b>${Math.round((d.wrecked / d.buildings) * 100)}%</b> (${d.wrecked} buildings)</div>
+      <div class="key"><i style="background:#e8b400"></i>You <i style="background:#2d3a55"></i>B-17s <i style="background:#1d5fc0"></i>P-51s <i style="background:#c0281c"></i>Bf 109s</div>
+      <h4>Log</h4>${log || '<div class="ev">Nothing yet</div>'}
+      <div class="hold">Let go of M to close</div>`;
+  }
+
+  /** The target town, enlarged in the map's corner: the works, the rail yard, the river, the old town. */
+  townInset(g, d, W) {
+    const c = d.city, S = 210, x0 = W - S - 14, y0 = W - S - 14, k = S / c.size;
+    const P = (x, z) => [x0 + (x + c.size / 2) * k, y0 + (z + c.size / 2) * k];
+    g.fillStyle = '#ddd0ad'; g.fillRect(x0, y0, S, S);
+    g.fillStyle = '#b5a88c'; g.fillRect(...P(-c.size / 2, c.rail.z0), S, (c.rail.z1 - c.rail.z0) * k);
+    g.fillStyle = '#a3967c'; g.beginPath(); g.arc(...P(c.oldTown.x, c.oldTown.z), c.oldTown.r * k, 0, 7); g.fill();
+    g.strokeStyle = '#6f8a99'; g.lineWidth = c.riverW * k; g.beginPath();
+    for (let x = -c.size / 2; x <= c.size / 2; x += 40) g[x === -c.size / 2 ? 'moveTo' : 'lineTo'](...P(x, c.riverZ(x)));
+    g.stroke();
+    const f = c.factory;
+    g.fillStyle = '#8d3a2c'; g.fillRect(...P(f.x0, f.z0), (f.x1 - f.x0) * k, (f.z1 - f.z0) * k);
+    const a = P(0, 0);
+    g.strokeStyle = '#a3271c'; g.lineWidth = 1.5;
+    g.beginPath(); g.arc(a[0], a[1], 8, 0, 7); g.moveTo(a[0] - 12, a[1]); g.lineTo(a[0] + 12, a[1]); g.moveTo(a[0], a[1] - 12); g.lineTo(a[0], a[1] + 12); g.stroke();
+    g.fillStyle = '#3b2f22'; g.font = '11px "Courier New", monospace';
+    g.fillText('AIMING POINT: AIRCRAFT WORKS', x0 + 6, y0 + 12);
+    g.fillText('OLD TOWN', ...P(c.oldTown.x - 120, c.oldTown.z));
+    g.fillText('RAIL YARD', ...P(-1100, c.rail.z1 + 60));
+    g.strokeStyle = '#3b2f22'; g.lineWidth = 1; g.strokeRect(x0, y0, S, S);
+  }
+
+  /** Short pop-up message (only for your own death now). */
   toast(text, kind = '') {
     const t = document.createElement('div');
     t.className = `toast ${kind}`;

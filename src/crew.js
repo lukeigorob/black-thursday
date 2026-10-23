@@ -3,9 +3,11 @@
 // bomber the same rules run without figures.
 import * as THREE from 'three';
 import { SECTIONS } from './bomber.js';
+import { makeFigure, reachFor } from './figure.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
+const _sa = new V(), _sb = new V(), _sc = new V();
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
@@ -39,13 +41,14 @@ const SPOTS = {
   engineer: { at: [0, -0.28, -6.78], pose: 'stand', yaw: 0, lie: [0.1, -0.40, -7.05], liePose: 'lie' },
   radio: { at: [-0.67, -1.35, -1.57], pose: 'sit', yaw: 90 * D, lie: [-0.1, -1.80, -1.8], liePose: 'lie' },
   ball: { at: [0, -2.2, -0.13], pose: 'hidden', yaw: 0, lie: [0.05, -1.95, 0.95], liePose: 'lie' }, // pulled out of the turret
-  waistL: { at: [-0.35, -1.95, 1.75], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.3], liePose: 'lie' },
-  waistR: { at: [0.35, -1.95, 1.85], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.3], liePose: 'lie' },
+  // (well out at their windows: the walkway between them stays half a metre wide)
+  waistL: { at: [-0.45, -1.95, 1.75], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.3], liePose: 'lie' },
+  waistR: { at: [0.45, -1.95, 1.85], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.3], liePose: 'lie' },
   tail: { at: [0, -2.32, 9.75], pose: 'kneel', yaw: 180 * D, lie: [0, -2.32, 9.3], liePose: 'lie' },
 };
 
 // the walkway through the fuselage, nose to tail, through the doors and round the ball turret
-const CORRIDOR = [[0, -0.72, -10.0], [0, -0.72, -8.8], [0, -0.40, -8.4], [0, -0.40, -6.6], [0, -0.72, -6.22], [0, -1.02, -5.97],
+export const CORRIDOR = [[0, -0.72, -9.75], [0, -0.72, -8.8], [0, -0.40, -8.4], [0, -0.40, -6.6], [0, -0.72, -6.22], [0, -1.02, -5.97],
   [0, -1.32, -5.72], [0, -1.62, -5.4], [0, -1.62, -2.75], [0, -1.80, -2.45], [0, -1.80, -1.4], [0, -1.95, -1.05], [0.6, -1.95, -0.7],
   [0.6, -1.95, 0.4], [0, -1.95, 0.8], [0, -1.95, 5.0], [0, -2.15, 5.4], [0, -2.15, 8.0], [0, -2.32, 8.4], [0, -2.32, 9.5]].map((p) => new V(...p));
 
@@ -66,43 +69,48 @@ function walkPath(from, to) {
 }
 
 // ---------- figures ----------
-const fmat = (c, r = 0.8) => new THREE.MeshStandardMaterial({ color: c, roughness: r, envMapIntensity: 0.1 });
-const FM = { suit: fmat(0x56482f), jacket: fmat(0x4a3220, 0.65), fleece: fmat(0xcfc4a8, 1), skin: fmat(0xbf9175, 0.7), helmet: fmat(0x3b2a1c, 0.6), boot: fmat(0x1e1a16, 0.6), mask: fmat(0x3d4237, 0.5) };
+export { makeFigure }; // (the airman himself is built in figure.js)
+const _box = new THREE.Box3(), _inv = new THREE.Matrix4(), _c = new V();
 
-function limb(len, r, mat) { // a capsule hanging down from its joint
-  const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len - 2 * r, 3, 8).translate(0, -len / 2, 0), mat);
-  m.receiveShadow = true; // not cast: ~120 extra draw calls in the shadow pass for very little
-  return m;
-}
-
-/** A low-poly airman in flight gear. Feet at the origin, facing -Z. */
-export function makeFigure() {
-  const root = new THREE.Group();
-  const hips = new THREE.Group(); hips.position.y = 0.95; root.add(hips);
-  const torso = new THREE.Group(); hips.add(torso);
-  const body = limb(0.62, 0.19, FM.jacket); body.position.y = 0.62; torso.add(body);
-  const collar = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.06, 6, 12).rotateX(Math.PI / 2), FM.fleece); collar.position.y = 0.6; torso.add(collar);
-  const head = new THREE.Group(); head.position.y = 0.66; torso.add(head);
-  const face = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 10).translate(0, 0.12, 0), FM.skin); head.add(face);
-  const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.125, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.62).translate(0, 0.13, 0.01), FM.helmet); head.add(helmet);
-  const mask = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.09, 0.07).translate(0, 0.07, -0.1), FM.mask); head.add(mask);
-  const arm = (s) => {
-    const sh = new THREE.Group(); sh.position.set(s * 0.25, 0.55, 0); torso.add(sh);
-    sh.add(limb(0.32, 0.065, FM.jacket));
-    const el = new THREE.Group(); el.position.y = -0.3; sh.add(el);
-    el.add(limb(0.3, 0.055, FM.suit));
-    return { sh, el };
+/**
+ * Fit a posed man under the roof: the B-17 is cramped (the waist is barely head height, the tail gunner
+ * kneels in a space half that), so if his head would go through the hull he bends his knees, then
+ * leans forward over his gun, until it's clear. `interior` measures the hull round him.
+ */
+export function fitUnderRoof(fig, interior, poseName) {
+  const standing = poseName === 'gun' || poseName === 'stand';
+  const j = fig.userData.j, parent = fig.parent;
+  if (!parent || !interior) return;
+  const headTop = () => {
+    fig.updateWorldMatrix(true, true);
+    _box.setFromObject(j.head).applyMatrix4(_inv.copy(parent.matrixWorld).invert());
+    _box.getCenter(_c);
+    return _box.max.y;
   };
-  const leg = (s) => {
-    const hip = new THREE.Group(); hip.position.set(s * 0.11, 0, 0); hips.add(hip);
-    hip.add(limb(0.46, 0.085, FM.suit));
-    const knee = new THREE.Group(); knee.position.y = -0.44; hip.add(knee);
-    knee.add(limb(0.44, 0.075, FM.suit));
-    const boot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.09, 0.26).translate(0, -0.46, -0.05), FM.boot); knee.add(boot);
-    return { hip, knee };
-  };
-  root.userData.j = { hips, torso, head, armL: arm(-1), armR: arm(1), legL: leg(-1), legR: leg(1) };
-  return root;
+  // (torso.rotation.x < 0 leans him forward)
+  const lean0 = j.torso.rotation.x;
+  let dir = -1;
+  for (let k = 0; k < 40; k++) {
+    const top = headTop(), roof = interior.ceilingAt(_c.z, _c.x, fig.position.y + 0.3) - 0.05;
+    if (top <= roof) return;
+    const h = j.hips.position.y;
+    if (standing && h > 0.5) { // bend the knees: a squat that keeps the feet under him
+      const H = h - 0.05, a = Math.acos(THREE.MathUtils.clamp(H / 0.92, 0, 1));
+      j.hips.position.y = H;
+      for (const l of [j.legL, j.legR]) { l.hip.rotation.x = a; l.knee.rotation.x = -2 * a; }
+      j.torso.rotation.x = Math.min(lean0, -a * 0.45);
+    } else if (poseName === 'kneel' && h > 0.3) { // sit back on the heels, shins flat on the floor
+      const H = h - 0.04, a = Math.acos(THREE.MathUtils.clamp((H - 0.06) / 0.44, 0, 1));
+      j.hips.position.y = H;
+      for (const l of [j.legL, j.legR]) { l.hip.rotation.x = a; l.knee.rotation.x = -Math.PI / 2 - a; }
+    } else if (Math.abs(j.torso.rotation.x) < 1.2) { // lean over the gun, head tipped up to keep looking ahead
+      j.torso.rotation.x += dir * 0.08;
+      j.head.rotation.x = -j.torso.rotation.x * 0.7;
+    } else if (dir < 0) { // no room leaning forward (the hull curves in there): sit back instead
+      dir = 1;
+      j.torso.rotation.x = lean0;
+    } else return;
+  }
 }
 
 /** Set a pose: joint angles in radians (x = forward/back, z = sideways). `t` animates walking. */
@@ -110,6 +118,10 @@ export function pose(fig, name, t = 0) {
   const j = fig.userData.j;
   const set = (o, x = 0, z = 0) => o.rotation.set(x, 0, z);
   fig.visible = name !== 'hidden';
+  if (fig.userData.rig) { // hands half closed, or relaxed; at a gun, animateGunner puts them on the grips
+    fig.userData.rig.grip = ['gun', 'kneel', 'crouch', 'sit', 'slump'].includes(name) ? 0.6 : 0.3;
+    fig.userData.rig.reach = null;
+  }
   fig.rotation.x = 0;
   j.hips.position.set(0, 0.95, 0);
   set(j.torso); set(j.head);
@@ -175,7 +187,7 @@ export class Crew {
     this.listeners = [];
     if (visible) {
       for (const m of this.members) {
-        m.fig = makeFigure();
+        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false }); // (gunners may wear flak vests)
         interior.group.add(m.fig);
         this.place(m);
       }
@@ -192,8 +204,9 @@ export class Crew {
   manned(stationId, player) {
     const at = player?.station?.id === 'bombsight' ? 'chin' : player?.station?.id; // the bombardier mans both
     if (player && at === stationId) return false;
+    if (this.bomber.turretWorks && !this.bomber.turretWorks(stationId)) return false; // knocked out
     const m = this.members.find((x) => x.role.station === stationId);
-    return !!m && m.state === 'ok' && m.task === 'station';
+    return !!m && (m.state === 'ok' || (m.state === 'player' && m.standIn)) && m.task === 'station';
   }
 
   /** A round struck the bomber at `local` (bomber space): anyone close by in that section may be hurt. */
@@ -225,6 +238,52 @@ export class Crew {
     this.findHelper({ member: m });
   }
 
+  /**
+   * A fire in the fuselage burns whoever is in that section: the men at their posts there get hurt
+   * before long, and so do you if you stand in it more than a few seconds.
+   */
+  burns(dt, player) {
+    const fire = this.bomber.secFire;
+    if (!fire || !Object.values(fire).some(Boolean)) { this.burnT = 0; return; }
+    for (const m of this.members) {
+      if (m.state !== 'ok') continue;
+      const z = m.task === 'station' ? m.spot.at[2] : m.pos?.z;
+      if (z != null && fire[sectionAt(z)] && Math.random() < dt * 0.04) { this.wound(m); this.emit(`${m.role.title}'s burnt!`); }
+    }
+    if (player && !player.wounded && !player.dead && fire[sectionAt(player.feet.z)]) {
+      if ((this.burnT = (this.burnT ?? 0) + dt) > 4) { this.burnT = 0; player.wound(); this.emit("You're burnt! Get out of the fire!"); this.findHelper({ player }); }
+    } else this.burnT = Math.max(0, (this.burnT ?? 0) - dt);
+  }
+
+  /**
+   * The men you can see are solid: a box round each one standing or sitting about (not the ones lying
+   * on the floor: you can step over them), so you walk round the engineer instead of through him.
+   */
+  solid(camera) {
+    // a slim box round each man's body as he's posed (hips to head: a man leaning out of his window
+    // takes his body with him, and his crouched legs don't count), for Player to brush past
+    const list = this.interior?.people, parent = this.interior?.group;
+    if (!list || !parent) return;
+    list.length = 0;
+    parent.updateWorldMatrix(true, false);
+    _inv.copy(parent.matrixWorld).invert();
+    for (const m of this.members) {
+      const f = m.fig;
+      if (!f?.visible || m.state === 'wounded' || m.state === 'dead') continue;
+      const j = f.userData.j;
+      f.updateWorldMatrix(true, true);
+      const hip = j.hips.getWorldPosition(_c).applyMatrix4(_inv), hx = hip.x, hz = hip.z, hy = hip.y;
+      const head = j.head.getWorldPosition(_c).applyMatrix4(_inv);
+      const cx = (hx + head.x) / 2, cz = (hz + head.z) / 2;
+      const b = (m.box ??= new THREE.Box3());
+      b.min.set(cx - 0.13, Math.min(hy, head.y) - 0.1, cz - 0.13);
+      b.max.set(cx + 0.13, Math.max(hy, head.y) + 0.28, cz + 0.13);
+      list.push(b);
+      // squeezing past him: don't show the inside of his body
+      if (f.userData.model) f.userData.model.visible = !(camera && b.distanceToPoint(camera.getWorldPosition(_c).applyMatrix4(_inv)) < 0.12);
+    }
+  }
+
   /** Send the nearest able man (not a pilot: someone has to fly) to give first aid. */
   findHelper(patient) {
     const where = patient.player ? patient.player.feet : patient.member.pos;
@@ -242,6 +301,8 @@ export class Crew {
 
   update(dt, { player, time }) {
     this.frame = (this.frame ?? 0) + 1;
+    this.burns(dt, player);
+    if (this.visible) this.solid(player?.camera);
     for (const m of this.members) {
       if (m.state === 'wounded' && (m.woundLeft -= dt) <= 0) {
         m.state = 'dead';
@@ -313,21 +374,87 @@ export class Crew {
   place(m) {
     if (!m.fig) return;
     const s = m.spot;
-    if (m.state === 'player' || m.state === 'bailed') { m.fig.visible = false; return; } // (you, or out of the plane)
+    // (you, or out of the plane; when you've walked away from your own post, a stand-in mans it)
+    if ((m.state === 'player' && !m.standIn) || m.state === 'bailed') { m.fig.visible = false; return; }
     const down = m.state === 'wounded' || m.state === 'dead';
     m.fig.position.set(...(down ? s.lie : s.at));
     m.fig.rotation.y = s.yaw + (down && s.liePose === 'lie' ? 1.2 : 0);
     pose(m.fig, down ? s.liePose : s.pose);
+    if (!down) fitUnderRoof(m.fig, this.interior, s.pose);
     m.fig.visible = !(m.displaced && !down) && !(down ? false : s.pose === 'hidden');
+    const j = m.fig.userData.j; // the pose as placed: animateGunner works on top of it
+    m.fig.userData.base = down ? null : { shL: j.armL.sh.rotation.x, shR: j.armR.sh.rotation.x, head: j.head.rotation.x, torso: j.torso.rotation.x, pos: m.fig.position.clone(), yaw: m.fig.rotation.y };
   }
 
-  /** The player has taken (or left) this man's gun: he steps out of the way meanwhile. */
-  setDisplaced(stationId) {
+  /**
+   * The player has taken (or left) this man's gun: he steps out of the way meanwhile. And your own
+   * post never stands empty: walk away from it (`feet` = where you are) and a man takes it over until
+   * you come back to it.
+   */
+  setDisplaced(stationId, feet = null) {
     if (stationId === 'bombsight') stationId = 'chin'; // the bombardier's seat is right at the sight
     for (const m of this.members) {
+      if (m.state === 'player') {
+        const atPost = feet && (m.role.station ? stationId === m.role.station : _c.set(...m.spot.at).distanceTo(feet) < 1.2);
+        const standIn = !!feet && !atPost;
+        if (standIn !== !!m.standIn) { m.standIn = standIn; m.task = 'station'; this.place(m); }
+        continue;
+      }
       const was = m.displaced;
       m.displaced = m.role.station === stationId && m.state === 'ok' && m.task === 'station';
       if (was !== m.displaced) this.place(m);
+    }
+  }
+
+  /**
+   * A gunner you can see, at his gun: he turns with it (the top turret gunner all the way round with
+   * the turret, the others from the hips), his arms and head follow its elevation, hands on the grips,
+   * and he shakes with the recoil while it fires. gp = the gun position (yaw / pitch in bomber space).
+   */
+  animateGunner(stationId, gp, firing) {
+    if (!this.visible) return;
+    const m = this.members.find((x) => x.role.station === stationId);
+    const b = m?.fig?.userData.base;
+    if (!b || !m.fig.visible || m.task !== 'station' || !(m.state === 'ok' || m.standIn)) return;
+    const j = m.fig.userData.j, top = stationId === 'top';
+    const rel = wrap(gp.yaw - m.spot.yaw);
+    m.fig.rotation.y = b.yaw + rel * (top ? 1 : 0.6);
+    const arms = top ? 1.45 : 0, lift = THREE.MathUtils.clamp(gp.pitch, -0.8, 1.2) * 0.85;
+    j.armL.sh.rotation.x = (arms || b.shL) + lift;
+    j.armR.sh.rotation.x = (arms || b.shR) + lift;
+    if (top) { j.armL.el.rotation.x = j.armR.el.rotation.x = 0.7; }
+    j.head.rotation.x = b.head + THREE.MathUtils.clamp(gp.pitch, -0.6, 0.9) * 0.5;
+    reachFor(m.fig, gp.gripsWorld(m.grips ??= [new V(), new V()])); // both hands on the grips, wherever the gun points
+    // he leans in to his grips: his shoulders (where they'd be standing straight) a forearm and a bit
+    // short of them, so the arms are never stretched straight and the hands never fall short. He bends
+    // at the waist first, and only steps in for the rest, his feet kept inside the hull.
+    const rig = m.fig.userData.rig, par = m.fig.parent, lean = (m.lean ??= new V());
+    m.bend ??= 0;
+    if (rig && par) {
+      const sh = rig.arms.l.upper.getWorldPosition(_sa).add(rig.arms.r.upper.getWorldPosition(_sb)).multiplyScalar(0.5);
+      par.worldToLocal(sh).sub(m.fig.position).add(b.pos);
+      const want = par.worldToLocal(_sc.copy(m.grips[0]).add(m.grips[1]).multiplyScalar(0.5)).sub(sh);
+      let d = Math.hypot(want.x, want.z);
+      const ux = d ? want.x / d : 0, uz = d ? want.z / d : 0;
+      d += Math.sin(m.bend) * 0.5; // (undo last frame's bend: his shoulders had already come that far)
+      const go = Math.max(0, d - 0.38), bendGo = Math.min(go, 0.26);
+      const bend = Math.asin(bendGo / 0.5), step = Math.min(go - bendGo, stationId === 'tail' ? 0.45 : 0.3);
+      want.set(ux * step, Math.max(stationId === 'tail' ? -0.12 : 0, (want.y + 0.1) * 0.5), uz * step); // (up a little; only the kneeling tail gunner sinks to his)
+      const it = this.interior, fx = b.pos.x + want.x, fz = b.pos.z + want.z;
+      if (it) { // (knees and boots out in front of him: a good way in from the skin)
+        const lim = Math.max(Math.abs(b.pos.x), it.hw(fz, b.pos.y + 0.4) - 0.42);
+        if (Math.abs(fx) > lim) want.x = Math.sign(fx) * lim - b.pos.x;
+      }
+      const k = m.leanSet ? 0.2 : 1;
+      lean.lerp(want, k); m.bend += (bend - m.bend) * k; m.leanSet = true;
+    }
+    const torso = b.torso - m.bend;
+    if (firing) { // the guns hammer him about
+      m.fig.position.set(b.pos.x + rand(-1, 1) * 0.005, b.pos.y + rand(-1, 1) * 0.004, b.pos.z + rand(-1, 1) * 0.005).add(lean);
+      j.torso.rotation.x = torso + rand(-1, 1) * 0.025;
+    } else {
+      m.fig.position.copy(b.pos).add(lean);
+      j.torso.rotation.x = torso;
     }
   }
 
@@ -352,6 +479,7 @@ export class Crew {
   /** The player takes this man's place (a living AI crewman). The man you were is `previous`. */
   becomePlayer(m) {
     m.state = 'player';
+    m.standIn = false;
     m.task = 'station';
     this.place(m);
   }
@@ -364,10 +492,12 @@ export class Crew {
     if (!next) return null;
     if (me) {
       me.state = 'dead';
+      me.standIn = false;
       me.spot = { ...me.spot, lie: player.feet.toArray(), liePose: 'lie' }; // he lies where you fell
       this.place(me);
     }
     next.state = 'player';
+    next.standIn = false;
     next.task = 'station';
     this.place(next);
     return next;

@@ -1,8 +1,12 @@
-// Flying a fighter yourself, a Bf 109 or a P-51: War Thunder style mouse aim (the mouse points where
-// you want to go, the plane banks and turns there), throttle, the type's real guns with ammo and
-// overheating, a chase camera and a nose view with a gunsight.
+// Flying a fighter yourself, a Bf 109 or a P-51, the War Thunder way: from the cockpit (cockpit.js) the
+// mouse turns your view freely and the plane flies to where you look, banking into the turn, so you
+// see the canopy frame swing round as it catches up. The screen centre is where you're taking it, the
+// gunsight sits on the nose (where the guns point). Throttle, the type's real guns with ammo and
+// overheating, free look on C (look round without steering), and a chase view only once you've been
+// shot down, to watch the end.
 import * as THREE from 'three';
 import { ALTITUDE } from './world.js';
+import { buildCockpit } from './cockpit.js';
 
 const V = THREE.Vector3;
 const LOOK = 0.0022; // rad per pixel of mouse movement
@@ -10,9 +14,11 @@ const SPREAD = 0.003; // rad: your own guns are better harmonised than the AI's
 const HEAT_TIME = 9, COOL = 0.12, UNJAM = 0.45; // s of non-stop fire to overheat; heat lost per s
 // rounds per gun: Bf 109 F: 2 x MG 17 (1,000 each), MG 151/20 (200); P-51D: 6 x .50 (inner 400, others 270)
 const AMMO = { bf109: [1000, 1000, 200], p51: [400, 400, 270, 270, 270, 270] };
-const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1] }; // pilot's eye in the model, for the nose view
-const CHASE_BACK = 20, CHASE_UP = 4.5; // m behind and above, along the aim
-const _aim = new V(), _t = new V(), _m = new THREE.Matrix4();
+const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1] }; // pilot's eye in the model (as in cockpit.js)
+const CHASE_BACK = 20, CHASE_UP = 4.5; // m behind and above: watching your plane go down
+const HEAD_YAW = THREE.MathUtils.degToRad(150), HEAD_UP = 1.2, HEAD_DOWN = -0.5; // free look (C) limits, rad
+const DEAD_ZONE = 0.002, SETTLE = 0.2; // rad: no steering inside the dead zone; full turn rate beyond SETTLE
+const _aim = new V(), _t = new V(), _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler();
 
 export class Pilot {
   constructor(audio) {
@@ -23,13 +29,11 @@ export class Pilot {
     this.aimYaw = 0; this.aimPitch = 0;
     this.throttle = 0.85;
     this.firing = false; this.zoom = false; this.lookScale = 1; this.freeLook = false;
-    this.view = 'chase';
+    this.view = 'nose';
+    this.headYaw = 0; this.headPitch = 0; // free look (hold C), relative to the plane
+    this.cockpits = {};
     this.camPos = new V();
-    addEventListener('keydown', (e) => {
-      if (!this.active) return;
-      this.keys[e.code] = true;
-      if (e.code === 'KeyV' && !e.repeat) this.view = this.view === 'chase' ? 'nose' : 'chase';
-    });
+    addEventListener('keydown', (e) => { if (this.active) this.keys[e.code] = true; });
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
     addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
     addEventListener('mousedown', (e) => {
@@ -41,6 +45,11 @@ export class Pilot {
     document.addEventListener('mousemove', (e) => {
       if (!this.active || !(document.pointerLockElement || this.freeLook)) return;
       if (Math.abs(e.movementX) > 300 || Math.abs(e.movementY) > 300) return; // a bogus jump (Chrome on Windows)
+      if (this.keys.KeyC) { // hold C: turn your head, the plane flies on towards the aim
+        this.headYaw = THREE.MathUtils.clamp(this.headYaw - e.movementX * LOOK * this.lookScale, -HEAD_YAW, HEAD_YAW);
+        this.headPitch = THREE.MathUtils.clamp(this.headPitch - e.movementY * LOOK * this.lookScale, HEAD_DOWN, HEAD_UP);
+        return;
+      }
       this.aimYaw -= e.movementX * LOOK * this.lookScale;
       this.aimPitch = THREE.MathUtils.clamp(this.aimPitch - e.movementY * LOOK * this.lookScale, -1.45, 1.45);
     });
@@ -59,12 +68,27 @@ export class Pilot {
     this.heat = this.ammo.map(() => 0);
     this.jammed = this.ammo.map(() => false);
     this.timers = this.ammo.map(() => Math.random() * 0.05);
-    this.view = 'chase';
+    this.headYaw = this.headPitch = 0;
     this.camPos.copy(f.pos).addScaledVector(f.dir, -CHASE_BACK).y += CHASE_UP;
     this.active = true;
   }
 
-  stop() { this.active = false; this.firing = false; this.keys = {}; }
+  stop() {
+    this.active = false; this.firing = false; this.keys = {};
+    this.showCockpit(null);
+  }
+
+  /** The cockpit of `f`'s type round the pilot's eye, in place of the plane's own model (null: none). */
+  showCockpit(f) {
+    if (this.shown && this.shown !== f) this.shown.obj.visible = true;
+    for (const c of Object.values(this.cockpits)) c.visible = false;
+    this.shown = f;
+    if (!f) return null;
+    f.obj.visible = false;
+    const c = (this.cockpits[f.kind] ??= buildCockpit(f.kind));
+    c.visible = true;
+    return c;
+  }
 
   get alive() { return !!this.f && this.f.alive; }
 
@@ -78,14 +102,17 @@ export class Pilot {
     const k = f.k, keys = this.keys;
     this.throttle = THREE.MathUtils.clamp(this.throttle + ((keys.KeyW ? 1 : 0) - (keys.KeyS ? 1 : 0)) * dt * 0.5, 0, 1);
     // the instructor: turn the nose towards the aim at the type's combat turn rate; the wings bank by themselves
-    f.steer(this.aimDir(), k.combat, dt);
+    // (eased in the last few degrees so the nose settles on the aim without a wobble; a tiny dead zone)
+    const off = f.dir.angleTo(this.aimDir());
+    if (off > DEAD_ZONE) f.steer(_aim, k.combat * Math.min(1, 0.25 + off / SETTLE), dt);
     // A / D roll on top of that (a barrel roll, or rolling to look), easing back level when let go
     const roll = (keys.KeyA ? 1 : 0) - (keys.KeyD ? 1 : 0);
     f.roll = roll ? f.roll - roll * 2.6 * dt : f.roll * Math.exp(-dt * 3);
-    // throttle sets the speed it settles at; climbing costs speed, diving gains it
-    const want = THREE.MathUtils.lerp(k.cruise * 0.75, k.max, this.throttle);
+    // throttle sets the speed it settles at, the same speeds the AI flies the type at: full throttle is
+    // its attack speed. Climbing costs speed, diving gains it, up to the AI's top speed in a dive.
+    const want = THREE.MathUtils.lerp(k.cruise * 0.75, k.attack, this.throttle);
     f.speed += (want - f.speed) * (1 - Math.exp(-dt * 0.45)) - f.dir.y * 9.81 * dt * 0.7;
-    f.speed = THREE.MathUtils.clamp(f.speed, 70, k.max + 45); // (a dive can overspeed a little)
+    f.speed = THREE.MathUtils.clamp(f.speed, 70, k.max);
     if (this.firing) this.fireGuns(f, dt);
     else this.timers.forEach((t, i) => { this.timers[i] = Math.max(t, 0); });
     for (let i = 0; i < this.heat.length; i++) {
@@ -113,17 +140,29 @@ export class Pilot {
     });
   }
 
-  /** Chase view (behind the plane, looking along the aim) or nose view (the pilot's eye, through the gunsight). */
+  /** From the cockpit: the pilot's eye, looking where the mouse aims (plus a free look on C), the horizon level. */
   updateCamera(camera, dt) {
     const f = this.f;
     if (!f) return;
-    const nose = this.view === 'nose' && f.alive;
-    f.obj.visible = !nose; // no cockpit in the model: in the nose view you see through the gunsight only
-    if (nose) {
+    if (!this.keys.KeyC) { // let go of C: the view eases back over the nose (~0.3 s)
+      const k = Math.exp(-dt * 10);
+      this.headYaw *= k; this.headPitch *= k;
+    }
+    if (f.alive) {
+      const c = this.showCockpit(f);
+      if (!c.parent && camera.parent) camera.parent.add(c);
+      c.matrix.copy(f.obj.matrixWorld);
+      c.matrixWorldNeedsUpdate = true;
+      this.camPos.copy(f.pos).addScaledVector(f.dir, -CHASE_BACK).y += CHASE_UP; // (for the end, if it comes)
       camera.position.fromArray(EYE[f.kind]).applyMatrix4(f.obj.matrixWorld);
-      camera.quaternion.setFromRotationMatrix(_m.extractRotation(f.obj.matrixWorld));
+      camera.quaternion.setFromEuler(_e.set(this.aimPitch, this.aimYaw, 0, 'YXZ'))
+        .multiply(_q.setFromEuler(_e.set(this.headPitch, this.headYaw, 0, 'YXZ')));
+      this.view = Math.abs(this.headYaw) + Math.abs(this.headPitch) > 0.03 ? 'look' : 'aim';
       return;
     }
+    // shot down: out of the cockpit, to watch your plane go
+    this.showCockpit(null);
+    this.view = 'chase';
     const aim = f.alive ? this.aimDir() : _aim.copy(f.dir);
     _t.copy(f.pos).addScaledVector(aim, -CHASE_BACK);
     _t.y += CHASE_UP;
@@ -141,13 +180,14 @@ export class Pilot {
     let have = 0, max = 0;
     for (const [n, p] of Object.entries(parts)) { have += Math.max(0, f.parts[n]) / p.hp; max++; }
     const pt = (p) => { const s = _t.copy(p).project(camera); return camera.getWorldDirection(_aim).dot(_t.copy(p).sub(camera.position)) > 0 && Math.abs(s.x) < 1.2 && Math.abs(s.y) < 1.2 ? { x: (s.x + 1) / 2, y: (1 - s.y) / 2 } : null; };
-    // in the chase view the screen centre is the aim and the ring shows the nose; in the nose view it's the other way round
-    const marker = pt((this.view === 'nose' ? this.aimDir(new V()) : new V().copy(f.dir)).multiplyScalar(600).add(f.pos));
+    // the gunsight sits on the nose (where the guns point); the aim point is where the mouse is taking you
+    const marker = pt(new V().copy(f.dir).multiplyScalar(600).add(f.pos));
+    const aim = pt(this.aimDir(new V()).multiplyScalar(600).add(f.pos));
     const byType = {};
     f.k.guns.forEach((g, i) => { const key = g.cannon ? 'cannon' : 'mg'; (byType[key] ??= { n: 0, max: 0 }).n += this.ammo[i]; byType[key].max += AMMO[f.kind][i]; });
     return {
       kind: f.k.name, view: this.view, speed: f.speed, alt: (ALTITUDE + f.pos.y) * 3.281, throttle: this.throttle,
-      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker,
+      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker, aim,
       damage: f.burning ? 'ON FIRE' : f.engineDead ? 'ENGINE OUT' : f.smoking ? 'ENGINE HIT' : '',
     };
   }

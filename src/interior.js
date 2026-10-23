@@ -8,13 +8,17 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { windowCutout } from './models.js';
 import { buildBallTurret } from './ballturret.js';
 import { buildTopTurret } from './topturret.js';
+import { addMoreDetail } from './interiordetail.js';
+import { buildB17Cockpit } from './cockpitb17.js';
+import { buildStations } from './stations.js';
+import { hullPaint, insideLight, planks, leather, propWear } from './cabinlook.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const HULL = /^(MainFuselage2|Nose|Tail|TailGunPod|SideGunPanels|FrontGunPanels|TopTurret)$/;
 
 // Floors (bomber space, nose towards -Z), measured from the hull cross-sections.
 export const DECKS = [
-  { name: 'Nose', z0: -10.4, z1: -8.6, y: -0.72, hw: 0.9 },
+  { name: 'Nose', z0: -10.9, z1: -8.6, y: -0.72, hw: 0.9 }, // right up to the nose glass
   { name: 'Cockpit', z0: -8.6, z1: -6.35, y: -0.40, hw: 1.0 },
   { name: 'Bomb bay', z0: -5.6, z1: -2.6, y: -1.62, hw: 0.13 }, // the narrow catwalk
   { name: 'Radio room', z0: -2.6, z1: -1.25, y: -1.80, hw: 0.9 },
@@ -25,6 +29,24 @@ export const DECKS = [
 const STEPS = [ // from the flight deck down into the bomb bay
   { z0: -6.35, z1: -6.1, y: -0.72 }, { z0: -6.1, z1: -5.85, y: -1.02 }, { z0: -5.85, z1: -5.6, y: -1.32 },
 ];
+const TURRET_CUT = { z: -6.71, y: 0.9, r: 0.5, ring: 1.14 }; // the hole in the cockpit roof up into the top turret
+
+/** Discard everything of a mesh below bomber-space height y (offsetY = the mesh's own height). */
+function cutBelow(m, offsetY, y) {
+  const prev = m.onBeforeCompile, prevKey = m.customProgramCacheKey?.bind(m);
+  m.onBeforeCompile = (sh, r) => {
+    prev?.call(m, sh, r);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
+      varying float vCutY;`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+      vCutY = position.y;`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying float vCutY;`)
+      .replace('void main() {', `void main() {
+        if (vCutY + ${offsetY.toFixed(3)} < ${y.toFixed(3)}) discard;`);
+  };
+  m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|cut${y}`;
+}
 const ROOF = 1.12; // m: just under the top of the fuselage at the cockpit (the turret dome rises above it)
 const BULKHEADS = [ // door: [x0, x1, height above floor]
   { z: -6.35, floor: -0.40, door: [-0.32, 0.32, 1.45] },
@@ -43,18 +65,21 @@ export const STATIONS = [
     hide: ['FrontGunCapsule', 'FrontGunPanels'] }, // looks down through the flat panel in the nose bottom
   { id: 'cheekL', name: 'Left cheek gun', stand: [-0.35, -0.72, -9.45], eye: [-0.55, 0.1, -10.0], yaw: 70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel16'], ghost: ['FrontGunPanels'] },
   { id: 'cheekR', name: 'Right cheek gun', stand: [0.35, -0.72, -9.45], eye: [0.55, 0.1, -10.0], yaw: -70, yawLim: 35, pitch: [-35, 30], guns: ['GunBarrel002'], ghost: ['FrontGunPanels'] },
-  { id: 'pilot', name: 'Pilot seat', stand: [-0.18, -0.40, -7.2], eye: [-0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
-  { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.62, -7.7], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
+  { id: 'pilot', name: 'Pilot seat', stand: [-0.18, -0.40, -7.2], eye: [-0.55, 0.88, -7.72], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
+  { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.88, -7.72], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
   { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.4, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'],
+    entry: { time: 0.8, path: [[0, 0.85, -6.85]], bob: 0.02, bobs: 1 }, // step up onto the platform, head up into the dome
     pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] },
     hide: ['TopTurret'], attach: 'topCockpit' }, // inside, the model's dome is replaced by a glass one (topturret.js)
   { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.42, -0.1], yaw: 0, yawLim: 180, pitch: [-89, 5], guns: ['GunBarrel004', 'GunBarrel14'],
+    entry: { time: 1.2, path: [[0, -1.05, 0.3], [0, -1.75, 0.08], [0, -2.25, -0.02]], bob: 0.015, bobs: 2 }, // kneel at the hatch, down into the ball
     pivot: [0, -2.15, -0.13], turret: { full: ['BallTurret'], yaw: ['BallStabilizer1'] },
     // inside, the model's ball is replaced by a glass and steel one that turns with your aim (ballturret.js)
-    hide: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks'], attach: 'ballCockpit' },
-  { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'] }, // in the window, over the gun
-  { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'] },
-  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'], attach: 'ironSight' }, // the pod turns to glass; its frame is built in buildTail
+    hide: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks', 'BallCap'], attach: 'ballCockpit' },
+  { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'], eyeBehind: 0.45 }, // behind the gun, swinging round its mount with it
+  { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'], eyeBehind: 0.45 },
+  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'], attach: 'ironSight',
+    entry: { time: 1.5, path: [[0, -1.82, 9.45], [0, -1.86, 9.72], [0, -1.9, 9.95]], bob: 0.035, bobs: 3 } }, // crawl back under the tail on your knees // the pod turns to glass; its frame is built in buildTail
 ].map((s) => ({ ...s, stand: new V(...s.stand), eye: new V(...s.eye), yaw: s.yaw * D, yawLim: s.yawLim * D, pitch: [s.pitch[0] * D, s.pitch[1] * D] }));
 
 // hull cross-section table: half-width of the cabin at (z, y), 10 cm x 5 cm cells
@@ -106,11 +131,12 @@ function measureHull(meshes, root) {
 const std = (color, roughness = 0.8, metalness = 0.1) =>
   new THREE.MeshStandardMaterial({ color, roughness, metalness, envMapIntensity: 0.07 });
 const MAT = {
-  floor: std(0x4f4a3f, 0.9),
+  floor: planks(std(0x9a8a70, 0.85)), // wooden planks (cabinlook.js)
   metal: std(0x767a70, 0.55, 0.6),
   green: std(0x5d6640, 0.75),
   dark: std(0x232323, 0.6, 0.3),
-  leather: std(0x5b3b24, 0.7),
+  well: Object.assign(std(0x2a2b28, 0.7, 0.4), { side: THREE.DoubleSide }), // seen from below, from inside
+  leather: leather(std(0x5b3b24, 0.7)),
   bomb: std(0x495031, 0.6, 0.2),
   bombBand: std(0xb8932c, 0.6), // only on the bombs, so the whole load can be hidden after the drop
   yellow: std(0xb8932c, 0.6),
@@ -123,7 +149,7 @@ const MAT = {
   pad: new THREE.MeshStandardMaterial({ map: quiltTexture(), roughness: 0.95, envMapIntensity: 0.05 }), // quilted insulation
 };
 
-function liningMaterial(src, inverted) {
+function liningMaterial(src, inverted, offset = new V()) {
   // interior paint, cut out where the outer skin has windows; worn: blotchy, scuffed through to
   // bare aluminium here and there (noise from the position, so no extra texture)
   const m = windowCutout(new THREE.MeshStandardMaterial({
@@ -133,6 +159,18 @@ function liningMaterial(src, inverted) {
   const cutout = m.onBeforeCompile;
   m.onBeforeCompile = (sh, r) => {
     cutout(sh, r);
+    // windows only: the paint's alpha is speckled, and a lone speck cut through let the sky show
+    // through the wall in white flecks. Cut where the texels round about are see-through too.
+    sh.fragmentShader = sh.fragmentShader.replace('diffuseColor.a = texel.a < 0.95 ? 0.0 : 1.0;', `
+      vec2 o = vec2(0.003, 0.0);
+      float aa = max(max(texel.a, max(texture2D(map, vMapUv + o).a, texture2D(map, vMapUv - o).a)), max(texture2D(map, vMapUv + o.yx).a, texture2D(map, vMapUv - o.yx).a));
+      diffuseColor.a = aa < 0.95 ? 0.0 : 1.0;`);
+    // the opening up into the top turret: the roof is cut away round its ring (bomber space: + offset)
+    sh.uniforms.uOff = { value: offset };
+    sh.fragmentShader = sh.fragmentShader.replace('void main() {', `uniform vec3 uOff;
+      void main() {
+        vec3 pb = vPosM + uOff;
+        if (pb.y > ${TURRET_CUT.y.toFixed(2)} && length(pb.xz - vec2(0.0, ${TURRET_CUT.z.toFixed(2)})) < ${TURRET_CUT.r.toFixed(2)}) discard;`);
     sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vPosM;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosM = position;');
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
@@ -143,9 +181,10 @@ function liningMaterial(src, inverted) {
                    mix(mix(h3(i + vec3(0,0,1)), h3(i + vec3(1,0,1)), f.x), mix(h3(i + vec3(0,1,1)), h3(i + vec3(1,1,1)), f.x), f.y), f.z); }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
       float blotch = n3(vPosM * 2.3) * 0.6 + n3(vPosM * 9.0) * 0.4;
-      diffuseColor.rgb *= 0.82 + 0.3 * blotch;
-      float worn = smoothstep(0.78, 0.9, n3(vPosM * 5.0 + 3.1) * 0.7 + n3(vPosM * 31.0) * 0.3);
-      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.63, 0.6), worn * 0.7); // bare metal`);
+      diffuseColor.rgb *= 0.9 + 0.14 * blotch; // (a little: blotchy paint looks like camouflage)
+      float worn = smoothstep(0.8, 0.92, n3(vPosM * 5.0 + 3.1) * 0.8 + n3(vPosM * 23.0) * 0.2);
+      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.5, 0.51, 0.48), worn * 0.35); // scuffed through to the metal (subtle: bright patches read as holes)`);
+    hullPaint(sh, 'vPosM + uOff'); // the worn green paint, rivet rows and seams (cabinlook.js)
   };
   m.customProgramCacheKey = () => 'lining-worn';
   return m;
@@ -207,35 +246,6 @@ function stencilTexture(lines, colour = '#e8e2c8') {
   return t;
 }
 
-function radioFace() { // the radio sets' faces: dials, knobs and a tuning window
-  const c = document.createElement('canvas');
-  c.width = 256; c.height = 128;
-  const g = c.getContext('2d');
-  g.fillStyle = '#2c2e29'; g.fillRect(0, 0, 256, 128);
-  g.fillStyle = '#c9b27a'; g.fillRect(16, 14, 110, 34); // tuning dial
-  g.fillStyle = '#1b1b18'; for (let x = 22; x < 122; x += 8) g.fillRect(x, 18, 1, x % 24 === 6 ? 14 : 8);
-  for (let i = 0; i < 5; i++) { g.fillStyle = '#111'; g.beginPath(); g.arc(28 + i * 46, 92, 14, 0, 7); g.fill(); g.strokeStyle = '#888'; g.beginPath(); g.arc(28 + i * 46, 92, 14, 0, 7); g.stroke(); }
-  g.fillStyle = '#d8d2bd'; g.font = '12px monospace'; g.fillText('BC-348', 150, 36);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-function gauges() {
-  const c = document.createElement('canvas');
-  c.width = 512; c.height = 160;
-  const g = c.getContext('2d');
-  g.fillStyle = '#1b1c1a'; g.fillRect(0, 0, 512, 160);
-  for (let i = 0; i < 14; i++) {
-    const x = 40 + (i % 7) * 72, y = 45 + Math.floor(i / 7) * 72;
-    g.fillStyle = '#0c0c0c'; g.beginPath(); g.arc(x, y, 27, 0, 7); g.fill();
-    g.strokeStyle = '#d8d2bd'; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 22, 0.7, 5.6); g.stroke();
-    g.beginPath(); g.moveTo(x, y); g.lineTo(x + 18 * Math.cos(i * 1.3), y + 18 * Math.sin(i * 1.3)); g.stroke();
-  }
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
 
 /**
  * Remove zero-area triangles (non-indexed geometry). Filling an outline whose wall runs straight puts
@@ -283,6 +293,7 @@ export class Interior {
     model.traverse((o) => { if (o.isMesh && HULL.test(o.name)) hull.push(o); });
     this.table = measureHull(hull, model);
     this.boxes = [];
+    this.people = []; // the crew standing or sitting about: you brush past them (Player), not through (Crew keeps it up to date)
     this.group = new THREE.Group();
     this.group.name = 'Interior';
     this.geos = new Map(); // material -> geometries to merge
@@ -299,14 +310,21 @@ export class Interior {
     this.buildWaist();
     this.buildTail();
     this.buildDetails();
+    addMoreDetail(this, MAT, DECKS);
 
     this.bombMeshes = [];
     for (const [mat, geos] of this.geos) {
       const mesh = new THREE.Mesh(mergeGeometries(geos), mat);
-      mesh.castShadow = mesh.receiveShadow = true;
+      mesh.castShadow = mat !== MAT.floor; // (the floor's planks would shade themselves: no window light on them)
+      mesh.receiveShadow = true;
       this.group.add(mesh);
       if (mat === MAT.bomb || mat === MAT.bombBand) this.bombMeshes.push(mesh);
     }
+    // the cabin is dark inside: the sun through the windows lights it, not the sky (cabinlook.js)
+    // grime and worn edges on the boxes, cans, bottles, radio sets and seats (not the floor, glass, lamps)
+    this.group.traverse((o) => { if (o.isMesh && o.geometry.attributes.aEdge && !o.material.transparent && !o.material.emissiveMap && o.material !== MAT.floor && !(o.material.emissiveIntensity > 0 && o.material.emissive?.getHex())) propWear(o.material); });
+    this.group.traverse((o) => { if (o.isMesh) insideLight(o.material); });
+    for (const [outer, lining] of this.parts.values()) if (lining) insideLight(lining.material);
   }
 
   /** Bombs away: the racks are empty (or full again, for a fresh bomber). */
@@ -425,7 +443,13 @@ export class Interior {
 
   add(mat, geo) {
     if (!this.geos.has(mat)) this.geos.set(mat, []);
-    this.geos.get(mat).push(dropDegenerate(geo.index ? geo.toNonIndexed() : geo)); // extrusions are non-indexed
+    // which of its UVs run to an edge, for the worn edges (cabinlook.js propWear): a box's both ways
+    // round each face, a can's or bottle's only top and bottom
+    const edge = geo.type === 'BoxGeometry' ? [1, 1] : geo.type === 'CylinderGeometry' ? [0, 1] : [0, 0];
+    const g = geo.index ? geo.toNonIndexed() : geo;
+    g.setAttribute('aEdge', new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count * 2).map((_, i) => edge[i % 2]), 2));
+    if (!g.attributes.uv) g.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
+    this.geos.get(mat).push(dropDegenerate(g)); // extrusions are non-indexed
   }
 
   cylinder(r, len, x, y, z, axis, mat, seg = 14) {
@@ -449,13 +473,18 @@ export class Interior {
       const outer = mesh.material.clone(); // clone() drops the shader hook, so re-apply it
       if (mesh.material.alphaTest) windowCutout(outer);
       outer.side = inverted ? THREE.BackSide : THREE.FrontSide; // the outside skin no longer hides the cabin
+      outer.shadowSide = THREE.DoubleSide; // (one-sided, its shadow would be the belly's alone: the roof and its windows must cast)
       mesh.material = outer;
-      const lining = new THREE.Mesh(mesh.geometry, liningMaterial(outer, inverted));
+      // the top turret isn't cabin: no lining (from below you look up through its ring into the glass
+      // dome, see buildTopDome), and its floor under the ring is cut away, so it doesn't shut the opening
+      if (mesh.name === 'TopTurret') { cutBelow(outer, mesh.position.y, TURRET_CUT.ring); continue; }
+      const lining = new THREE.Mesh(mesh.geometry, liningMaterial(outer, inverted, mesh.position));
       lining.name = `${mesh.name}_lining`;
       lining.position.copy(mesh.position);
       lining.quaternion.copy(mesh.quaternion);
       lining.scale.copy(mesh.scale);
       lining.receiveShadow = true;
+      lining.castShadow = false; lining.userData.noShadow = true; // (the skin's shadow has the window cut-outs; a second one wouldn't)
       mesh.parent.add(lining);
       this.parts.get(mesh.name).push(lining);
     }
@@ -463,7 +492,7 @@ export class Interior {
 
   /** Hide (or show again) hull parts by name, e.g. the painted tail cap while at the tail gun. */
   setHidden(names, hidden) {
-    for (const n of names) for (const m of this.parts.get(n) ?? [this.model.getObjectByName(n)]) if (m) m.visible = !hidden;
+    for (const n of names) for (const m of this.parts.get(n) ?? [this.model.getObjectByName(n) ?? this.group.getObjectByName(n)]) if (m) m.visible = !hidden;
   }
 
   /** Turret shells turn to faint glass while you're in them, so the frame never blocks the view. */
@@ -518,7 +547,22 @@ export class Interior {
       if (outer.length < 8 || inner.length < 8) continue;
       const shape = new THREE.Shape(outer);
       shape.holes.push(new THREE.Path(inner));
-      this.add(MAT.metal, new THREE.ExtrudeGeometry(shape, { depth: 0.035, bevelEnabled: false, curveSegments: 1 }).translate(0, 0, z));
+      // lightening holes punched through the web, every 15 cm or so round the frame
+      const [, , mid] = this.outline(z, deck.y + 0.3, 0.04);
+      let last = null;
+      for (const p of mid) {
+        if (p.y < deck.y + 0.08 || (last && last.distanceTo(p) < 0.15)) continue;
+        shape.holes.push(new THREE.Path().absarc(p.x, p.y, 0.014, 0, Math.PI * 2, true));
+        last = p;
+      }
+      this.add(MAT.metal, new THREE.ExtrudeGeometry(shape, { depth: 0.012, bevelEnabled: false, curveSegments: 6 }).translate(0, 0, z));
+      // the inner flange: the frame is a channel, its edge turned over
+      const [, , lip] = this.outline(z, deck.y + 0.3, 0.062);
+      if (lip.length >= 8) {
+        const flange = new THREE.Shape(lip);
+        flange.holes.push(new THREE.Path(inner));
+        this.add(MAT.metal, new THREE.ExtrudeGeometry(flange, { depth: 0.045, bevelEnabled: false, curveSegments: 1 }).translate(0, 0, z - 0.015));
+      }
     }
   }
 
@@ -541,32 +585,26 @@ export class Interior {
 
   buildNose() {
     const f = -0.72;
-    this.box(-0.95, -0.55, f, -0.02, -9.4, -8.85, MAT.green); // navigator's table
-    this.box(-0.93, -0.57, -0.02, 0.0, -9.38, -8.87, MAT.floor, false);
+    this.box(-0.95, -0.55, f, 0.02, -9.4, -8.85, null); // navigator's table (drawn in stations.js)
     this.box(-0.18, 0.18, f, -0.3, -10.3, -10.08, MAT.leather); // bombardier's seat
+    this.box(-0.18, 0.18, -0.3, 0.4, -10.3, -10.08, null); // (no climbing onto it)
+    this.box(-1.0, 1.0, f, 1.0, -11.8, -10.82, null); // the nose glass: you can't walk out past the end of the floor
     this.box(-0.09, 0.09, f, -0.25, -10.55, -10.42, MAT.metal); // bomb-sight stand
     this.box(-0.11, 0.11, -0.25, -0.02, -10.6, -10.36, MAT.dark, false); // Norden bomb sight
   }
 
   buildCockpit() {
     const f = -0.40;
-    // instrument panel: crawl under it to get into the nose, like the real crawlway
-    this.box(-0.98, 0.98, 0.25, 0.8, -8.62, -8.5, MAT.dark);
-    const panel = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.5), new THREE.MeshStandardMaterial({ map: gauges(), roughness: 0.5 }));
-    panel.position.set(0, 0.53, -8.495);
-    this.group.add(panel);
-    this.box(-0.98, 0.98, 0.8, 0.86, -8.75, -8.45, MAT.dark, false); // glare shield
-    for (const x of [-0.55, 0.55]) {
-      this.box(x - 0.24, x + 0.24, f, f + 0.45, -7.85, -7.35, MAT.leather); // seat
-      this.box(x - 0.24, x + 0.24, f + 0.45, f + 1.15, -7.35, -7.25, MAT.leather); // seat back
-      this.box(x - 0.04, x + 0.04, f, 0.28, -8.25, -8.15, MAT.metal); // control column
-      const wheel = new THREE.TorusGeometry(0.17, 0.025, 8, 24).translate(x, 0.33, -8.2);
-      this.add(MAT.dark, wheel);
-    }
-    // top turret: standing platform, column and ring under the dome
+    buildB17Cockpit(this); // the panel, glare shield, wheels, pedestal and seats (cockpitb17.js)
+    // top turret: the engineer's standing platform, and above him the opening in the roof up into the
+    // turret: the ring and its lip, and ammunition boxes either side
     this.box(-0.32, 0.32, f, f + 0.12, -7.0, -6.55, MAT.metal);
-    this.cylinder(0.05, 1.3, 0, 0.5, -6.72, 'y', MAT.metal);
-    this.add(MAT.metal, new THREE.TorusGeometry(0.52, 0.04, 8, 32).rotateX(Math.PI / 2).translate(0, 1.15, -6.72));
+    this.add(MAT.metal, new THREE.TorusGeometry(TURRET_CUT.r + 0.02, 0.035, 8, 40).rotateX(Math.PI / 2).translate(0, 1.15, TURRET_CUT.z));
+    this.add(MAT.well, new THREE.CylinderGeometry(TURRET_CUT.r + 0.01, TURRET_CUT.r + 0.01, 0.06, 40, 1, true).translate(0, 1.15, TURRET_CUT.z)); // the ring's lip (open below: you see the engineer up in it)
+    for (const s of [-1, 1]) {
+      this.box(s * 0.42 - 0.1, s * 0.42 + 0.1, 0.62, 0.92, TURRET_CUT.z - 0.22, TURRET_CUT.z + 0.22, MAT.ammo, false); // ammunition boxes on the turret
+      this.rod([s * 0.38, 0.92, TURRET_CUT.z], [s * 0.18, 1.12, TURRET_CUT.z - 0.05], 0.03, MAT.chute, 8); // feed chutes up to the guns
+    }
   }
 
   buildBombBay() {
@@ -585,16 +623,24 @@ export class Interior {
 
   buildRadioRoom() {
     const f = -1.80;
-    this.box(-1.0, -0.42, f, -1.05, -2.5, -1.8, MAT.green); // desk
-    this.box(-0.95, -0.6, -1.05, -0.55, -2.45, -1.85, MAT.radio); // radio sets
-    for (let i = 0; i < 4; i++) this.cylinder(0.025, 0.02, -0.59, -0.75 - (i % 2) * 0.15, -2.3 + Math.floor(i / 2) * 0.3, 'x', MAT.yellow, 10);
-    this.box(-0.85, -0.5, f, f + 0.45, -1.72, -1.42, MAT.leather); // operator's chair
+    // the desk, its sets and the chair are drawn in stations.js; these keep you out of them
+    this.box(-1.0, -0.42, f, -1.05, -2.5, -1.8, null); // desk
+    this.box(-0.97, -0.6, -1.05, -0.3, -2.45, -1.94, null); // the sets on it
+    this.box(-0.85, -0.5, f, f + 0.45, -1.72, -1.42, null); // operator's chair
   }
 
   buildWaist() {
     const f = -1.95;
     this.box(-0.36, 0.36, f, -1.2, -0.5, 0.24, null); // ball turret and its support stick up through the floor
     this.add(MAT.metal, new THREE.TorusGeometry(0.5, 0.04, 8, 32).rotateX(Math.PI / 2).translate(0, f + 0.02, -0.13));
+    // the ball's steel top where it comes up through the floor (the model's ball is glass up here, and
+    // seen from the waist it mirrored the sky). Hidden while you're in the ball yourself.
+    const rc = 0.57, cy = -2.15, top = Math.acos(THREE.MathUtils.clamp((f - cy) / rc, -1, 1));
+    const cap = new THREE.Mesh(new THREE.SphereGeometry(rc, 36, 10, 0, Math.PI * 2, 0, top).translate(0, cy, -0.13), std(0x5a5e56, 0.55, 0.55));
+    cap.name = 'BallCap';
+    cap.receiveShadow = true;
+    this.group.add(cap);
+    this.add(MAT.dark, new THREE.CylinderGeometry(0.08, 0.1, 0.05, 16).translate(0, cy + rc - 0.01, -0.13)); // its hub
     for (const s of [-1, 1]) {
       this.box(s > 0 ? 0.5 : -0.74, s > 0 ? 0.74 : -0.5, f, f + 0.35, 2.75, 3.15, MAT.green); // ammo boxes
       this.cylinder(0.11, 0.55, s * 0.72, -1.15, 0.8, 'y', MAT.yellow); // oxygen bottles
@@ -662,11 +708,7 @@ export class Interior {
         prev = [x, y, z];
       }
     }
-    // radio room: the sets get faces, and a rack of spare sets over the desk
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.45), new THREE.MeshStandardMaterial({ map: radioFace(), roughness: 0.6, envMapIntensity: 0.1 }));
-    face.position.set(-0.595, -0.8, -2.15); face.rotation.y = Math.PI / 2;
-    this.group.add(face);
-    this.box(-0.98, -0.62, -0.5, -0.25, -2.45, -1.9, MAT.radio, false);
+    buildStations(this, MAT); // the navigator's and radio operator's stations (stations.js)
     // padded walls: quilted insulation on the radio room bulkheads, either side of the doors
     for (const [z, dir] of [[-2.57, 1], [-1.28, -1]]) for (const s of [-1, 1]) {
       const g = new THREE.PlaneGeometry(0.42, 1.0); if (dir < 0) g.rotateY(Math.PI);
@@ -677,6 +719,22 @@ export class Interior {
     this.stencil(['DANGER', 'BOMB BAY'], 0.3, [0.5, -0.95, -2.56], 0);
     this.stencil(['WALK ON', 'CATWALK ONLY'], 0.3, [-0.5, -0.95, -2.64], Math.PI);
     this.stencil(['42-31909'], 0.3, [0.68, -0.6, 4.0], -Math.PI / 2, '#d8c86a');
+    // data plates, riveted on by the doors and at the stations, and the bottles' and boxes' stencils
+    const plate = (lines, w, [x, y, z], rot) => {
+      const h = (w / 4) * lines.length + 0.02, n = new V(Math.sin(rot), 0, Math.cos(rot));
+      const g = new THREE.BoxGeometry(w + 0.02, h, 0.004).rotateY(rot).translate(x - n.x * 0.003, y, z - n.z * 0.003);
+      this.add(MAT.dark, g);
+      this.stencil(lines, w, [x + n.x * 0.0005, y, z + n.z * 0.0005], rot, '#cfc8b0');
+    };
+    plate(['BOEING B-17G-35-BO', 'AAF SER. NO. 42-31909', 'SEATTLE WASH.'], 0.16, [-0.45, -0.95, -1.32], 0);
+    plate(['EMERGENCY EXIT', 'PULL HANDLE'], 0.14, [0.62, -1.0, 6.18], Math.PI);
+    plate(['FUEL TRANSFER', 'VALVE - DO NOT', 'OPERATE IN FLIGHT'], 0.15, [0.5, -0.55, -2.62], Math.PI);
+    plate(['A-12 OXYGEN', 'REGULATOR', '400 PSI MAX'], 0.12, [-0.7, -1.25, 1.2], Math.PI / 2);
+    for (const [x, y, z] of [[-0.85, -0.15, -7.05], [0.85, -0.15, -7.05], [0.8, -1.5, -2.2], [0.8, -1.5, -1.95]]) {
+      const rot = x < 0 ? Math.PI / 2 : -Math.PI / 2; // (facing into the cabin)
+      this.stencil(['OXYGEN'], 0.1, [x - Math.sign(x) * 0.102, y, z], rot, '#1a1a1a');
+    }
+    for (const s of [-1, 1]) this.stencil(['CAL .50', 'M2 LINKED'], 0.16, [s * 0.32, -2.17, 8.549], Math.PI, '#d8d0a8');
   }
 
   /** Sunlight falling through the windows: soft shafts that follow the sun as the bomber turns. */
@@ -725,17 +783,33 @@ export class Interior {
     // the ring and bead sight rides on the guns, so it swings with your aim: it's mounted in front of
     // your eye (on the camera) while you're at the tail gun, the bead dead centre like the crosshair
     this.ironSight = new THREE.Group();
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.0026, 6, 40), MAT.dark);
+    // sized like the real thing as you see it: the ring ~11 degrees across, the bead under 1 degree
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.0205, 0.0009, 5, 48), MAT.dark);
     ring.position.set(0, 0, -0.21);
-    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.006, 0.07, 5), MAT.dark);
-    post.position.set(0, -0.08, -0.215);
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.0012, 0.0016, 0.05, 5), MAT.dark);
+    post.position.set(0, -0.0455, -0.212);
     // the front sight: a small open ring (not a solid bead), so the target stays visible in its middle
-    const bead = new THREE.Mesh(new THREE.TorusGeometry(0.0042, 0.0007, 4, 24), MAT.yellow);
+    const bead = new THREE.Mesh(new THREE.TorusGeometry(0.0022, 0.00045, 4, 20), MAT.yellow);
     bead.position.set(0, 0, -0.32);
-    const beadPost = new THREE.Mesh(new THREE.CylinderGeometry(0.0009, 0.0013, 0.045, 4), MAT.dark);
-    beadPost.position.set(0, -0.0267, -0.32);
+    const beadPost = new THREE.Mesh(new THREE.CylinderGeometry(0.0005, 0.0008, 0.04, 4), MAT.dark);
+    beadPost.position.set(0, -0.0222, -0.32);
     this.ironSight.add(ring, post, bead, beadPost);
     this.ballCockpit = buildBallTurret(); // the inside of the ball turret, mounted on the camera while you're in it
     this.topCockpit = buildTopTurret(); // and the upper turret's dome
+    this.buildTopDome();
+  }
+
+  /**
+   * The top turret's glass dome as seen from inside the bomber (from below, through the ring): the
+   * same dome you have round your head in the turret, fixed on the ring and turned with the turret,
+   * so you see the engineer's head and shoulders up in the glass and the sky beyond. (Hidden while
+   * you're in the turret yourself: then it's on your camera.)
+   */
+  buildTopDome() {
+    const s = STATIONS.find((x) => x.id === 'top');
+    this.topDome = buildTopTurret();
+    this.topDome.remove(this.topDome.children[1]); // (not the gunsight: that rides with the gunner's head)
+    this.topDome.position.copy(s.eye);
+    this.group.add(this.topDome);
   }
 }

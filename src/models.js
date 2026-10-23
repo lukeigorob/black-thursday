@@ -14,7 +14,7 @@ export const MODELS = {
 // big meshes that mix skin with windows. Their opacity maps mark glass at ~82% opacity, which reads as
 // a solid speckled panel, so anything under 95% becomes an open cut-out (also in the shadow pass,
 // so sunlight falls through the windows into the cabin).
-const WINDOWED = new Set(['MainHull', 'Tail_TBTurrets', 'BallTurret_WSupport']);
+const WINDOWED = new Set(['MainHull', 'Tail_TBTurrets']);
 
 /** Turn a material's base-colour alpha into a hard window cut-out. `keepColor` false = alpha only. */
 export function windowCutout(material, keepColor = true) {
@@ -23,13 +23,48 @@ export function windowCutout(material, keepColor = true) {
   material.alphaTest = 0.5;
   material.depthWrite = true;
   material.onBeforeCompile = (s) => {
+    // (the full-size texture, not a mip level: seen small, as from the sun, the windows' alpha would
+    // be averaged in with the skin's round them and no window would be cut out of the shadow)
     s.fragmentShader = s.fragmentShader.replace('#include <map_fragment>', `#ifdef USE_MAP
-      vec4 texel = texture2D( map, vMapUv );
+      vec4 texel = ${keepColor ? 'texture2D( map, vMapUv )' : 'textureLod( map, vMapUv, 0.0 )'};
       ${keepColor ? 'diffuseColor.rgb *= texel.rgb;' : ''}
       diffuseColor.a = texel.a < 0.95 ? 0.0 : 1.0;
     #endif`);
   };
   material.customProgramCacheKey = () => `window-cutout-${keepColor}`;
+  return material;
+}
+
+/**
+ * The ball turret's shell (and the support it hangs from), as in the photos of the Sperry ball: bare,
+ * slightly worn aluminium framing round big glass panes. The model's texture is pale blue-white (drawn
+ * as glass all over), so its alpha says which is which, and only its light and dark detail (panel
+ * lines, rivets) is kept on the metal. The panes are real glass: dark, glossy, reflecting the sky, and
+ * a little see-through, so you get a hint of the guns and frames inside.
+ */
+function steelBall(material) {
+  material.transparent = true; // (the panes)
+  material.alphaTest = 0;
+  material.depthWrite = true;
+  material.color.set(0x9a9e9c); // bare aluminium, weathered: dull, not chrome
+  material.metalness = 0.6;
+  material.roughness = 0.5;
+  material.envMapIntensity = 0.6;
+  material.onBeforeCompile = (sh) => {
+    sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', `#ifdef USE_MAP
+      vec4 texel = texture2D( map, vMapUv );
+      float detail = dot(texel.rgb, vec3(0.3, 0.55, 0.15));
+      float pane = texel.a < 0.95 ? 1.0 : 0.0;
+      // metal: aluminium with the texture's panel lines and a little wear; glass: dark, a bit see-through
+      diffuseColor.rgb = mix(diffuseColor.rgb * (0.6 + 0.5 * detail), vec3(0.025, 0.03, 0.035), pane);
+      diffuseColor.a = mix(1.0, 0.86, pane); // (the ball is empty inside: much more see-through and the sky shows through it)
+    #endif`)
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+      roughnessFactor = mix(roughnessFactor, 0.04, pane);`)
+      .replace('#include <metalnessmap_fragment>', `#include <metalnessmap_fragment>
+      metalnessFactor = mix(metalnessFactor, 0.0, pane);`);
+  };
+  material.customProgramCacheKey = () => 'sperry-ball';
   return material;
 }
 
@@ -53,6 +88,8 @@ function prepare(root) {
     if (GLASS_PARTS.has(o.name)) {
       o.material = glass;
       o.castShadow = false;
+    } else if (m.name === 'BallTurret_WSupport') {
+      if (!m.userData.steel) { steelBall(m); m.userData.steel = true; }
     } else if (WINDOWED.has(m.name)) {
       windowCutout(m);
       if (!depthMats.has(m)) {
@@ -143,5 +180,9 @@ export async function loadModel(name, { lod = false, mid = false } = {}) {
     );
   }
   const { scene, ok } = await cache.get(key);
-  return { scene: scene.clone(true), ok };
+  const copy = scene.clone(true);
+  // (clone() doesn't carry the shadow-pass material: without it the windows cast solid shadow and
+  // no sun ever gets into the cabin)
+  copy.traverse((o) => { if (o.isMesh && depthMats.has(o.material)) o.customDepthMaterial = depthMats.get(o.material); });
+  return { scene: copy, ok };
 }

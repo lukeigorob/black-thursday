@@ -1,0 +1,22 @@
+{
+ "starts": 163,
+ "runs": 1304,
+ "routes": [
+  "nose to tail: ok",
+  "tail to nose: ok",
+  "to the chin turret: ok",
+  "to the norden bombsight: ok",
+  "to the left cheek gun: ok",
+  "to the right cheek gun: ok",
+  "to the pilot seat: ok",
+  "to the co-pilot seat: ok",
+  "to the top turret: ok",
+  "to the ball turret: ok",
+  "to the left waist gun: ok",
+  "to the right waist gun: ok",
+  "to the tail gun: ok"
+ ],
+ "total": 0,
+ "byKind": {},
+ "issues": []
+}

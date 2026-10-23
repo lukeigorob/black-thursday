@@ -148,7 +148,16 @@ export class World {
   }
 
   /** Keep the sun's shadow box on the player's bomber, wherever in the stream it is. */
-  follow(pos) {
+  follow(pos, inside = false) {
+    // inside the bomber the box closes in on it (span and length): four times the texels, so the
+    // sun through the windows and gun hatches lands as crisp shapes, not soft blobs
+    const half = inside ? 17 : 45, c = this.sun.shadow.camera;
+    if (c.right !== half) {
+      c.left = c.bottom = -half; c.right = c.top = half;
+      this.sun.shadow.radius = inside ? 1.5 : 3;
+      this.sun.shadow.normalBias = inside ? 0.015 : 0.04;
+      c.updateProjectionMatrix();
+    }
     this.sun.target.position.copy(pos);
     this.sun.position.copy(this.sunDir).multiplyScalar(200).add(pos);
   }

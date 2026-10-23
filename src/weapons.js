@@ -1,9 +1,12 @@
 // Browning M2 .50 calibre guns: firing, ballistics (muzzle velocity, gravity, air drag), tracers,
 // muzzle flash, ammo, reloading and overheating. The model's guns swing to follow the aim.
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { AIRSPEED } from './bomber.js';
 
 const V = THREE.Vector3;
+const _inv = new THREE.Matrix4();
+const HANDLE_MAT = new THREE.MeshStandardMaterial({ color: 0x1d1b18, roughness: 0.6, metalness: 0.3 }); // black bakelite grips
 const UP = new V(0, 1, 0), FWD = new V(0, 0, -1);
 const MUZZLE_SPEED = 890; // m/s
 const GRAVITY = 9.81;
@@ -187,6 +190,7 @@ const FLASH_TEX = flashTexture();
 class GunPosition {
   constructor(bomber, station) {
     this.station = station;
+    this.dome = station.id === 'top' ? bomber.interior?.topDome : null; // the glass dome seen from inside, turns with the turret
     const model = bomber.model;
     bomber.group.updateMatrixWorld(true);
     const toLocal = bomber.group.matrixWorld.clone().invert();
@@ -239,6 +243,55 @@ class GunPosition {
     this.elevAxis = new V(Math.cos(this.yaw0), 0, -Math.sin(this.yaw0));
     this.yaw = this.yaw0; this.pitch = this.pitch0;
     this.qYaw = new THREE.Quaternion(); this.qPitch = new THREE.Quaternion();
+    // the grips, in the pivot's frame: a pair of spade grips behind the breech (one each side of a
+    // twin mount's guns). The top turret's control handles and the chin turret's yoke are elsewhere
+    // (see gripsWorld).
+    const rear = info.reduce((a, g) => a.add(g.breech), new V()).divideScalar(info.length).addScaledVector(this.restDir, -0.07);
+    const side = new V().crossVectors(this.restDir, new V(0, 1, 0)).normalize();
+    const spread = info.length > 1 ? Math.max(0.12, info[0].breech.distanceTo(info[1].breech) / 2 + 0.03) : 0.075;
+    this.gripLocal = [-1, 1].map((s) => rear.clone().addScaledVector(side, s * spread).add(new V(0, -0.02, 0)).sub(pivotPos));
+    this.bomber = bomber;
+    // the handles themselves (the model has none): spade grips on the guns, the top turret's control
+    // handles on their yoke; the chin turret's yoke is part of the nose (interiordetail.js)
+    if (station.id !== 'chin' && station.id !== 'ball') {
+      const yoke = station.id === 'top' || station.id === 'tail', g = [], bar = station.id === 'top' ? 0.34 : station.id === 'tail' ? 0.3 : spread * 2;
+      for (const s of [-1, 1]) g.push(new THREE.CylinderGeometry(0.013, 0.015, 0.1, 8).translate(s * bar / 2, -0.02, 0));
+      g.push(new THREE.CylinderGeometry(0.01, 0.01, bar, 6).rotateZ(Math.PI / 2).translate(0, 0.035, 0));
+      this.handles = new THREE.Mesh(mergeGeometries(g.map((x) => x.toNonIndexed())), HANDLE_MAT);
+      if (yoke) bomber.interior?.group.add(this.handles); // (placed each frame: they turn with the guns, kept level)
+      else {
+        this.pivot.add(this.handles);
+        this.handles.position.copy(this.gripLocal[0]).add(this.gripLocal[1]).multiplyScalar(0.5);
+        this.handles.quaternion.setFromUnitVectors(new V(1, 0, 0), side); // (across the gun)
+      }
+    }
+  }
+
+  /**
+   * Where the gunner's hands go, in world space: [left, right]. On a gun's spade grips they swing and
+   * elevate with it; the top turret's handles turn with the turret but stay level, the chin turret's
+   * yoke hangs in front of the bombardier.
+   */
+  gripsWorld(out = [new V(), new V()]) {
+    const id = this.station.id, m = this.bomber.group.matrixWorld;
+    if (id === 'top') {
+      const f = new V(-Math.sin(this.yaw), 0, -Math.cos(this.yaw)), sd = new V(-f.z, 0, f.x);
+      for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(0, 1.12, -6.71).addScaledVector(f, 0.3).addScaledVector(sd, s * 0.17).applyMatrix4(m);
+      if (this.handles) { // the handles on their yoke, in front of the gunner, turned with the turret
+        this.handles.position.set(0, 1.12, -6.71).addScaledVector(f, 0.3);
+        this.handles.rotation.set(0, this.yaw, 0);
+      }
+    } else if (id === 'tail') { // the tail gunner's handles on their yoke under the sight, linked to the guns
+      const x = (this.yaw - this.yaw0) * 0.14, y = (this.pitch - this.pitch0) * 0.1;
+      for (const [i, s] of [[0, 1], [1, -1]]) out[i].set(x + s * 0.15, -2.15 + y, 10.47).applyMatrix4(m);
+      if (this.handles) { this.handles.position.set(x, -2.15 + y, 10.47); this.handles.rotation.set(0, 0, 0); }
+    } else if (id === 'chin') {
+      for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(s * 0.13, -0.14, -10.5).applyMatrix4(m);
+    } else {
+      this.pivot.updateWorldMatrix(true, false);
+      for (let i = 0; i < 2; i++) this.pivot.localToWorld(out[i].copy(this.gripLocal[i]));
+    }
+    return out;
   }
 
   makeTurret(model, names, pivotPos) {
@@ -274,6 +327,7 @@ class GunPosition {
     this.pivot.quaternion.copy(this.aimQ);
     if (this.fullPart) this.fullPart.quaternion.copy(this.aimQ);
     if (this.yawPart) this.yawPart.rotation.y = this.yaw - this.yaw0;
+    if (this.dome) this.dome.rotation.y = this.yaw;
   }
 }
 
@@ -324,11 +378,22 @@ export class Weapons {
         const a = crew.aim(gp.station, fighters, dt);
         if (a) gp.aim(a.dir, a.yawRel, dt);
         if (a?.fire) this.fire(gp, a.aimPoint, dt, 'crew', null, camera); else this.stagger(gp);
+        crew.animateGunner(gp.station.id, gp, !!a?.fire && gp.ammo > 0 && !gp.reloading);
+      } else if (gp !== this.current(player)) crew?.animateGunner(gp.station.id, gp, false); // (idle at his gun: hands on it all the same)
+      if (gp === this.current(player)) {
+        player.gripTargets = gp.gripsWorld(player.gripTargets ?? undefined); // (your own hands on your gun)
+        // at a flexible gun you stand behind it, your eye following it round its mount
+        if (gp.station.eyeBehind) {
+          const toLocal = _inv.copy(this.bomber.group.matrixWorld).invert(), pv = gp.pivot.getWorldPosition(tmp).applyMatrix4(toLocal);
+          const cp = Math.cos(gp.pitch);
+          player.gunEye = (player.gunEye ?? new V()).set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp).multiplyScalar(-gp.station.eyeBehind).add(pv);
+          player.gunEye.y += 0.17;
+        } else player.gunEye = null;
       }
     }
 
     const gp = this.current(player);
-    if (!gp) { player.reloadPressed = false; return; } // R away from a gun doesn't carry over
+    if (!gp) { player.reloadPressed = false; player.gripTargets = null; return; } // R away from a gun doesn't carry over
     // aim the model's guns where the player looks
     const s = gp.station, yaw = s.yaw + player.sYaw, pitch = player.sPitch;
     gp.aim(dir.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)), player.sYaw, dt);
@@ -337,7 +402,7 @@ export class Weapons {
       player.reloadPressed = false;
       if (gp.reload()) this.audio.reload(true);
     }
-    if (!(player.firing && player.blend > 0.9)) { this.stagger(gp); return; }
+    if (!(player.firing && player.blend > 0.9) || !this.bomber.turretWorks(s.id)) { this.stagger(gp); return; } // (a knocked-out turret won't fire)
     // rounds converge on the sight line, so the crosshair is where they go
     camera.getWorldPosition(tmp);
     camera.getWorldDirection(aimPoint).multiplyScalar(CONVERGENCE).add(tmp);

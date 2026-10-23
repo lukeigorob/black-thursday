@@ -99,7 +99,7 @@ export class Detail {
     for (const b of this.bombers) { // only the bombers right round the player cast shadows
       if (!b.model) continue;
       const casts = b === this.player || b.base.distanceTo(here) < 75;
-      b.model.traverse((o) => { if (o.isMesh) o.castShadow = casts; });
+      b.model.traverse((o) => { if (o.isMesh) o.castShadow = casts && !o.userData.noShadow; }); // (not the hull's inner lining: the skin casts the window shapes)
     }
   }
 

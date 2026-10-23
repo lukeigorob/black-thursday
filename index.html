@@ -91,7 +91,11 @@
       .debrief { margin: 0 auto 6px; border-collapse: collapse; font-size: 14px; text-align: left; }
       .debrief td { padding: 3px 12px; border-bottom: 1px solid #ece8dc22; }
       .debrief td:last-child { text-align: right; color: #ece8dc; }
-      #health { position: fixed; left: 50%; bottom: 58px; width: 260px; transform: translateX(-50%); text-align: center; text-shadow: 0 1px 3px #000; }
+      #health { position: fixed; right: 18px; bottom: 120px; width: 200px; text-align: center; text-shadow: 0 1px 3px #000; } /* the damage diagram, above the gun panel */
+      #dmg { display: block; width: 200px; height: 140px; filter: drop-shadow(0 1px 2px #000a); }
+      #dmg [data-part] { stroke: #0009; stroke-width: 0.8; fill-opacity: 0.82; transition: fill .4s; }
+      #dmg .burning { animation: dmgfire .45s infinite alternate; stroke: #ffb040; stroke-width: 1.4; }
+      @keyframes dmgfire { from { fill: #ff7a18; } to { fill: #ffd060; } }
       #health .bar, #flight .bar { height: 7px; margin: 2px 0; background: #0007; border: 1px solid #ece8dc55; border-radius: 2px; overflow: hidden; }
       #health .bar i, #flight .bar i { display: block; height: 100%; width: 100%; background: #8fcf6a; transition: width .3s; }
       #health .lbl, #flight .lbl { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc99; }
@@ -146,6 +150,16 @@
       #forces .side.us { color: #7ab8ff; } #forces .side.them { color: #ff7a6a; }
       #forces .ok { color: #8fcf6a; } #forces .dmg { color: #ffd36a; } #forces .down { color: #ff6a5a; } #forces .air { color: #ece8dc; }
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
+      #mmap { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; gap: 18px; background: #0009; pointer-events: none; z-index: 20; }
+      #mmap-canvas { width: min(720px, 86vh, 62vw); height: min(720px, 86vh, 62vw); box-shadow: 0 6px 30px #000a; }
+      #mmap-side { width: 270px; max-height: 86vh; overflow: hidden; padding: 14px 16px; background: #e8dcbc; color: #3b2f22; font: 13px/1.45 "Courier New", monospace; box-shadow: 0 6px 30px #000a; }
+      #mmap-side h3 { margin: 0 0 6px; font-size: 18px; text-transform: uppercase; }
+      #mmap-side h4 { margin: 10px 0 2px; border-bottom: 1px solid #3b2f2255; }
+      #mmap-side .key i { display: inline-block; width: 9px; height: 9px; margin: 0 4px 0 8px; border: 1px solid #3b2f22; }
+      #mmap-side .key i:first-child { margin-left: 0; }
+      #mmap-side .ev { font-size: 12px; }
+      #mmap-side .hold { margin-top: 10px; opacity: 0.6; font-size: 12px; }
+      @media (max-width: 760px) { #mmap { flex-direction: column; } #mmap-side { width: 86vw; } }
     </style>
   </head>
   <body>

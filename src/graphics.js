@@ -5,11 +5,12 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { SSAOPass } from './ssao.js';
 
 export const QUALITY = {
-  low: { label: 'Low', pixelRatio: 1, shadows: 0, clouds: 60, bloom: false, msaa: 0 },
-  medium: { label: 'Medium', pixelRatio: 1.25, shadows: 2048, clouds: 140, bloom: true, msaa: 4 },
-  high: { label: 'High', pixelRatio: 2, shadows: 4096, clouds: 260, bloom: true, msaa: 4 },
+  low: { label: 'Low', pixelRatio: 1, shadows: 0, clouds: 60, bloom: false, msaa: 0, ao: 0, dust: false, detail: false },
+  medium: { label: 'Medium', pixelRatio: 1.25, shadows: 2048, clouds: 140, bloom: true, msaa: 4, ao: 8, dust: true, detail: true },
+  high: { label: 'High', pixelRatio: 2, shadows: 4096, clouds: 260, bloom: true, msaa: 4, ao: 14, dust: true, detail: true },
 };
 const KEY = 'bomber.quality';
 
@@ -84,6 +85,10 @@ export class Graphics {
     this.composer = new EffectComposer(this.renderer, target);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.composer.addPass(new ShaderPass(SanitizeShader));
+    // ambient occlusion from the scene pass's depth (only with the reversed float depth buffer: the
+    // logarithmic fallback's depth can't be turned back into positions this way)
+    this.ssao = q.ao && this.reversed ? new SSAOPass(this.camera, { samples: q.ao }) : null;
+    if (this.ssao) this.composer.insertPass(this.ssao, 1); // (straight after the scene, before the sanitize swap)
     if (q.bloom) {
       // threshold is above the bright horizon sky, so only the sun, tracers and fire glow
       this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.4, 0.4, 20);

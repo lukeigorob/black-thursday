@@ -2,12 +2,15 @@
 // so the plane can move and rock without the player sliding or falling through the floor.
 import * as THREE from 'three';
 import { makeFigure, pose, spotFor } from './crew.js';
+import { reachFor } from './figure.js';
 
 const R = 0.2; // body radius
 const STAND_EYE = 1.58, MIN_EYE = 0.42, MIN_HEADROOM = 0.55;
 const STEP = 0.42, WALK = 1.7, GRAVITY = 9.8, LOOK = 0.0022;
+const _sh = new THREE.Vector3(), _sh2 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
 const BODY_DROP = 0.14, BODY_BACK = 0.22; // m: your body's neck sits this far below and behind your eye
 const TO_STATION = 4; // 1 / seconds to move into a gun position
+const HEAD_YAW = THREE.MathUtils.degToRad(150); // pilots free-looking (C): as far round as a head turns in the seat
 const EDGE = 0.9; // without mouse capture: only the outer edge of the screen keeps turning the view
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const clamp = THREE.MathUtils.clamp;
@@ -38,14 +41,13 @@ export class Player {
     this.reloadPressed = false;
     this.recoil = 0;
     this.aimYaw = 0; this.aimPitch = 0; // pilot's aim, in the formation's frame
+    this.headYaw = 0; this.headPitch = 0; // pilot's free look (hold C), on top of the aim
     this.throttle = 0.5;
     this.wounded = false; // down on the floor, waiting for first aid
     this.woundLeft = 0;
     this.dead = false;
     // your own body: look down and you see your chest, arms and boots (the head is left off)
-    this.body = makeFigure();
-    this.body.userData.j.head.visible = false;
-    for (const c of this.body.userData.j.torso.children) if (c.geometry?.type === 'TorusGeometry') c.visible = false; // the collar sits round your eyes
+    this.body = makeFigure({ self: true }); // (no head or collar: they'd sit round your eyes)
     this.it.group.add(this.body);
     this.stride = 0;
 
@@ -81,7 +83,10 @@ export class Player {
   }
 
   look(dYaw, dPitch) {
-    if (this.station?.flies) { // War Thunder style: the mouse points where you want to fly
+    if (this.station?.flies && this.keys.KeyC) { // hold C: look round without touching the controls
+      this.headYaw = clamp(this.headYaw + dYaw, -HEAD_YAW, HEAD_YAW);
+      this.headPitch = clamp(this.headPitch + dPitch, -0.5, 0.6); // (the cockpit roof is close overhead)
+    } else if (this.station?.flies) { // War Thunder style: the mouse points where you want to fly
       this.aimYaw = wrap(this.aimYaw + dYaw);
       this.aimPitch = clamp(this.aimPitch + dPitch, -0.6, 0.6);
     } else if (this.station) {
@@ -92,6 +97,20 @@ export class Player {
       this.yaw = wrap(this.yaw + dYaw);
       this.pitch = clamp(this.pitch + dPitch, -1.45, 1.45);
     }
+  }
+
+  /**
+   * Out of any station at once, cleanly: nothing left on the camera (the tail's iron sight, the ball and
+   * top turret cockpits) and the hull parts a station hid or made see-through put back. For bailing out,
+   * dying, changing role or bomber: anything that leaves a station without the usual walk away.
+   */
+  detachAll() {
+    if (this.station) { this.station = null; this.lastStation = null; }
+    this.blend = 0;
+    if (this.ironOn) { this.camera.remove(this.ironOn); this.ironOn = null; }
+    if (this.hidden) { this.it.setHidden(this.hidden, false); this.hidden = null; }
+    if (this.ghosted) { this.it.setGhost(this.ghosted, false); this.ghosted = null; }
+    if (this.it.topDome) this.it.topDome.visible = true;
   }
 
   /** Recoil from one shot: the view shakes while the guns hammer. */
@@ -114,6 +133,7 @@ export class Player {
 
   /** Start again as another man of the crew, at his post. */
   becomes(stand, yaw) {
+    this.detachAll();
     this.dead = false;
     this.wounded = false;
     // a man who died at a gun can't leave it himself (interact() ignores the dead): start clean
@@ -179,6 +199,10 @@ export class Player {
 
   update(dt) {
     if (this.enabled) this.edgeTurn(dt);
+    if (!this.keys.KeyC || !this.station?.flies) { // let go of C: the view eases back to the aim (~0.3 s)
+      const k = Math.exp(-dt * 10);
+      this.headYaw *= k; this.headPitch *= k;
+    }
     if (this.station?.flies && this.enabled) { // W / S: throttle
       const k = this.keys;
       this.throttle = clamp(this.throttle + ((k.KeyW ? 1 : 0) - (k.KeyS ? 1 : 0)) * dt * 0.4, 0, 1);
@@ -189,7 +213,8 @@ export class Player {
       this.eye += (0.3 - this.eye) * (1 - Math.exp(-dt * 3)); // lying on the floor
     } else if (this.enabled && !this.station && !this.dead) this.walk(dt);
     this.near = this.station || this.wounded ? null : this.it.nearestStation(this.feet);
-    this.blend = clamp(this.blend + (this.station ? 1 : -1) * dt * TO_STATION, 0, 1);
+    const rate = 1 / ((this.station ?? this.lastStation)?.entry?.time ?? 1 / TO_STATION); // (crawling into the tail takes a while)
+    this.blend = clamp(this.blend + (this.station ? 1 : -1) * dt * rate, 0, 1);
     // hide hull parts that block the view from this position (only while settled in it)
     const hide = this.blend > 0.6 ? this.station?.hide : null;
     if (hide !== this.hidden) {
@@ -210,6 +235,7 @@ export class Player {
       if (iron) this.camera.add(iron);
       this.ironOn = iron;
     }
+    if (this.it.topDome) this.it.topDome.visible = iron !== this.it.topCockpit; // (in the turret, the dome is on your camera)
     this.pose(dt);
     // the upper turret's dome turns with the guns but doesn't tilt when they elevate
     const level = this.ironOn?.userData.level;
@@ -220,6 +246,11 @@ export class Player {
   updateBody(dt) {
     const b = this.body, j = b.userData.j, s = this.station;
     if (this.dead) { b.visible = false; return; }
+    // crawling or climbing into a cramped position, the camera takes its own way: don't let it pass
+    // through your own body on the way
+    const entering = (this.station ?? this.lastStation)?.entry && this.blend > 0.02 && this.blend < 0.92;
+    b.visible = !entering && !this.away; // (and not while you're out of the plane)
+    if (entering) return;
     j.legL.hip.visible = j.legR.hip.visible = true;
     if (this.wounded) {
       b.position.copy(this.feet);
@@ -231,14 +262,28 @@ export class Player {
       const spot = spotFor(s.id);
       if (!spot || spot.pose === 'hidden') { b.visible = false; return; }
       // pick the pose that puts the neck just under the gun position's eye point
-      const need = s.eye.y - 0.7 - spot.at.y;
+      const E = this.eyeAt(s);
+      const need = E.y - 0.7 - spot.at.y;
       const name = spot.pose === 'sit' ? 'sit' : need > 0.8 ? 'gun' : need > 0.56 ? 'crouch' : 'kneel';
       pose(b, name);
       const yaw = s.yaw + this.sYaw * (s.yawLim >= Math.PI ? 1 : 0.6);
-      const y = s.eye.y - 0.6 - BODY_DROP - j.hips.position.y;
+      const y = E.y - 0.6 - BODY_DROP - j.hips.position.y;
       b.rotation.y = yaw;
-      b.position.set(s.eye.x + Math.sin(yaw) * BODY_BACK, y, s.eye.z + Math.cos(yaw) * BODY_BACK);
+      b.position.set(E.x + Math.sin(yaw) * BODY_BACK, y, E.z + Math.cos(yaw) * BODY_BACK);
       if (spot.at.y - y > 0.3) j.legL.hip.visible = j.legR.hip.visible = false; // cramped: legs would go through the floor
+      b.userData.noHead = false;
+      const rig = b.userData.rig;
+      if (s.guns && this.gripTargets && rig && b.parent) {
+        // at a gun you lean in over it: your shoulders just under and behind your eye (where your
+        // head would fill the view, so it isn't drawn), close enough that your hands reach the grips
+        // (the shoulders in the body's own frame, from the last sync: the pose doesn't change)
+        const sh = b.worldToLocal(rig.arms.l.upper.getWorldPosition(_sh).add(rig.arms.r.upper.getWorldPosition(_sh2)).multiplyScalar(0.5));
+        b.updateMatrix();
+        sh.applyMatrix3(_m3.setFromMatrix4(b.matrix)); // (turned and scaled as the body now is)
+        b.position.set(E.x + Math.sin(yaw) * 0.1, E.y - 0.24, E.z + Math.cos(yaw) * 0.1).sub(sh);
+        b.userData.noHead = true;
+        reachFor(b, this.gripTargets); // your hands on your gun's grips
+      }
       return;
     }
     const speed = Math.hypot(this.vel.x, this.vel.z);
@@ -263,7 +308,8 @@ export class Player {
 
     // horizontal: small fixed sub-steps so a slow frame can't jump through anything
     const n = Math.min(8, Math.ceil(dt * 120)), h = dt / n;
-    for (let i = 0; i < n; i++) this.move(this.vel.x * h, this.vel.z * h);
+    const crowd = this.brushPast(); // squeezing past a crewman: under half speed
+    for (let i = 0; i < n; i++) this.move(this.vel.x * h * crowd, this.vel.z * h * crowd);
 
     // vertical: step up onto anything low enough, step down small drops, otherwise fall
     const floor = it.floorAt(this.feet.x, this.feet.z, this.feet.y + STEP);
@@ -277,9 +323,23 @@ export class Player {
     else if (this.vy === 0) this.safe.copy(this.feet);
 
     // crouch automatically under low ceilings
-    const room = it.headroom(this.feet.x, this.feet.z, this.feet.y, R, STEP);
+    const room = (this.room = it.headroom(this.feet.x, this.feet.z, this.feet.y, R, STEP));
     const target = clamp(room - 0.12, MIN_EYE, STAND_EYE);
     this.eye += (target - this.eye) * (1 - Math.exp(-dt * (target < this.eye ? 14 : 5)));
+  }
+
+  /**
+   * The crew are soft obstacles: in a B-17 you squeeze past people. Walking into a man slows you to
+   * under half speed while you shoulder past him, but never stops you (pushing round him could leave
+   * you wedged beside a door). Crew hides a man while your eye is inside him. Returns the speed factor.
+   */
+  brushPast() {
+    for (const b of this.it.people) {
+      if (b.max.y <= this.feet.y + 0.3 || b.min.y >= this.feet.y + this.eye) continue;
+      const cx = Math.max(b.min.x, Math.min(this.feet.x, b.max.x)), cz = Math.max(b.min.z, Math.min(this.feet.z, b.max.z));
+      if (Math.hypot(this.feet.x - cx, this.feet.z - cz) < R) return 0.4;
+    }
+    return 1;
   }
 
   /** One small step: the whole move if it fits, otherwise slide along whichever axis does. */
@@ -308,11 +368,17 @@ export class Player {
     return true;
   }
 
+  /** Where your eye is at a station: its eye point, or behind a flexible gun, following it round. */
+  eyeAt(s) { return s.eyeBehind && this.gunEye && this.station === s ? this.gunEye : s.eye; }
+
   pose(dt) {
     // smooth the camera height so steps and crouching don't snap
     const walkY = this.feet.y + this.eye;
     this.camY += (walkY - this.camY) * (1 - Math.exp(-dt * 8));
-    const walkPos = _walkPos.set(this.feet.x, this.camY, this.feet.z);
+    // the eye never goes through the roof or into the curving wall, whatever the smoothing is doing
+    if (this.room != null) this.camY = Math.min(this.camY, this.feet.y + this.room - 0.09);
+    const wall = Math.max(0, this.it.hwSmooth(this.feet.z, this.camY) - 0.09);
+    const walkPos = _walkPos.set(clamp(this.feet.x, -wall, wall), this.camY, this.feet.z);
     const walkRot = _walkRot.setFromEuler(_euler.set(this.pitch, this.yaw, 0, 'YXZ'));
     const t = THREE.MathUtils.smoothstep(this.blend, 0, 1);
     const s = this.station ?? this.lastStation;
@@ -325,9 +391,17 @@ export class Player {
     const yaw = this.station ? s.yaw + this.sYaw : this.yaw, pitch = this.station ? this.sPitch : this.pitch;
     const gunRot = _gunRot.setFromEuler(_euler.set(pitch, yaw, 0, 'YXZ'));
     if (this.station?.flies) { // the view follows the aim through the sky, steady while the plane banks under you
-      gunRot.setFromEuler(_euler.set(this.aimPitch, this.aimYaw, 0, 'YXZ')).premultiply(_inv.copy(this.bomber.group.quaternion).invert());
+      gunRot.setFromEuler(_euler.set(clamp(this.aimPitch + this.headPitch, -1.45, 1.45), this.aimYaw + this.headYaw, 0, 'YXZ')).premultiply(_inv.copy(this.bomber.group.quaternion).invert());
     }
-    this.camera.position.lerpVectors(walkPos, s.eye, t);
+    if (s.entry) { // the way in: a crawl, a climb, a step up (and the same way out)
+      const e = s.entry;
+      e.curve ??= new THREE.CatmullRomCurve3([new THREE.Vector3(), ...e.path.map((p) => new THREE.Vector3(...p)), new THREE.Vector3()]);
+      e.curve.points[0].copy(walkPos);
+      e.curve.points[e.curve.points.length - 1].copy(this.eyeAt(s));
+      const k = clamp(this.blend, 0, 1); // (even pace along the way, not eased)
+      e.curve.getPoint(k, this.camera.position);
+      if (k > 0 && k < 1) this.camera.position.y += Math.sin(k * Math.PI * 2 * e.bobs) * e.bob * (1 - k * 0.6); // hands and knees
+    } else this.camera.position.lerpVectors(walkPos, this.eyeAt(s), t);
     this.camera.quaternion.slerpQuaternions(walkRot, gunRot, t);
     // recoil shake: small random jolts that die away quickly
     this.recoil *= Math.exp(-dt * 14);

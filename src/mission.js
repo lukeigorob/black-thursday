@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { AIRSPEED } from './bomber.js';
 import { ALTITUDE } from './world.js';
+import { City } from './city.js';
 
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -16,7 +17,6 @@ const WIND = new V(0, 0, AIRSPEED); // the air (and the ground) stream past the 
 const BOMB_DRAG = 1.25e-4; // 500 lb GP bomb: falls at up to ~280 m/s
 const TRAIN = 0.12; // s between bombs in the train
 const ON_TARGET = 305; // m: "within 1,000 feet of the aiming point", the measure used at the time
-const BLAST = 38; // m: a building this close to a hit is wrecked
 const FLAK_AHEAD = 16000, FLAK_BEHIND = 3000; // m from the target where the flak belt starts and ends
 
 /** Where a bomb let go from `p` (formation frame) hits, and how long it takes. */
@@ -42,85 +42,6 @@ function aimOffset(y) {
     aimCache.set(key, new V(p.x, GROUND - key * 10, p.z - AIRSPEED * t));
   }
   return aimCache.get(key);
-}
-
-function industryTexture() {
-  const c = document.createElement('canvas');
-  c.width = c.height = 512;
-  const g = c.getContext('2d');
-  g.fillStyle = '#5d5a52'; g.fillRect(0, 0, 512, 512);
-  for (let i = 0; i < 260; i++) { // yards, lots and rubble
-    g.fillStyle = ['#66625a', '#4f4c46', '#706a5f', '#58554d'][i % 4];
-    g.fillRect(Math.random() * 512, Math.random() * 512, 8 + Math.random() * 40, 8 + Math.random() * 40);
-  }
-  g.strokeStyle = '#3b3a36'; g.lineWidth = 2; // rail tracks fanning into the yard
-  for (let i = 0; i < 14; i++) { g.beginPath(); g.moveTo(0, 330 + i * 6); g.bezierCurveTo(200, 330 + i * 6, 300, 300 + i * 9, 512, 290 + i * 11); g.stroke(); }
-  g.strokeStyle = '#8d877a'; g.lineWidth = 5; // roads
-  for (const y of [90, 210]) { g.beginPath(); g.moveTo(0, y); g.lineTo(512, y + 30); g.stroke(); }
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-/** The target: an aircraft-industry complex with factory halls, workshops and a rail yard. */
-class Target {
-  constructor(scene, center) {
-    this.center = center; // the aiming point, on the ground, in the formation's frame
-    this.group = new THREE.Group();
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(1900, 1900), new THREE.MeshStandardMaterial({ map: industryTexture(), roughness: 1 }));
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = 0.5;
-    this.group.add(ground);
-    const b = [];
-    for (let i = 0; i < 6; i++) b.push([((i % 3) - 1) * 150 + rand(-10, 10), Math.floor(i / 3) * 110 - 55, 120, 18, 70]); // the main halls
-    for (let i = 0; i < 90; i++) {
-      const a = rand(0, Math.PI * 2), r = rand(140, 700);
-      b.push([Math.cos(a) * r, Math.sin(a) * r, rand(18, 70), rand(6, 16), rand(14, 45)]);
-    }
-    for (let i = 0; i < 60; i++) b.push([rand(-650, 650), rand(260, 330), rand(14, 20), 4, 3.5]); // wagons in the rail yard
-    this.buildings = b.map(([x, z, w, h, d]) => ({ x, z, w, h, d, alive: true }));
-    const box = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
-    this.mesh = new THREE.InstancedMesh(box, new THREE.MeshStandardMaterial({ color: 0x8a7f70, roughness: 0.9 }), this.buildings.length);
-    this.mesh.frustumCulled = false;
-    this.buildings.forEach((x, i) => this.place(i));
-    this.group.add(this.mesh);
-    this.group.position.copy(center);
-    scene.add(this.group);
-    this.burning = [];
-  }
-
-  place(i) {
-    const b = this.buildings[i];
-    const m = new THREE.Matrix4().compose(new V(b.x, 0, b.z), new THREE.Quaternion(), new V(b.w, b.alive ? b.h : b.h * 0.15, b.d));
-    this.mesh.setMatrixAt(i, m);
-    this.mesh.instanceMatrix.needsUpdate = true;
-  }
-
-  get destroyed() { return this.buildings.filter((b) => !b.alive).length; }
-
-  /** A bomb burst at p: wreck what's close. Returns how many buildings it took. */
-  blast(p) {
-    let n = 0;
-    this.buildings.forEach((b, i) => {
-      if (!b.alive) return;
-      const dx = Math.max(Math.abs(p.x - this.center.x - b.x) - b.w / 2, 0), dz = Math.max(Math.abs(p.z - this.center.z - b.z) - b.d / 2, 0);
-      if (Math.hypot(dx, dz) < BLAST) { b.alive = false; this.place(i); n++; this.burning.push({ i, t: rand(40, 90), e: 0 }); }
-    });
-    return n;
-  }
-
-  update(dt, effects) {
-    this.center.z += AIRSPEED * dt;
-    this.group.position.copy(this.center);
-    for (let k = this.burning.length - 1; k >= 0; k--) { // wrecked buildings burn and smoke for a while
-      const f = this.burning[k];
-      if ((f.t -= dt) <= 0) { this.burning.splice(k, 1); continue; }
-      if ((f.e -= dt) > 0 || k > 40) continue;
-      f.e = rand(0.4, 0.9);
-      const b = this.buildings[f.i];
-      effects.groundSmoke(this.center.clone().add(new V(b.x, b.h, b.z)));
-    }
-  }
 }
 
 /** Every bomb in the air. */
@@ -168,7 +89,7 @@ export class Mission {
     Object.assign(this, { effects, audio, ui, bombers, playerBomber });
     // put the target where the player's group will be over it at TIMES.target
     const aim = playerBomber.base.clone().add(aimOffset(playerBomber.base.y));
-    this.target = new Target(scene, new V(aim.x + rand(-160, 160), GROUND, aim.z - AIRSPEED * TIMES.target));
+    this.target = new City(scene, new V(aim.x + rand(-160, 160), GROUND, aim.z - AIRSPEED * TIMES.target));
     this.bombs = new Bombs(scene);
     this.groups = new Map();
     for (const b of bombers) {
@@ -222,7 +143,7 @@ export class Mission {
     const toGo = this.sightError().along; // metres before the target reaches the crosshair
     if (this.phase === 'outbound' && time > TIMES.target - TIMES.initialPoint) {
       this.phase = 'bombrun';
-      this.ui.toast('Initial point. Bomb run, bomb doors open!');
+      this.ui.log('Initial point. Bomb run, bomb doors open!');
     }
     flak.on = this.phase !== 'done' && -toGo < FLAK_BEHIND && toGo < FLAK_AHEAD;
     fighters.suppressed = flak.on; // fighters stood off while their own flak was firing
@@ -246,10 +167,10 @@ export class Mission {
       }
       if ([...this.groups.values()].every((g) => g.released)) {
         this.phase = 'rally';
-        this.ui.toast('All groups away. Rally right, and keep it tight!');
+        this.ui.log('All groups away. Rally right, and keep it tight!');
       }
     }
-    if (this.phase === 'rally' && -toGo > 4000) { this.phase = 'homeward'; this.ui.toast('Through the target. Heading for home.'); }
+    if (this.phase === 'rally' && -toGo > 4000) { this.phase = 'homeward'; this.ui.log('Through the target. Heading for home.'); }
     if (this.phase === 'homeward' && (this.homeT += dt) > TIMES.home) {
       this.phase = 'done';
       for (const fn of this.listeners) fn(this.debrief());
@@ -273,7 +194,7 @@ export class Mission {
     g.released = true;
     for (const b of g.bombers) if (!b.down && b.bombs > 0) b.dropping = { t: rand(0, 0.4), dx: across };
     if (squad === this.playerBomber.squad) {
-      this.ui.toast('Bombs away!');
+      this.ui.log('Bombs away!');
       this.audio.reload(true);
       this.playerBomber.interior?.emptyBombBay();
     }
@@ -298,6 +219,25 @@ export class Mission {
     if (this.phase === 'rally') return 'Rally · leaving the target';
     if (this.phase === 'homeward') return `Homeward · ${mmss(Math.max(0, TIMES.home - this.homeT))} to the coast`;
     return 'Mission complete';
+  }
+
+  /**
+   * What the mission map (M) shows, in metres from the aiming point on the ground (x right, z back
+   * along the route; the ground moves, so everything is measured from the target): the route's
+   * points, the flak belt, and where `self` (a point in the formation's frame) is now.
+   */
+  mapData(time) {
+    const t = this.target.center, along = this.sightError().along;
+    return {
+      phase: { outbound: 'Outbound', bombrun: 'Bomb run', rally: 'Rally', homeward: 'Heading home', done: 'Mission complete' }[this.phase],
+      toTarget: along > 0 ? along / AIRSPEED : null, // s until the target is in the bombsight
+      start: AIRSPEED * TIMES.target + 3000, // where the stream was when the game began (it came on from England)
+      ip: AIRSPEED * TIMES.initialPoint, rally: -4000, home: -4000 - AIRSPEED * TIMES.home,
+      flak: [FLAK_AHEAD, -FLAK_BEHIND],
+      rel: (p) => [p.x - t.x, p.z - t.z],
+      city: this.target.layout, wrecked: this.target.destroyed, buildings: this.target.buildings.length,
+      time,
+    };
   }
 
   /** Point the camera down through the Norden sight (crosshair = where the bombs would hit now). */

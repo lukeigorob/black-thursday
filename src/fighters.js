@@ -371,7 +371,7 @@ export class Fighters {
     this.reserve.axis -= n;
     for (let i = 0; i < n; i++) { this.axisSlots[free[i]] = 0; this.spawn('bf109', free[i], plan, i, n); }
     this.waveT = rand(...WAVE_GAP);
-    if (this.crewView && this.time > 20) this.ui.toast(`Large formation of fighters coming in! ${n} of them.`);
+    if (this.crewView && this.time > 20) this.ui.log(`Large formation of fighters coming in! ${n} of them.`);
   }
 
   tickSlots(slots, kind, dt) {
@@ -417,7 +417,7 @@ export class Fighters {
           if (this.crewView && f.target === this.playerBomber && this.time - this.lastCall > 6) {
             this.lastCall = this.time;
             const c = clock(this.playerBomber, f.pos);
-            this.ui.toast(`Fighters, ${c.h} o'clock ${c.level}!`);
+            this.ui.log(`Fighters, ${c.h} o'clock ${c.level}!`);
           }
         }
         break;
@@ -469,7 +469,7 @@ export class Fighters {
           const c = clock(this.playerBomber, f.pos);
           if (this.crewView && f.pos.distanceTo(this.playerBomber.group.position) < 1500 && this.time - this.lastFriendsCall > 20) {
             this.lastFriendsCall = this.time;
-            this.ui.toast(`Little friends at ${c.h} o'clock!`);
+            this.ui.log(`Little friends at ${c.h} o'clock!`);
           }
         }
         break;
@@ -552,7 +552,7 @@ export class Fighters {
     if (hitB) {
       if (this.playerSide === 'allied' && owner === 'player' && this.time - (this.lastFF ?? -99) > 4) {
         this.lastFF = this.time;
-        this.ui.toast("Cease fire! You're hitting our own bombers!", 'kill');
+        this.ui.log("Cease fire! You're hitting our own bombers!");
       }
       return true;
     }
@@ -582,7 +582,7 @@ export class Fighters {
       }
       if (owner === 'player') {
         if (f.side !== this.playerSide) this.ui.hitMarker(wasAlive && !f.alive); // (no marker for hitting your own side)
-        if (f.side === this.playerSide && this.time - (this.lastFF ?? -99) > 4) { this.lastFF = this.time; this.ui.toast(`Cease fire! That's one of ours, a ${f.k.name}!`, 'kill'); }
+        if (f.side === this.playerSide && this.time - (this.lastFF ?? -99) > 4) { this.lastFF = this.time; this.ui.log(`Cease fire! That's one of ours, a ${f.k.name}!`); }
       }
       return true;
     }
@@ -632,7 +632,7 @@ export class Fighters {
     } else if (f.side !== this.playerSide && owner !== 'player' && f.playerHitT > this.time - 20) {
       this.report?.('assist', f.k.name); // you damaged it, someone else finished it
     } else if (this.crewView && !['collision', 'friendly', 'ground', 'bailout'].includes(owner) && f.pos.distanceTo(this.playerBomber.group.position) < 1500 && Math.random() < 0.6) {
-      this.ui.toast(f.side === 'axis' ? 'Escort got one!' : 'Little friend going down!');
+      this.ui.log(f.side === 'axis' ? 'Escort got one!' : 'Little friend going down!');
     }
   }
 
@@ -737,7 +737,7 @@ export class Fighters {
         this.effects.explosion(mid.clone(), _t2.set(0, -10, 30), 2.5);
         this.effects.wreck(mid, _t2.set(0, -5, 25), 8, _la.set(5, 0.4, 2.5), 0.5);
         if (!o.down) o.goDown('Mid-air collision!'); if (!b.down) b.goDown('Mid-air collision!');
-        if (this.crewView && (o === this.playerBomber || b === this.playerBomber)) this.ui.toast("We've collided with another B-17!", 'kill');
+        if (this.crewView && (o === this.playerBomber || b === this.playerBomber)) this.ui.log("We've collided with another B-17!");
         else this.callCollision(mid, 'Two B-17s have collided!');
         break;
       }
@@ -771,8 +771,8 @@ export class Fighters {
   }
 
   callCollision(at, text) {
-    if (this.pilot?.f && at.distanceTo(this.pilot.f.pos) < 30 && !this.crewView) this.ui.toast('You collided!', 'kill');
-    else if (at.distanceTo(this.crewView ? this.playerBomber.group.position : (this.pilot?.f?.pos ?? at)) < 1500) this.ui.toast(text);
+    if (this.pilot?.f && at.distanceTo(this.pilot.f.pos) < 30 && !this.crewView) this.ui.log('You collided!');
+    else if (at.distanceTo(this.crewView ? this.playerBomber.group.position : (this.pilot?.f?.pos ?? at)) < 1500) this.ui.log(text);
   }
 
   /** File the fighters into grid cells too, once a frame after they've moved. */
@@ -821,7 +821,7 @@ export class Fighters {
         if (!bomber.down && bomber.deadEngines + (bomber.burning ? 10 : 0) > crits) this.report?.('crit', 'B-17');
       }
       bomber.lastHitBy = owner; bomber.lastHitT = this.time; // for the fighter pilots' score
-      this.onBomberHit?.(bomber, part, la.clone().lerp(lb, t), cannon);
+      this.onBomberHit?.(bomber, part, la.clone().lerp(lb, t), cannon, lb.clone().sub(la));
       if (bomber === this.playerBomber) this.audio.impact(cannon);
       return true;
     }
