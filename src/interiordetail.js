@@ -87,7 +87,7 @@ export function addMoreDetail(it, MAT, DECKS) {
     prev = p;
     if (Math.abs(z % 2) < 0.01) it.add(M.od, new THREE.BoxGeometry(0.1, 0.06, 0.12).translate(0.18, y - 0.03, z));
   }
-  for (const z of [-1.9, 0.6, 3.6, 6.6]) {
+  for (const z of [-1.9, 0.6, 3.6]) { // (none in the tail passage: the roof is so low there it hung right in your eye line)
     const d = deckAt(z), y = it.ceilingAt(z, 0, d.y + 0.3);
     it.add(M.black, new THREE.CylinderGeometry(0.07, 0.08, 0.04, 14).translate(-0.12, y - 0.02, z));
     it.add(M.lamp, new THREE.SphereGeometry(0.05, 12, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2).translate(-0.12, y - 0.04, z));

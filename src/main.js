@@ -23,6 +23,7 @@ import { loadCrewModel, syncFigures, crewInfo } from './figure.js';
 import { Stats, POINTS } from './stats.js';
 import { Eject } from './eject.js';
 import { Dust } from './dust.js';
+import { Breakup } from './breakup.js';
 import { DETAIL } from './cabinlook.js';
 import { SCARS, bakeBomberSpace, scarMaterial, addScar, clearScars } from './scars.js';
 
@@ -61,12 +62,21 @@ for (const m of mids) m.scene.traverse((o) => { if (o.isMesh) o.receiveShadow = 
 scene.add(bomber.group);
 const fleet = new Fleet(scene, lod.scene, bombers);
 const detail = new Detail(scene, bombers, bomber, mids.map((m) => m.scene));
+
 detail.assign();
 const contrails = new Contrails(scene, bombers);
 const player = new Player(bomber, camera);
 const weapons = new Weapons(scene, audio);
 weapons.attach(bomber);
 const effects = new Effects(scene);
+// bombers coming apart: their lost wings and tails fall away on their own (breakup.js), copied from
+// clean models (the pooled ones may be cut at the time)
+const breakup = new Breakup(scene, effects, { lod: lod.scene, mid: (await loadModel('b17', { mid: true })).scene });
+breakup.warm(gfx.renderer, camera);
+for (const b of bombers) b.onBreak = (kind, side, z, vel) => {
+  breakup.lose(b, kind, side, z, vel);
+  if (b === bomber && mode === 'crew' && !player.away && !player.dead) { player.kick(4); audio.explosion(5); } // (you feel it go)
+};
 const fighters = new Fighters(scene, { effects, bullets: weapons.bullets, audio, ui, bombers, playerBomber: bomber });
 const collide = (a, b, team, owner, cannon, src) => fighters.collide(a, b, team, owner, cannon, src);
 // what you play: 'crew' (a B-17 crewman), 'bf109' or 'p51' (flying a fighter yourself)
@@ -510,6 +520,7 @@ const _sunLocal = new THREE.Vector3(), _bq = new THREE.Quaternion();
 // ---------- loop ----------
 const timer = new THREE.Timer();
 let t = 0, missionTime = 0;
+const _brk = new THREE.Vector3();
 const failed = new Set();
 /** Run one part of the frame; if it throws, log it once and carry on, so the game never freezes. */
 function safely(name, fn) {
@@ -534,6 +545,8 @@ gfx.renderer.setAnimationLoop((now) => {
         if (live) b.updateDamage(dt, effects);
       }
       detail.update(dt);
+      breakup.track(bombers);
+      breakup.update(live ? dt : 0, camera.getWorldPosition(_brk));
       fleet.update();
       contrails.update();
     });
@@ -622,4 +635,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, pilotStats, stats, eject, bailOut, addScar, get mode() { return mode; }, skip: (s) => { missionTime += s; } } });
+Object.assign(window, { game: { THREE, PART, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, pilotStats, stats, eject, bailOut, addScar, breakup, get mode() { return mode; }, skip: (s) => { missionTime += s; } } });

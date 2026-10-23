@@ -2,10 +2,16 @@
 // muzzle flash, ammo, reloading and overheating. The model's guns swing to follow the aim.
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { AIRSPEED } from './bomber.js';
+import { AIRSPEED, PARTS } from './bomber.js';
 
 const V = THREE.Vector3;
 const _inv = new THREE.Matrix4();
+const _f = new THREE.Vector3(), _u = new THREE.Vector3(), _s = new THREE.Vector3(), _c = new THREE.Vector3(), _rm = new THREE.Matrix4();
+// the parts of the airframe a gun mustn't fire through: wings (from the wing roots), engines, the fin
+// and the tailplanes (bomber space; the fuselage itself is kept out of the guns' arcs by their limits)
+const AIRFRAME = PARTS.filter((p) => p.kind === 'wing' || p.kind === 'engine' || p.kind === 'tail')
+  .map((p) => new THREE.Box3(new THREE.Vector3(p.box[0], p.box[2], p.box[4]), new THREE.Vector3(p.box[1], p.box[3], p.box[5])));
+const _bi = new THREE.Matrix4(), _bo = new THREE.Vector3(), _bd = new THREE.Vector3(), _br = new THREE.Ray();
 const HANDLE_MAT = new THREE.MeshStandardMaterial({ color: 0x1d1b18, roughness: 0.6, metalness: 0.3 }); // black bakelite grips
 const UP = new V(0, 1, 0), FWD = new V(0, 0, -1);
 const MUZZLE_SPEED = 890; // m/s
@@ -112,9 +118,11 @@ export class Bullets {
         this.q.setFromUnitVectors(FWD, dir.divideScalar(speed));
         this.mesh.setMatrixAt(t, this.m.compose(pos, this.q, scale));
         const c = this.team[i] === 'enemy' ? ENEMY_TRACER : ALLIED_TRACER;
-        this.mesh.instanceColor.setXYZ(t, c[0], c[1], c[2]);
+        // dimmer close by: your own guns' tracers, metres from your eye, bloomed into broad white bars
+        const d = camPos ? pos.distanceTo(camPos) : 999, f = Math.min(1, 0.06 + Math.max(0, d - 5) / 80);
+        this.mesh.instanceColor.setXYZ(t, c[0] * f, c[1] * f, c[2] * f);
         this.heads[t * 3] = pos.x; this.heads[t * 3 + 1] = pos.y; this.heads[t * 3 + 2] = pos.z;
-        this.headColors[t * 3] = c[0]; this.headColors[t * 3 + 1] = c[1]; this.headColors[t * 3 + 2] = c[2];
+        this.headColors[t * 3] = c[0] * f; this.headColors[t * 3 + 1] = c[1] * f; this.headColors[t * 3 + 2] = c[2] * f;
         t++;
       }
     }
@@ -222,7 +230,7 @@ class GunPosition {
 
     this.guns = info.map((g, i) => {
       const flash = new THREE.Sprite(new THREE.SpriteMaterial({
-        map: FLASH_TEX, color: new THREE.Color(1, 0.8, 0.5).multiplyScalar(25), blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
+        map: FLASH_TEX, color: new THREE.Color(1, 0.8, 0.5).multiplyScalar(9), blending: THREE.AdditiveBlending, depthWrite: false, fog: false })); // (bright, but not a white-out through the bloom)
       flash.position.copy(g.muzzle).sub(pivotPos).addScaledVector(g.axis, 0.12);
       flash.visible = false;
       this.pivot.add(flash);
@@ -281,10 +289,15 @@ class GunPosition {
         this.handles.position.set(0, 1.12, -6.71).addScaledVector(f, 0.3);
         this.handles.rotation.set(0, this.yaw, 0);
       }
-    } else if (id === 'tail') { // the tail gunner's handles on their yoke under the sight, linked to the guns
-      const x = (this.yaw - this.yaw0) * 0.14, y = (this.pitch - this.pitch0) * 0.1;
-      for (const [i, s] of [[0, 1], [1, -1]]) out[i].set(x + s * 0.15, -2.15 + y, 10.47).applyMatrix4(m);
-      if (this.handles) { this.handles.position.set(x, -2.15 + y, 10.47); this.handles.rotation.set(0, 0, 0); }
+    } else if (id === 'tail') {
+      // the tail gunner's handles on their yoke, linked to the guns and the sight: they swing with
+      // his aim, so they stay low in front of him (his hands at the bottom of his view, never over
+      // the sight) wherever he points
+      const cp = Math.cos(this.pitch), sp = Math.sin(this.pitch), sy = Math.sin(this.yaw), cy = Math.cos(this.yaw);
+      const f = _f.set(-sy * cp, sp, -cy * cp), up = _u.set(-sy * -sp, cp, -cy * -sp), sd = _s.crossVectors(f, up);
+      const c = _c.copy(this.station.eye).addScaledVector(f, 0.34).addScaledVector(up, -0.31);
+      for (const [i, s] of [[0, 1], [1, -1]]) out[i].copy(c).addScaledVector(sd, -s * 0.15).applyMatrix4(m);
+      if (this.handles) { this.handles.position.copy(c); this.handles.quaternion.setFromRotationMatrix(_rm.makeBasis(sd, up, f)); }
     } else if (id === 'chin') {
       for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(s * 0.13, -0.14, -10.5).applyMatrix4(m);
     } else {
@@ -388,6 +401,10 @@ export class Weapons {
           const cp = Math.cos(gp.pitch);
           player.gunEye = (player.gunEye ?? new V()).set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp).multiplyScalar(-gp.station.eyeBehind).add(pv);
           player.gunEye.y += 0.17;
+        } else if (gp.station.lean) { // (the tail gunner leans in towards the window as he swings his guns out to the side)
+          const cp = Math.cos(gp.pitch), f = tmp.set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp);
+          const k = Math.min(1, Math.acos(THREE.MathUtils.clamp(f.dot(gp.restDir), -1, 1)) / 0.55);
+          player.gunEye = (player.gunEye ?? new V()).copy(gp.station.eye).addScaledVector(f, gp.station.lean * k);
         } else player.gunEye = null;
       }
     }
@@ -419,8 +436,19 @@ export class Weapons {
   }
 
   /** Fire the guns of a position at a point (world space) for one frame. */
+  blockedByAirframe(gp, aimPoint) {
+    const inv = _bi.copy(this.bomber.group.matrixWorld).invert();
+    gp.pivot.getWorldPosition(_bo).applyMatrix4(inv);
+    _bd.copy(aimPoint).applyMatrix4(inv).sub(_bo).normalize();
+    _br.origin.copy(_bo).addScaledVector(_bd, 1.0); _br.direction.copy(_bd);
+    return AIRFRAME.some((b) => _br.intersectsBox(b));
+  }
+
   fire(gp, aimPoint, dt, owner, player, camera) {
     if (gp.reloading || gp.ammo <= 0) return;
+    // the crew's guns hold fire when the line goes through their own wing, engines or tail, as the
+    // turrets' cut-out cams made them do (you at a gun can still shoot your own plane)
+    if (owner === 'crew' && this.blockedByAirframe(gp, aimPoint)) return;
     const tmp = new V(), dir = new V(), vol = player ? 1 : this.volume(gp, camera);
     for (const g of gp.guns) {
       g.timer -= dt;

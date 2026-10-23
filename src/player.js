@@ -289,6 +289,9 @@ export class Player {
     const speed = Math.hypot(this.vel.x, this.vel.z);
     this.stride += speed * dt;
     pose(b, this.eye < 1.3 ? 'crouch' : speed > 0.15 ? 'walk' : 'stand', this.stride * 0.55);
+    // empty-handed, your arms hang at your sides even crouched (held out in front they'd fill the
+    // bottom corners of the screen)
+    if (this.eye < 1.3) for (const a of [j.armL, j.armR]) { a.sh.rotation.x = 0.2; a.el.rotation.x = 0.25; }
     b.rotation.y = this.yaw;
     // the neck always sits just under and behind the eye, however low you duck, so the camera
     // never ends up inside your own shoulders (arms flashing across the view as you walk)
@@ -369,7 +372,7 @@ export class Player {
   }
 
   /** Where your eye is at a station: its eye point, or behind a flexible gun, following it round. */
-  eyeAt(s) { return s.eyeBehind && this.gunEye && this.station === s ? this.gunEye : s.eye; }
+  eyeAt(s) { return (s.eyeBehind || s.lean) && this.gunEye && this.station === s ? this.gunEye : s.eye; }
 
   pose(dt) {
     // smooth the camera height so steps and crouching don't snap

@@ -21,6 +21,7 @@ const figures = new Set();
 // ---- the clothes: regions of the body and what covers them
 const REGION = { skin: 0, helmet: 1, jacket: 2, fleece: 3, trousers: 4, boot: 5, glove: 6, gauntlet: 7 };
 const THICK = [0, 0.009, 0.034, 0.045, 0.018, 0.026, 0.006, 0.046]; // m out from the skin (a sheepskin jacket is thick; the glove's gauntlet goes over the sleeve)
+const BLUE_SUIT = 2; // the heated suit's palette (below)
 const SMOOTH = [false, false, true, true, true, true, false, true]; // garments that hide the body's contours under them
 const PALETTES = [ // per region: helmet, jacket, fleece, trousers, boots, gloves
   { 1: 0x4a3322, 2: 0x553724, 3: 0xb5a584, 4: 0x5f5a3e, 5: 0x2e251d, 6: 0x6a4a2e, 7: 0x5f4229 }, // B-3 sheepskin, dark brown leather
@@ -46,10 +47,10 @@ function regions(geo, skeleton, world, M) {
     let r;
     if (b === 'Head' || b === 'neck_01') {
       const face = p.z > M.faceZ - 0.06 && p.y > M.chinY && p.y < M.browY && Math.abs(p.x) < 0.07;
-      r = face ? REGION.skin : p.y > M.chinY - 0.07 ? REGION.helmet : REGION.fleece; // (the helmet's chin piece round the jaw; the collar comes up round the neck below it)
+      r = face ? REGION.skin : p.y > M.chinY - 0.07 ? REGION.helmet : p.y > M.bones.neck_01.y - 0.06 ? REGION.fleece : REGION.jacket; // (the helmet's chin piece round the jaw; the collar comes up round the neck below it)
     } else if (/^(index|middle|ring|pinky|thumb)_|^hand_/.test(b)) r = REGION.glove;
     else if (/^lowerarm/.test(b)) r = p.distanceTo(b.endsWith('_l') ? handL : handR) < 0.12 ? REGION.gauntlet : REGION.jacket; // the flying glove's gauntlet, over the sleeve
-    else if (/^(spine|clavicle|upperarm)/.test(b)) r = p.distanceTo(M.bones.neck_01) < 0.12 ? REGION.fleece : p.y < M.hemY + 0.04 ? REGION.fleece : REGION.jacket; // the collar round the neck, the hem
+    else if (/^(spine|clavicle|upperarm)/.test(b)) r = p.distanceTo(M.bones.neck_01) < 0.1 && p.y > M.bones.neck_01.y - 0.025 && p.z > M.bones.neck_01.z - 0.02 ? REGION.fleece : p.y < M.hemY + 0.04 ? REGION.fleece : REGION.jacket; // the collar round the neck, the hem
     else if (/^calf/.test(b)) r = p.y < M.bootY ? REGION.boot : p.y < M.bootY + 0.04 ? REGION.fleece : REGION.trousers;
     else if (/^(foot|ball)/.test(b)) r = REGION.boot;
     else r = p.y > M.hemY ? REGION.jacket : REGION.trousers; // pelvis, thighs
@@ -127,7 +128,7 @@ function faceMask(geo, world, H, fz) {
   const pos = geo.attributes.position, nor = geo.attributes.normal, idx = geo.index.array;
   const nm = new THREE.Matrix3().getNormalMatrix(world), p = new V(), n = new V();
   const cy = H.y + 0.002, ry = 0.045, rx = 0.042;
-  const inside = (i) => { p.fromBufferAttribute(pos, i).applyMatrix4(world); const u = p.x / rx, v = (p.y - cy) / ry; return u * u + v * v < 1 && p.z > fz - 0.06; };
+  const inside = (i) => { p.fromBufferAttribute(pos, i).applyMatrix4(world); n.fromBufferAttribute(nor, i).applyMatrix3(nm); const u = p.x / rx, v = (p.y - cy) / ry; return u * u + v * v < 1 && p.z > fz - 0.06 && n.z > 0.15; }; // (the face only, facing forward: not the back of the neck)
   const out = [], norms = [];
   for (let t = 0; t < idx.length; t += 3) {
     if (!inside(idx[t]) || !inside(idx[t + 1]) || !inside(idx[t + 2])) continue;
@@ -150,11 +151,22 @@ function faceMask(geo, world, H, fz) {
 
 function colourise(g, palette) {
   const reg = g.attributes.region, col = new Float32Array(reg.count * 3), c = new THREE.Color();
-  for (let i = 0; i < reg.count; i++) { c.setHex(palette[reg.getX(i)] ?? palette[1]); col.set([c.r, c.g, c.b], i * 3); } // (setHex already gives linear colour; the bare face's edge takes the helmet's, not white)
+  // the fleece's edge is drawn per pixel (see the gear material), not by blending vertex colours
+  // across the body's big triangles, which gave it a jagged saw-tooth edge: so each vertex carries
+  // the colour of the garment under the fleece, the fleece's colour, and how much it is fleece
+  const fl = new Float32Array(reg.count), flc = new Float32Array(reg.count * 3), f = new THREE.Color().setHex(palette[3]);
+  for (let i = 0; i < reg.count; i++) {
+    const r = reg.getX(i), fleece = r === 3;
+    c.setHex(fleece ? palette[2] : palette[r] ?? palette[1]); // (setHex already gives linear colour; the bare face's edge takes the helmet's, not white)
+    col.set([c.r, c.g, c.b], i * 3);
+    fl[i] = fleece ? 1 : 0; flc.set([f.r, f.g, f.b], i * 3);
+  }
   const out = new THREE.BufferGeometry();
   for (const [k, a] of Object.entries(g.attributes)) out.setAttribute(k, a);
   out.setIndex(g.index);
   out.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  out.setAttribute('aFleece', new THREE.BufferAttribute(fl, 1));
+  out.setAttribute('aFleeceCol', new THREE.BufferAttribute(flc, 3));
   return out;
 }
 
@@ -171,7 +183,7 @@ export async function loadCrewModel() {
   const skeleton = body.skeleton, bones = Object.fromEntries(skeleton.bones.map((b) => [b.name, b]));
   const wp = (b) => b.getWorldPosition(new V());
   // measurements, from the model itself
-  const head = wp(bones.Head), world = body.matrixWorld, H0 = head;
+  const head = wp(bones.Head), world = body.matrixWorld, H0 = head, bindM = world.clone(); // (bindM: as it stands now, at load)
   const M = { bones: Object.fromEntries(Object.entries(bones).map(([k, b]) => [k, wp(b)])), faceZ: -Infinity, chinY: head.y - 0.02, browY: head.y + 0.1, collarY: wp(bones.neck_01).y - 0.04, hemY: wp(bones.pelvis).y + 0.03, bootY: wp(bones.calf_l).y * 0.6, chestZ: -Infinity, headHalfW: 0, top: 0 };
   const p = new V(), pos = body.geometry.attributes.position;
   for (let i = 0; i < pos.count; i++) {
@@ -194,25 +206,30 @@ export async function loadCrewModel() {
   const tl = new THREE.TextureLoader(), leatherN = tl.load('/textures/leather_normal.jpg'), leatherC = tl.load('/textures/leather_color.jpg');
   for (const t of [leatherN, leatherC]) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(4, 4); }
   leatherC.colorSpace = THREE.SRGBColorSpace;
-  const gearMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.78, metalness: 0, envMapIntensity: 0.18, map: leatherC, normalMap: leatherN, normalScale: new THREE.Vector2(0.9, 0.9) });
+  const gearMat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, vertexColors: true, roughness: 0.78, metalness: 0, envMapIntensity: 0.18, map: leatherC, normalMap: leatherN, normalScale: new THREE.Vector2(0.9, 0.9) });
   const f = (x) => x.toFixed(3), chestY0 = M.collarY - 0.15;
   gearMat.onBeforeCompile = (sh) => {
     // the pattern (zip, pockets, stitching, fur) is laid out on the body as it stands in its rest
     // pose, so it moves with him
-    sh.uniforms.uBindM = { value: world.clone() };
-    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nattribute float region; uniform mat4 uBindM; varying float vReg; varying vec3 vBind;')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvReg = region; vBind = (uBindM * vec4(position, 1.0)).xyz;');
+    sh.uniforms.uBindM = { value: bindM };
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nattribute float region; attribute float aFleece; attribute vec3 aFleeceCol; uniform mat4 uBindM; varying float vReg; varying float vFl; varying vec3 vFlC; varying vec3 vBind;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvReg = region; vFl = aFleece; vFlC = aFleeceCol; vBind = (uBindM * vec4(position, 1.0)).xyz;');
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      varying float vReg; varying vec3 vBind;
+      varying float vReg; varying float vFl; varying vec3 vFlC; varying vec3 vBind;
       float gh(vec3 p) { p = fract(p * 0.3183 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
       float gn3(vec3 p) { vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
         return mix(mix(mix(gh(i), gh(i + vec3(1,0,0)), f.x), mix(gh(i + vec3(0,1,0)), gh(i + vec3(1,1,0)), f.x), f.y),
                    mix(mix(gh(i + vec3(0,0,1)), gh(i + vec3(1,0,1)), f.x), mix(gh(i + vec3(0,1,1)), gh(i + vec3(1,1,1)), f.x), f.y), f.z); }
       // a dashed line of stitches at distance d (m) from a seam, running along coordinate t
       float stitch(float d, float t) { return (1.0 - smoothstep(0.0006, 0.0014, abs(d))) * step(0.45, fract(t * 140.0)); }`)
-      .replace('#include <map_fragment>', `#ifdef USE_MAP
+      .replace('#include <color_fragment>', `
+      diffuseColor.rgb *= mix(vec3(vColor.rgb), vFlC, fleeceW);`)
+      .replace('#include <map_fragment>', `
+      // the fleece where it is (a frayed, woolly edge, not the triangles' saw-tooth)
+      float fleeceW = smoothstep(0.4, 0.6, vFl + (gn3(vBind * 160.0) - 0.5) * 0.25);
+      #ifdef USE_MAP
       vec4 lt = texture2D(map, vMapUv);
-      float reg = floor(vReg + 0.5);
+      float reg = fleeceW > 0.5 ? 3.0 : floor(vReg + 0.5) == 3.0 ? 2.0 : floor(vReg + 0.5);
       vec3 b = vBind;
       if (reg == 3.0) {
         // sheepskin fleece: soft, dense curls, no grain of leather
@@ -221,7 +238,7 @@ export async function loadCrewModel() {
       } else {
         diffuseColor.rgb *= 0.45 + 1.2 * dot(lt.rgb, vec3(0.3, 0.55, 0.15));
       }
-      if (reg == 2.0 && b.z > 0.0) {
+      if (reg == 2.0 && b.z > ${f(M.bones.spine_03.z + 0.03)}) { // (the front: forward of his spine)
         // the jacket's front: the zip up the middle, stitched down both sides
         float onFront = step(${f(M.hemY + 0.02)}, b.y) * step(b.y, ${f(M.collarY - 0.02)});
         float zip = (1.0 - smoothstep(0.004, 0.0055, abs(b.x))) * onFront;
@@ -245,7 +262,7 @@ export async function loadCrewModel() {
       }
     #endif`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
-      if (floor(vReg + 0.5) == 3.0) roughnessFactor = 1.0;`);
+      if (fleeceW > 0.5) roughnessFactor = 1.0;`);
   };
   gearMat.customProgramCacheKey = () => 'crew-gear';
   insideLight(gearMat);
@@ -294,8 +311,8 @@ export async function loadCrewModel() {
   // chest: the fleece collar, the Mae West or a flak vest, the harness, the oxygen hose down to its clip
   const neck = M.bones.neck_01, chestY = M.collarY - 0.15;
   const makeChest = (flak) => {
-    const m = new Map([[kit.fleece, []], [kit.web, []], [kit.steel, []], [kit.hose, []], [flak ? kit.flak : kit.mae, []]]);
-    m.get(kit.fleece).push(new THREE.TorusGeometry(0.095, 0.035, 6, 18).rotateX(Math.PI / 2).scale(1.25, 1, 1).translate(0, neck.y - 0.01, neck.z - 0.005));
+    const m = new Map([[kit.web, []], [kit.steel, []], [kit.hose, []], [flak ? kit.flak : kit.mae, []]]);
+    // (no separate fleece ring: the jacket's own collar is the fleece, and a ring poked out through his back as he leaned)
     if (flak) {
       m.get(kit.flak).push(new THREE.BoxGeometry(0.4, 0.44, 0.035).translate(0, chestY - 0.08, cz + 0.02), new THREE.BoxGeometry(0.4, 0.44, 0.035).translate(0, chestY - 0.08, M.bones.spine_03.z - 0.15));
     } else {
@@ -374,12 +391,18 @@ export function makeFigure(opts = {}) {
     if (o.name === 'gear') gear = o;
     else if (o.isSkinnedMesh && (!body || o.geometry.attributes.position.count > body.geometry.attributes.position.count)) body = o;
   });
-  gear.geometry = BASE.variants[seed % BASE.variants.length];
+  let variant = seed % BASE.variants.length;
+  if (opts.noBlue && variant === BLUE_SUIT) variant = 0; // (the sheepskin instead)
+  gear.geometry = BASE.variants[variant];
   body.material = BASE.skin[(seed >> 3) % 2];
   const flak = opts.flak ?? ((seed >> 5) % 3 === 0);
   const bones = Object.fromEntries(body.skeleton.bones.map((b) => [b.name, b]));
-  for (const c of bones.spine_03.children) if (c.userData.kit) c.visible = c.userData.kit === (flak ? 'flak' : 'maewest');
-  if (opts.self) bones.Head.scale.setScalar(0.001); // (and the helmet, goggles and mask with it)
+  for (const c of bones.spine_03.children) if (c.userData.kit) c.visible = c.userData.on = c.userData.kit === (flak ? 'flak' : 'maewest');
+  if (opts.self) { // (and the helmet, goggles and mask with it; and the collar and Mae West, which sat round your eyes as a pale blob when you looked down)
+    bones.Head.scale.setScalar(0.001);
+    root.userData.self = true;
+    for (const c of bones.spine_03.children) if (c.userData.kit) c.userData.on = false;
+  }
 
   // bind the rig to the skeleton: put the rig in the model's rest pose (its limbs pointing the way the
   // bones do), and remember, for each bone, its rotation relative to its rig joint
@@ -473,7 +496,9 @@ function sync(fig) {
     bone.quaternion.copy(_q2.multiply(_q));
     bone.updateMatrixWorld(true);
   }
-  bones.Head.scale.setScalar(fig.userData.noHead ? 0.01 : 1); // (your own, in first person at a gun)
+  if (fig.userData.self) bones.Head.scale.setScalar(0.001); // (your own: never drawn round your eyes)
+  else bones.Head.scale.setScalar(fig.userData.noHead ? 0.01 : 1);
+  for (const c of bones.spine_03.children) if (c.userData.kit) c.visible = c.userData.on && !fig.userData.noHead; // (and the Mae West under your chin)
   if (fig.userData.rig.reach) reach(fig.userData.rig, fig);
   for (const f of fingers) { // curl about each joint's own bend axis: more at the knuckle, a fist at 1
     f.b.quaternion.copy(f.rest).multiply(_q.setFromAxisAngle(f.axis, g * (f.thumb ? 0.45 : [0, 1.15, 1.3, 0.9][f.k])));

@@ -295,12 +295,14 @@ export class Bomber {
     while (this.fx.length && effects) {
       const e = this.fx.shift();
       _q.setFromRotationMatrix(m);
-      if (e.type === 'wing') effects.wreck(_at.set(e.side * (e.x ?? 12), -0.8, -4.3).applyMatrix4(m), vel, 5, _w.set(4, 0.35, 2.2), 0.5, _q);
-      if (e.type === 'tail') effects.wreck(_at.set(0, 0.6, 9).applyMatrix4(m), vel, 4, _w.set(3, 0.3, 1.6), 0.2, _q);
+      // the part itself leaves (breakup.js), with smaller wreckage flying off the tear
+      if (e.type === 'wing') { this.onBreak?.(e.x === 6 ? 'wingi' : 'wingo', e.side, 0, vel); effects.wreck(_at.set(e.side * (e.x ?? 12), -0.8, -4.3).applyMatrix4(m), vel, 3, _w.set(1.4, 0.2, 0.9), 0.5, _q); }
+      if (e.type === 'tail') { this.onBreak?.('tail', 0, 0, vel); effects.wreck(_at.set(0, 0.6, 7).applyMatrix4(m), vel, 3, _w.set(1.2, 0.2, 0.8), 0.2, _q); }
       if (e.type === 'blowup') effects.explosion(_at.set(e.side * 5.5, -0.8, -4.5).applyMatrix4(m).clone(), vel.clone(), 3);
       if (e.type === 'breakup') {
         effects.explosion(_at.set(0, 0, e.z).applyMatrix4(m).clone(), vel.clone(), 2.5);
-        effects.wreck(_at.set(0, 0, e.z).applyMatrix4(m), vel, 7, _w.set(2.2, 1.6, 2.5), 0.6, _q);
+        effects.wreck(_at.set(0, 0, e.z).applyMatrix4(m), vel, 4, _w.set(1.2, 0.8, 1.2), 0.6, _q);
+        this.onBreak?.('fuselage', 0, Math.max(e.z, -1.2), vel); // (forward of the wing's trailing edge she parts behind it)
       }
     }
     // stragglers: each engine out costs speed and height, so the bomber falls out of the box

@@ -31,6 +31,7 @@ export function walkSweep(player) {
       for (let k = 0; k < 8; k++) {
         runs++;
         player.feet.copy(start); player.safe.copy(start); player.vel.set(0, 0, 0); player.vy = 0;
+        player.camY = start.y + player.eye; // (standing there: not the eye height of wherever you were before)
         player.yaw = (k / 8) * Math.PI * 2; player.pitch = 0;
         player.keys = { KeyW: true };
         let top = start.y;
@@ -74,7 +75,7 @@ export function walkSweep(player) {
 function walkRoutes(player, add) {
   const it = player.it, done = [];
   const follow = (name, path) => {
-    player.feet.copy(path[0]); player.safe.copy(path[0]); player.vel.set(0, 0, 0); player.vy = 0;
+    player.feet.copy(path[0]); player.safe.copy(path[0]); player.vel.set(0, 0, 0); player.vy = 0; player.camY = path[0].y + player.eye;
     let ok = true;
     for (const target of path.slice(1)) {
       let t = 0, best = Infinity, sinceBest = 0, flagged = false;

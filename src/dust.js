@@ -41,6 +41,7 @@ export class Dust {
     this.mesh.castShadow = false;
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 3;
+    this.mesh.userData.noCut = true;
     interior.group.add(this.mesh);
     this.pos = new Float32Array(COUNT * 3);
     this.vel = new Float32Array(COUNT * 3);

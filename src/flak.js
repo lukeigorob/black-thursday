@@ -26,7 +26,7 @@ export class Flak {
     // the gunners below fire at the part of the stream around us; bursts come in bunches
     this.timer = rand(0.25, 1.1);
     const near = this.bombers.filter((b) => !b.down && b.base.distanceTo(this.playerBomber.base) < 1500);
-    const aimed = Math.random() < 0.25 ? this.playerBomber : near[Math.floor(Math.random() * near.length)];
+    const aimed = near[Math.floor(Math.random() * near.length)]; // (any bomber in range: yours no likelier than the rest)
     if (!aimed) return;
     // predicted fire: the error is mostly in height and range
     const at = aimed.group.position.clone().add(new V(rand(-90, 90), rand(-70, 70), rand(-140, 140)));

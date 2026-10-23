@@ -7,7 +7,7 @@ import { makeFigure, reachFor } from './figure.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
-const _sa = new V(), _sb = new V(), _sc = new V();
+const _sa = new V(), _sb = new V(), _sc = new V(), _hd = new V();
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
@@ -187,7 +187,7 @@ export class Crew {
     this.listeners = [];
     if (visible) {
       for (const m of this.members) {
-        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false }); // (gunners may wear flak vests)
+        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false, noBlue: m.role.id === 'tail' }); // (gunners may wear flak vests; the tail gunner always sheepskin)
         interior.group.add(m.fig);
         this.place(m);
       }
@@ -273,14 +273,18 @@ export class Crew {
       const j = f.userData.j;
       f.updateWorldMatrix(true, true);
       const hip = j.hips.getWorldPosition(_c).applyMatrix4(_inv), hx = hip.x, hz = hip.z, hy = hip.y;
-      const head = j.head.getWorldPosition(_c).applyMatrix4(_inv);
+      const head = j.head.getWorldPosition(_hd).applyMatrix4(_inv);
       const cx = (hx + head.x) / 2, cz = (hz + head.z) / 2;
       const b = (m.box ??= new THREE.Box3());
       b.min.set(cx - 0.13, Math.min(hy, head.y) - 0.1, cz - 0.13);
       b.max.set(cx + 0.13, Math.max(hy, head.y) + 0.28, cz + 0.13);
       list.push(b);
-      // squeezing past him: don't show the inside of his body
-      if (f.userData.model) f.userData.model.visible = !(camera && b.distanceToPoint(camera.getWorldPosition(_c).applyMatrix4(_inv)) < 0.12);
+      // squeezing past him: don't show the inside of his body; and right behind his head (it would
+      // fill the screen) he isn't drawn either
+      if (f.userData.model) {
+        const eye = camera ? camera.getWorldPosition(_c).applyMatrix4(_inv) : null;
+        f.userData.model.visible = !(eye && (b.distanceToPoint(eye) < 0.12 || Math.hypot(eye.x - head.x, eye.y - head.y - 0.08, eye.z - head.z) < 0.38));
+      }
     }
   }
 

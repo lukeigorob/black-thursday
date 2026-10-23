@@ -63,7 +63,7 @@ export class Fleet {
     const hidden = new THREE.Matrix4().makeScale(0, 0, 0);
     for (const { mesh, local } of this.parts) {
       // bombers drawn with their own model right now (the player's and its neighbours) are skipped
-      this.bombers.forEach((b, i) => mesh.setMatrixAt(i, b.gone || b.model ? hidden : this.m.multiplyMatrices(b.group.matrixWorld, local)));
+      this.bombers.forEach((b, i) => mesh.setMatrixAt(i, b.gone || b.model || b.wreckBody ? hidden : this.m.multiplyMatrices(b.group.matrixWorld, local)));
       mesh.instanceMatrix.needsUpdate = true;
     }
   }

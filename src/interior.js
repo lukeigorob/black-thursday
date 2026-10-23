@@ -78,8 +78,8 @@ export const STATIONS = [
     hide: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks', 'BallCap'], attach: 'ballCockpit' },
   { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.75], eye: [-0.93, -0.98, 1.78], yaw: 90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel10'], ghost: ['SideGunPanels', 'LateralGunPivots'], eyeBehind: 0.45 }, // behind the gun, swinging round its mount with it
   { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.85], eye: [0.93, -0.98, 1.82], yaw: -90, yawLim: 75, pitch: [-55, 50], guns: ['GunBarrel005'], ghost: ['SideGunPanels', 'LateralGunPivots'], eyeBehind: 0.45 },
-  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.95, 10.15], yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], ghost: ['TailGunPod'], attach: 'ironSight',
-    entry: { time: 1.5, path: [[0, -1.82, 9.45], [0, -1.86, 9.72], [0, -1.9, 9.95]], bob: 0.035, bobs: 3 } }, // crawl back under the tail on your knees // the pod turns to glass; its frame is built in buildTail
+  { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.55, 9.8], lean: 0.16, yaw: 180, yawLim: 35, pitch: [-30, 25], guns: ['GunBarrel007', 'GunBarrel12'], attach: 'ironSight',
+    entry: { time: 1.5, path: [[0, -1.5, 9.66], [0, -1.6, 9.74], [0, -1.58, 9.79]], bob: 0.035, bobs: 3 } }, // crawl back under the tail on your knees, up onto the seat // the pod turns to glass; its frame is built in buildTail
 ].map((s) => ({ ...s, stand: new V(...s.stand), eye: new V(...s.eye), yaw: s.yaw * D, yawLim: s.yawLim * D, pitch: [s.pitch[0] * D, s.pitch[1] * D] }));
 
 // hull cross-section table: half-width of the cabin at (z, y), 10 cm x 5 cm cells
@@ -147,6 +147,7 @@ const MAT = {
   cable: std(0x2a2a28, 0.4, 0.8),
   red: std(0x8a1c14, 0.5, 0.2),
   pad: new THREE.MeshStandardMaterial({ map: quiltTexture(), roughness: 0.95, envMapIntensity: 0.05 }), // quilted insulation
+  canvas: leather(std(0x6b5f47, 0.95)), // the tail guns' canvas boot
 };
 
 function liningMaterial(src, inverted, offset = new V()) {
@@ -170,7 +171,8 @@ function liningMaterial(src, inverted, offset = new V()) {
     sh.fragmentShader = sh.fragmentShader.replace('void main() {', `uniform vec3 uOff;
       void main() {
         vec3 pb = vPosM + uOff;
-        if (pb.y > ${TURRET_CUT.y.toFixed(2)} && length(pb.xz - vec2(0.0, ${TURRET_CUT.z.toFixed(2)})) < ${TURRET_CUT.r.toFixed(2)}) discard;`);
+        if (pb.y > ${TURRET_CUT.y.toFixed(2)} && length(pb.xz - vec2(0.0, ${TURRET_CUT.z.toFixed(2)})) < ${TURRET_CUT.r.toFixed(2)}) discard;
+`);
     sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vPosM;')
       .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPosM = position;');
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
@@ -235,6 +237,48 @@ function quiltTexture() {
 }
 
 /** A stencilled marking: white or yellow letters on a transparent plate. */
+/**
+ * Plexiglas: clear, but you can tell it's there. Faint where you look straight through it, brighter and
+ * reflecting the sky towards grazing angles, fine scratches that catch the light, and a little grime
+ * gathered towards the edges of the window.
+ */
+function plexiglas(holes = null, side = THREE.DoubleSide) {
+  const m = new THREE.MeshStandardMaterial({ color: 0xc9d8cf, roughness: 0.04, metalness: 0, transparent: true, opacity: 1,
+    depthWrite: false, side, envMapIntensity: 1.3, map: holes });
+  m.onBeforeCompile = (sh) => {
+    // holes: the skin's paint texture; the glass is only drawn in its windows (see windowCutout)
+    sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', holes ? `
+      vec2 ho = vec2(0.003, 0.0);
+      float ha = max(max(texture2D(map, vMapUv).a, max(texture2D(map, vMapUv + ho).a, texture2D(map, vMapUv - ho).a)), max(texture2D(map, vMapUv + ho.yx).a, texture2D(map, vMapUv - ho.yx).a));
+      if (ha >= 0.95) discard;` : '');
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vGP; varying vec2 vGUv;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvGP = position; vGUv = uv;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vGP; varying vec2 vGUv;
+      float gh(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+      float gn(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(gh(i), gh(i + vec2(1, 0)), f.x), mix(gh(i + vec2(0, 1)), gh(i + vec2(1, 1)), f.x), f.y); }`)
+      .replace('#include <opaque_fragment>', `
+      vec3 vd = normalize(vViewPosition);
+      float fres = pow(1.0 - abs(dot(normalize(normal), vd)), 4.0);
+      // fine scratches: long thin streaks in two directions, only some catch the light
+      vec2 q = vGP.xy * 38.0 + vGP.zz * 21.0;
+      float sc = smoothstep(0.985, 1.0, gn(vec2(q.x * 0.08, q.y * 3.0))) + smoothstep(0.988, 1.0, gn(vec2(q.x * 2.6 + q.y, q.y * 0.07)));
+      // grime towards the window's edges, and a faint mottle all over
+      float edge = ${holes ? '0.25' : '1.0 - smoothstep(0.0, 0.22, min(min(vGUv.x, 1.0 - vGUv.x), min(vGUv.y, 1.0 - vGUv.y)))'};
+      float grime = edge * (0.5 + 0.5 * gn(vGP.xy * 18.0)) * 0.22 + gn(vGP.xz * 60.0) * 0.015;
+      float ga = clamp(0.13 + fres * 0.3 + sc * 0.6 + grime, 0.0, 0.6);
+      outgoingLight = mix(outgoingLight, vec3(0.32, 0.31, 0.27) * (0.4 + outgoingLight), clamp(grime / max(ga, 0.01), 0.0, 1.0));
+      #include <opaque_fragment>
+      // (the sky's reflection added on top, stronger towards grazing angles, so the glass shows)
+      gl_FragColor.rgb += reflectedLight.indirectSpecular * (1.4 + 1.2 * fres) / max(ga, 0.08) * 0.35;
+      gl_FragColor.a = ga;`);
+  };
+  m.customProgramCacheKey = () => `plexiglas${holes ? '-holes' : ''}${side}`;
+  m.userData.outside = true; // (it reflects the open sky: not darkened like the cabin)
+  return m;
+}
+
 function stencilTexture(lines, colour = '#e8e2c8') {
   const c = document.createElement('canvas');
   c.width = 256; c.height = 64 * lines.length;
@@ -292,6 +336,7 @@ export class Interior {
     const hull = [];
     model.traverse((o) => { if (o.isMesh && HULL.test(o.name)) hull.push(o); });
     this.table = measureHull(hull, model);
+    this.hullMeshes = hull;
     this.boxes = [];
     this.people = []; // the crew standing or sitting about: you brush past them (Player), not through (Crew keeps it up to date)
     this.group = new THREE.Group();
@@ -323,7 +368,7 @@ export class Interior {
     // the cabin is dark inside: the sun through the windows lights it, not the sky (cabinlook.js)
     // grime and worn edges on the boxes, cans, bottles, radio sets and seats (not the floor, glass, lamps)
     this.group.traverse((o) => { if (o.isMesh && o.geometry.attributes.aEdge && !o.material.transparent && !o.material.emissiveMap && o.material !== MAT.floor && !(o.material.emissiveIntensity > 0 && o.material.emissive?.getHex())) propWear(o.material); });
-    this.group.traverse((o) => { if (o.isMesh) insideLight(o.material); });
+    this.group.traverse((o) => { if (o.isMesh && !o.material.userData?.outside) insideLight(o.material); });
     for (const [outer, lining] of this.parts.values()) if (lining) insideLight(lining.material);
   }
 
@@ -794,9 +839,136 @@ export class Interior {
     const beadPost = new THREE.Mesh(new THREE.CylinderGeometry(0.0005, 0.0008, 0.04, 4), MAT.dark);
     beadPost.position.set(0, -0.0222, -0.32);
     this.ironSight.add(ring, post, bead, beadPost);
+    this.buildTailGlazing();
     this.ballCockpit = buildBallTurret(); // the inside of the ball turret, mounted on the camera while you're in it
     this.topCockpit = buildTopTurret(); // and the upper turret's dome
     this.buildTopDome();
+  }
+
+  /**
+   * The tail gunner's glazing and fittings, as in the Cheyenne tail of the B-17G: Plexiglas over the
+   * pod's windows (a liner that follows the inside of the tail cone, so wherever the skin has a window
+   * there is glass in it, seen from inside and out), the thick rear pane in its riveted frame and
+   * rubber seal, the canvas boot where the guns go out through the armour, the padding, the oxygen
+   * regulator and its hose, the interphone box, a little lamp and the stencils.
+   */
+  buildTailGlazing() {
+    // Plexiglas in the tail cone's open windows. The model leaves them as bare gaps, so they're found
+    // here: a sheet following the cone 2 cm outside its skin (so the frames hide it), kept only in the cells the eye can
+    // see without metal (skin, frame or pod) in the way.
+    const z0 = 9.4, z1 = 10.44, nz = 26, yLo = -2.5, yHi = -1.45, ny = 42; // (the sides: over the top the rear pane covers it, and a sheet there met the eye edge-on)
+    const eye = STATIONS.find((x) => x.id === 'tail').eye;
+    const solid = [...this.hullMeshes, ...(this.parts.get('TailGunPod') ?? []).slice(0, 1)];
+    const rc = new THREE.Raycaster(), wE = new V(eye.x, eye.y, eye.z).applyMatrix4(this.model.matrixWorld);
+    const at = (i, k) => { const z = z0 + ((z1 - z0) * i) / nz, y = yLo + ((yHi - yLo) * k) / ny; return [z, y, this.hw(z, y)]; };
+    const open = (x, y, z) => {
+      const p = new V(x, y, z).applyMatrix4(this.model.matrixWorld), d = p.distanceTo(wE);
+      rc.set(wE, p.sub(wE).normalize()); rc.far = d + 0.3;
+      return !rc.intersectObjects(solid, false).some((h) => h.distance < d + 0.25 && !holeAt(h));
+    };
+    // (a hit on a window cut out of the skin's paint isn't metal)
+    let holeCtx = new Map();
+    const holeAt = (h) => {
+      const map = h.object.material.map, img = map?.image;
+      if (!img || !h.uv || !h.object.material.alphaTest) return false;
+      if (!holeCtx.has(img)) { const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0); holeCtx.set(img, x); }
+      const u = ((h.uv.x % 1) + 1) % 1, v = ((h.uv.y % 1) + 1) % 1;
+      return holeCtx.get(img).getImageData(Math.floor(u * img.width), Math.floor((map.flipY ? 1 - v : v) * img.height), 1, 1).data[3] < 242;
+    };
+    const sides = solid.map((o) => o.material.side); solid.forEach((o) => { o.material.side = THREE.DoubleSide; }); // (seen from inside: the skin's back faces count)
+    const pos = [], uv = [], idx = [];
+    for (const side of [-1, 1]) {
+      const id = new Map();
+      const vtx = (i, k) => {
+        const key = i * 1000 + k;
+        if (!id.has(key)) { const [z, y, w] = at(i, k); id.set(key, pos.length / 3); pos.push(side * (w + 0.02), y, z); uv.push(i / nz, k / ny); }
+        return id.get(key);
+      };
+      for (let i = 0; i < nz; i++) for (let k = 0; k < ny; k++) {
+        if ([[i, k], [i + 1, k], [i, k + 1], [i + 1, k + 1]].some(([a, c]) => at(a, c)[2] < 0.02)) continue;
+        const [z, y, w] = at(i + 0.5, k + 0.5);
+        if (!open(side * (w - 0.02), y, z)) continue; // (metal there)
+        const a = vtx(i, k), b = vtx(i + 1, k), c = vtx(i, k + 1), d = vtx(i + 1, k + 1);
+        idx.push(a, b, c, b, d, c);
+      }
+    }
+    solid.forEach((o, i) => { o.material.side = sides[i]; });
+    const sheet = new THREE.BufferGeometry();
+    sheet.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    sheet.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    sheet.setIndex(idx); sheet.computeVertexNormals();
+    this.tailGlassCells = idx.length / 6;
+    // and the rear window across the cone's open end, each row where the cone ends at that height
+    const rp = [], ri = [], ru = [], rows = [];
+    for (let k = 0; k <= 28; k++) {
+      const y = -2.5 + k * 0.05;
+      let zEnd = null, w = 0;
+      for (let z = 9.6; z <= 10.5; z += 0.02) { const h = this.hw(z, y); if (h > 0.03) { zEnd = z; w = h; } }
+      if (zEnd != null) rows.push([w + 0.01, y, zEnd + 0.03]);
+    }
+    rows.forEach(([w, y, z], k) => { rp.push(-w, y, z, w, y, z); ru.push(0, k / (rows.length - 1), 1, k / (rows.length - 1)); });
+    for (let k = 0; k < rows.length - 1; k++) { const a = k * 2; ri.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    const rear = new THREE.BufferGeometry();
+    rear.setAttribute('position', new THREE.Float32BufferAttribute(rp, 3));
+    rear.setAttribute('uv', new THREE.Float32BufferAttribute(ru, 2));
+    rear.setIndex(ri); rear.computeVertexNormals();
+    const glass = plexiglas();
+    for (const geo of [sheet, rear]) { const gm = new THREE.Mesh(geo, glass); gm.renderOrder = 4; this.group.add(gm); }
+    // the pod's own windows: its frame stays solid, and where its paint marks glass there's Plexiglas
+    // (it used to be ghosted whole while you sat in it; from the raised seat its frame is out of your sight line)
+    const [pod] = this.parts.get('TailGunPod') ?? [];
+    if (pod) {
+      pod.material = pod.material.alphaTest ? pod.material : windowCutout(pod.material.clone());
+      const pg = new THREE.Mesh(pod.geometry, plexiglas(pod.material.map));
+      pg.position.copy(pod.position); pg.quaternion.copy(pod.quaternion); pg.scale.copy(pod.scale);
+      pg.renderOrder = 4; pg.name = 'TailGunPod_glass';
+      pod.parent.add(pg);
+    }
+    // the rear pane: thick armour glass in the middle of the window, in its riveted frame
+    const fz = 10.5, pw = 0.29, ph = 0.2, py = -2.04, gz = fz - 0.04;
+    const pane = new THREE.Mesh(new THREE.BoxGeometry(pw * 2, ph * 2, 0.035), glass);
+    pane.position.set(0, py, gz);
+    pane.renderOrder = 4;
+    this.group.add(pane);
+    const corners = [[-pw, py - ph], [pw, py - ph], [pw, py + ph], [-pw, py + ph]];
+    for (let i = 0; i < 4; i++) {
+      const [ax, ay] = corners[i], [bx, by] = corners[(i + 1) % 4];
+      this.rod([ax, ay, gz], [bx, by, gz], 0.012, MAT.metal, 6); // the frame's channel
+      this.rod([ax * 0.965, py + (ay - py) * 0.95, gz - 0.004], [bx * 0.965, py + (by - py) * 0.95, gz - 0.004], 0.005, MAT.hose, 5); // rubber seal
+      const L = Math.hypot(bx - ax, by - ay);
+      for (let t = 0.04; t < L; t += 0.06) { // rivets
+        const f = t / L;
+        this.add(MAT.metal, new THREE.SphereGeometry(0.004, 5, 3).translate(ax + (bx - ax) * f, ay + (by - ay) * f, gz - 0.014));
+      }
+    }
+    // the canvas boot round the guns where they pass out through the armour, gathered in folds
+    const boot = new THREE.CylinderGeometry(0.1, 0.16, 0.12, 16, 3, true).rotateX(Math.PI / 2);
+    const bp = boot.attributes.position;
+    for (let i = 0; i < bp.count; i++) {
+      const a = Math.atan2(bp.getY(i), bp.getX(i)), f = 1 + 0.08 * Math.sin(a * 9) * (0.5 + bp.getZ(i) * 4);
+      bp.setXY(i, bp.getX(i) * f * 1.3, bp.getY(i) * f * 0.75);
+    }
+    boot.computeVertexNormals();
+    this.add(MAT.canvas, boot.translate(0, -2.36, fz - 0.07));
+    // quilted padding on the compartment's walls
+    for (const sd of [-1, 1]) {
+      const x = sd * (this.hw(9.85, -1.95) - 0.02);
+      const g = new THREE.PlaneGeometry(0.5, 0.32); g.rotateY(-sd * Math.PI / 2);
+      this.add(MAT.pad, g.translate(x, -1.95, 9.78));
+    }
+    // the A-12 oxygen regulator, its blinker and hose; the interphone jack box
+    const rx = -(this.hw(9.55, -1.8) - 0.04), jx = this.hw(9.55, -1.85) - 0.04;
+    this.box(rx - 0.03, rx + 0.03, -1.86, -1.74, 9.5, 9.62, MAT.dark, false);
+    this.cylinder(0.022, 0.012, rx + 0.032, -1.8, 9.56, 'x', MAT.metal, 12);
+    this.rod([rx + 0.02, -1.86, 9.56], [rx + 0.1, -2.05, 9.7], 0.011, MAT.hose);
+    this.box(jx - 0.025, jx + 0.025, -1.9, -1.8, 9.5, 9.58, MAT.green, false);
+    this.cylinder(0.008, 0.02, jx - 0.03, -1.83, 9.54, 'x', MAT.metal, 8);
+    // a small lamp on the roof, and the seat cushion he half sits on
+    this.cylinder(0.03, 0.025, 0, this.ceilingAt(9.45, 0, -2.3) - 0.02, 9.45, 'y', MAT.dark, 10);
+    this.box(-0.15, 0.15, -2.06, -1.99, 9.5, 9.66, MAT.leather, false);
+    this.stencil(['CAL .50 AMMUNITION'], 0.2, [-0.32, -2.12, 9.151], 0, '#d8d0a8');
+    this.stencil(['OXYGEN'], 0.08, [rx + 0.031, -1.765, 9.56], Math.PI / 2, '#d8c86a');
+    this.stencil(['INTERPHONE'], 0.07, [jx - 0.026, -1.88, 9.54], -Math.PI / 2, '#e8e2c8');
   }
 
   /**

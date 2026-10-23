@@ -281,11 +281,11 @@ export class Fighters {
     const group = plan?.squad ? near.filter((b) => b.squad === plan.squad) : [];
     const stragglers = near.filter((b) => b.deadEngines > 0);
     const r = Math.random();
-    const mine = this.crewView && !this.playerBomber.down; // you're in a B-17: plenty come for yours
+    // (no extra share for the bomber you're in: it takes its chances like any other in the box.
+    // The fight is only ever round you, so an extra share made yours many times likelier to go down)
     f.target = group.length ? group[Math.floor(Math.random() * group.length)]
-      : mine && r < 0.35 ? this.playerBomber
-        : stragglers.length && r < 0.6 ? stragglers[Math.floor(Math.random() * stragglers.length)]
-          : near[Math.floor(Math.random() * near.length)] ?? this.playerBomber;
+      : stragglers.length && r < 0.6 ? stragglers[Math.floor(Math.random() * stragglers.length)]
+        : near[Math.floor(Math.random() * near.length)] ?? this.playerBomber;
     f.attack = plan?.attack ?? pick(ATTACKS);
     f.side3 = plan?.side3 ?? (Math.random() < 0.5 ? -1 : 1);
     const o = { headOn: [rand(-200, 200), rand(250, 550), -2600], high: [f.side3 * rand(500, 900), rand(800, 1100), rand(-900, -300)],
