@@ -2,12 +2,26 @@
 // overhead while you drift down and back behind the bomber stream (the air streams past at AIRSPEED).
 import * as THREE from 'three';
 import { AIRSPEED } from './bomber.js';
-import { canopyGeometry, linesGeometry, chuteShape, chuteSwing, SILK, CORD, DROP } from './parachutes.js';
+import { canopyGeometry, linesGeometry, chuteShape, chuteSwing, SILK, CORD, DROP, LINK } from './parachutes.js';
+import { makeFigure, reachFor } from './figure.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const FREEFALL = 1.8, HANG = 6; // s: falling before the chute opens; then hanging before you can go again
 const LOOK = 0.0022;
 const _e = new THREE.Euler(0, 0, 0, 'YXZ'), _q = new THREE.Quaternion(), _qv = new THREE.Quaternion(), _s = new THREE.Vector3(), _o = new THREE.Vector3();
 const EYE = DROP - 0.35; // m from the canopy's centre down to your eyes
+
+/** Your risers: from the harness on your shoulders (just behind your eye) straight up to the lines. */
+function ownRisers() {
+  const parts = [];
+  for (const sx of [-1, 1]) for (const [z0, z1] of [[0.08, -0.04], [0.26, 0.08]]) { // (front pair, back pair)
+    const A = new THREE.Vector3(sx * 0.19, -EYE - 0.2, z0), B = new THREE.Vector3(sx * 0.2, -LINK, z1), len = A.distanceTo(B);
+    const g = new THREE.BoxGeometry(0.032, len, 0.005);
+    g.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.clone().sub(A).normalize()));
+    parts.push(g.translate((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2));
+  }
+  return mergeGeometries(parts);
+}
 
 export class Eject {
   constructor(scene) {
@@ -18,8 +32,10 @@ export class Eject {
     this.lookScale = 1; this.freeLook = false;
     // your own chute above you: look up and you see the canopy and the lines running down to you
     this.canopy = new THREE.Group();
-    // (the lines stop at the risers above your head: ending right by your eyes, they smeared across the view)
-    this.canopy.add(new THREE.Mesh(canopyGeometry(), SILK), new THREE.Mesh(linesGeometry(-EYE + 1.1), CORD));
+    // the lines down to the risers, the risers down to your harness: you hold them, your hands up in the
+    // corners of your view; look down and your legs and boots hang under you
+    this.canopy.add(new THREE.Mesh(canopyGeometry(), SILK), new THREE.Mesh(linesGeometry(-LINK), CORD),
+      new THREE.Mesh(ownRisers(), new THREE.MeshStandardMaterial({ color: 0x8a8060, roughness: 0.9 })));
     this.canopy.visible = false;
     this.centre = new THREE.Vector3();
     scene.add(this.canopy);
@@ -48,6 +64,26 @@ export class Eject {
 
   stop() { this.active = false; this.canopy.visible = false; this.onDone = null; }
 
+  /** You, in the harness: hands up on the risers, legs dangling and swinging a little. */
+  hang(t) {
+    if (!this.body) {
+      try { this.body = makeFigure({ self: true }); } catch { return; } // (the crew's model: loaded by now)
+      this.canopy.add(this.body);
+    }
+    const b = this.body, j = b.userData.j;
+    // the neck just under your eye, as in the bomber (player.js): the body hangs straight down from it
+    b.position.set(0, -EYE - (j.hips.position.y + 0.6) - 0.14, 0.18);
+    for (const [l, s] of [[j.legL, 1], [j.legR, -1]]) { // legs a little apart, hanging forward, swaying
+      l.hip.rotation.set(0.25 + 0.12 * Math.sin(t * 1.3 + s), 0, s * -0.08);
+      l.knee.rotation.set(-0.35 - 0.1 * Math.sin(t * 1.1 + s * 2), 0, 0);
+    }
+    j.torso.rotation.set(-0.05, 0, 0);
+    this.canopy.updateMatrixWorld(true);
+    this.grips ??= [new THREE.Vector3(), new THREE.Vector3()];
+    for (const [i, s] of [[0, -1], [1, 1]]) this.canopy.localToWorld(this.grips[i].set(s * 0.2, -EYE + 0.3, 0.05)); // (your hands on the front risers, just over your head)
+    reachFor(b, this.grips);
+  }
+
   update(dt, camera) {
     if (!this.active) return;
     this.t += dt;
@@ -74,6 +110,7 @@ export class Eject {
       this.canopy.children[1].scale.copy(_s).setY(1);
       camera.position.copy(this.centre).add(_o.set(0, -EYE, 0).applyQuaternion(_q));
       camera.quaternion.copy(_q).multiply(look); // your view swings with you
+      this.hang(t);
     }
     this.ready = this.t > FREEFALL + HANG;
   }

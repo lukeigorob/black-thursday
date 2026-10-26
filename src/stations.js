@@ -138,7 +138,7 @@ export function buildStations(it, MAT) {
   const rf = -1.8;
   // his desk: a wooden top on a green frame
   add(MAT.floor, new THREE.BoxGeometry(0.6, 0.035, 0.72).translate(-0.71, -1.068, -2.15));
-  add(M.green, new THREE.BoxGeometry(0.5, 0.7, 0.62).translate(-0.73, rf + 0.38, -2.15));
+  add(M.green, new THREE.BoxGeometry(0.5, 0.7, 0.3).translate(-0.73, rf + 0.38, -2.31)); // (the front open: his knees go under it)
   // the BC-348 receiver on the desk, its face to the aisle
   { const x0 = -0.97, x1 = -0.62, y0 = -1.05, y1 = -0.75, z0 = -2.42, z1 = -1.94;
     it.box(Math.max(x0, -wallX(-2.18, -0.9, 0.02)), x1, y0, y1, z0, z1, M.set, false);

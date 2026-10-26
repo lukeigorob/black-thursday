@@ -10,7 +10,6 @@ import * as THREE from 'three';
 const V = THREE.Vector3;
 const PANEL = { x0: -0.74, x1: 0.74, y0: 0.06, y1: 0.62, z: -8.5 }; // the panel's face (bomber space)
 const W = 2048, H = Math.round(W * (PANEL.y1 - PANEL.y0) / (PANEL.x1 - PANEL.x0)); // texture px
-const CRAWL = { x0: -0.26, x1: 0.26, y1: 0.28 }; // the cut-out under the middle: the crawlway to the nose
 
 // the gauges: [x, y] in metres on the panel (0, 0 = its bottom middle), radius, kind, label
 const GAUGES = (() => {
@@ -116,7 +115,6 @@ function panelTextures() {
     for (const [sx, sy] of [[a + 18, b + 18], [c2 - 18, b + 18], [a + 18, d - 18], [c2 - 18, d - 18]]) { g.beginPath(); g.arc(sx, sy, 5, 0, 7); g.fill(); }
   }
   // the crawlway cut-out under the middle: drawn dark (the geometry leaves it open)
-  { const [a, b] = toPx(CRAWL.x0, CRAWL.y1), [c2, d] = toPx(CRAWL.x1, PANEL.y0); g.fillStyle = '#060606'; g.fillRect(a, b, c2 - a, d - b + 2); }
   for (const [x, y, r, kind, label] of GAUGES) {
     const [cx, cy] = toPx(x, y + PANEL.y0), rp = r * pxPerM;
     drawGauge(g, cx, cy, rp, kind, label);
@@ -174,27 +172,27 @@ const std = (c, r = 0.7, m = 0.1) => new THREE.MeshStandardMaterial({ color: c, 
 const M = {
   panel: null, green: std(0x4c5638, 0.75, 0.15), black: std(0x161716, 0.55, 0.25), knob: std(0x111111, 0.4, 0.1),
   red: std(0x8a1a12, 0.5), steel: std(0x8f918a, 0.4, 0.75), cushion: std(0xc9a033, 0.85), armour: std(0x3b4230, 0.6, 0.45),
-  hub: null, ap: null, white: std(0xd8d2be, 0.6),
+  hub: null, ap: null, white: std(0xd8d2be, 0.6), recess: std(0x1d1f1a, 0.8, 0.3),
 };
 
 /** it = the Interior (add/box/rod/cylinder helpers). */
 export function buildB17Cockpit(it) {
   const f = -0.40, z = PANEL.z;
-  // ---- the instrument panel: one textured face (left, middle, right), cut out at the crawlway
+  // ---- the instrument panel: one textured face right across (the way to the nose is the crawlway
+  // under the flight deck, down through the hatch between the seats: interior.js buildCrawlway)
   const tex = panelTextures();
   M.panel ??= new THREE.MeshStandardMaterial({ map: tex.color, normalMap: tex.normal, normalScale: new THREE.Vector2(1.2, 1.2), roughness: 0.55, metalness: 0.2, envMapIntensity: 0.35 });
-  const face = new THREE.Shape([new THREE.Vector2(PANEL.x0, PANEL.y0), new THREE.Vector2(CRAWL.x0, PANEL.y0), new THREE.Vector2(CRAWL.x0, CRAWL.y1), new THREE.Vector2(CRAWL.x1, CRAWL.y1),
-    new THREE.Vector2(CRAWL.x1, PANEL.y0), new THREE.Vector2(PANEL.x1, PANEL.y0), new THREE.Vector2(PANEL.x1, PANEL.y1), new THREE.Vector2(PANEL.x0, PANEL.y1)]);
+  const face = new THREE.Shape([new THREE.Vector2(PANEL.x0, PANEL.y0), new THREE.Vector2(PANEL.x1, PANEL.y0), new THREE.Vector2(PANEL.x1, PANEL.y1), new THREE.Vector2(PANEL.x0, PANEL.y1)]);
   const fg = new THREE.ShapeGeometry(face);
   const uv = fg.attributes.uv, pos = fg.attributes.position;
   for (let i = 0; i < pos.count; i++) uv.setXY(i, (pos.getX(i) - PANEL.x0) / (PANEL.x1 - PANEL.x0), (pos.getY(i) - PANEL.y0) / (PANEL.y1 - PANEL.y0));
   const panel = new THREE.Mesh(fg.translate(0, 0, z), M.panel);
   panel.receiveShadow = true;
   it.group.add(panel);
-  // its frame and back (a solid: you crawl under the middle, not through the panel)
-  it.box(PANEL.x0, CRAWL.x0, PANEL.y0, PANEL.y1, z - 0.12, z - 0.005, M.black);
-  it.box(CRAWL.x1, PANEL.x1, PANEL.y0, PANEL.y1, z - 0.12, z - 0.005, M.black);
-  it.box(CRAWL.x0, CRAWL.x1, CRAWL.y1, PANEL.y1, z - 0.12, z - 0.005, M.black);
+  // its back, and under it down to the floor the dark recess the rudder pedals stand in: all solid
+  it.box(PANEL.x0, PANEL.x1, PANEL.y0, PANEL.y1, z - 0.12, z - 0.005, M.black);
+  it.box(PANEL.x0, PANEL.x1, f, PANEL.y0, z - 0.12, z - 0.02, M.recess);
+  for (const s of [-1, 1]) it.box(s * 0.16 - 0.012, s * 0.16 + 0.012, f, PANEL.y0, z - 0.02, z, M.green, false); // (the pedestal's frame up into the panel)
   for (const [x0, x1, y0, y1] of [[PANEL.x0 - 0.02, PANEL.x1 + 0.02, PANEL.y1, PANEL.y1 + 0.02], [PANEL.x0 - 0.02, PANEL.x0, PANEL.y0, PANEL.y1], [PANEL.x1, PANEL.x1 + 0.02, PANEL.y0, PANEL.y1]]) it.box(x0, x1, y0, y1, z - 0.02, z + 0.012, M.green, false);
   // knobs at the gauges and rows of toggle switches along the bottom, as real geometry
   seed = 99;
@@ -229,7 +227,7 @@ export function buildB17Cockpit(it) {
     for (const s of [-1, 1]) it.box(x + s * 0.13 - 0.04, x + s * 0.13 + 0.04, f + 0.05, f + 0.17, -8.48, -8.42, M.steel, false); // rudder pedals
   }
   // ---- the centre pedestal: throttles with their bar, propeller and mixture levers, the turbo boost dial
-  it.box(-0.14, 0.14, f, 0.0, -8.38, -7.8, M.green, false);
+  it.box(-0.14, 0.14, f, 0.0, -8.38, -7.8, M.green); // (solid: you go round it, to the hatch behind it)
   it.add(M.green, new THREE.BoxGeometry(0.28, 0.05, 0.42).rotateX(0.32).translate(0, 0.03, -8.12));
   it.add(M.black, new THREE.BoxGeometry(0.22, 0.012, 0.3).rotateX(0.32).translate(0, 0.058, -8.12)); // the quadrant's slots
   for (let i = 0; i < 4; i++) {

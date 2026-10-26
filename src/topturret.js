@@ -8,8 +8,8 @@ import * as THREE from 'three';
 import { glassMaterial } from './ballturret.js';
 
 const R = 0.6; // m, radius of the dome
-const H = 0.44; // m, height of the dome above its base ring
-const BASE = -0.18; // m, the base ring is this far below your eye
+const H = 0.56; // m, height of the dome above its base ring
+const BASE = -0.3; // m, the base ring is this far below your eye (the guns run out just above it)
 
 export function buildTopTurret() {
   const g = new THREE.Group();
@@ -44,11 +44,12 @@ export function buildTopTurret() {
   shell.add(glass, skirt);
   // the reflector sight on the guns, low in front of you, tilting with your aim
   const sight = new THREE.Group();
-  const housing = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.05, 0.1), dark);
-  housing.position.set(0, -0.135, -0.3);
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.062, 0.05), new THREE.MeshPhysicalMaterial({
+  // (small, between the guns and below your line of sight: the target is never behind it)
+  const housing = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.032, 0.08), dark);
+  housing.position.set(0, -0.17, -0.36);
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.044, 0.034), new THREE.MeshPhysicalMaterial({
     color: 0xbfd8e0, transparent: true, opacity: 0.12, roughness: 0.05, depthWrite: false, side: THREE.DoubleSide }));
-  plate.position.set(0, -0.085, -0.31);
+  plate.position.set(0, -0.137, -0.37);
   plate.rotation.x = -0.35;
   plate.renderOrder = 4;
   sight.add(housing, plate);

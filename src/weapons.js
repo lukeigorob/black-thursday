@@ -3,9 +3,13 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { AIRSPEED, PARTS } from './bomber.js';
+import { buildBrowning } from './browning.js';
+import { insideLight } from './cabinlook.js';
+import { turretPoint, turretFloor } from './interior.js';
 
 const V = THREE.Vector3;
 const _inv = new THREE.Matrix4();
+const tmp2 = new THREE.Vector3(), tmp3 = new THREE.Vector3(), tmp4 = new THREE.Vector3(), _inv2 = new THREE.Matrix4();
 const _f = new THREE.Vector3(), _u = new THREE.Vector3(), _s = new THREE.Vector3(), _c = new THREE.Vector3(), _rm = new THREE.Matrix4();
 // the parts of the airframe a gun mustn't fire through: wings (from the wing roots), engines, the fin
 // and the tailplanes (bomber space; the fuselage itself is kept out of the guns' arcs by their limits)
@@ -19,7 +23,7 @@ const GRAVITY = 9.81;
 const DRAG = 0.00025; // simple quadratic drag on the bullet's speed through the air
 const WIND = new V(0, 0, AIRSPEED); // the air streams past the formation (which stays at the origin)
 const LIFE = 2.5; // seconds a round is simulated (~1.7 km, well past effective range)
-const TRACER_EVERY = 4;
+const TRACER_EVERY = 5; // (every fifth round a tracer, as the belts were loaded)
 const TRACER_RANGE = 500; // m from the camera
 const CONVERGENCE = 350; // m: guns are harmonised so rounds cross the sight line here
 const SPREAD = 0.0018; // rad, gun dispersion
@@ -45,7 +49,7 @@ export class Bullets {
     this.team = []; this.owner = []; this.src = []; this.cannon = new Uint8Array(MAX_BULLETS);
     this.count = 0;
     this.playerFired = 0;
-    const geo = new THREE.CylinderGeometry(0.05, 0.05, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, -0.5);
+    const geo = new THREE.CylinderGeometry(0.03, 0.03, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, -0.5); // (thin: a streak, not a bar)
     const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(1, 1, 1).multiplyScalar(60), // far above the bloom threshold
       blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, fog: false,
@@ -113,7 +117,7 @@ export class Bullets {
         dir.set(v[j], v[j + 1], v[j + 2]);
         const speed = dir.length();
         pos.set(p[j], p[j + 1], p[j + 2]);
-        const w = camPos ? Math.max(1, pos.distanceTo(camPos) * 0.0011 / 0.05) : 1;
+        const w = camPos ? Math.max(1, pos.distanceTo(camPos) * 0.0011 / 0.03) : 1;
         scale.set(w, w, Math.min(speed * 0.022, 20)); // streak length ~ motion blur
         this.q.setFromUnitVectors(FWD, dir.divideScalar(speed));
         this.mesh.setMatrixAt(t, this.m.compose(pos, this.q, scale));
@@ -172,27 +176,118 @@ function glowTexture() {
   return new THREE.CanvasTexture(c);
 }
 
+/**
+ * The muzzle flash of a .50 seen end-on: a hot white core and five ragged prongs of flame, yellow going
+ * to orange at their tips (each shot's sprite turned and sized at random, so no two look alike).
+ */
 function flashTexture() {
   const c = document.createElement('canvas');
-  c.width = c.height = 64;
+  c.width = c.height = 128;
   const g = c.getContext('2d');
-  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-  grd.addColorStop(0, 'rgba(255,255,255,1)');
-  grd.addColorStop(0.25, 'rgba(255,210,140,0.9)');
-  grd.addColorStop(1, 'rgba(255,140,40,0)');
-  g.fillStyle = grd;
-  g.fillRect(0, 0, 64, 64);
-  g.strokeStyle = 'rgba(255,220,160,0.8)';
-  g.lineWidth = 3;
-  for (let i = 0; i < 4; i++) { // star-shaped flash
-    const a = (i * Math.PI) / 4;
-    g.beginPath(); g.moveTo(32 - Math.cos(a) * 30, 32 - Math.sin(a) * 30); g.lineTo(32 + Math.cos(a) * 30, 32 + Math.sin(a) * 30); g.stroke();
+  g.translate(64, 64);
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  g.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 5; i++) { // the prongs: tapering, a little crooked
+    const a = (i / 5) * Math.PI * 2 + rnd() * 0.3, len = 44 + rnd() * 18, w = 7 + rnd() * 4;
+    const grd = g.createLinearGradient(0, 0, Math.cos(a) * len, Math.sin(a) * len);
+    grd.addColorStop(0, 'rgba(255,250,225,1)'); grd.addColorStop(0.35, 'rgba(255,205,110,0.85)'); grd.addColorStop(1, 'rgba(255,110,30,0)');
+    g.fillStyle = grd;
+    g.beginPath();
+    g.moveTo(Math.cos(a + Math.PI / 2) * w, Math.sin(a + Math.PI / 2) * w);
+    g.quadraticCurveTo(Math.cos(a + 0.12) * len * 0.5, Math.sin(a + 0.12) * len * 0.5, Math.cos(a) * len, Math.sin(a) * len);
+    g.quadraticCurveTo(Math.cos(a - 0.12) * len * 0.5, Math.sin(a - 0.12) * len * 0.5, Math.cos(a - Math.PI / 2) * w, Math.sin(a - Math.PI / 2) * w);
+    g.fill();
+  }
+  const core = g.createRadialGradient(0, 0, 0, 0, 0, 30);
+  core.addColorStop(0, 'rgba(255,255,245,1)'); core.addColorStop(0.4, 'rgba(255,225,160,0.7)'); core.addColorStop(1, 'rgba(255,150,60,0)');
+  g.fillStyle = core; g.beginPath(); g.arc(0, 0, 30, 0, Math.PI * 2); g.fill();
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/** The flame out of the muzzle seen from the side: a short tongue, bright at the muzzle, ragged at the end. */
+function flameTexture() {
+  const c = document.createElement('canvas');
+  c.width = 64; c.height = 128;
+  const g = c.getContext('2d');
+  g.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 6; i++) {
+    const w = 26 - i * 3, h = 120 - i * 14, grd = g.createLinearGradient(0, 128, 0, 128 - h);
+    grd.addColorStop(0, 'rgba(255,245,210,0.55)'); grd.addColorStop(0.5, 'rgba(255,180,80,0.3)'); grd.addColorStop(1, 'rgba(255,100,20,0)');
+    g.fillStyle = grd;
+    g.beginPath(); g.moveTo(32 - w / 2, 128); g.quadraticCurveTo(32 - w * 0.7, 128 - h * 0.5, 32 + (i % 2 ? 4 : -4), 128 - h); g.quadraticCurveTo(32 + w * 0.7, 128 - h * 0.5, 32 + w / 2, 128); g.fill();
   }
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }
+const FLAME_GEO = (() => { // two crossed quads along -Z from the muzzle
+  const q = (rot) => new THREE.PlaneGeometry(0.16, 0.42).translate(0, 0.21, 0).rotateX(-Math.PI / 2).rotateZ(rot);
+  return mergeGeometries([q(0), q(Math.PI / 2)]);
+})();
+const FLAME_MAT = new THREE.MeshBasicMaterial({ map: flameTexture(), color: new THREE.Color(1, 0.85, 0.6).multiplyScalar(6), blending: THREE.AdditiveBlending,
+  transparent: true, depthWrite: false, side: THREE.DoubleSide, fog: false });
+
+/**
+ * Spent cases and links: they fly out of the guns' ejection ports as they fire, tumble, and fall to the
+ * floor (where they bounce and lie a while) or, from the turrets outside, away out of sight. Kept in
+ * the bomber's own space, so they lie still on its floor however it moves.
+ */
+class Casings {
+  constructor(parent, interior) {
+    const MAX = this.MAX = 360;
+    const brass = new THREE.MeshStandardMaterial({ color: 0xb58a3c, roughness: 0.35, metalness: 0.9, envMapIntensity: 0.6 });
+    const link = new THREE.MeshStandardMaterial({ color: 0x2a2a28, roughness: 0.5, metalness: 0.7 });
+    this.cases = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.0065, 0.0065, 0.1, 6), brass, MAX);
+    this.links = new THREE.InstancedMesh(new THREE.BoxGeometry(0.03, 0.006, 0.016), link, MAX);
+    for (const m of [this.cases, this.links]) { m.count = 0; m.frustumCulled = false; parent.add(m); m.castShadow = false; }
+    this.items = [];
+    this.it = interior;
+    this.m = new THREE.Matrix4(); this.q = new THREE.Quaternion(); this.e = new THREE.Euler(); this.one = new V(1, 1, 1);
+  }
+
+  /** at, vel: bomber space. isLink: a link rather than a case. outside: no floor under it. */
+  spawn(at, vel, isLink, outside) {
+    if (this.items.length >= this.MAX * 2) this.items.shift();
+    this.items.push({ p: at.clone(), v: vel, r: new V(Math.random() * 6, Math.random() * 6, Math.random() * 6), w: new V((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40),
+      link: isLink, out: outside, age: 0, rest: false, floor: outside ? -Infinity : (this.it?.floorAt(at.x, at.z, at.y) ?? -Infinity) });
+  }
+
+  update(dt) {
+    let nc = 0, nl = 0;
+    for (let i = 0; i < this.items.length; i++) {
+      const c = this.items[i];
+      c.age += dt;
+      if ((c.out && c.age > 1.5) || c.age > 40) { this.items.splice(i--, 1); continue; }
+      if (!c.rest) {
+        c.v.y -= 9.8 * dt;
+        if (c.out) c.v.z += 40 * dt; // (outside, the slipstream takes it)
+        c.p.addScaledVector(c.v, dt);
+        c.r.addScaledVector(c.w, dt);
+        if (c.p.y < c.floor + 0.007) { // bounce, and soon lie still
+          c.p.y = c.floor + 0.007; c.v.y *= -0.3; c.v.x *= 0.5; c.v.z *= 0.5; c.w.multiplyScalar(0.4);
+          if (Math.abs(c.v.y) < 0.25) { c.rest = true; c.r.set(Math.PI / 2, c.r.y, 0); }
+        }
+      }
+      this.m.compose(c.p, this.q.setFromEuler(this.e.set(c.r.x, c.r.y, c.r.z)), this.one);
+      if (c.link) { if (nl < this.MAX) this.links.setMatrixAt(nl++, this.m); } else if (nc < this.MAX) this.cases.setMatrixAt(nc++, this.m);
+    }
+    this.cases.count = nc; this.links.count = nl;
+    this.cases.instanceMatrix.needsUpdate = this.links.instanceMatrix.needsUpdate = true;
+  }
+}
+
 const FLASH_TEX = flashTexture();
+
+let CAN_MAT = null;
+
+/** A nose gun in its ball socket: no gun in the model, so one laid out from the station itself. */
+function socketGun(station) {
+  const breech = new V(...station.pivot), axis = new V(...station.rest).normalize();
+  return { mesh: null, axis, breech, muzzle: breech.clone().addScaledVector(axis, station.front ?? 1) };
+}
 
 /** One gun position on a bomber: its barrels, the pivot they turn on, ammo, heat and reload state. */
 class GunPosition {
@@ -207,7 +302,7 @@ class GunPosition {
     // barrels: every mesh under the named gun nodes
     const barrels = [];
     for (const n of station.guns) model.getObjectByName(n)?.traverse((o) => { if (o.isMesh) barrels.push(o); });
-    const info = barrels.map((b) => {
+    const info = station.socket ? [socketGun(station)] : barrels.map((b) => {
       const pos = b.geometry.attributes.position, pts = [], m = new THREE.Matrix4().multiplyMatrices(toLocal, b.matrixWorld);
       for (let i = 0; i < pos.count; i += Math.max(1, Math.floor(pos.count / 600))) pts.push(new V().fromBufferAttribute(pos, i).applyMatrix4(m));
       const { centre, axis } = principalAxis(pts);
@@ -216,25 +311,70 @@ class GunPosition {
       for (const p of pts) { const d = p.clone().sub(centre).dot(axis); lo = Math.min(lo, d); hi = Math.max(hi, d); }
       return { mesh: b, axis, muzzle: centre.clone().addScaledVector(axis, hi), breech: centre.clone().addScaledVector(axis, lo) };
     });
-    this.restDir = info.reduce((a, g) => a.add(g.axis), new V()).normalize();
+    this.restDir = station.rest ? new V(...station.rest) : info.reduce((a, g) => a.add(g.axis), new V()).normalize();
+    // (a twin turret whose two barrels the model made as one mesh: a pair all the same)
+    if (station.twin && info.length === 1) info.push({ ...info[0], axis: info[0].axis.clone(), breech: info[0].breech.clone(), muzzle: info[0].muzzle.clone() });
     const pivotPos = station.pivot ? new V(...station.pivot) : info.reduce((a, g) => a.add(g.breech), new V()).divideScalar(info.length);
+    if (station.twin) { // a turret's guns where the real ones are (its own layout), parallel, side by side
+      const [side, up, j0, j1] = station.twin, p = pivotPos.toArray();
+      const y0 = Math.atan2(-this.restDir.x, -this.restDir.z), p0 = Math.asin(THREE.MathUtils.clamp(this.restDir.y, -1, 1));
+      info.sort((a, b) => a.breech.clone().sub(pivotPos).dot(new V(Math.cos(y0), 0, -Math.sin(y0))) - b.breech.clone().sub(pivotPos).dot(new V(Math.cos(y0), 0, -Math.sin(y0))));
+      info.forEach((g, i) => {
+        const s = i ? side : -side;
+        turretPoint(p, y0, p0, [s, up, j0], g.breech);
+        turretPoint(p, y0, p0, [s, up, j1], g.muzzle);
+        g.axis.copy(this.restDir);
+      });
+    }
 
     // pivot the guns turn on; parts listed in `turret` turn with them (yaw only or fully)
     this.pivot = new THREE.Object3D();
     this.pivot.position.copy(pivotPos);
     model.add(this.pivot);
     this.pivot.updateMatrixWorld(true);
-    for (const g of info) this.pivot.attach(g.mesh);
+    for (const g of info) if (g.mesh) this.pivot.attach(g.mesh);
     this.yawPart = this.makeTurret(model, station.turret?.yaw, pivotPos);
     this.fullPart = this.makeTurret(model, station.turret?.full, pivotPos);
+    // the model's guns are a few low-poly tubes: in their place, Brownings (browning.js). A flexible
+    // gun is the whole gun on its mount; of a turret's only the jacketed barrels show.
+    const flex = station.browning === 'flex';
+    for (const g of info) {
+      if (g.mesh) g.mesh.visible = false;
+      const front = flex ? station.front ?? 1.5 : g.breech.distanceTo(g.muzzle);
+      const gun = buildBrowning(flex ? 'flex' : station.twin?.[4] ? 'turret' : 'barrel', front, station.twin?.[4] ?? station.gunRear ?? 0.12, flex);
+      const zAxis = g.axis.clone().negate(), xAxis = new V().crossVectors(UP, zAxis).normalize(), yAxis = new V().crossVectors(zAxis, xAxis);
+      gun.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis));
+      gun.position.copy(flex ? pivotPos : g.breech).sub(pivotPos);
+      this.pivot.add(gun);
+      g.gun = gun;
+      if (station.socket) { // a hand-held nose gun carries its ammunition can on its left side, the belt into the feed tray
+        CAN_MAT ??= insideLight(new THREE.MeshStandardMaterial({ color: 0x4a4f33, roughness: 0.7, metalness: 0.2 }));
+        const r = station.gunRear;
+        const can = new THREE.Mesh(mergeGeometries([
+          new THREE.BoxGeometry(0.09, 0.15, 0.22).translate(-0.15, -0.02, r - 0.24),
+          new THREE.BoxGeometry(0.04, 0.03, 0.08).translate(-0.1, 0.05, r - 0.22), // the belt's chute into the tray
+        ].map((x) => x.toNonIndexed())), CAN_MAT);
+        can.castShadow = true;
+        gun.add(can);
+      }
+      if (flex) g.muzzle.copy(pivotPos).addScaledVector(g.axis, front);
+    }
 
     this.guns = info.map((g, i) => {
       const flash = new THREE.Sprite(new THREE.SpriteMaterial({
         map: FLASH_TEX, color: new THREE.Color(1, 0.8, 0.5).multiplyScalar(9), blending: THREE.AdditiveBlending, depthWrite: false, fog: false })); // (bright, but not a white-out through the bloom)
-      flash.position.copy(g.muzzle).sub(pivotPos).addScaledVector(g.axis, 0.12);
+      flash.position.copy(g.muzzle).sub(pivotPos).addScaledVector(g.axis, 0.1);
       flash.visible = false;
       this.pivot.add(flash);
-      return { muzzle: g.muzzle.clone().sub(pivotPos), flash, timer: (i * 60) / RPM / info.length, heat: 0, jammed: false };
+      const flame = new THREE.Mesh(FLAME_GEO, FLAME_MAT);
+      flame.position.copy(g.muzzle).sub(pivotPos);
+      flame.quaternion.setFromUnitVectors(new V(0, 0, -1), g.axis);
+      flame.visible = false;
+      this.pivot.add(flame);
+      // where its spent cases come out: a flexible gun's ejection port, a turret gun's breech
+      g.gun?.updateMatrix();
+      const port = g.gun?.userData.receiver ? g.gun.userData.receiver.clone().applyMatrix4(g.gun.matrix) : g.breech.clone().sub(pivotPos).addScaledVector(g.axis, 0.1);
+      return { muzzle: g.muzzle.clone().sub(pivotPos), flash, flame, port, gun: g.gun, gunAt: g.gun?.position.clone(), kick: 0, timer: (i * 60) / RPM / info.length, heat: 0, jammed: false };
     });
     this.light = new THREE.PointLight(0xffb060, 0, 9, 2);
     this.light.position.copy(this.guns.reduce((a, g) => a.add(g.muzzle), new V()).divideScalar(this.guns.length));
@@ -252,16 +392,21 @@ class GunPosition {
     this.yaw = this.yaw0; this.pitch = this.pitch0;
     this.qYaw = new THREE.Quaternion(); this.qPitch = new THREE.Quaternion();
     // the grips, in the pivot's frame: a pair of spade grips behind the breech (one each side of a
-    // twin mount's guns). The top turret's control handles and the chin turret's yoke are elsewhere
-    // (see gripsWorld).
+    // twin mount's guns). The top turret's control handles are elsewhere (see gripsWorld).
     const rear = info.reduce((a, g) => a.add(g.breech), new V()).divideScalar(info.length).addScaledVector(this.restDir, -0.07);
     const side = new V().crossVectors(this.restDir, new V(0, 1, 0)).normalize();
     const spread = info.length > 1 ? Math.max(0.12, info[0].breech.distanceTo(info[1].breech) / 2 + 0.03) : 0.075;
     this.gripLocal = [-1, 1].map((s) => rear.clone().addScaledVector(side, s * spread).add(new V(0, -0.02, 0)).sub(pivotPos));
+    if (flex) { // the Browning's own spade grips
+      const gun = info[0].gun; gun.updateMatrix();
+      this.gripLocal = gun.userData.grips.map((p) => p.clone().applyMatrix4(gun.matrix));
+      this.gripLocal.sort((a, b) => a.dot(side) - b.dot(side)); // [left, right] from behind it
+      this.receiver = gun.userData.receiver.clone().applyMatrix4(gun.matrix);
+    }
     this.bomber = bomber;
     // the handles themselves (the model has none): spade grips on the guns, the top turret's control
-    // handles on their yoke; the chin turret's yoke is part of the nose (interiordetail.js)
-    if (station.id !== 'chin' && station.id !== 'ball') {
+    // handles on their yoke
+    if (station.id !== 'ball' && !flex) {
       const yoke = station.id === 'top' || station.id === 'tail', g = [], bar = station.id === 'top' ? 0.34 : station.id === 'tail' ? 0.3 : spread * 2;
       for (const s of [-1, 1]) g.push(new THREE.CylinderGeometry(0.013, 0.015, 0.1, 8).translate(s * bar / 2, -0.02, 0));
       g.push(new THREE.CylinderGeometry(0.01, 0.01, bar, 6).rotateZ(Math.PI / 2).translate(0, 0.035, 0));
@@ -273,20 +418,33 @@ class GunPosition {
         this.handles.quaternion.setFromUnitVectors(new V(1, 0, 0), side); // (across the gun)
       }
     }
+    // a flexible gun's mount stands where the station puts it (the waist guns are staggered, and sit
+    // higher in the window than the model's): everything on the pivot moves with it
+    if (station.mount) this.pivot.position.add(new V(...station.mount));
+    if (flex && bomber.interior && !station.socket) { // its post (a nose gun's mount is its ball socket in the glass: buildNoseGlazing), down from the pivot to the window sill, braced to the wall
+      bomber.group.updateMatrixWorld(true);
+      const p = bomber.interior.group.worldToLocal(this.pivot.getWorldPosition(new V())), out = Math.sign(p.x), mat = insideLight(new THREE.MeshStandardMaterial({ color: 0x2c2e2a, roughness: 0.55, metalness: 0.6, envMapIntensity: 0.3 }));
+      const post = new THREE.Mesh(mergeGeometries([
+        new THREE.CylinderGeometry(0.022, 0.026, 0.3, 10).translate(p.x, p.y - 0.25, p.z),
+        new THREE.CylinderGeometry(0.035, 0.035, 0.05, 10).translate(p.x, p.y - 0.12, p.z), // the swivel
+        new THREE.BoxGeometry(0.16, 0.04, 0.1).translate(p.x + out * 0.06, p.y - 0.4, p.z), // its foot on the sill
+      ].map((x) => x.toNonIndexed())), mat);
+      post.castShadow = true;
+      bomber.interior.group.add(post);
+    }
   }
 
   /**
    * Where the gunner's hands go, in world space: [left, right]. On a gun's spade grips they swing and
-   * elevate with it; the top turret's handles turn with the turret but stay level, the chin turret's
-   * yoke hangs in front of the bombardier.
+   * elevate with it; the top turret's handles turn with the turret but stay level.
    */
   gripsWorld(out = [new V(), new V()]) {
     const id = this.station.id, m = this.bomber.group.matrixWorld;
     if (id === 'top') {
       const f = new V(-Math.sin(this.yaw), 0, -Math.cos(this.yaw)), sd = new V(-f.z, 0, f.x);
-      for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(0, 1.12, -6.71).addScaledVector(f, 0.3).addScaledVector(sd, s * 0.17).applyMatrix4(m);
+      for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(0, 1.06, -6.71).addScaledVector(f, 0.3).addScaledVector(sd, s * 0.17).applyMatrix4(m);
       if (this.handles) { // the handles on their yoke, in front of the gunner, turned with the turret
-        this.handles.position.set(0, 1.12, -6.71).addScaledVector(f, 0.3);
+        this.handles.position.set(0, 1.06, -6.71).addScaledVector(f, 0.3);
         this.handles.rotation.set(0, this.yaw, 0);
       }
     } else if (id === 'tail') {
@@ -295,11 +453,10 @@ class GunPosition {
       // the sight) wherever he points
       const cp = Math.cos(this.pitch), sp = Math.sin(this.pitch), sy = Math.sin(this.yaw), cy = Math.cos(this.yaw);
       const f = _f.set(-sy * cp, sp, -cy * cp), up = _u.set(-sy * -sp, cp, -cy * -sp), sd = _s.crossVectors(f, up);
-      const c = _c.copy(this.station.eye).addScaledVector(f, 0.34).addScaledVector(up, -0.31);
+      const c = _c.copy(this.station.eye).addScaledVector(f, 0.12).addScaledVector(up, -0.3); // (just inside the rear window, under its sill)
+      c.y -= Math.max(0, sp) * (this.station.duck ?? 0); // (down with his head as he ducks to aim up)
       for (const [i, s] of [[0, 1], [1, -1]]) out[i].copy(c).addScaledVector(sd, -s * 0.15).applyMatrix4(m);
       if (this.handles) { this.handles.position.copy(c); this.handles.quaternion.setFromRotationMatrix(_rm.makeBasis(sd, up, f)); }
-    } else if (id === 'chin') {
-      for (const [i, s] of [[0, -1], [1, 1]]) out[i].set(s * 0.13, -0.14, -10.5).applyMatrix4(m);
     } else {
       this.pivot.updateWorldMatrix(true, false);
       for (let i = 0; i < 2; i++) this.pivot.localToWorld(out[i].copy(this.gripLocal[i]));
@@ -328,12 +485,13 @@ class GunPosition {
   }
 
   /** Turn the guns towards a direction given in bomber space (smoothly, like a real traverse). */
-  aim(dirLocal, yawRel, dt) {
-    const k = 1 - Math.exp(-dt * 16);
+  aim(dirLocal, yawRel, dt, instant = false) {
+    const k = instant ? 1 : 1 - Math.exp(-dt * 16);
     const yaw = Math.atan2(-dirLocal.x, -dirLocal.z), pitch = Math.asin(THREE.MathUtils.clamp(dirLocal.y, -1, 1));
     // the short way round, so a turret passing behind you doesn't spin all the way back
     this.yaw += Math.atan2(Math.sin(yaw - this.yaw), Math.cos(yaw - this.yaw)) * k;
     this.pitch += (pitch - this.pitch) * k;
+    if (this.station.floor) this.pitch = Math.max(this.pitch, turretFloor(this.station, this.yaw - this.station.yaw)); // (the top turret's guns never down into the cockpit)
     this.qYaw.setFromAxisAngle(UP, this.yaw - this.yaw0);
     this.qPitch.setFromAxisAngle(this.elevAxis, this.pitch - this.pitch0);
     this.aimQ.multiplyQuaternions(this.qYaw, this.qPitch);
@@ -354,6 +512,9 @@ export class Weapons {
 
   attach(bomber) {
     this.bomber = bomber;
+    if (!this.casings && bomber.interior) this.casings = new Casings(bomber.interior.group, bomber.interior);
+    const pivots = bomber.model.getObjectByName('LateralGunPivots'); // (the waist guns bring their own mounts)
+    if (pivots) pivots.visible = false;
     for (const s of bomber.interior.stations) if (s.guns) this.positions.set(s.id, new GunPosition(bomber, s));
   }
 
@@ -378,6 +539,11 @@ export class Weapons {
         g.heat = Math.max(0, g.heat - COOL * dt);
         if (g.jammed && g.heat < UNJAM) g.jammed = false;
         g.flash.visible = false;
+        g.flame.visible = false;
+        if (g.gun) { // the recoil: back on its mount with each round, and forward again
+          g.kick *= Math.exp(-dt * 28);
+          g.gun.position.copy(g.gunAt).addScaledVector(gp.restAxis ?? (gp.restAxis = gp.restDir.clone()), -0.022 * g.kick);
+        }
       }
       gp.light.intensity = 0;
       if (gp.reloadLeft > 0 && (gp.reloadLeft -= dt) <= 0) {
@@ -399,30 +565,52 @@ export class Weapons {
         if (gp.station.eyeBehind) {
           const toLocal = _inv.copy(this.bomber.group.matrixWorld).invert(), pv = gp.pivot.getWorldPosition(tmp).applyMatrix4(toLocal);
           const cp = Math.cos(gp.pitch);
-          player.gunEye = (player.gunEye ?? new V()).set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp).multiplyScalar(-gp.station.eyeBehind).add(pv);
-          player.gunEye.y += 0.17;
+          // ...close behind it (your head at the window, leaning into it), on the gun's own line: that
+          // passes through the mount in the window, so the frame never crosses your sight line, however
+          // far forward or back you swing it
+          const b = gp.station.eyeBehind;
+          player.gunEye = (player.gunEye ?? new V()).set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp).multiplyScalar(-b).add(pv);
+          // and over it, square to the gun (so aimed down your head goes out over it, not up into the roof)
+          const sp = Math.sin(gp.pitch);
+          player.gunEye.add(tmp.set(Math.sin(gp.yaw) * sp, cp, Math.cos(gp.yaw) * sp).multiplyScalar(gp.station.eyeUp ?? 0.22));
+          // (high over the gun: your hands on its grips sit low in the view), and always inside the hull,
+          // which narrows towards the roof
+          const it = this.bomber.interior, e = player.gunEye;
+          if (it) { const w = it.hw(e.z, e.y + 0.05) - 0.07; if (Math.abs(e.x) > w && w > 0.2) e.x = Math.sign(e.x) * w; }
+          if (it && gp.station.socket) { // (in the nose: your head stays under its roof and inside the glass, however the gun swings)
+            e.y = Math.min(e.y, it.ceilingAt(e.z, 0, -0.5) - 0.14); // (the roof along the middle: out at the side the hull's too narrow to measure from)
+            const c = it.noseCone;
+            // (inside the cone, and just behind it: inside its base ring there)
+            if (c && e.z < c.z0 + 0.5) { const r = c.radius(e.x, e.y, e.z) - 0.14, cy = c.cy + 0.16 * Math.max(0, (c.z0 - e.z) / c.L) ** 2, dx = e.x, dy = e.y - cy, d = Math.hypot(dx, dy); if (d > r && r > 0.05) { e.x = dx * r / d; e.y = cy + dy * r / d; } }
+          }
         } else if (gp.station.lean) { // (the tail gunner leans in towards the window as he swings his guns out to the side)
           const cp = Math.cos(gp.pitch), f = tmp.set(-Math.sin(gp.yaw) * cp, Math.sin(gp.pitch), -Math.cos(gp.yaw) * cp);
           const k = Math.min(1, Math.acos(THREE.MathUtils.clamp(f.dot(gp.restDir), -1, 1)) / 0.55);
           player.gunEye = (player.gunEye ?? new V()).copy(gp.station.eye).addScaledVector(f, gp.station.lean * k);
+          // aiming up he ducks his head, so he looks up out through the rear window (not into its roof)
+          if (gp.station.duck) player.gunEye.y -= Math.max(0, Math.sin(gp.pitch)) * gp.station.duck;
         } else player.gunEye = null;
       }
     }
 
+    this.casings?.update(dt);
     const gp = this.current(player);
     if (!gp) { player.reloadPressed = false; player.gripTargets = null; return; } // R away from a gun doesn't carry over
     // aim the model's guns where the player looks
     const s = gp.station, yaw = s.yaw + player.sYaw, pitch = player.sPitch;
-    gp.aim(dir.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)), player.sYaw, dt);
+    // (in a turret you sit in, the guns are fixed to it: they turn exactly with your view)
+    gp.aim(dir.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)), player.sYaw, dt, s.id === 'ball' || s.id === 'top');
 
     if (player.reloadPressed) {
       player.reloadPressed = false;
       if (gp.reload()) this.audio.reload(true);
     }
     if (!(player.firing && player.blend > 0.9) || !this.bomber.turretWorks(s.id)) { this.stagger(gp); return; } // (a knocked-out turret won't fire)
-    // rounds converge on the sight line, so the crosshair is where they go
+    // rounds converge on the sight line, so the crosshair is where they go (the guns' line, not your
+    // head's: free-looking with C, they fire where they point)
     camera.getWorldPosition(tmp);
-    camera.getWorldDirection(aimPoint).multiplyScalar(CONVERGENCE).add(tmp);
+    if (player.headYaw || player.headPitch) aimPoint.copy(dir).transformDirection(this.bomber.group.matrixWorld).multiplyScalar(CONVERGENCE).add(tmp);
+    else camera.getWorldDirection(aimPoint).multiplyScalar(CONVERGENCE).add(tmp);
     this.fire(gp, aimPoint, dt, 'player', player, camera);
   }
 
@@ -463,10 +651,23 @@ export class Weapons {
         gp.ammo--;
         g.heat += HEAT_PER_SHOT;
         if (g.heat >= 1) { g.jammed = true; if (player) this.audio.overheat(); }
+        // the flash: the star end-on, the flame from the side, each round a little different; the
+        // muzzle's light on everything round it, a puff of smoke, the gun kicking back on its mount
         g.flash.visible = true;
-        g.flash.scale.setScalar(0.35 + Math.random() * 0.35);
-        g.flash.material.rotation = Math.random() * Math.PI;
-        gp.light.intensity = 30;
+        g.flash.scale.setScalar(0.28 + Math.random() * 0.3);
+        g.flash.material.rotation = Math.random() * Math.PI * 2;
+        g.flame.visible = Math.random() < 0.85;
+        g.flame.scale.set(0.7 + Math.random() * 0.6, 0.7 + Math.random() * 0.6, 0.6 + Math.random() * 0.8);
+        g.flame.rotation.z = Math.random() * Math.PI;
+        gp.light.intensity = 22 + Math.random() * 16;
+        g.kick = 1;
+        if (this.effects && gp.rounds % 2 === 0) this.effects.smoke.emit(muzzle, tmp2.copy(dir).normalize().multiplyScalar(4), { life: 0.9 + Math.random() * 0.6, s0: 0.12, s1: 0.9, a0: 0.28, c0: [0.55, 0.53, 0.5], drag: 2.5 });
+        if (this.casings) { // the M2 throws its spent case and the belt's link out underneath it
+          const it = this.bomber.interior, port = gp.pivot.localToWorld(tmp3.copy(g.port)).applyMatrix4(_inv2.copy(this.bomber.group.matrixWorld).invert());
+          const out = !it || Math.abs(port.x) > it.hw(port.z, port.y) - 0.02 || gp.station.id === 'ball';
+          this.casings.spawn(port, new V((Math.random() - 0.5) * 0.6, -0.8 - Math.random() * 0.8, (Math.random() - 0.5) * 0.6), false, out);
+          this.casings.spawn(port.clone().add(tmp4.set(0, -0.02, 0)), new V((Math.random() - 0.5) * 0.3, -0.6, (Math.random() - 0.5) * 0.3), true, out);
+        }
         if (player || gp.rounds % 3 === 0) this.audio.gunshot(vol); // AI guns: fewer sounds, same rhythm
         player?.kick(gp.guns.length > 1 ? 0.6 : 1);
       }

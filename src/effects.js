@@ -50,7 +50,7 @@ const fragmentShader = `
   }`;
 
 /** One pool of point sprites (smoke or fire). */
-class ParticlePool {
+export class ParticlePool {
   constructor(scene, max, { additive, soft }) {
     this.max = max;
     this.n = 0;
@@ -180,6 +180,7 @@ export class Effects {
     this.camPos = null; // set each frame: far trails use fewer, bigger puffs so burning planes show from km away
     this.wreckage = new Wreckage(scene);
     this.parachutes = new Parachutes(scene); // everyone who bails out
+    this.extraPools = []; // (other modules' pools, the flak's: sized with these)
   }
 
   /** An airman bailing out: a few seconds of free fall, then the chute opens and drifts back and down. */
@@ -187,8 +188,7 @@ export class Effects {
 
   setPixelScale(heightPx, fovDeg) { // point size in world metres -> pixels
     const s = heightPx / (2 * Math.tan(THREE.MathUtils.degToRad(fovDeg) / 2));
-    this.smoke.mat.uniforms.scale.value = s;
-    this.fire.mat.uniforms.scale.value = s;
+    for (const p of [this.smoke, this.fire, ...this.extraPools]) p.mat.uniforms.scale.value = s;
   }
 
   /** Continuous trail behind a damaged plane: kind = 'smoke' | 'black' | 'fire' | 'glycol'. */

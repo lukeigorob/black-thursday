@@ -6,6 +6,7 @@
 // Every building is one instance (walls, and a roof for the pitched ones), so the town costs a handful
 // of draw calls. Bombs wreck what they land near: walls knocked down, roofs gone, rubble charred.
 import * as THREE from 'three';
+import { snowy } from './environment.js';
 import { AIRSPEED } from './bomber.js';
 
 const V = THREE.Vector3;
@@ -148,13 +149,13 @@ export class City {
     // the bridges over the river
     for (const x of BRIDGES) add(x, riverZ(x), 16, RIVER_W + 40, 4, 0x8a8478);
 
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE), new THREE.MeshStandardMaterial({ map: groundTexture(gardens), roughness: 1, transparent: true, depthWrite: false }));
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE), snowy(new THREE.MeshStandardMaterial({ map: groundTexture(gardens), roughness: 1, transparent: true, depthWrite: false }), 0.85));
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = 0.5;
     ground.receiveShadow = true;
     this.group.add(ground);
     // trees in the courtyards and gardens
-    const wood = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 0).translate(0, 1.1, 0), new THREE.MeshStandardMaterial({ roughness: 1 }), trees.length);
+    const wood = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 0).translate(0, 1.1, 0), snowy(new THREE.MeshStandardMaterial({ roughness: 1 }), 0.7), trees.length);
     const tm = new THREE.Matrix4(), tc = new THREE.Color();
     trees.forEach(([x, z, r], i) => {
       wood.setMatrixAt(i, tm.makeScale(r, r * 1.2, r).setPosition(x, 0, z));
@@ -162,8 +163,8 @@ export class City {
     });
     wood.frustumCulled = false;
     this.group.add(wood);
-    const walls = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), new THREE.MeshStandardMaterial({ roughness: 0.9 }), b.length);
-    const roofs = new THREE.InstancedMesh(gable(), new THREE.MeshStandardMaterial({ roughness: 0.85, side: THREE.DoubleSide }), b.length);
+    const walls = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0), snowy(new THREE.MeshStandardMaterial({ roughness: 0.9 })), b.length);
+    const roofs = new THREE.InstancedMesh(gable(), snowy(new THREE.MeshStandardMaterial({ roughness: 0.85, side: THREE.DoubleSide })), b.length); // (snow on the roofs in winter)
     for (const m of [walls, roofs]) { m.frustumCulled = false; m.receiveShadow = true; this.group.add(m); }
     Object.assign(this, { walls, roofs, _m: new THREE.Matrix4(), _q: new THREE.Quaternion(), _c: new THREE.Color() });
     b.forEach((x, i) => this.place(i));

@@ -1,6 +1,6 @@
 // More of what fills a real B-17: the stringers and conduit along the walls and ceiling, dome lights,
 // the throttle pedestal, rudder pedals and armour plate in the cockpit, the navigator's instruments,
-// ammunition cans and the bombardier's chin turret yoke in the nose, spent .50 cases rolling on the
+// ammunition cans, oxygen bottles and an extinguisher in the nose, spent .50 cases rolling on the
 // waist and tail floors, flak helmets and vests, a first-aid kit, the radio operator's lamp and log,
 // the tail gunner's knee pads and seat; the Norden's knobs and the bombardier's panel, oxygen
 // regulators and interphone boxes at every post, the engineer's panel, frames round the side windows
@@ -80,14 +80,14 @@ export function addMoreDetail(it, MAT, DECKS) {
   let prev = null;
   for (let z = -2.4; z <= 4.4; z += 0.5) { // (the tail is too low for it: it would hang at head height)
     const d = deckAt(z);
-    if (!d) { prev = null; continue; }
+    if (!d || (z > -2.45 && z < -0.9)) { prev = null; continue; } // (not across the radio room's gun hatch)
     const y = it.ceilingAt(z, 0.18, d.y + 0.3) - 0.06;
     const p = [0.18, y, z];
     if (prev && Math.abs(prev[1] - y) < 0.4) it.rod(prev, p, 0.016, M.od, 6);
     prev = p;
     if (Math.abs(z % 2) < 0.01) it.add(M.od, new THREE.BoxGeometry(0.1, 0.06, 0.12).translate(0.18, y - 0.03, z));
   }
-  for (const z of [-1.9, 0.6, 3.6]) { // (none in the tail passage: the roof is so low there it hung right in your eye line)
+  for (const z of [-2.5, 0.6, 3.6]) { // (the radio room's ahead of its gun hatch) // (none in the tail passage: the roof is so low there it hung right in your eye line)
     const d = deckAt(z), y = it.ceilingAt(z, 0, d.y + 0.3);
     it.add(M.black, new THREE.CylinderGeometry(0.07, 0.08, 0.04, 14).translate(-0.12, y - 0.02, z));
     it.add(M.lamp, new THREE.SphereGeometry(0.05, 12, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2).translate(-0.12, y - 0.04, z));
@@ -104,11 +104,34 @@ export function addMoreDetail(it, MAT, DECKS) {
     it.group.add(face);
   }
 
-  // ---- nose: the navigator's instruments, ammunition for the cheek guns, the chin turret yoke, maps
+  // ---- nose: ammunition for the cheek and nose guns, the oxygen bottles, a fire extinguisher, the
+  // Norden's stabiliser and eyepiece on their stand
   const nf = -0.72;
   for (const s of [-1, 1]) it.box(s * 0.55 - 0.13, s * 0.55 + 0.13, nf, nf + 0.28, -9.95, -9.65, MAT.ammo, false);
-  it.rod([0.0, 0.25, -10.45], [0.0, -0.12, -10.5], 0.016, MAT.metal); // the yoke hangs from its arm
-  it.rod([-0.13, -0.14, -10.5], [0.13, -0.14, -10.5], 0.018, M.black);
+  for (const [x, z] of [[-0.42, -10.35], [0.5, -10.3]]) { // spare boxes for the nose guns, on the floor by the glass
+    it.box(x - 0.1, x + 0.1, nf, nf + 0.2, z - 0.13, z + 0.13, MAT.ammo, false);
+    it.box(x - 0.105, x + 0.105, nf + 0.2, nf + 0.215, z - 0.135, z + 0.135, MAT.dark, false); // (the lid)
+  }
+  for (const [i, y] of [[0, -0.42], [1, -0.26]]) { // two yellow A-4 oxygen bottles strapped along the right wall
+    const z = -9.55 - i * 0.02, x = wallX(z, y, 0.13);
+    it.add(M.mae, new THREE.CapsuleGeometry(0.075, 0.3, 4, 14).rotateX(Math.PI / 2).translate(x, y, z));
+    it.cylinder(0.012, 0.04, x, y, z - 0.25, 'z', MAT.metal, 8); // its valve
+  }
+  for (const z of [-9.45, -9.68]) it.rod([wallX(z, -0.5, 0.03), -0.5, z], [wallX(z, -0.16, 0.03), -0.16, z], 0.006, M.black, 4); // the straps
+  { // the fire extinguisher on its bracket, left wall by the bulkhead
+    const z = -9.05, y = -0.35, x = -wallX(z, y, 0.08);
+    it.add(M.knob, new THREE.CylinderGeometry(0.05, 0.05, 0.36, 14).translate(x, y, z));
+    it.add(M.knob, new THREE.SphereGeometry(0.05, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2).translate(x, y + 0.18, z));
+    it.add(M.black, new THREE.BoxGeometry(0.03, 0.06, 0.1).translate(x, y + 0.24, z)); // the head and its handle
+    it.rod([x, y + 0.22, z + 0.04], [x + 0.05, y + 0.05, z + 0.07], 0.007, M.black, 5); // the hose
+    for (const dy of [-0.1, 0.1]) it.box(x - 0.06, x - 0.045, y + dy - 0.01, y + dy + 0.01, z - 0.06, z + 0.06, MAT.metal, false);
+  }
+  // the Norden: the stabiliser on the stand, the sight head on it with the telescope and the eyepiece
+  it.box(-0.12, 0.12, -0.27, -0.2, -10.62, -10.34, M.black, false);
+  it.cylinder(0.035, 0.12, 0, -0.18, -10.62, 'z', MAT.metal, 12); // the telescope's barrel, out ahead
+  it.cylinder(0.022, 0.06, 0, 0.03, -10.4, 'y', M.black, 12); // the eyepiece on top, with its rubber cup
+  it.add(M.black, new THREE.TorusGeometry(0.024, 0.008, 6, 14).rotateX(Math.PI / 2).translate(0, 0.065, -10.4));
+  for (const s of [-1, 1]) it.box(s * 0.13 - 0.01, s * 0.13 + 0.01, -0.2, -0.04, -10.56, -10.46, MAT.metal, false); // (the side plates the knobs are on)
 
   // ---- the waist: spent cases on the floor round the guns, helmets and flak vests, a first-aid kit
   const cases = (n, x0, x1, z0, z1, y) => {
@@ -163,15 +186,12 @@ export function addMoreDetail(it, MAT, DECKS) {
     frame(side, -2.52, -2.08, -0.25, 0.06); // the radio room's
   }
 
-  // ---- the bomb bay: posts and braces under the catwalk, a shackle over every bomb
+  // ---- the bomb bay: posts and braces under the catwalk
   for (let z = -5.5; z <= -2.7; z += 0.6) for (const x of [-0.12, 0.12]) {
     it.rod([x, -2.2, z], [x, -1.66, z], 0.012, MAT.metal);
     it.rod([x, -2.2, z], [x, -1.7, z + 0.6], 0.008, MAT.metal);
   }
-  for (const s of [-1, 1]) for (const z of [-4.9, -3.5]) for (const y of [-1.5, -1.1, -0.7, -0.3]) {
-    it.add(MAT.metal, new THREE.BoxGeometry(0.06, 0.05, 0.32).translate(s * 0.58, y + 0.2, z));
-    it.rod([s * 0.58, y + 0.22, z], [s * 0.36, y + 0.22, z], 0.008, MAT.metal); // back to the rack
-  }
+  // (the bombs' shackles and racks: interior.js buildBombBay)
 
   // ---- the radio room (its sets are in stations.js): the shelf under the command sets
   it.box(wallX(-1.75, -1.25, 0.08) - 0.1, wallX(-1.75, -1.25, 0.08) + 0.04, -1.25, -1.22, -1.98, -1.52, MAT.metal, false); // the shelf

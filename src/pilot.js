@@ -1,24 +1,29 @@
-// Flying a fighter yourself, a Bf 109 or a P-51, the War Thunder way: from the cockpit (cockpit.js) the
-// mouse turns your view freely and the plane flies to where you look, banking into the turn, so you
-// see the canopy frame swing round as it catches up. The screen centre is where you're taking it, the
-// gunsight sits on the nose (where the guns point). Throttle, the type's real guns with ammo and
-// overheating, free look on C (look round without steering), and a chase view only once you've been
-// shot down, to watch the end.
+// Flying a fighter yourself, a Bf 109, an Fw 190 or a P-51: from the cockpit (cockpit.js), your view
+// fixed to the aircraft as in a real one, so when it banks and rolls the horizon tilts and the world
+// turns round you. The mouse moves an aim mark across the screen and the plane flies to it, banking into
+// the turn; the reflector gunsight's ring and dot stay on the guns' line. Throttle, the type's real
+// guns with ammo and overheating, free look on C (look round without steering), and a chase view only
+// once you've been shot down, to watch the end.
 import * as THREE from 'three';
 import { ALTITUDE } from './world.js';
-import { buildCockpit } from './cockpit.js';
+import { buildCockpit, buildReticle } from './cockpit.js';
 
 const V = THREE.Vector3;
 const LOOK = 0.0022; // rad per pixel of mouse movement
 const SPREAD = 0.003; // rad: your own guns are better harmonised than the AI's
 const HEAT_TIME = 9, COOL = 0.12, UNJAM = 0.45; // s of non-stop fire to overheat; heat lost per s
 // rounds per gun: Bf 109 F: 2 x MG 17 (1,000 each), MG 151/20 (200); P-51D: 6 x .50 (inner 400, others 270)
-const AMMO = { bf109: [1000, 1000, 200], p51: [400, 400, 270, 270, 270, 270] };
-const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1] }; // pilot's eye in the model (as in cockpit.js)
+// Fw 190 A-8: 2 x MG 131 (475 each), 4 x MG 151/20 (inner 250, outer 140)
+const AMMO = { bf109: [1000, 1000, 200], p51: [400, 400, 270, 270, 270, 270], fw190: [475, 475, 250, 250, 140, 140] };
+const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1], fw190: [0, 0.86, -0.22] }; // pilot's eye in the model (as in cockpit.js)
+const PLAYER_TURN = 0.5; // rad/s: the nose follows your aim this fast, in whichever fighter (the P-51's combat turn)
 const CHASE_BACK = 20, CHASE_UP = 4.5; // m behind and above: watching your plane go down
 const HEAD_YAW = THREE.MathUtils.degToRad(150), HEAD_UP = 1.2, HEAD_DOWN = -0.5; // free look (C) limits, rad
 const DEAD_ZONE = 0.002, SETTLE = 0.2; // rad: no steering inside the dead zone; full turn rate beyond SETTLE
 const _aim = new V(), _t = new V(), _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler();
+const _ax = new V(), _ay = new V(), _fq = new THREE.Quaternion(), _l = new V();
+const AIM_MAX = 1.3; // rad: the aim mark can lead the nose by this much at most
+const RETICLE_AT = 3; // m ahead of the eye the collimated sight image is drawn (its size scales with it)
 
 export class Pilot {
   constructor(audio) {
@@ -27,11 +32,16 @@ export class Pilot {
     this.f = null;
     this.keys = {};
     this.aimYaw = 0; this.aimPitch = 0;
+    this.aimV = new V(0, 0, -1); // where the mouse is taking the plane (world direction)
+    this.camQ = new THREE.Quaternion(); // the view last frame: the mouse moves the aim across it
+    this.night = 0; // instrument glow, 0..1
+    this.plainSight = false; // a plain crosshair instead of the reflector sight (the Options tab)
     this.throttle = 0.85;
     this.firing = false; this.zoom = false; this.lookScale = 1; this.freeLook = false;
     this.view = 'nose';
     this.headYaw = 0; this.headPitch = 0; // free look (hold C), relative to the plane
     this.cockpits = {};
+    this.reticles = {};
     this.camPos = new V();
     addEventListener('keydown', (e) => { if (this.active) this.keys[e.code] = true; });
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
@@ -50,8 +60,10 @@ export class Pilot {
         this.headPitch = THREE.MathUtils.clamp(this.headPitch - e.movementY * LOOK * this.lookScale, HEAD_DOWN, HEAD_UP);
         return;
       }
-      this.aimYaw -= e.movementX * LOOK * this.lookScale;
-      this.aimPitch = THREE.MathUtils.clamp(this.aimPitch - e.movementY * LOOK * this.lookScale, -1.45, 1.45);
+      // the aim moves across the screen as you move the mouse, however the plane is rolled
+      _ax.set(0, 1, 0).applyQuaternion(this.camQ); _ay.set(1, 0, 0).applyQuaternion(this.camQ);
+      this.aimV.applyAxisAngle(_ax, -e.movementX * LOOK * this.lookScale).applyAxisAngle(_ay, -e.movementY * LOOK * this.lookScale).normalize();
+      this.limitAim();
     });
   }
 
@@ -63,6 +75,7 @@ export class Pilot {
     f.state = 'player';
     this.aimYaw = Math.atan2(-f.dir.x, -f.dir.z);
     this.aimPitch = Math.asin(THREE.MathUtils.clamp(f.dir.y, -1, 1));
+    this.aimV.copy(f.dir);
     this.throttle = 0.85;
     this.ammo = [...AMMO[f.kind]];
     this.heat = this.ammo.map(() => 0);
@@ -76,6 +89,18 @@ export class Pilot {
   stop() {
     this.active = false; this.firing = false; this.keys = {};
     this.showCockpit(null);
+    for (const r of Object.values(this.reticles)) r.visible = false;
+  }
+
+  /** Every type's cockpit and sight, built now and handed over to be compiled (the loading screen's warm-up). */
+  warmParts() {
+    const parts = [];
+    for (const kind of ['bf109', 'fw190', 'p51']) {
+      const c = (this.cockpits[kind] ??= buildCockpit(kind)), r = (this.reticles[kind] ??= buildReticle(kind));
+      c.userData.update?.({ speed: 120, alt: 7600, climb: 0, heading: 0, bank: 0, pitch: 0, throttle: 0.8, heat: 0, damage: false, time: 0, stickX: 0, stickY: 0 }, 1);
+      parts.push(c, r);
+    }
+    return parts;
   }
 
   /** The cockpit of `f`'s type round the pilot's eye, in place of the plane's own model (null: none). */
@@ -92,9 +117,14 @@ export class Pilot {
 
   get alive() { return !!this.f && this.f.alive; }
 
-  aimDir(out = _aim) {
-    const cp = Math.cos(this.aimPitch);
-    return out.set(-Math.sin(this.aimYaw) * cp, Math.sin(this.aimPitch), -Math.cos(this.aimYaw) * cp);
+  aimDir(out = _aim) { return out.copy(this.aimV); }
+
+  /** Keep the aim within reach of the nose (it can't wander behind you). */
+  limitAim() {
+    const f = this.f;
+    if (!f) return;
+    const a = this.aimV.angleTo(f.dir);
+    if (a > AIM_MAX) this.aimV.lerp(f.dir, 1 - AIM_MAX / a).normalize();
   }
 
   /** One frame of flight for the player's fighter (called by Fighters.update; it then moves the plane). */
@@ -104,10 +134,19 @@ export class Pilot {
     // the instructor: turn the nose towards the aim at the type's combat turn rate; the wings bank by themselves
     // (eased in the last few degrees so the nose settles on the aim without a wobble; a tiny dead zone)
     const off = f.dir.angleTo(this.aimDir());
-    if (off > DEAD_ZONE) f.steer(_aim, k.combat * Math.min(1, 0.25 + off / SETTLE), dt);
+    // (every type answers the stick as the P-51 does: the same turn rate, the same easing)
+    if (off > DEAD_ZONE) f.steer(_aim, PLAYER_TURN * Math.min(1, 0.25 + off / SETTLE), dt, true);
     // A / D roll on top of that (a barrel roll, or rolling to look), easing back level when let go
     const roll = (keys.KeyA ? 1 : 0) - (keys.KeyD ? 1 : 0);
+    // (kept within half a turn either way: let go after a full roll and it levels out the short way, it doesn't unwind)
+    f.roll = Math.atan2(Math.sin(f.roll), Math.cos(f.roll));
     f.roll = roll ? f.roll - roll * 2.6 * dt : f.roll * Math.exp(-dt * 3);
+    // where the stick is: how far off the nose the aim is, across and up, in the plane's own frame, and the roll keys
+    f.obj.matrixWorld.decompose(_t, _fq, _l);
+    _l.copy(this.aimV).applyQuaternion(_fq.invert());
+    this.stickX = THREE.MathUtils.clamp(_l.x * 4 - roll * 0.8, -1, 1);
+    this.stickY = THREE.MathUtils.clamp(_l.y * 4, -1, 1);
+    this.limitAim();
     // throttle sets the speed it settles at, the same speeds the AI flies the type at: full throttle is
     // its attack speed. Climbing costs speed, diving gains it, up to the AI's top speed in a dive.
     const want = THREE.MathUtils.lerp(k.cruise * 0.75, k.attack, this.throttle);
@@ -140,7 +179,10 @@ export class Pilot {
     });
   }
 
-  /** From the cockpit: the pilot's eye, looking where the mouse aims (plus a free look on C), the horizon level. */
+  /**
+   * From the cockpit: the pilot's eye, fixed to the aircraft (the world rolls round you as it banks),
+   * plus a free look on C. The reflector sight's image sits out ahead on the guns' line.
+   */
   updateCamera(camera, dt) {
     const f = this.f;
     if (!f) return;
@@ -155,11 +197,29 @@ export class Pilot {
       c.matrixWorldNeedsUpdate = true;
       this.camPos.copy(f.pos).addScaledVector(f.dir, -CHASE_BACK).y += CHASE_UP; // (for the end, if it comes)
       camera.position.fromArray(EYE[f.kind]).applyMatrix4(f.obj.matrixWorld);
-      camera.quaternion.setFromEuler(_e.set(this.aimPitch, this.aimYaw, 0, 'YXZ'))
-        .multiply(_q.setFromEuler(_e.set(this.headPitch, this.headYaw, 0, 'YXZ')));
+      f.obj.matrixWorld.decompose(_t, _fq, _l);
+      camera.quaternion.copy(_fq).multiply(_q.setFromEuler(_e.set(this.headPitch, this.headYaw, 0, 'YXZ')));
+      this.camQ.copy(_fq); // (the mouse moves the aim across the plane's own view, not the head's)
+      camera.up.set(0, 1, 0).applyQuaternion(_fq);
       this.view = Math.abs(this.headYaw) + Math.abs(this.headPitch) > 0.03 ? 'look' : 'aim';
+      // the instruments, the stick and throttle, the night glow
+      const vel = f.velocity, right = _ax.set(1, 0, 0).applyQuaternion(_fq), up = _ay.set(0, 1, 0).applyQuaternion(_fq);
+      c.userData.update({
+        speed: f.speed, alt: ALTITUDE + f.pos.y, climb: vel.y, heading: Math.atan2(f.dir.x, -f.dir.z), bank: Math.atan2(-right.y, up.y),
+        pitch: Math.asin(THREE.MathUtils.clamp(f.dir.y, -1, 1)), throttle: this.throttle, heat: Math.max(...this.heat), damage: f.smoking || f.engineDead,
+        time: this.fighters?.time ?? 0, stickX: this.stickX ?? 0, stickY: this.stickY ?? 0,
+      }, dt);
+      if (c.userData.nightK !== this.night) { c.userData.nightK = this.night; c.userData.night(this.night); }
+      // the gunsight's image, collimated: out along the guns' line from your eye, facing you
+      const r = (this.reticles[f.kind] ??= buildReticle(f.kind));
+      if (!r.parent && camera.parent) camera.parent.add(r);
+      r.visible = !this.plainSight;
+      r.position.copy(camera.position).addScaledVector(f.dir, RETICLE_AT);
+      r.quaternion.copy(_fq);
+      r.scale.setScalar(RETICLE_AT * Math.tan(THREE.MathUtils.degToRad(2.9)) / 0.375); // the ring ~100 mils across
       return;
     }
+    for (const r of Object.values(this.reticles)) r.visible = false;
     // shot down: out of the cockpit, to watch your plane go
     this.showCockpit(null);
     this.view = 'chase';
@@ -169,7 +229,7 @@ export class Pilot {
     this.camPos.lerp(_t, 1 - Math.exp(-dt * 14));
     // keep up with the plane exactly along its flight (only the offset is smoothed, so it never lags behind)
     camera.position.copy(this.camPos);
-    camera.up.set(0, 1, 0);
+    camera.up.set(0, 1, 0).transformDirection(f.obj.matrixWorld); // (rolled with the plane as it goes down)
     camera.lookAt(_t.copy(f.pos).addScaledVector(aim, 150));
   }
 
@@ -187,7 +247,7 @@ export class Pilot {
     f.k.guns.forEach((g, i) => { const key = g.cannon ? 'cannon' : 'mg'; (byType[key] ??= { n: 0, max: 0 }).n += this.ammo[i]; byType[key].max += AMMO[f.kind][i]; });
     return {
       kind: f.k.name, view: this.view, speed: f.speed, alt: (ALTITUDE + f.pos.y) * 3.281, throttle: this.throttle,
-      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker, aim,
+      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker, aim, reflector: !this.plainSight,
       damage: f.burning ? 'ON FIRE' : f.engineDead ? 'ENGINE OUT' : f.smoking ? 'ENGINE HIT' : '',
     };
   }

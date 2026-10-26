@@ -145,7 +145,9 @@ export class Mission {
       this.phase = 'bombrun';
       this.ui.log('Initial point. Bomb run, bomb doors open!');
     }
+    player.sightOK = this.phase === 'bombrun' && !mine?.released; // (the Norden: only on the bomb run, until the bombs are away)
     flak.on = this.phase !== 'done' && -toGo < FLAK_BEHIND && toGo < FLAK_AHEAD;
+    flak.heavy = toGo > 0 ? Math.min(1, Math.max(0.3, 1.2 - toGo / 8000)) : Math.max(0.3, 1 + toGo / FLAK_BEHIND); // (thickest over the target)
     fighters.suppressed = flak.on; // fighters stood off while their own flak was firing
 
     // releases: every group on its lead bombardier; yours on you if you're at the sight

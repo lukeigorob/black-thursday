@@ -137,6 +137,13 @@ export class Breakup {
     for (const r of roots) this.scene.remove(r);
   }
 
+  /** Compile the cut versions of everything in `root` (your own bomber, its cabin) now, not when it first breaks up. */
+  async warmCut(root, renderer, camera) {
+    applyCut(root, cutState([REGIONS.tail], true));
+    try { await renderer.compileAsync(this.scene, camera); } catch { /* (only a warm-up) */ }
+    removeCut(root);
+  }
+
   /**
    * Bomber `b` has lost a part: kind 'wingo' / 'wingi' (side -1 left, 1 right), 'tail', or 'fuselage'
    * (parting at z). Called from its damage fx with the velocity its wreckage starts with.

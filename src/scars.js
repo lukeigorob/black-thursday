@@ -9,12 +9,14 @@ import * as THREE from 'three';
 import { ENGINE_X } from './bomber.js';
 
 const MAX = 32;
+export const SCAR_MAX = MAX;
 export const SCARS = {
+  light: { value: 1 }, // daylight through a hole, seen from inside (dim by night: main)
   hits: { value: Array.from({ length: MAX }, () => new THREE.Vector4(0, -100, 0, 0)) }, // xyz, w = radius (0: none)
   detail: { value: 1 }, // the quality setting: 0 turns it all off
   next: 0,
 };
-const ENG = ENGINE_X.map((x) => new THREE.Vector3(x, -0.85, -7.4)); // the exhaust stacks, under the cowling
+let ENG = null; // the exhaust stacks, under the cowling (made on first use: bomber.js imports the interior, which imports this)
 
 /** Bake bomber-space positions into every mesh of a loaded B-17 (once per shared geometry). */
 export function bakeBomberSpace(root) {
@@ -33,6 +35,7 @@ export function bakeBomberSpace(root) {
 export function scarMaterial(mat) {
   if (!mat || mat.userData.scars || !(mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) || mat.userData.glass) return mat;
   mat.userData.scars = true;
+  ENG ??= ENGINE_X.map((x) => new THREE.Vector3(x, -0.85, -7.4));
   const prev = mat.onBeforeCompile, prevKey = mat.customProgramCacheKey?.bind(mat);
   mat.onBeforeCompile = (sh, r) => {
     prev?.call(mat, sh, r);

@@ -55,6 +55,26 @@ const KINDS = {
     ],
     smokeAt: [0, -0.3, -3], fireAt: [0, 0, -1.5],
   },
+  fw190: {
+    // the Fw 190 A-8: heavier, armoured, a little faster than the 109 but not so good a climber up here;
+    // the Sturmgruppen took the bombers head-on in tight groups
+    side: 'axis', name: 'Fw 190', cruise: 118, setup: 158, attack: 155, max: 180, turn: 0.3, combat: 0.47, breakTurn: 0.58, muzzle: 800,
+    parts: {
+      pilot: { box: [-0.34, 0.34, 0.1, 0.9, -1.0, 0.4], hp: 4 }, // (armoured glass and plate)
+      engine: { box: [-0.62, 0.62, -0.62, 0.62, -4.0, -2.3], hp: 20 }, // the radial takes a lot of hits
+      fuel: { box: [-0.42, 0.42, -0.55, 0.1, -1.6, -0.2], hp: 8 },
+      tail: { box: [-1.8, 1.8, -0.1, 1.3, 3.3, 4.55], hp: 12 },
+      wingL: { box: [-5.3, -0.45, -0.6, 0.0, -1.8, 0.45], hp: 20 },
+      wingR: { box: [0.45, 5.3, -0.6, 0.0, -1.8, 0.45], hp: 20 },
+      fuselage: { box: [-0.5, 0.5, -0.62, 0.7, -2.3, 3.3], hp: 38 },
+    },
+    guns: [ // two MG 131s over the engine, four MG 151/20 cannon in the wings
+      { at: [-0.17, 0.62, -3.0], rpm: 900, tracer: 3 }, { at: [0.17, 0.62, -3.0], rpm: 900, tracer: 3 },
+      { at: [-0.95, -0.46, -2.3], rpm: 720, tracer: 2, cannon: true }, { at: [0.95, -0.46, -2.3], rpm: 720, tracer: 2, cannon: true },
+      { at: [-2.05, -0.38, -1.8], rpm: 700, tracer: 2, cannon: true }, { at: [2.05, -0.38, -1.8], rpm: 700, tracer: 2, cannon: true },
+    ],
+    smokeAt: [0, -0.3, -3], fireAt: [0, 0, -1.5],
+  },
   p51: {
     // cruise ~430 km/h, flat out ~700 km/h: faster than the 109 up here, turns about as well
     side: 'allied', name: 'P-51', cruise: 120, setup: 175, attack: 170, max: 194, turn: 0.31, combat: 0.5, breakTurn: 0.6, muzzle: 880,
@@ -72,6 +92,8 @@ const KINDS = {
   },
 };
 const ATTACKS = [['headOn', 3], ['high', 3], ['tail', 2], ['beam', 2]];
+const FW_TOTAL = 50; // Fw 190s among the Luftwaffe's reserve: they come up as whole gaggles of their own
+const FW_ATTACKS = [['headOn', 6], ['high', 2], ['tail', 1]]; // and mostly take the bombers head-on
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (list) => { let r = Math.random() * list.reduce((s, [, w]) => s + w, 0); return list.find(([, w]) => (r -= w) < 0)[0]; };
@@ -132,6 +154,8 @@ function clock(bomber, p) {
   return { h, level: d.y > 150 ? 'high' : d.y < -150 ? 'low' : 'level' };
 }
 
+const _lvl = new V(), BANK_MAX = THREE.MathUtils.degToRad(60); // (the player's fighter: its steepest bank in a turn)
+
 class Fighter {
   constructor(kind, obj, full, pos, dir) {
     this.kind = kind;
@@ -151,7 +175,7 @@ class Fighter {
     this.gunTimers = this.k.guns.map(() => Math.random() * 0.1);
     this.rounds = 0;
     this.disc = full.getObjectByName('Fake_Blades');
-    this.blades = full.getObjectByName('BF109_F2_Blades');
+    this.blades = full.getObjectByName('BF109_F2_Blades') ?? full.getObjectByName('Fw190_Blades');
     this.spinner = kind === 'p51' ? full.getObjectByName('Nose') : null;
     this.inv = new THREE.Matrix4();
     this._vel = new V();
@@ -162,8 +186,11 @@ class Fighter {
   /** Motion in the formation's frame: airspeed along the nose plus the wind. (A shared vector: copy it to keep it.) */
   get velocity() { return this._vel.copy(this.dir).multiplyScalar(this.speed).add(WIND); }
 
-  /** Turn the nose towards `want` at up to `rate` rad/s; the wings bank into the turn. */
-  steer(want, rate, dt) {
+  /**
+   * Turn the nose towards `want` at up to `rate` rad/s; the wings bank into the turn. push: when the turn
+   * is nose-down, push over (the wings stay put) rather than roll inverted to pull through (the player's).
+   */
+  steer(want, rate, dt, push = false) {
     if (!(dt > 0) || want.lengthSq() < 1e-9) return;
     want = _want.copy(want).normalize();
     const old = _old.copy(this.dir);
@@ -179,7 +206,21 @@ class Fighter {
     lift.y += 9.81;
     lift.addScaledVector(this.dir, -lift.dot(this.dir));
     // straight up or down there is no "up" from gravity: keep the wings where they were
-    if (lift.lengthSq() > 1e-6) this.up.lerp(lift.normalize(), 1 - Math.exp(-dt * 4)).normalize();
+    if (lift.lengthSq() > 1e-6) {
+      lift.normalize();
+      // (pushing the nose down harder than gravity pulls it: negative g, the wings stay where they are.
+      // Turned towards that downward pull instead, the wings would roll a little more every frame: a spin)
+      if (push && lift.dot(this.up) < 0) lift.copy(this.up);
+      if (push) { // (yours: banked no further than 60 degrees into a turn, and eased into it: a bank, not a roll)
+        const level = _lvl.copy(UP).addScaledVector(this.dir, -this.dir.y);
+        if (level.lengthSq() > 0.04) {
+          level.normalize();
+          const a = Math.acos(THREE.MathUtils.clamp(lift.dot(level), -1, 1));
+          if (a > BANK_MAX) lift.lerp(level, 1 - BANK_MAX / a).normalize();
+        }
+      }
+      this.up.lerp(lift, 1 - Math.exp(-dt * (push ? 2.2 : 4))).normalize();
+    }
   }
 
   pose() {
@@ -217,6 +258,7 @@ export class Fighters {
     this.crewView = true; // you're in a B-17 (crew callouts); false while you fly a fighter
     this.report = null; // (kind, name, dmg) -> your score: 'hit' | 'crit' | 'kill' | 'assist'
     this.reserve = { axis: AXIS_TOTAL, allied: ALLIED_TOTAL }; // still to come up (the player's own fighter doesn't count)
+    this.fwLeft = FW_TOTAL; // of the axis reserve, how many are Fw 190s
     this.playerSide = 'allied';
   }
 
@@ -346,7 +388,8 @@ export class Fighters {
   /** Each side's strength: in the air, shot down, still to come. */
   counts() {
     const t = this.tally ?? {}, c = { axis: { air: 0 }, allied: { air: 0 } };
-    for (const f of this.list) if (f.alive && !f.player) c[f.side].air++;
+    c.axis.fw = 0;
+    for (const f of this.list) if (f.alive && !f.player) { c[f.side].air++; if (f.kind === 'fw190') c.axis.fw++; }
     c.axis.down = t.axisLost ?? 0; c.allied.down = t.alliedLost ?? 0;
     c.axis.reserve = this.reserve.axis; c.allied.reserve = this.reserve.allied;
     c.axis.total = AXIS_TOTAL; c.allied.total = ALLIED_TOTAL;
@@ -364,14 +407,18 @@ export class Fighters {
     const c = this.center, a = rand(-2.2, 2.2), dist = rand(3600, 4600);
     const near = this.nearBombers();
     const pickOne = near[Math.floor(Math.random() * near.length)];
+    // a gaggle of Fw 190s now and then (in proportion to how many are left), the rest Bf 109s
+    const fw = this.fwLeft > 0 && Math.random() < this.fwLeft / Math.max(1, this.reserve.axis);
+    const kind = fw ? 'fw190' : 'bf109', count = fw ? Math.min(n, this.fwLeft) : n;
     const plan = { // they come in together and pick on one group of bombers
       from: new V(Math.sin(a) * dist, rand(300, 1000), -Math.cos(a) * dist).add(c),
-      attack: pick(ATTACKS), side3: Math.random() < 0.5 ? -1 : 1, squad: pickOne?.squad,
+      attack: pick(fw ? FW_ATTACKS : ATTACKS), side3: Math.random() < 0.5 ? -1 : 1, squad: pickOne?.squad,
     };
-    this.reserve.axis -= n;
-    for (let i = 0; i < n; i++) { this.axisSlots[free[i]] = 0; this.spawn('bf109', free[i], plan, i, n); }
+    this.reserve.axis -= count;
+    if (fw) this.fwLeft -= count;
+    for (let i = 0; i < count; i++) { this.axisSlots[free[i]] = 0; this.spawn(kind, free[i], plan, i, count); }
     this.waveT = rand(...WAVE_GAP);
-    if (this.crewView && this.time > 20) this.ui.log(`Large formation of fighters coming in! ${n} of them.`);
+    if (this.crewView && this.time > 20) this.ui.log(`Large formation of ${fw ? 'Fw 190s' : 'fighters'} coming in! ${count} of them.`);
   }
 
   tickSlots(slots, kind, dt) {
@@ -592,6 +639,10 @@ export class Fighters {
   damage(f, part, owner, team) {
     if ((team === 'enemy') === (f.side === 'axis')) owner = 'friendly'; // shot by its own side: nobody's kill
     f.parts[part] -= 1;
+    if (f.player) { // your own fighter hit: you hear it strike, and feel it if it's the cockpit
+      this.audio.impact(false, 0.8);
+      if (part === 'pilot') { this.audio.pain(1, f.parts.pilot <= 0, 0.3); this.ui.hitFlash(1); }
+    }
     const hp = f.parts[part], full = f.k.parts[part].hp;
     if (part === 'engine' && hp < full * 0.5) f.smoking = true;
     if (part === 'engine' && hp <= 0 && !f.engineDead) { f.engineDead = true; if (Math.random() < 0.5) f.burning = true; }
@@ -813,7 +864,9 @@ export class Fighters {
       this.effects.impact(_t.copy(a).lerp(b, t), cannon);
       const mine = owner === 'player' && this.playerSide === 'axis' && !bomber.down;
       const crits = mine ? bomber.deadEngines + (bomber.burning ? 10 : 0) : 0;
-      bomber.hit(part, cannon);
+      // (the enemy's fire on the rest of the stream, weighted to keep the mission's losses on course: main.js)
+      const k = owner !== 'player' && bomber !== this.playerBomber ? this.lossBias ?? 1 : 1;
+      for (let n = Math.floor(k) + (Math.random() < k % 1 ? 1 : 0); n > 0; n--) bomber.hit(part, cannon);
       if (mine) {
         this.ui.hitMarker(bomber.down); // a 109 pilot's rounds on a B-17 (red and bigger if that brought it down)
         bomber.playerHitT = this.time;

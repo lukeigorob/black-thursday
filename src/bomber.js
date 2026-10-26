@@ -12,7 +12,54 @@ const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const MAX_BANK = 0.6; // rad (~35 degrees): a loaded B-17 turns gently
 const clamp = THREE.MathUtils.clamp, wrapA = (a) => Math.atan2(Math.sin(a), Math.cos(a));
-const _vel = new V(), _at = new V(), _w = new V(), _d = new V(), _rock = new THREE.Euler(), _fe = new THREE.Euler(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
+const _up = new V(0, 1, 0);
+const SPEED_PER_POWER = 40; // m/s more (or less) than the formation's speed per unit of power above (below) cruise
+
+/** Turn a prop's blades about their own length: 0 = in flight pitch, 1 = feathered, edge-on. */
+function featherBlades(prop, k) {
+  prop.userData.shown = k;
+  prop.userData.blades ??= prop.children.filter((c) => c.isMesh).map((b) => {
+    b.geometry.computeBoundingBox();
+    const axis = b.geometry.boundingBox.getCenter(new V()).setZ(0).normalize(); // (out along the blade from the hub)
+    return { b, axis, q0: b.quaternion.clone() };
+  });
+  for (const { b, axis, q0 } of prop.userData.blades) b.quaternion.copy(q0).multiply(_q3.setFromAxisAngle(axis, k * 1.2));
+}
+
+/**
+ * Wrap a model's ball and top turrets in pivots (once per model): the ball and its guns turn and tilt
+ * about the ball's centre, its yoke and the top turret (with its guns) turn about their own axes.
+ */
+function rigTurrets(model) {
+  model.updateMatrixWorld(true);
+  const toLocal = model.matrixWorld.clone().invert(), out = {};
+  const wrap = (names, at) => {
+    const p = new THREE.Object3D(); p.position.set(...at); model.add(p); p.updateMatrixWorld(true);
+    for (const n of names) { const o = model.getObjectByName(n); if (o) p.attach(o); }
+    return p;
+  };
+  const restOf = (names, at) => { // which way the guns point at rest, from their middle
+    const merged = model.getObjectByName(names[0])?.userData.guns; // (a merged turret knows where its guns are)
+    if (merged) return new V(...merged).sub(new V(...at)).normalize();
+    const b = new THREE.Box3();
+    for (const n of names.slice(1)) { const o = model.getObjectByName(n); if (o) b.expandByObject(o); }
+    if (b.isEmpty()) return new V(0, -1, -0.01).normalize();
+    return b.getCenter(new V()).applyMatrix4(toLocal).sub(new V(...at)).normalize();
+  };
+  const ball = [0, -2.3, -0.13], ballGuns = ['GunBarrel004', 'GunBarrel14'];
+  if (model.getObjectByName('BallTurret')) {
+    const d = restOf(['BallTurret', ...ballGuns], ball), yaw0 = Math.atan2(-d.x, -d.z), pitch0 = Math.asin(clamp(d.y, -1, 1));
+    const full = wrap(['BallTurret', ...ballGuns], ball), yawPart = wrap(['BallStabilizer1'], ball);
+    out.ball = { full, yawPart, yaw0, pitch0, yaw: yaw0, pitch: pitch0, elev: new V(Math.cos(yaw0), 0, -Math.sin(yaw0)) };
+  }
+  const top = [0, 1.43, -6.71];
+  if (model.getObjectByName('TopTurret')) {
+    const d = restOf(['TopTurret', 'TopGuns'], top), yaw0 = Math.atan2(-d.x, -d.z);
+    out.top = { yawPart: wrap(['TopTurret', 'TopGuns'], top), full: null, yaw0, pitch0: 0, yaw: yaw0, pitch: 0, elev: new V(1, 0, 0) };
+  }
+  return out;
+}
+const _vel = new V(), _at = new V(), _w = new V(), _d = new V(), _rock = new THREE.Euler(), _fe = new THREE.Euler(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion(), _q3 = new THREE.Quaternion();
 
 export const ENGINE_X = [-7.16, -3.93, 3.94, 7.15]; // engines 1-4, numbered left to right as the pilot sees them
 export const SECTIONS = [['nose', -11.4, -8.6], ['cockpit', -8.6, -6.35], ['bombbay', -6.35, -2.6], ['radio', -2.6, -1.25], ['waist', -1.25, 5.2], ['tail', 5.2, 11.4]];
@@ -34,7 +81,7 @@ export const PARTS = [
 
 // everything that makes a bomber "that bomber" (where it flies, its damage), but not how it's drawn
 const STATE = ['base', 'home', 'flight', 'bottles', 'leak', 'fx', 'spiral', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes',
-  'lost', 'secFire', 'secFireLimit', 'turretOut', 'dive', 'warned'];
+  'lost', 'secFire', 'secFireLimit', 'turretOut', 'dive', 'warned', 'cutBoxes', 'lostParts']; // (the last two: what break-up has cut away, breakup.js)
 export const PART = Object.fromEntries(PARTS.map((p) => [p.name, p]));
 const FUSELAGE = ['bombbay', 'radio', 'waist', 'tail']; // the sections a fire can take hold in and break her up
 const NAMES = { nose: 'the nose', cockpit: 'the cockpit', bombbay: 'the bomb bay', radio: 'the radio room', waist: 'the waist', tail: 'the tail' };
@@ -48,7 +95,7 @@ export function swapBombers(a, b) {
   for (const x of [a, b]) {
     x.group.visible = !x.gone;
     x.group.position.copy(x.base);
-    for (const p of x.props) if (p) p.userData.stopped = false;
+    for (const p of x.props) if (p) p.userData.spin = null;
   }
 }
 
@@ -105,6 +152,25 @@ export class Bomber {
     this.model = model;
     if (model) this.group.add(model);
     this.props = model ? [1, 2, 3, 4].map((i) => model.getObjectByName(`Prop_${i}`)) : [];
+    if (model && !this.interior) model.userData.turrets ??= rigTurrets(model);
+  }
+
+  /**
+   * A bomber seen from outside: its ball and top turrets turn (and the ball tilts) towards where its
+   * gunners aim, guns and all. dir: bomber space, or null to search the sky slowly.
+   */
+  aimTurret(id, dir, dt, t) {
+    const r = this.model?.userData.turrets?.[id];
+    if (!r) return;
+    let yaw, pitch;
+    if (dir) { yaw = Math.atan2(-dir.x, -dir.z); pitch = Math.asin(clamp(dir.y, -1, 1)); } else { // (scanning: a slow sweep, different on every bomber)
+      yaw = r.yaw0 + Math.sin(t * 0.21 + this.phase * 3) * (id === 'top' ? 2.2 : 1.6);
+      pitch = id === 'top' ? 0.25 + Math.sin(t * 0.37 + this.phase) * 0.2 : -0.6 + Math.sin(t * 0.33 + this.phase) * 0.45;
+    }
+    const k = 1 - Math.exp(-dt * 3);
+    r.yaw += wrapA(yaw - r.yaw) * k; r.pitch += (pitch - r.pitch) * k;
+    r.yawPart.rotation.y = r.yaw - r.yaw0;
+    if (r.full) r.full.quaternion.setFromAxisAngle(_up, r.yaw - r.yaw0).multiply(_q2.setFromAxisAngle(r.elev, r.pitch - r.pitch0));
   }
 
   /** Called with (message) for things the crew would call out (only used for the player's bomber). */
@@ -127,8 +193,53 @@ export class Bomber {
     if (e?.state !== 'fire') { this.emit(`Engine ${i + 1} isn't burning.`); return; }
     if (this.bottles <= 0) { this.emit('No extinguisher bottles left!'); return; }
     this.bottles--;
-    if (Math.random() < 0.8) { e.state = 'dead'; this.emit(`Fire's out on ${i + 1}, feathering ${i + 1}.`); }
+    // (it goes out more surely on a feathered engine: no fuel and air being pumped through it)
+    if (Math.random() < (e.feathered ? 0.9 : 0.75)) { e.state = 'dead'; this.emit(e.feathered ? `Fire's out on ${i + 1}.` : `Fire's out on ${i + 1}. Feather it!`); }
     else this.emit(`${i + 1} is still burning! (${this.bottles} bottle${this.bottles === 1 ? '' : 's'} left)`);
+  }
+
+  /** Feather engine i: the prop's blades turn edge-on to the air and it stops windmilling (and dragging). */
+  feather(i) {
+    const e = this.engines[i];
+    if (!e || e.feathered) return;
+    if (e.state === 'ok') { this.emit(`Engine ${i + 1} is running fine.`); return; }
+    e.feathered = true;
+    if (e.state === 'smoking') e.state = 'dead'; // (shut down before it burns)
+    this.emit(`Feathering ${i + 1}.`);
+  }
+
+  /**
+   * The engine the pilot should deal with first, or null: one on fire, then one dead and windmilling,
+   * then one smoking. { i, fire, feather } says what can be done about it.
+   */
+  get engineTrouble() {
+    const rank = (e) => (e.state === 'fire' ? 3 : e.state === 'dead' && !e.feathered ? 2 : e.state === 'smoking' ? 1 : 0);
+    let best = -1;
+    this.engines.forEach((e, i) => { if (rank(e) > 0 && (best < 0 || rank(e) > rank(this.engines[best]))) best = i; });
+    if (best < 0) return null;
+    const e = this.engines[best];
+    return { i: best, fire: e.state === 'fire', feather: !e.feathered, state: e.state };
+  }
+
+  /**
+   * Thrust, as a multiple of what holds the formation's speed: each running engine gives cruise power
+   * at half throttle and up to 1.6 times that at full; a smoking one three quarters of it; a dead one
+   * nothing, and one still windmilling (not feathered) drags. 1 = cruise with all four.
+   */
+  power(throttle) {
+    const p = throttle <= 0.5 ? throttle * 2 : 1 + (throttle - 0.5) * 1.2;
+    let sum = 0;
+    for (const e of this.engines) sum += e.state === 'ok' ? p : e.state === 'smoking' ? p * 0.75 : e.feathered ? 0 : -0.25;
+    return sum / 4;
+  }
+
+  /** The throttle the pilot needs to hold the formation's speed (above 1: he can't). */
+  get throttleNeeded() {
+    let good = 0, drag = 0;
+    for (const e of this.engines) { if (e.state === 'ok') good += 1; else if (e.state === 'smoking') good += 0.75; else if (!e.feathered) drag += 0.25; }
+    if (good <= 0) return 2;
+    const p = (4 + drag) / good;
+    return p <= 1 ? p / 2 : 0.5 + (p - 1) / 1.2;
   }
 
   /** Noticeably shot up: any part below 70% of its strength. */
@@ -150,6 +261,7 @@ export class Bomber {
       if ((e.state === 'ok' || e.state === 'smoking') && hp <= 0) {
         e.state = Math.random() < 0.4 ? 'fire' : 'dead';
         e.fireT = 0;
+        e.feathered = !this.manualFires; // (the AI pilots feather at once; you have to do it yourself)
         e.fireLimit = rand(6, 12); // how long before it either goes out or spreads
         this.emit(e.state === 'fire' ? `Engine ${part.engine + 1} on fire!` : `Engine ${part.engine + 1} is out, feathering ${part.engine + 1}!`);
       }
@@ -230,8 +342,8 @@ export class Bomber {
     if (this.gone) return;
     const m = this.group.matrixWorld, vel = _vel.set(0, 0, AIRSPEED * 0.15).add(this.drift); // trails stream back
     this.engines.forEach((e, i) => {
-      if (this.props[i]) this.props[i].userData.stopped = e.state === 'dead' || e.state === 'fire';
       if (e.state === 'ok') return;
+      if (!this.manualFires && e.state !== 'smoking') e.feathered = true; // (an AI pilot at the controls feathers it)
       const at = _at.set(ENGINE_X[i], -0.6, -4.2).applyMatrix4(m);
       if (e.state === 'smoking') effects?.trail(at, vel, 'smoke', dt);
       if (e.state === 'dead') effects?.trail(at, vel, 'black', dt * 0.5);
@@ -244,7 +356,7 @@ export class Bomber {
         // When the player is the pilot that's his job (1-4), and a fire left alone spreads.
         e.fireT += dt;
         if (this.manualFires) {
-          if (e.fireT > 20) {
+          if (e.fireT > (e.feathered ? 32 : 20)) { // (feathered, it burns slower)
             e.state = 'dead';
             const side = i < 2 ? -1 : 1;
             if (!this.tankFire[side]) { this.tankFire[side] = 0.001; this.emit(`The fire's spreading into the ${side < 0 ? 'left' : 'right'} wing!`); }
@@ -305,9 +417,12 @@ export class Bomber {
         this.onBreak?.('fuselage', 0, Math.max(e.z, -1.2), vel); // (forward of the wing's trailing edge she parts behind it)
       }
     }
-    // stragglers: each engine out costs speed and height, so the bomber falls out of the box
-    const n = this.deadEngines;
-    this.drift.set(0, n >= 2 ? -2 : 0, [0, 1.5, 4, 8, 8][n]);
+    // stragglers: the AI pilot opens up the good engines to hold the formation's speed; when even full
+    // throttle won't do it (two engines out), she drops back, and sinks. (You at the controls set your
+    // own throttle: see fly.)
+    const n = this.deadEngines, short = this.manualFires ? 0 : Math.max(0, 1 - this.power(1)) * SPEED_PER_POWER;
+    this.drift.set(0, n >= 2 ? -1.5 : 0, short);
+    if (!this.manualFires) this.flight.throttle = Math.min(1, this.throttleNeeded);
     if (this.down) {
       this.downT += dt;
       // falling in a spiral: round and round as it goes down (tight and fast with a wing gone)
@@ -362,7 +477,7 @@ export class Bomber {
     if (input) {
       heading = input.aimYaw; pitch = input.aimPitch;
       f.throttle = input.throttle;
-      speed = 50 + f.throttle * 45 - this.deadEngines * 7;
+      speed = AIRSPEED + (this.power(f.throttle) - 1) * SPEED_PER_POWER;
     } else {
       if (!this.offStation) return;
       // steer for the slot: close the gap at up to 12 m/s relative to the formation
@@ -377,7 +492,7 @@ export class Bomber {
       heading = Math.atan2(-_d.x, -_d.z);
       pitch = Math.atan2(_d.y, Math.hypot(_d.x, _d.z));
       speed = _d.length();
-      f.throttle = 0.5;
+      f.throttle = Math.min(1, this.throttleNeeded);
     }
     // a shot-up tail: she wanders and answers the controls slowly; damaged engines give less power
     const tail = this.lost.tailplane ? 0 : Math.max(0, this.hp.tailplane) / PART.tailplane.hp;
@@ -386,7 +501,6 @@ export class Bomber {
       heading += Math.sin(this.phase + performance.now() * 0.0007) * wander;
       pitch += Math.sin(this.phase * 1.7 + performance.now() * 0.0011) * wander * 0.5;
     }
-    speed -= this.engines.filter((e) => e.state === 'smoking').length * 3;
     // a heavy bomber: banks to turn, rolls slowly, and the bank angle sets the rate of turn
     const err = wrapA(heading - f.heading);
     const bankT = input?.roll ? input.roll * MAX_BANK : clamp(err * 2.5, -MAX_BANK, MAX_BANK);
@@ -403,7 +517,17 @@ export class Bomber {
   }
 
   update(t, dt) {
-    for (const [i, p] of this.props.entries()) if (p && !p.userData.stopped) p.rotation.z += dt * (31 + i * 0.4);
+    // the props: running, windmilling (a dead engine not yet feathered turns over slowly in the
+    // airstream), or feathered: stopped, the blades turned edge-on
+    for (const [i, p] of this.props.entries()) {
+      if (!p) continue;
+      const e = this.engines[i], u = p.userData, want = e.state === 'ok' || e.state === 'smoking' ? 31 + i * 0.4 : e.feathered ? 0 : 8;
+      u.spin = u.spin == null ? want : u.spin + (want - u.spin) * (1 - Math.exp(-dt * 0.8));
+      p.rotation.z += dt * u.spin;
+      const f = e.feathered && e.state !== 'ok' ? 1 : 0;
+      u.feather = (u.feather ?? f) + Math.sign(f - (u.feather ?? f)) * Math.min(Math.abs(f - (u.feather ?? f)), dt / 3); // (takes a few seconds)
+      if (u.feather !== u.shown) featherBlades(p, u.feather);
+    }
     const s = t + this.phase;
     // slow swells plus a little turbulence; small enough to walk around comfortably
     const turb = Math.sin(s * 2.3) * Math.sin(s * 1.7);

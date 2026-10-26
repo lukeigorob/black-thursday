@@ -40,9 +40,12 @@ export function insideLight(m, amount = INSIDE_AMBIENT) {
 
 /** A bump (height) of rivet rows and seams on the hull at bomber-space position p, as GLSL. */
 const HULL_RELIEF = `
+  // the fuselage's middle line: in the cockpit it's higher (its roof is), so the rows run round that
+  float hullMid(float z) { return mix(mix(-0.9, 0.25, smoothstep(-6.2, -6.6, z)), -0.1, smoothstep(-8.6, -8.9, z)); }
+  float deckK(float z) { return smoothstep(-6.2, -6.6, z) * smoothstep(-8.9, -8.6, z); } // (the flight deck only)
   float hullRelief(vec3 p) {
     // around the fuselage: an angle from its middle line (so rows run round the roof too)
-    float s = atan(p.x, p.y + 0.9);
+    float s = atan(p.x, p.y - hullMid(p.z));
     // the frames every 50 cm, two rivet rows either side of each
     float fz = abs(fract(p.z * 2.0 + 0.5) - 0.5) / 2.0;      // metres to the nearest frame
     float rows = smoothstep(0.012, 0.0, abs(fz - 0.028));
@@ -77,29 +80,34 @@ export function hullPaint(sh, posVar) {
     uniform sampler2D uPaint, uPaintN, uPaintR; uniform float uDetailOn;${HULL_RELIEF}`)
     .replace('#include <color_fragment>', `#include <color_fragment>
       vec3 hp = ${posVar};
-      vec2 puv = vec2(hp.z, atan(hp.x, hp.y + 0.9) * 1.1) * 0.55;
+      // the flight deck (forward of the top turret's bulkhead): kept smart, as in the photos of the
+      // real one, in smooth bronze-green paint over riveted panels, hardly worn
+      float deck = deckK(hp.z);
+      vec2 puv = vec2(hp.z, atan(hp.x, hp.y - hullMid(hp.z)) * 1.1) * mix(0.55, 1.4, deck);
       vec3 paint = texture2D(uPaint, puv).rgb;
       float luma = dot(paint, vec3(0.3, 0.55, 0.15));
       // tinted to interior green; where it's worn through (light, unsaturated) bare aluminium shows
       vec3 green = vec3(0.30, 0.34, 0.23) * (0.74 + 0.5 * luma); // (gently: big blotches read as camouflage)
-      float bare = smoothstep(0.62, 0.8, luma) * 0.35;
-      diffuseColor.rgb = mix(green, vec3(0.55, 0.56, 0.54), bare);
+      vec3 bronze = vec3(0.085, 0.2, 0.17) * (0.9 + 0.2 * luma);
+      float bare = smoothstep(0.62, 0.8, luma) * mix(0.35, 0.08, deck);
+      diffuseColor.rgb = mix(mix(green, bronze, deck), vec3(0.55, 0.56, 0.54), bare);
       if (uDetailOn > 0.5) {
         // grime in the panel seams and along the rivet rows, so each skin panel reads as a panel
         float rel = hullRelief(hp);
-        diffuseColor.rgb *= 1.0 - clamp(-rel, 0.0, 1.0) * 0.35;
+        diffuseColor.rgb *= 1.0 - clamp(-rel, 0.0, 1.0) * mix(0.35, 0.5, deck);
         // oil and hydraulic fluid run down the lower walls in thin streaks, darkest near the floor
         float side = abs(hp.x) / max(length(hp.xy + vec2(0.0, 0.9)), 0.01);
         float streak = smoothstep(0.55, 0.95, texture2D(uPaint, vec2(hp.z * 3.1, 0.37)).g * 0.5 + fract(sin(floor(hp.z * 14.0) * 91.7) * 43758.5) * 0.6);
         float low = smoothstep(-0.4, -1.6, hp.y) * smoothstep(0.55, 0.9, side);
-        diffuseColor.rgb *= 1.0 - streak * low * 0.45;
+        diffuseColor.rgb *= 1.0 - streak * low * 0.45 * (1.0 - deck);
       }`)
     .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
-      roughnessFactor = 0.45 + 0.5 * texture2D(uPaintR, puv).g;`)
+      roughnessFactor = mix(0.45 + 0.5 * texture2D(uPaintR, puv).g, 0.32 + 0.18 * texture2D(uPaintR, puv).g, deckK(hp.z));`)
     .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
       vec3 pn = texture2D(uPaintN, puv).xyz * 2.0 - 1.0;
-      normal = normalize(normal + (pn.x * 0.25) * normalize(dFdx(-vViewPosition)) + (pn.y * 0.25) * normalize(dFdy(-vViewPosition)));
-      normal = bumpFrom(-vViewPosition, normal, hullRelief(hp) * 0.004);`);
+      float pk = mix(0.25, 0.08, deckK(hp.z)); // (the flight deck's paint is smooth: the rivets and seams show)
+      normal = normalize(normal + (pn.x * pk) * normalize(dFdx(-vViewPosition)) + (pn.y * pk) * normalize(dFdy(-vViewPosition)));
+      normal = bumpFrom(-vViewPosition, normal, hullRelief(hp) * mix(0.004, 0.006, deckK(hp.z)));`);
 }
 
 /** The walkway and floors: ambientCG's planks, laid along the fuselage. */

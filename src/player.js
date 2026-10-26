@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { makeFigure, pose, spotFor } from './crew.js';
 import { reachFor } from './figure.js';
+import { turretPoint, PASSAGES, turretFloor } from './interior.js';
 
 const R = 0.2; // body radius
 const STAND_EYE = 1.58, MIN_EYE = 0.42, MIN_HEADROOM = 0.55;
@@ -11,9 +12,14 @@ const _sh = new THREE.Vector3(), _sh2 = new THREE.Vector3(), _m3 = new THREE.Mat
 const BODY_DROP = 0.14, BODY_BACK = 0.22; // m: your body's neck sits this far below and behind your eye
 const TO_STATION = 4; // 1 / seconds to move into a gun position
 const HEAD_YAW = THREE.MathUtils.degToRad(150); // pilots free-looking (C): as far round as a head turns in the seat
+const GUN_HEAD = { yaw: THREE.MathUtils.degToRad(100), up: 0.7, down: -0.6 }; // at a gun: your head turns, the gun stays put
+const TURRET_HEAD = { yaw: 0.9, up: 0.5, down: -0.5 }; // (curled up in a turret there's less room to turn)
+const _head = new THREE.Quaternion(), _headInv = new THREE.Quaternion();
 const EDGE = 0.9; // without mouse capture: only the outer edge of the screen keeps turning the view
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const clamp = THREE.MathUtils.clamp;
+const NOSE_KEYS = ['cheekL', 'noseL', 'noseR', 'cheekR', 'bombsight']; // (keys 1 - 5 in the nose: the guns left to right, then the sight)
+const _crawlAt = new THREE.Vector3(), _crawlQ = new THREE.Quaternion();
 const _inv = new THREE.Quaternion(), _walkPos = new THREE.Vector3(), _walkRot = new THREE.Quaternion(), _gunRot = new THREE.Quaternion(), _euler = new THREE.Euler();
 
 export class Player {
@@ -44,6 +50,7 @@ export class Player {
     this.headYaw = 0; this.headPitch = 0; // pilot's free look (hold C), on top of the aim
     this.throttle = 0.5;
     this.wounded = false; // down on the floor, waiting for first aid
+    this.health = 1; // 0..1: hits take it down; at nothing you're down (wounded)
     this.woundLeft = 0;
     this.dead = false;
     // your own body: look down and you see your chest, arms and boots (the head is left off)
@@ -54,13 +61,18 @@ export class Player {
     addEventListener('keydown', (e) => {
       this.keys[e.code] = true;
       if (e.code === 'KeyE' && this.enabled && !e.repeat) this.interact();
+      if (e.code === 'KeyB' && this.enabled && !e.repeat) this.useSight(); // the bombsight, from anywhere in the nose (on the bomb run)
+      if (/^Digit[1-5]$/.test(e.code) && this.enabled && !e.repeat && this.inNose) this.noseSwitch(+e.code.slice(5)); // the bombardier's guns and sight
       if (e.code === 'KeyR' && this.enabled && !e.repeat) this.reloadPressed = true;
       if (/^Digit[1-4]$/.test(e.code) && this.enabled && this.station?.flies && !e.repeat) this.bottlePressed = +e.code.slice(5) - 1;
+      if (e.code === 'KeyT' && this.enabled && this.station?.flies && !e.repeat) this.extinguishPressed = true; // the worst engine's fire bottle
+      if (e.code === 'KeyF' && this.enabled && this.station?.flies && !e.repeat) this.featherPressed = true; // feather the worst engine
       if (e.code === 'Space' && this.enabled && this.station?.sight) { e.preventDefault(); this.releasePressed = true; } // bombs away
     });
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
     addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
     addEventListener('mousedown', (e) => {
+      if (e.button === 0 && this.enabled && !this.station && this.passage && !this.crawl) { this.interact(); return; } // (a click at the crawlway takes it, as E does)
       if (e.button === 0 && this.enabled) this.firing = true;
       if (e.button === 2 && this.enabled) this.zoom = true; // hold right click to zoom in
     });
@@ -82,17 +94,51 @@ export class Player {
     document.addEventListener('mouseout', (e) => { if (!e.relatedTarget) this.cursor = null; }); // left the window
   }
 
+  /**
+   * A powered turret (the ball): its motors drive it towards where you're aiming, getting up to speed
+   * and slowing to a stop rather than snapping there (about 60 degrees a second at most).
+   */
+  drive(dt) {
+    const s = this.station;
+    if (s?.whine && dt > 0) { // (the ball follows the mouse directly: its motors' whine goes with how fast it's turning)
+      const sp = this._drove ? Math.hypot(wrap(this.sYaw - this._drove[0]), this.sPitch - this._drove[1]) / dt : 0;
+      this.turretSpeed = (this.turretSpeed ?? 0) + (Math.min(sp, 2) - (this.turretSpeed ?? 0)) * Math.min(1, dt * 12);
+      this._drove = [this.sYaw, this.sPitch];
+      return;
+    }
+    if (!s?.powered || !(dt > 0)) { this.turretSpeed = 0; this.tYaw = this.tPitch = undefined; this.vYaw = this.vPitch = 0; this._drove = undefined; return; }
+    if (this.tYaw === undefined || this._drove === undefined || Math.abs(wrap(this.sYaw - this._drove[0])) > 1e-6 || Math.abs(this.sPitch - this._drove[1]) > 1e-6) { this.tYaw = this.sYaw; this.tPitch = this.sPitch; } // (set from outside: start from there)
+    const MAX = 1.05, ACC = 4.5, step = (v, err) => { const want = clamp(err * 7, -MAX, MAX); return v + clamp(want - v, -ACC * dt, ACC * dt); };
+    this.vYaw = step(this.vYaw ?? 0, wrap(this.tYaw - this.sYaw)); this.vPitch = step(this.vPitch ?? 0, this.tPitch - this.sPitch);
+    this.sYaw = wrap(this.sYaw + this.vYaw * dt); this.sPitch = clamp(this.sPitch + this.vPitch * dt, s.pitch[0], s.pitch[1]);
+    this.turretSpeed = Math.hypot(this.vYaw, this.vPitch);
+    this._drove = [this.sYaw, this.sPitch];
+  }
+
+  /** Holding C at a station: looking round with your head, the gun (or the plane) left as it was. */
+  get freeLooking() { return !!this.station && !!this.keys.KeyC && this.blend > 0.9; }
+
   look(dYaw, dPitch) {
     if (this.station?.flies && this.keys.KeyC) { // hold C: look round without touching the controls
       this.headYaw = clamp(this.headYaw + dYaw, -HEAD_YAW, HEAD_YAW);
       this.headPitch = clamp(this.headPitch + dPitch, -0.5, 0.6); // (the cockpit roof is close overhead)
+    } else if (this.station && this.keys.KeyC) { // at a gun or the sight: the same, the gun stays where it points
+      const h = this.station.attach === 'ballCockpit' || this.station.attach === 'topCockpit' ? TURRET_HEAD : GUN_HEAD;
+      this.headYaw = clamp(this.headYaw + dYaw, -h.yaw, h.yaw);
+      this.headPitch = clamp(this.headPitch + dPitch, h.down, h.up);
     } else if (this.station?.flies) { // War Thunder style: the mouse points where you want to fly
       this.aimYaw = wrap(this.aimYaw + dYaw);
       this.aimPitch = clamp(this.aimPitch + dPitch, -0.6, 0.6);
+    } else if (this.station?.powered) { // a powered turret: the mouse sets where it's going, its motors take it there (drive)
+      const s = this.station;
+      this.tYaw = wrap((this.tYaw ?? this.sYaw) + dYaw); this.tPitch = clamp((this.tPitch ?? this.sPitch) + dPitch, s.pitch[0], s.pitch[1]);
+      // (no winding the target far ahead of the turret)
+      const ey = wrap(this.tYaw - this.sYaw); if (Math.abs(ey) > 0.5) this.tYaw = wrap(this.sYaw + Math.sign(ey) * 0.5);
+      if (Math.abs(this.tPitch - this.sPitch) > 0.4) this.tPitch = this.sPitch + Math.sign(this.tPitch - this.sPitch) * 0.4;
     } else if (this.station) {
       const s = this.station;
       this.sYaw = s.yawLim >= Math.PI ? wrap(this.sYaw + dYaw) : clamp(this.sYaw + dYaw, -s.yawLim, s.yawLim);
-      this.sPitch = clamp(this.sPitch + dPitch, s.pitch[0], s.pitch[1]);
+      this.sPitch = clamp(this.sPitch + dPitch, turretFloor(s, this.sYaw), s.pitch[1]);
     } else {
       this.yaw = wrap(this.yaw + dYaw);
       this.pitch = clamp(this.pitch + dPitch, -1.45, 1.45);
@@ -115,6 +161,21 @@ export class Player {
 
   /** Recoil from one shot: the view shakes while the guns hammer. */
   kick(amount) { this.recoil = Math.min(this.recoil + amount, 4); }
+  /** A blast close by: the whole view jolted (k 0..1). */
+  jolt(k) { this.shake = Math.min(1, (this.shake ?? 0) + k); }
+
+  /**
+   * Hit near you: `amount` of your health gone (and the pain of it). At nothing you're down. Returns how
+   * bad it was: 'hurt' or 'down' (or null if nothing happened).
+   */
+  hurt(amount) {
+    if (this.wounded || this.dead || amount <= 0) return null;
+    this.health = Math.max(0, this.health - amount);
+    this.hurtAt = performance.now();
+    if (this.health > 0) return 'hurt';
+    this.wound();
+    return 'down';
+  }
 
   /** Hit by enemy fire: you go down where you are and have 30 s unless someone patches you up. */
   wound(time = 30) {
@@ -129,6 +190,7 @@ export class Player {
   revive() {
     this.wounded = false;
     this.woundLeft = 0;
+    this.health = 0.6; // (patched up, not new)
   }
 
   /** Start again as another man of the crew, at his post. */
@@ -137,8 +199,8 @@ export class Player {
     this.dead = false;
     this.wounded = false;
     // a man who died at a gun can't leave it himself (interact() ignores the dead): start clean
-    this.station = null; this.lastStation = null; this.blend = 0;
-    this.firing = false; this.vy = 0; this.woundLeft = 0;
+    this.station = null; this.lastStation = null; this.blend = 0; this.crawl = null;
+    this.firing = false; this.vy = 0; this.woundLeft = 0; this.health = 1;
     this.reloadPressed = this.releasePressed = false;
     this.eye = STAND_EYE; this.camY = stand.y + STAND_EYE;
     this.feet.copy(stand);
@@ -150,7 +212,8 @@ export class Player {
 
   interact() {
     this.firing = false;
-    if (this.wounded || this.dead) return;
+    if (this.wounded || this.dead || this.crawl) return;
+    if (!this.station && this.passage) { this.startCrawl(this.passage); return; }
     if (this.station) { // leave: stand up where you came in, looking the way the gun pointed
       this.yaw = this.station.yaw + this.sYaw;
       this.pitch = clamp(this.sPitch, -1.45, 1.45);
@@ -169,6 +232,51 @@ export class Player {
     }
   }
 
+  /** An "E" hanging over each crawlway's opening while you're near it, brighter when you can take it. */
+  passageMarks() {
+    if (!this.marks) {
+      const c = document.createElement('canvas'); c.width = c.height = 128;
+      const g = c.getContext('2d');
+      g.fillStyle = 'rgba(12,12,10,0.72)'; g.strokeStyle = '#e8d8a8'; g.lineWidth = 6;
+      g.beginPath(); g.roundRect(14, 14, 100, 100, 16); g.fill(); g.stroke();
+      g.fillStyle = '#f4ead0'; g.font = 'bold 72px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('E', 64, 70);
+      const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+      this.marks = PASSAGES.map((p) => {
+        const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0 }));
+        s.scale.setScalar(0.16); s.position.set(p.from[0], p.floor + (p.floor < -1.5 ? 0.62 : p === PASSAGES[0] ? 0.14 : 0.4), p.from[1]); s.renderOrder = 6; s.userData.p = p; // (the flight deck's: just over its hatch)
+        this.it.group.add(s);
+        return s;
+      });
+    }
+    const t = performance.now() / 1000;
+    for (const s of this.marks) {
+      const p = s.userData.p, d = Math.hypot(this.feet.x - p.from[0], this.feet.z - p.from[1]);
+      const on = !this.station && !this.crawl && !this.away && Math.abs(this.feet.y - p.floor) < 0.3 && d < 2.6;
+      const k = on ? (this.passage === p ? 1 : 0.55) : 0;
+      s.material.opacity += (k - s.material.opacity) * 0.15;
+      s.visible = s.material.opacity > 0.02;
+      s.scale.setScalar(this.passage === p ? 0.16 + 0.012 * Math.sin(t * 5) : 0.14);
+    }
+  }
+
+  /** Down through the hatch and forward under the flight deck to the nose (or back): the eye along the way. */
+  startCrawl(p) {
+    const pts = [new THREE.Vector3(this.feet.x, this.camY, this.feet.z), ...p.path.map((q) => new THREE.Vector3(...q)), new THREE.Vector3(...p.to).setY(p.to[1] + STAND_EYE)];
+    this.crawl = { p, t: 0, curve: new THREE.CatmullRomCurve3(pts), yaw0: this.yaw, pitch0: this.pitch };
+    this.vel.set(0, 0, 0);
+    this.onCrawl?.(p);
+  }
+
+  endCrawl() {
+    const p = this.crawl.p;
+    this.crawl = null;
+    this.feet.set(...p.to); this.safe.copy(this.feet); this.vy = 0;
+    this.eye = STAND_EYE; this.camY = this.feet.y + STAND_EYE;
+    this.yaw = p.yaw; this.pitch = 0;
+    const st = p.station && this.it.stations.find((s) => s.id === p.station);
+    if (st) { this.near = st; this.passage = null; this.interact(); } // (and straight onto the gun you crawled back to)
+  }
+
   get location() { return this.station ? this.station.name : this.it.zoneAt(this.feet.z); }
 
   /** The controls while you fly (null when you're not at the controls). */
@@ -178,16 +286,56 @@ export class Player {
     return { aimYaw: this.aimYaw, aimPitch: this.aimPitch, throttle: this.throttle, roll: (k.KeyA ? 1 : 0) - (k.KeyD ? 1 : 0) };
   }
 
+  /** 1 - 5 in the nose: straight to that gun (left and right nose guns, left and right cheek guns) or the Norden. */
+  noseSwitch(n) {
+    const id = NOSE_KEYS[n - 1];
+    if (this.station?.id === id || this.crawl || this.wounded || this.dead) return;
+    if (id === 'bombsight') { this.useSight(); return; }
+    const st = this.it.stations.find((s) => s.id === id);
+    if (!st) return;
+    if (this.station) this.interact(); // (off the one you're on)
+    this.feet.copy(st.stand); this.passage = null;
+    this.near = st;
+    this.interact();
+  }
+
+  /** In the nose (the bomb bay's forward bulkhead on): the Norden is in reach. */
+  get inNose() { return (this.station ? this.station.stand.z : this.feet.z) < -9.2 && !this.station?.flies; }
+
+  /**
+   * B in the nose: down onto the Norden bombsight (or back up from it). Only from the initial point on:
+   * before that there's nothing to aim at (main sets sightOK on the bomb run).
+   */
+  useSight() {
+    if (this.station?.sight) { this.interact(); return; }
+    const sight = this.it.stations.find((s) => s.sight);
+    if (!sight || !this.inNose) return;
+    if (!this.sightOK) { this.onSightRefused?.(); return; } // (main: says when it'll be ready)
+    if (this.station) this.interact(); // (off his gun first)
+    this.near = sight;
+    this.interact();
+  }
+
   get prompt() {
     if (this.wounded || this.dead) return '';
     if (this.firstAid) return this.firstAid;
-    if (this.station?.flies) {
-      const fire = this.bomber.engines.findIndex((e) => e.state === 'fire');
-      if (fire >= 0) return `<b>${fire + 1}</b> Pull the fire bottle on engine ${fire + 1} (${this.bomber.bottles} left)`;
+    if (this.station?.flies) { // engine trouble: what you can do about the worst of it
+      const t = this.bomber.engineTrouble;
+      if (t) {
+        const n = t.i + 1, b = this.bomber.bottles, acts = [];
+        if (t.fire) acts.push(b > 0 ? `<b>T</b> Extinguish fire (engine ${n}) · ${b} bottle${b === 1 ? '' : 's'} left` : `Engine ${n} on fire · no bottles left`);
+        if (t.feather) acts.push(`<b>F</b> Feather engine ${n}`);
+        if (acts.length) return acts.join('&nbsp;&nbsp;&nbsp;');
+      }
     }
-    if (this.station) return `<b>E</b> Leave the ${this.station.name.toLowerCase()}`;
-    if (this.near) return `<b>E</b> ${this.near.seat ? 'Sit in the' : 'Take the'} ${this.near.name.toLowerCase()}`;
-    return '';
+    // in the nose, the bombardier's keys: his four guns and the sight
+    const sight = !this.inNose ? '' : `&nbsp;&nbsp;&nbsp;<b>1</b><b>2</b><b>3</b><b>4</b> guns, left to right ${this.sightOK ? '<b>5</b> bombsight' : '<span class="dim"><b>5</b> bombsight from the initial point</span>'}`;
+    if (this.crawl) return '';
+    if (this.passage) return `<b>E</b> or <b>click</b> ${this.passage.name}`;
+    if (this.station?.sight) return `<b>B</b> or <b>E</b> Leave the bombsight${sight}`;
+    if (this.station) return `<b>E</b> Leave the ${this.station.name.toLowerCase()}${sight}`;
+    if (this.near) return `<b>E</b> ${this.near.seat ? 'Sit in the' : 'Take the'} ${this.near.name.toLowerCase()}${sight}`;
+    return this.inNose ? sight.replace(/^(&nbsp;)+/, '') : '';
   }
 
   edgeTurn(dt) {
@@ -199,7 +347,7 @@ export class Player {
 
   update(dt) {
     if (this.enabled) this.edgeTurn(dt);
-    if (!this.keys.KeyC || !this.station?.flies) { // let go of C: the view eases back to the aim (~0.3 s)
+    if (!this.keys.KeyC || !this.station) { // let go of C: the view eases back to the aim (~0.3 s)
       const k = Math.exp(-dt * 10);
       this.headYaw *= k; this.headPitch *= k;
     }
@@ -211,8 +359,18 @@ export class Player {
       if ((this.woundLeft -= dt) <= 0) { this.wounded = false; this.dead = true; }
       this.firing = false;
       this.eye += (0.3 - this.eye) * (1 - Math.exp(-dt * 3)); // lying on the floor
-    } else if (this.enabled && !this.station && !this.dead) this.walk(dt);
-    this.near = this.station || this.wounded ? null : this.it.nearestStation(this.feet);
+    } else if (this.enabled && !this.station && !this.dead && !this.crawl) this.walk(dt);
+    this.near = this.station || this.wounded || this.crawl ? null : this.it.nearestStation(this.feet);
+    // the crawlway: its hatch (or its mouth in the nose) in reach, and nearer than any station
+    this.passage = null;
+    if (!this.station && !this.wounded && !this.dead && !this.crawl && !this.away) {
+      for (const p of PASSAGES) {
+        const d = Math.hypot(this.feet.x - p.from[0], this.feet.z - p.from[1]);
+        if (d < (p.reach ?? 0.38) && Math.abs(this.feet.y - p.floor) < 0.1 && (!this.near || d < this.near.stand.distanceTo(this.feet) || d < 0.3 || this.pitch < -0.35)) { this.passage = p; this.near = null; } // (over it, or looking down at it: the crawlway, not the seat beside it)
+      }
+    }
+    if (this.crawl && (this.crawl.t += dt / this.crawl.p.time) >= 1) this.endCrawl();
+    this.passageMarks(); // (the E over each crawlway's opening)
     const rate = 1 / ((this.station ?? this.lastStation)?.entry?.time ?? 1 / TO_STATION); // (crawling into the tail takes a while)
     this.blend = clamp(this.blend + (this.station ? 1 : -1) * dt * rate, 0, 1);
     // hide hull parts that block the view from this position (only while settled in it)
@@ -228,18 +386,26 @@ export class Player {
       if (ghost) this.it.setGhost(ghost, true);
       this.ghosted = ghost;
     }
-    // things that turn with your aim: the tail's iron sight, the ball and upper turrets you sit in
+    // things that turn with your aim: the ball and upper turrets you sit in
     const iron = this.blend > 0.6 && this.station?.attach ? this.it[this.station.attach] : null;
     if (iron !== this.ironOn) {
-      if (this.ironOn) this.camera.remove(this.ironOn);
-      if (iron) this.camera.add(iron);
+      if (this.ironOn) { this.camera.remove(this.ironOn); this.ironOn.position.copy(this.ironOn.userData.at); this.ironOn.quaternion.identity(); }
+      if (iron) { this.camera.add(iron); iron.userData.at ??= iron.position.clone(); }
       this.ironOn = iron;
     }
     if (this.it.topDome) this.it.topDome.visible = iron !== this.it.topCockpit; // (in the turret, the dome is on your camera)
+    this.drive(dt);
     this.pose(dt);
+    // what rides on the guns (the turret you sit in) stays with them while your head
+    // turns: it's held against the head's turn, about your eye
+    if (this.ironOn) {
+      _headInv.copy(_head.setFromEuler(_euler.set(this.station?.flies ? 0 : this.headPitch, this.station?.flies ? 0 : this.headYaw, 0, 'YXZ'))).invert();
+      this.ironOn.quaternion.copy(_headInv);
+      this.ironOn.position.copy(this.ironOn.userData.at).applyQuaternion(_headInv);
+    }
     // the upper turret's dome turns with the guns but doesn't tilt when they elevate
     const level = this.ironOn?.userData.level;
-    if (level) level.rotation.x = -_euler.setFromQuaternion(this.camera.quaternion, 'YXZ').x;
+    if (level) level.rotation.x = -this.sPitch;
     this.updateBody(dt);
   }
 
@@ -248,7 +414,7 @@ export class Player {
     if (this.dead) { b.visible = false; return; }
     // crawling or climbing into a cramped position, the camera takes its own way: don't let it pass
     // through your own body on the way
-    const entering = (this.station ?? this.lastStation)?.entry && this.blend > 0.02 && this.blend < 0.92;
+    const entering = ((this.station ?? this.lastStation)?.entry && this.blend > 0.02 && this.blend < 0.92) || this.crawl;
     b.visible = !entering && !this.away; // (and not while you're out of the plane)
     if (entering) return;
     j.legL.hip.visible = j.legR.hip.visible = true;
@@ -372,7 +538,11 @@ export class Player {
   }
 
   /** Where your eye is at a station: its eye point, or behind a flexible gun, following it round. */
-  eyeAt(s) { return (s.eyeBehind || s.lean) && this.gunEye && this.station === s ? this.gunEye : s.eye; }
+  eyeAt(s) {
+    // in the ball your eye turns and tilts with it (your aim is its aim)
+    if (s.eyeTurret && this.station === s) return turretPoint(s.pivot, s.yaw + this.sYaw, this.sPitch, s.eyeTurret, this.turretEye ??= new THREE.Vector3());
+    return (s.eyeBehind || s.lean) && this.gunEye && this.station === s ? this.gunEye : s.eye;
+  }
 
   pose(dt) {
     // smooth the camera height so steps and crouching don't snap
@@ -383,6 +553,19 @@ export class Player {
     const wall = Math.max(0, this.it.hwSmooth(this.feet.z, this.camY) - 0.09);
     const walkPos = _walkPos.set(clamp(this.feet.x, -wall, wall), this.camY, this.feet.z);
     const walkRot = _walkRot.setFromEuler(_euler.set(this.pitch, this.yaw, 0, 'YXZ'));
+    if (this.crawl) { // on hands and knees through the crawlway: the eye along its path, looking the way you go
+      const c = this.crawl, k = clamp(c.t, 0, 1);
+      c.curve.getPointAt(k, this.camera.position);
+      if (k > 0.1 && k < 0.9) this.camera.position.y += Math.sin(k * Math.PI * 10) * 0.02; // (hands and knees)
+      const ahead = c.curve.getPointAt(Math.min(1, k + 0.08), _crawlAt).sub(this.camera.position);
+      const look = Math.hypot(ahead.x, ahead.z) > 0.02 ? Math.atan2(-ahead.x, -ahead.z) : c.p.yaw;
+      // (turning from where you looked to the way through, and at the end the way you come out facing)
+      const w0 = THREE.MathUtils.smoothstep(k, 0, 0.18), w1 = THREE.MathUtils.smoothstep(k, 0.8, 1);
+      const pitch = clamp(Math.atan2(ahead.y, Math.hypot(ahead.x, ahead.z)) * 0.6, -0.9, 0.6);
+      _crawlQ.setFromEuler(_euler.set(pitch, look, 0, 'YXZ'));
+      this.camera.quaternion.setFromEuler(_euler.set(c.pitch0, c.yaw0, 0, 'YXZ')).slerp(_crawlQ, w0).slerp(_walkRot.setFromEuler(_euler.set(0, c.p.yaw, 0, 'YXZ')), w1);
+      return;
+    }
     const t = THREE.MathUtils.smoothstep(this.blend, 0, 1);
     const s = this.station ?? this.lastStation;
     if (this.station) this.lastStation = this.station;
@@ -391,8 +574,17 @@ export class Player {
       this.camera.quaternion.copy(walkRot);
       return;
     }
+    if (this.station?.finCut) { // (the radio gun: not down into the fin and tailplane, just astern)
+      const [yh, pm] = this.station.finCut.map((v) => v * Math.PI / 180), k = 1 - Math.abs(this.sYaw) / yh;
+      if (k > 0) this.sPitch = Math.max(this.sPitch, pm * Math.sqrt(k));
+    }
+    if (this.station?.roundArc) { // the waist windows: the corners of the gun's arc are cut off by the frame
+      const pl = this.sPitch >= 0 ? s.pitch[1] : -s.pitch[0], e = Math.hypot(this.sYaw / s.yawLim, this.sPitch / pl);
+      if (e > 1) { this.sYaw /= e; this.sPitch /= e; }
+    }
     const yaw = this.station ? s.yaw + this.sYaw : this.yaw, pitch = this.station ? this.sPitch : this.pitch;
     const gunRot = _gunRot.setFromEuler(_euler.set(pitch, yaw, 0, 'YXZ'));
+    if (this.station && !this.station.flies && (this.headYaw || this.headPitch)) gunRot.multiply(_head.setFromEuler(_euler.set(this.headPitch, this.headYaw, 0, 'YXZ'))); // (free look)
     if (this.station?.flies) { // the view follows the aim through the sky, steady while the plane banks under you
       gunRot.setFromEuler(_euler.set(clamp(this.aimPitch + this.headPitch, -1.45, 1.45), this.aimYaw + this.headYaw, 0, 'YXZ')).premultiply(_inv.copy(this.bomber.group.quaternion).invert());
     }
@@ -407,6 +599,12 @@ export class Player {
     } else this.camera.position.lerpVectors(walkPos, this.eyeAt(s), t);
     this.camera.quaternion.slerpQuaternions(walkRot, gunRot, t);
     // recoil shake: small random jolts that die away quickly
+    if (this.shake > 0.01) { // a flak burst close by: a hard jolt that dies away
+      const r = this.shake * 0.03;
+      this.camera.rotateX((Math.random() - 0.5) * r); this.camera.rotateZ((Math.random() - 0.5) * r * 0.6);
+      this.camera.translateY((Math.random() - 0.5) * r * 1.5);
+      this.shake *= Math.exp(-dt * 9);
+    }
     this.recoil *= Math.exp(-dt * 14);
     if (this.recoil > 0.01) {
       const r = this.recoil * 0.0012;

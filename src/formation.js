@@ -87,6 +87,7 @@ export class Detail {
       .slice(0, this.size);
     for (const b of this.bombers) { // free models from bombers that are no longer close
       if (b === this.player || !b.model || keep.includes(b)) continue;
+      this.onFree?.(b);
       this.pool.push(b.model);
       b.setModel(null);
       this.scene.remove(b.group);
@@ -122,6 +123,15 @@ function contrailTexture() { // alpha along the trail: forms a little behind the
 }
 
 const ENGINES = [-7.16, -3.93, 3.94, 7.15]; // engine x in the B-17 model
+const _g = new THREE.Vector3();
+function glowDot() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 32;
+  const g = c.getContext('2d'), grd = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grd.addColorStop(0, 'rgba(255,255,255,1)'); grd.addColorStop(0.3, 'rgba(255,200,140,0.5)'); grd.addColorStop(1, 'rgba(255,120,40,0)');
+  g.fillStyle = grd; g.fillRect(0, 0, 32, 32);
+  return new THREE.CanvasTexture(c);
+}
 const TRAIL = 260, TRAIL_START = 70, TRAIL_WIDTH = 3.2; // m: thin, short wisps that start well behind the tail
 
 /** Four condensation trails behind every bomber (two crossed ribbons each, one draw call). */
@@ -152,8 +162,31 @@ export class Contrails {
     this.mesh.frustumCulled = false;
     scene.add(this.mesh);
     // trails condense a few dozen metres behind the engines (and so don't fill the tail gunner's view)
-    this.locals = ENGINES.map((x) => new THREE.Matrix4().compose(new THREE.Vector3(x, -0.6, TRAIL_START), new THREE.Quaternion(), new THREE.Vector3(TRAIL_WIDTH, TRAIL_WIDTH, TRAIL)));
+    this.setEnv({ season: 'summer', time: 'day' });
     this.m = new THREE.Matrix4();
+    // at night the turbo-supercharger exhausts under the engines glow: a point for every engine of every bomber
+    this.glowPos = new Float32Array(bombers.length * ENGINES.length * 3);
+    const gg = new THREE.BufferGeometry();
+    gg.setAttribute('position', new THREE.BufferAttribute(this.glowPos, 3));
+    this.glow = new THREE.Points(gg, new THREE.PointsMaterial({ map: glowDot(), size: 2.2, color: new THREE.Color(1, 0.55, 0.25).multiplyScalar(6),
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: true }));
+    this.glow.frustumCulled = false;
+    this.glow.visible = false;
+    scene.add(this.glow);
+  }
+
+  /**
+   * The season and the hour: in winter's cold the trails form sooner and thicker; at night they're
+   * faint in the moonlight and the exhausts glow.
+   */
+  setEnv(env) {
+    const winter = env.season === 'winter', night = env.time === 'night', dusk = env.time === 'twilight';
+    const start = winter ? 28 : TRAIL_START, len = winter ? TRAIL * 1.6 : TRAIL;
+    this.locals = ENGINES.map((x) => new THREE.Matrix4().compose(new THREE.Vector3(x, -0.6, start), new THREE.Quaternion(), new THREE.Vector3(TRAIL_WIDTH * (winter ? 1.3 : 1), TRAIL_WIDTH, len)));
+    this.mesh.material.opacity = (winter ? 0.58 : 0.4) * (night ? 0.4 : 1);
+    this.mesh.material.color.setRGB(1.35, 1.38, 1.45).multiplyScalar(night ? 0.12 : dusk ? 0.6 : 1);
+    if (this.glow) this.glow.visible = night || dusk;
+    if (this.glow) this.glow.material.color.setRGB(1, 0.55, 0.25).multiplyScalar(night ? 6 : 2);
   }
 
   update() {
@@ -163,9 +196,16 @@ export class Contrails {
       if (b.model) b.group.updateMatrixWorld();
       b.engines.forEach((e, i) => { // a dead engine makes no contrail; a falling bomber neither
         const off = b.down || e.state === 'dead' || e.state === 'fire';
-        this.mesh.setMatrixAt(k++, off ? hidden : this.m.multiplyMatrices(b.group.matrixWorld, this.locals[i]));
+        this.mesh.setMatrixAt(k, off ? hidden : this.m.multiplyMatrices(b.group.matrixWorld, this.locals[i]));
+        if (this.glow.visible) { // the exhaust under the nacelle, behind the wing
+          _g.set(ENGINES[i], -0.95, -5.0);
+          if (off) _g.set(0, -1e6, 0); else _g.applyMatrix4(b.group.matrixWorld);
+          this.glowPos[k * 3] = _g.x; this.glowPos[k * 3 + 1] = _g.y; this.glowPos[k * 3 + 2] = _g.z;
+        }
+        k++;
       });
     }
     this.mesh.instanceMatrix.needsUpdate = true;
+    if (this.glow.visible) this.glow.geometry.attributes.position.needsUpdate = true;
   }
 }

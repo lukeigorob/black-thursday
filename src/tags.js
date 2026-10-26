@@ -54,6 +54,7 @@ export class Tags {
     document.getElementById('hud').prepend(this.canvas);
     this.g = this.canvas.getContext('2d');
     this.cam = new V(); this.scr = new V(); this.lead = new V();
+    this.opts = { enemy: true, friend: true, distance: true, lead: true }; // (the pause menu's Options: each on its own)
   }
 
   /**
@@ -77,15 +78,17 @@ export class Tags {
       if (d > (big ? BOMBER_RANGE : MAX_RANGE)) return;
       const s = this.toScreen(pos, camera, w, h);
       if (!s) return;
+      const o = this.opts, mark = foe ? o.enemy : o.friend;
+      if (!mark && !o.distance && !(foe && o.lead)) return;
       const [r, gr, b] = foe ? FOE : FRIEND;
       const a = THREE.MathUtils.clamp(1 - (d - 600) / (MAX_RANGE - 600) * 0.65, 0.35, 1);
       const col = `rgba(${r},${gr},${b},${a})`;
       g.strokeStyle = g.fillStyle = col;
       // a small down-pointing triangle above the plane, plus the range
       const y = s.y - (big ? 22 : 14), q = big ? 7 : 5;
-      g.beginPath(); g.moveTo(s.x - q, y - q - 1); g.lineTo(s.x + q, y - q - 1); g.lineTo(s.x, y); g.closePath(); g.stroke();
-      if (d < LABEL_RANGE) g.fillText(`${Math.round(d / 10) * 10} m`, s.x, y - q - 4); // the range only once it's close
-      if (lead && foe && d < LEAD_RANGE) {
+      if (mark) { g.beginPath(); g.moveTo(s.x - q, y - q - 1); g.lineTo(s.x + q, y - q - 1); g.lineTo(s.x, y); g.closePath(); g.stroke(); }
+      if (o.distance && d < LABEL_RANGE) g.fillText(`${Math.round(d / 10) * 10} m`, s.x, y - q - 4); // the range only once it's close
+      if (lead && o.lead && foe && d < LEAD_RANGE) {
         leadPoint(self ? self.pos : this.cam, pos, vel, this.lead, shooterVel, muzzle); // rounds start at your guns
         const l = this.toScreen(this.lead, camera, w, h);
         if (!l) return;

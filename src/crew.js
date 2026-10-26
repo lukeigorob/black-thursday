@@ -20,10 +20,10 @@ export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 export const ROLES = [
   { id: 'pilot', title: 'Pilot', rank: 'Lt.', station: 'pilot' },
   { id: 'copilot', title: 'Co-pilot', rank: 'Lt.', station: 'copilot' },
-  { id: 'bombardier', title: 'Bombardier', rank: 'Lt.', station: 'chin' },
-  { id: 'navigator', title: 'Navigator', rank: 'Lt.', station: 'cheekL' },
+  { id: 'bombardier', title: 'Bombardier', rank: 'Lt.', station: 'noseR' },
+  { id: 'navigator', title: 'Navigator', rank: 'Lt.', station: null }, // (the bombardier has the nose to himself: the navigator rides aft)
   { id: 'engineer', title: 'Engineer', rank: 'T/Sgt.', station: 'top' },
-  { id: 'radio', title: 'Radio operator', rank: 'T/Sgt.', station: null },
+  { id: 'radio', title: 'Radio operator', rank: 'T/Sgt.', station: 'radio' },
   { id: 'ball', title: 'Ball gunner', rank: 'S/Sgt.', station: 'ball' },
   { id: 'waistL', title: 'Left waist', rank: 'S/Sgt.', station: 'waistL' },
   { id: 'waistR', title: 'Right waist', rank: 'S/Sgt.', station: 'waistR' },
@@ -33,22 +33,25 @@ const SURNAMES = ['Miller', 'Kowalski', 'Brennan', 'Haskell', 'DeLuca', 'Ostrows
   'Grady', 'Novak', 'Turner', 'Callahan', 'Whitfield', 'Romano', 'Sorensen', 'Jablonski', 'Barlow', 'Dunn', 'Kessler', 'McKay', 'Stroud'];
 
 // where each man is in the player's bomber: spot = feet, pose, yaw (0 = facing the nose); lie = where he falls
+// (his feet: lying, he stretches 1.8 m forward of them, so the men in the nose lie well back in it)
 const SPOTS = {
   pilot: { at: [-0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [-0.55, 0.05, -7.6], liePose: 'slump', help: [-0.18, -0.40, -7.2] },
   copilot: { at: [0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [0.55, 0.05, -7.6], liePose: 'slump', help: [0.18, -0.40, -7.2] },
-  bombardier: { at: [0, -0.3, -10.19], pose: 'sit', yaw: 0, lie: [0.05, -0.72, -9.6], liePose: 'lie' },
-  navigator: { at: [-0.35, -0.72, -9.45], pose: 'crouch', yaw: 70 * D, lie: [-0.2, -0.72, -9.1], liePose: 'lie' },
+  bombardier: { at: [0.26, -0.72, -9.95], pose: 'crouch', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (stooped at the right nose gun)
+  navigator: { at: [0.5, -1.36, -1.62], pose: 'hidden', yaw: 90 * D, // (the bombardier has the nose to himself: the navigator isn't shown)
+    lie: [0.2, -1.80, -1.4], liePose: 'lie' },
   engineer: { at: [0, -0.28, -6.78], pose: 'stand', yaw: 0, lie: [0.1, -0.40, -7.05], liePose: 'lie' },
-  radio: { at: [-0.67, -1.35, -1.57], pose: 'sit', yaw: 90 * D, lie: [-0.1, -1.80, -1.8], liePose: 'lie' },
+  radio: { at: [0.1, -1.8, -2.25], pose: 'gun', yaw: Math.PI, lie: [-0.1, -1.80, -1.8], liePose: 'lie' }, // at his gun under the roof hatch, facing aft
   ball: { at: [0, -2.2, -0.13], pose: 'hidden', yaw: 0, lie: [0.05, -1.95, 0.95], liePose: 'lie' }, // pulled out of the turret
   // (well out at their windows: the walkway between them stays half a metre wide)
-  waistL: { at: [-0.45, -1.95, 1.75], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.3], liePose: 'lie' },
-  waistR: { at: [0.45, -1.95, 1.85], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.3], liePose: 'lie' },
-  tail: { at: [0, -2.32, 9.75], pose: 'kneel', yaw: 180 * D, lie: [0, -2.32, 9.3], liePose: 'lie' },
+  waistL: { at: [-0.3, -1.95, 1.93], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.6], liePose: 'lie' }, // (staggered: the right gun is forward)
+  waistR: { at: [0.3, -1.95, 1.67], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.1], liePose: 'lie' },
+  tail: { at: [0, -2.32, 9.98], pose: 'kneel', yaw: 180 * D, lie: [0, -2.32, 9.3], liePose: 'lie' },
 };
 
 // the walkway through the fuselage, nose to tail, through the doors and round the ball turret
-export const CORRIDOR = [[0, -0.72, -9.75], [0, -0.72, -8.8], [0, -0.40, -8.4], [0, -0.40, -6.6], [0, -0.72, -6.22], [0, -1.02, -5.97],
+// (from the nose through the crawlway under the flight deck, up through the hatch between the seats)
+export const CORRIDOR = [[0, -0.72, -9.75], [0, -0.72, -8.95], [0, -1.0, -8.55], [0, -1.0, -7.62], [0, -0.40, -7.5], [0, -0.40, -6.6], [0, -0.72, -6.22], [0, -1.02, -5.97],
   [0, -1.32, -5.72], [0, -1.62, -5.4], [0, -1.62, -2.75], [0, -1.80, -2.45], [0, -1.80, -1.4], [0, -1.95, -1.05], [0.6, -1.95, -0.7],
   [0.6, -1.95, 0.4], [0, -1.95, 0.8], [0, -1.95, 5.0], [0, -2.15, 5.4], [0, -2.15, 8.0], [0, -2.32, 8.4], [0, -2.32, 9.5]].map((p) => new V(...p));
 
@@ -57,6 +60,9 @@ export function spotFor(stationId) {
   const role = ROLES.find((r) => r.station === stationId);
   return role ? SPOTS[role.id] : null;
 }
+
+/** Down in the crawlway under the flight deck (on hands and knees there). */
+const inCrawlway = (p) => (p.y < -0.6 && p.z > -8.9 && p.z < -7.4) || (p.z > 5.0 && p.z < 9.3); // (and the tail, beyond its bulkhead)
 
 function sectionAt(z) { return SECTIONS.find(([, z0, z1]) => z >= z0 && z < z1)?.[0] ?? 'waist'; }
 
@@ -91,7 +97,7 @@ export function fitUnderRoof(fig, interior, poseName) {
   const lean0 = j.torso.rotation.x;
   let dir = -1;
   for (let k = 0; k < 40; k++) {
-    const top = headTop(), roof = interior.ceilingAt(_c.z, _c.x, fig.position.y + 0.3) - 0.05;
+    const top = headTop(), roof = interior.roofAt(_c.z, _c.x, fig.position.y + 0.3) - 0.05;
     if (top <= roof) return;
     const h = j.hips.position.y;
     if (standing && h > 0.5) { // bend the knees: a squat that keeps the feet under him
@@ -135,9 +141,12 @@ export function pose(fig, name, t = 0) {
       for (const a of [j.armL, j.armR]) { set(a.sh, 0.9); set(a.el, 0.5); }
       if (name === 'slump') { set(j.torso, 0.55); set(j.head, 0.5); for (const a of [j.armL, j.armR]) set(a.sh, 0.2); }
       break;
-    case 'gun': // standing at a gun, both hands on the spade grips
+    case 'gun': // standing square to a gun, feet apart, knees a little bent, both hands on the spade grips
+      j.hips.position.y = 0.91;
+      set(j.legL.hip, 0.14, -0.1); set(j.legR.hip, 0.14, 0.1);
+      set(j.legL.knee, -0.3); set(j.legR.knee, -0.3);
       for (const a of [j.armL, j.armR]) { set(a.sh, 1.1, 0); set(a.el, 0.6); }
-      set(j.torso, 0.12);
+      set(j.torso, -0.06);
       break;
     case 'kneel':
       j.hips.position.y = 0.5;
@@ -157,6 +166,14 @@ export function pose(fig, name, t = 0) {
       set(j.legL.knee, -Math.max(0, -s) * 0.6); set(j.legR.knee, -Math.max(0, s) * 0.6);
       set(j.armL.sh, -s * 0.35, -0.12); set(j.armR.sh, s * 0.35, 0.12);
       set(j.torso, 0.08);
+      break;
+    }
+    case 'crawl': { // on hands and knees, as through the crawlway: arms and legs going in turn
+      const s = Math.sin(t * 5);
+      j.hips.position.y = 0.46;
+      set(j.torso, 1.45); set(j.head, -1.1);
+      set(j.armL.sh, 1.45 + s * 0.3, -0.1); set(j.armR.sh, 1.45 - s * 0.3, 0.1);
+      for (const [l, k] of [[j.legL, -s], [j.legR, s]]) { set(l.hip, 0.15 + k * 0.2); set(l.knee, -1.6); }
       break;
     }
     case 'lie': // on his back on the floor
@@ -187,7 +204,10 @@ export class Crew {
     this.listeners = [];
     if (visible) {
       for (const m of this.members) {
-        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false, noBlue: m.role.id === 'tail' }); // (gunners may wear flak vests; the tail gunner always sheepskin)
+        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false, pilot: /pilot/.test(m.role.id) }); // (gunners may wear flak vests; the pilots their caps and A-2 jackets)
+        // (the model's waist is barely 1.7 m under the roof, its windows low: the men who stand at
+        // their guns there are on the short side, as many gunners were)
+        if (m.role.id.startsWith('waist')) m.fig.scale.setScalar(0.88);
         interior.group.add(m.fig);
         this.place(m);
       }
@@ -202,7 +222,7 @@ export class Crew {
 
   /** Is this gun crewed right now (by an AI man at his post)? */
   manned(stationId, player) {
-    const at = player?.station?.id === 'bombsight' ? 'chin' : player?.station?.id; // the bombardier mans both
+    const at = player?.station?.id === 'bombsight' ? 'noseR' : player?.station?.id; // the bombardier mans both
     if (player && at === stationId) return false;
     if (this.bomber.turretWorks && !this.bomber.turretWorks(stationId)) return false; // knocked out
     const m = this.members.find((x) => x.role.station === stationId);
@@ -212,21 +232,38 @@ export class Crew {
   /** A round struck the bomber at `local` (bomber space): anyone close by in that section may be hurt. */
   onHit(part, local, cannon, player) {
     if (part.kind !== 'section') return;
+    // how much a round does to a man: more the closer it strikes, a 20 mm shell's splinters far more
+    const harm = (near) => (Math.random() < near * (cannon ? 0.9 : 0.55) ? near * (cannon ? 0.75 : 0.32) * (0.6 + Math.random() * 0.8) : 0);
     for (const m of this.members) {
       if (m.state !== 'ok') continue;
       const p = new V(...(m.task === 'station' ? m.spot.at : m.pos?.toArray() ?? m.spot.at)).add(new V(0, 0.9, 0));
       if (sectionAt(p.z) !== part.section) continue;
-      const near = Math.max(0, 1 - p.distanceTo(local) / 2.2);
-      if (Math.random() < near * (cannon ? 0.6 : 0.3)) this.wound(m);
+      const d = harm(Math.max(0, 1 - p.distanceTo(local) / 2.2));
+      if (!d) continue;
+      m.health = (m.health ?? 1) - d;
+      if (m.health <= -0.6) this.kill(m); // (a shell burst right by him)
+      else if (m.health <= 0) this.wound(m);
+      else this.onSound?.('hurt', m);
     }
     if (player && !player.wounded && !player.dead) {
       const p = player.feet.clone().add(new V(0, 0.9, 0));
-      const near = Math.max(0, 1 - p.distanceTo(local) / 2.0);
-      if (Math.random() < near * (cannon ? 0.6 : 0.3)) { player.wound(); this.emit("You're hit!"); this.findHelper({ player }); }
+      const how = player.hurt(harm(Math.max(0, 1 - p.distanceTo(local) / 2.0)));
+      if (how) this.onSound?.(how === 'down' ? 'down' : 'hurt', null);
+      if (how === 'down') { this.emit("You're hit!"); this.findHelper({ player }); }
     }
   }
 
-  wound(m) {
+  /** Killed outright. */
+  kill(m) {
+    const was = m.state;
+    if (was !== 'wounded') this.wound(m, true);
+    m.state = 'dead';
+    this.emit(`${m.role.title} ${m.name} is dead.`);
+    if (this.visible) this.place(m);
+  }
+
+  wound(m, quiet = false) {
+    if (!quiet) this.onSound?.('down', m);
     const walking = m.task !== 'station' && m.pos; // hit on his way somewhere: he falls where he is
     m.state = 'wounded';
     m.woundLeft = WOUND_TIME;
@@ -283,7 +320,7 @@ export class Crew {
       // fill the screen) he isn't drawn either
       if (f.userData.model) {
         const eye = camera ? camera.getWorldPosition(_c).applyMatrix4(_inv) : null;
-        f.userData.model.visible = !(eye && (b.distanceToPoint(eye) < 0.12 || Math.hypot(eye.x - head.x, eye.y - head.y - 0.08, eye.z - head.z) < 0.38));
+        f.userData.model.visible = !(eye && (b.distanceToPoint(eye) < 0.2 || Math.hypot(eye.x - head.x, eye.y - head.y - 0.08, eye.z - head.z) < 0.38)); // (his shoulders and arms are wider than the box)
       }
     }
   }
@@ -299,14 +336,17 @@ export class Crew {
     helper.reviveT = 0;
     if (this.visible) {
       helper.pos = new V(...(helper.spot.help ?? helper.spot.at));
-      helper.path = walkPath(helper.pos, where.clone().add(new V(0.3, 0, 0)));
+      // (he kneels at the wounded man's side by his chest, not on top of him: a man lying stretches forward of his feet)
+      const lying = patient.member && patient.member.spot.liePose === 'lie';
+      const at = lying ? where.clone().add(new V(where.x > 0 ? -0.36 : 0.36, 0, -0.75)) : where.clone().add(new V(0.3, 0, 0));
+      helper.path = walkPath(helper.pos, at);
     } else helper.walkT = rand(4, 18); // time to get there and work, in a bomber we don't see
   }
 
   update(dt, { player, time }) {
     this.frame = (this.frame ?? 0) + 1;
     this.burns(dt, player);
-    if (this.visible) this.solid(player?.camera);
+    if (this.visible) { this.solid(player?.camera); this.radioWork(dt, time); this.pilotWork(dt); }
     for (const m of this.members) {
       if (m.state === 'wounded' && (m.woundLeft -= dt) <= 0) {
         m.state = 'dead';
@@ -334,8 +374,10 @@ export class Crew {
       return;
     }
     if (m.path?.length) return this.walk(m, dt, time);
-    // at the patient: kneel and work on him
+    // at the patient: kneel and work on him, facing him
     pose(m.fig, 'kneel');
+    const w = p.member?.spot.liePose === 'lie' ? p.member.pos : null;
+    if (w) m.fig.rotation.y = Math.atan2(-(w.x - m.pos.x), -(w.z - 0.75 - m.pos.z));
     if ((m.reviveT += dt) >= REVIVE_TIME) this.revive(p);
   }
 
@@ -346,6 +388,7 @@ export class Crew {
       p.member.state = 'ok';
       p.member.task = 'station';
       p.member.woundLeft = 0;
+      p.member.health = 0.6;
       if (this.visible) this.place(p.member);
       this.emit(`${p.member.role.title}'s patched up and back on his gun.`);
     }
@@ -370,7 +413,7 @@ export class Crew {
       step = 0;
     }
     m.fig.position.copy(m.pos);
-    pose(m.fig, m.pos.z > 5.2 ? 'crouch' : 'walk', time);
+    pose(m.fig, inCrawlway(m.pos) ? 'crawl' : m.pos.z > 5.2 ? 'crouch' : 'walk', time);
     if (!m.path.length) arrive?.();
   }
 
@@ -382,12 +425,12 @@ export class Crew {
     if ((m.state === 'player' && !m.standIn) || m.state === 'bailed') { m.fig.visible = false; return; }
     const down = m.state === 'wounded' || m.state === 'dead';
     m.fig.position.set(...(down ? s.lie : s.at));
-    m.fig.rotation.y = s.yaw + (down && s.liePose === 'lie' ? 1.2 : 0);
+    m.fig.rotation.y = s.yaw + (down && s.liePose === 'lie' ? 0.3 : 0); // (lying, turned only a little on his side: rolled further his outflung arm stood up in the air)
     pose(m.fig, down ? s.liePose : s.pose);
     if (!down) fitUnderRoof(m.fig, this.interior, s.pose);
     m.fig.visible = !(m.displaced && !down) && !(down ? false : s.pose === 'hidden');
     const j = m.fig.userData.j; // the pose as placed: animateGunner works on top of it
-    m.fig.userData.base = down ? null : { shL: j.armL.sh.rotation.x, shR: j.armR.sh.rotation.x, head: j.head.rotation.x, torso: j.torso.rotation.x, pos: m.fig.position.clone(), yaw: m.fig.rotation.y };
+    m.fig.userData.base = down ? null : { hip: j.hips.position.y, shL: j.armL.sh.rotation.x, shR: j.armR.sh.rotation.x, head: j.head.rotation.x, torso: j.torso.rotation.x, pos: m.fig.position.clone(), yaw: m.fig.rotation.y };
   }
 
   /**
@@ -396,10 +439,11 @@ export class Crew {
    * you come back to it.
    */
   setDisplaced(stationId, feet = null) {
-    if (stationId === 'bombsight') stationId = 'chin'; // the bombardier's seat is right at the sight
+    if (stationId === 'bombsight') stationId = 'noseR'; // the bombardier's gun is right by the sight
     for (const m of this.members) {
       if (m.state === 'player') {
-        const atPost = feet && (m.role.station ? stationId === m.role.station : _c.set(...m.spot.at).distanceTo(feet) < 1.2);
+        // (the bombardier's post is the whole nose: its four guns and the sight)
+        const atPost = feet && (m.role.id === 'bombardier' ? /^(nose|cheek)/.test(stationId ?? '') || feet.z < -9.2 : m.role.station ? stationId === m.role.station : _c.set(...m.spot.at).distanceTo(feet) < 1.2);
         const standIn = !!feet && !atPost;
         if (standIn !== !!m.standIn) { m.standIn = standIn; m.task = 'station'; this.place(m); }
         continue;
@@ -441,12 +485,21 @@ export class Crew {
       let d = Math.hypot(want.x, want.z);
       const ux = d ? want.x / d : 0, uz = d ? want.z / d : 0;
       d += Math.sin(m.bend) * 0.5; // (undo last frame's bend: his shoulders had already come that far)
-      const go = Math.max(0, d - 0.38), bendGo = Math.min(go, 0.26);
-      const bend = Math.asin(bendGo / 0.5), step = Math.min(go - bendGo, stationId === 'tail' ? 0.45 : 0.3);
+      // (a waist gunner stands up to his gun: he steps in to it rather than stooping over it)
+      const waist = stationId.startsWith('waist'), go = Math.max(0, d - 0.38), bendGo = Math.min(go, waist ? 0.15 : 0.26);
+      const bend = Math.asin(bendGo / 0.5), step = Math.min(go - bendGo, stationId === 'tail' ? 0.45 : waist ? 0.45 : 0.3);
+      // a waist gunner gets down to a low gun by bending his knees, feet flat on the floor
+      const sink = waist ? THREE.MathUtils.clamp(-(want.y + 0.12) * 0.7, 0, 0.16) : 0;
       want.set(ux * step, Math.max(stationId === 'tail' ? -0.12 : 0, (want.y + 0.1) * 0.5), uz * step); // (up a little; only the kneeling tail gunner sinks to his)
+      m.sink = (m.sink ?? sink) + (sink - (m.sink ?? sink)) * (m.leanSet ? 0.2 : 1);
+      if (waist) {
+        const H = b.hip - m.sink, a = Math.acos(THREE.MathUtils.clamp(H / 0.92, 0, 1));
+        j.hips.position.y = H;
+        for (const l of [j.legL, j.legR]) { l.hip.rotation.x = a; l.knee.rotation.x = -2 * a; }
+      }
       const it = this.interior, fx = b.pos.x + want.x, fz = b.pos.z + want.z;
       if (it) { // (knees and boots out in front of him: a good way in from the skin)
-        const lim = Math.max(Math.abs(b.pos.x), it.hw(fz, b.pos.y + 0.4) - 0.42);
+        const lim = Math.max(Math.abs(b.pos.x), it.hw(fz, b.pos.y + 0.4) - (waist ? 0.34 : 0.42));
         if (Math.abs(fx) > lim) want.x = Math.sign(fx) * lim - b.pos.x;
       }
       const k = m.leanSet ? 0.2 : 1;
@@ -460,6 +513,78 @@ export class Crew {
       m.fig.position.copy(b.pos).add(lean);
       j.torso.rotation.x = torso;
     }
+    // and his head stays inside: where the hull's low (the nose, the cheek windows) he stoops under it
+    const room = this.interior;
+    if (room && par && /^(nose|cheek)/.test(stationId)) { // (only in the nose, under its low glass: elsewhere it pulled men down through the floor)
+      m.fig.updateMatrixWorld(true);
+      const h = par.worldToLocal(j.head.getWorldPosition(_sa)), over = h.y + 0.24 - room.roofAt(h.z, h.x, b.pos.y + 0.4);
+      m.duck = THREE.MathUtils.clamp((m.duck ?? 0) + (over > 0 ? over * 0.5 : -0.01), 0, 0.35); // (eased, and never more than a stoop)
+      if (m.duck > 0) m.fig.position.y -= m.duck;
+    }
+  }
+
+  /**
+   * The radio operator at his desk is never still: he tunes the receiver, taps out on the Morse key,
+   * writes up his log, holds an earphone to his ear to hear through the noise, and now and then looks
+   * up through the hatch overhead. Each a few seconds, his hands easing from one to the next.
+   */
+  /**
+   * The pilots fly her: both hands on the wheel (the pilot's right on the throttles), and now and then
+   * a look round, out of his side window, across the other way, up at the formation, then ahead again.
+   */
+  pilotWork(dt) {
+    const it = this.interior?.group;
+    if (!it) return;
+    for (const id of ['pilot', 'copilot']) {
+      const m = this.member(id), f = m?.fig, b = f?.userData.base;
+      if (!b || !f.visible || m.task !== 'station' || !(m.state === 'ok' || m.standIn)) continue;
+      const s = id === 'pilot' ? -1 : 1, x = s * 0.55;
+      m.wheel ??= [new V(), new V()];
+      m.wheel[0].set(x - 0.15, 0.32, -8.09); m.wheel[1].set(x + 0.15, 0.32, -8.09);
+      if (id === 'pilot') m.wheel[1].set(-0.06, 0.21, -8.06); // (his right hand on the throttles)
+      for (const w of m.wheel) it.localToWorld(w);
+      reachFor(f, m.wheel);
+      if ((m.lookT = (m.lookT ?? rand(1, 4)) - dt) <= 0) {
+        m.lookT = rand(2.5, 7);
+        const r = Math.random();
+        m.lookAt = r < 0.4 ? [0, 0] : r < 0.75 ? [-s * rand(0.6, 1.2), rand(-0.1, 0.15)] : r < 0.9 ? [s * rand(0.3, 0.6), 0] : [-s * rand(0.1, 0.4), rand(0.25, 0.45)];
+      }
+      const [ly, lp] = m.lookAt ?? [0, 0], k = 1 - Math.exp(-dt * 2.5), j = f.userData.j;
+      m.headY = (m.headY ?? 0) + (ly - (m.headY ?? 0)) * k; m.headP = (m.headP ?? 0) + (lp - (m.headP ?? 0)) * k;
+      j.head.rotation.y = m.headY; j.head.rotation.x = b.head + m.headP;
+    }
+  }
+
+  radioWork(dt, time) {
+    const m = this.member('radio'), f = m?.fig, b = f?.userData.base;
+    if (!b || !f.visible || m.task !== 'station' || !(m.state === 'ok' || m.standIn) || !this.interior) return;
+    if (m.role.station) return; // (he's at his gun under the roof hatch, not his desk)
+    if ((m.jobT = (m.jobT ?? 0) - dt) <= 0) {
+      const jobs = ['tune', 'key', 'write', 'listen', 'tune', 'write', 'look'].filter((j) => j !== m.job);
+      m.job = jobs[Math.floor(Math.random() * jobs.length)];
+      m.jobT = rand(2.5, 5.5);
+    }
+    const j = f.userData.j, it = this.interior.group, job = m.job;
+    // (desk-top height: his hands rest on it between jobs)
+    const restL = _sa.set(-0.8, -1.03, -1.92), restR = _sb.set(-0.56, -1.03, -1.9);
+    let L = restL, R = restR, lean = 0.25, head = 0.35, turn = 0;
+    if (job === 'tune') { R = _sb.set(-0.6, -0.953 + Math.sin(time * 1.3) * 0.004, -2.12 + Math.sin(time * 0.7) * 0.02); lean = 0.6; head = 0.15; turn = -0.15; }
+    else if (job === 'key') { R = _sb.set(-0.47, -1.0 + Math.max(0, Math.sin(time * 19) * Math.sin(time * 2.3)) * 0.012, -2.095); lean = 0.55; head = 0.25; }
+    else if (job === 'write') { R = _sb.set(-0.6 + Math.sin(time * 6) * 0.015, -1.035, -1.94 + Math.sin(time * 0.9) * 0.04); L = _sa.set(-0.7, -1.035, -1.86); lean = 0.45; head = 0.55; turn = 0.1; }
+    else if (job === 'listen') {
+      f.updateWorldMatrix(true, true);
+      L = it.worldToLocal(j.head.getWorldPosition(_sa)).add(_sc.set(-0.11, 0.08, 0.02));
+      head = 0.15; lean = 0.15; turn = 0.15;
+    } else if (job === 'look') { head = -0.6; lean = 0.05; turn = 0.3; }
+    const k = 1 - Math.exp(-dt * 4);
+    (m.handL ??= L.clone()).lerp(L, k); (m.handR ??= R.clone()).lerp(R, k);
+    m.workLean = (m.workLean ?? lean) + (lean - (m.workLean ?? lean)) * k;
+    j.torso.rotation.x = b.torso - m.workLean; // (negative leans him forward)
+    j.head.rotation.x = -(m.headX = (m.headX ?? head) + (head - (m.headX ?? head)) * k) + m.workLean * 0.6; // (headX > 0 looks down)
+    j.head.rotation.y = (m.headY = (m.headY ?? turn) + (turn - (m.headY ?? turn)) * k);
+    m.hands ??= [new V(), new V()];
+    reachFor(f, [it.localToWorld(m.hands[0].copy(m.handL)), it.localToWorld(m.hands[1].copy(m.handR))]);
+    f.userData.rig.grip = job === 'write' ? 0.8 : job === 'tune' ? 0.6 : 0.35;
   }
 
   /** The player has moved to `other`'s bomber: hand over the visible figures (and the interior). */
@@ -578,10 +703,16 @@ export class Crew {
 
   /** AI gunners of a bomber we don't see from inside: fire straight from their positions. */
   fireUnseen(stations, fighters, bullets, audio, playerPos, dt) {
-    if (this.bomber.down || !this.bomber.gunsActive || this.bomber.group.position.distanceTo(playerPos) > ACTIVE_RANGE) return;
+    const shown = this.bomber.model && !this.bomber.down; // (near enough to have a model: its turrets turn as they aim)
+    this.turretT = (this.turretT ?? 0) + dt;
+    if (this.bomber.down || !this.bomber.gunsActive || this.bomber.group.position.distanceTo(playerPos) > ACTIVE_RANGE) {
+      if (shown) for (const id of ['ball', 'top']) this.bomber.aimTurret(id, null, dt, this.turretT);
+      return;
+    }
     for (const s of stations) {
       if (!s.guns || !this.manned(s.id)) continue;
       const a = this.aim(s, fighters, dt);
+      if (shown && (s.id === 'ball' || s.id === 'top')) this.bomber.aimTurret(s.id, a?.dir ?? null, dt, this.turretT);
       const g = this.gunners.get(s.id);
       if (!a?.fire) { g.timer = 0; continue; }
       g.timer = (g.timer ?? 0) - dt;
@@ -589,7 +720,7 @@ export class Crew {
         g.timer += 60 / AI_RPM; // one simulated stream per position, even for twin guns, to save work
         const d = a.aimPoint.clone().sub(a.origin).normalize();
         d.x += rand(-1, 1) * AI_SPREAD; d.y += rand(-1, 1) * AI_SPREAD; d.z += rand(-1, 1) * AI_SPREAD;
-        bullets.spawn(a.origin.clone().addScaledVector(d, 1.5), d.normalize().multiplyScalar(890), (g.n = (g.n ?? 0) + 1) % 4 === 0, 'allied', 'crew', false, this.bomber, 1.4);
+        bullets.spawn(a.origin.clone().addScaledVector(d, 1.5), d.normalize().multiplyScalar(890), (g.n = (g.n ?? 0) + 1) % 5 === 0, 'allied', 'crew', false, this.bomber, 1.4);
       }
       if (Math.random() < dt * 6) audio.distantGun(a.origin.distanceTo(playerPos));
     }
