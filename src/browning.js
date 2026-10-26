@@ -26,6 +26,7 @@ const HOLES = jacketTexture();
 function materials() {
   return {
     steel: new THREE.MeshStandardMaterial({ color: 0x232423, roughness: 0.5, metalness: 0.7, envMapIntensity: 0.3 }), // blued, worn
+    brass: new THREE.MeshStandardMaterial({ color: 0xb58a3c, roughness: 0.35, metalness: 0.9, envMapIntensity: 0.6 }),
     jacket: new THREE.MeshStandardMaterial({ color: 0x282927, roughness: 0.45, metalness: 0.75, envMapIntensity: 0.3, alphaMap: HOLES, alphaTest: 0.5, side: THREE.DoubleSide }),
   };
 }
@@ -43,7 +44,7 @@ const box = (w, h, d, x, y, z) => new THREE.BoxGeometry(w, h, d).translate(x, y,
  */
 export function buildBrowning(kind, front, rear = 0.12, inside = false) {
   const M = inside ? (MATS.inside ??= Object.fromEntries(Object.entries(materials()).map(([k, m]) => [k, insideLight(m)]))) : MATS.outside;
-  const steel = [], parker = [], grip = [], jacket = [];
+  const steel = [], parker = [], grip = [], jacket = [], brass = [];
   const g = new THREE.Group();
   let j0 = 0; // where the jacket starts
   if (kind === 'flex') {
@@ -68,6 +69,14 @@ export function buildBrowning(kind, front, rear = 0.12, inside = false) {
     for (const s of [-1, 1]) steel.push(box(0.012, 0.09, 0.09, s * 0.062, -0.045, 0));
     j0 = r1 - 0.08;
     g.userData.grips = [new THREE.Vector3(-0.055, -0.04, r0 + 0.08), new THREE.Vector3(0.055, -0.04, r0 + 0.08)];
+    // the belt: out of the feed tray on the left, sagging away down to its box, rounds side by side in their links
+    const belt = new THREE.QuadraticBezierCurve3(new THREE.Vector3(-0.1, 0.05, r0 - 0.22), new THREE.Vector3(-0.3, -0.05, r0 - 0.2), new THREE.Vector3(-0.32, -0.45, r0 - 0.12));
+    for (let k = 0; k <= 22; k++) {
+      const p = belt.getPoint(k / 22), t = belt.getTangent(k / 22);
+      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), t);
+      brass.push(new THREE.CylinderGeometry(0.0065, 0.0065, 0.1, 6).rotateX(Math.PI / 2).applyQuaternion(q).translate(p.x, p.y, p.z)); // a round (case and bullet), across the belt
+      steel.push(new THREE.BoxGeometry(0.01, 0.003, 0.03).applyQuaternion(q).translate(p.x, p.y, p.z)); // its link
+    }
     g.userData.receiver = new THREE.Vector3(0.06, 0.03, r0 - 0.28); // the ejection port, on the right
   }
   if (kind === 'turret') { // the receiver behind the jacket, its feed cover and the belt coming in from the side
@@ -75,6 +84,11 @@ export function buildBrowning(kind, front, rear = 0.12, inside = false) {
     parker.push(box(0.088, 0.018, rear * 0.5, 0, 0.066, rear * 0.35));
     steel.push(box(0.092, 0.125, 0.018, 0, 0, rear + 0.03), box(0.095, 0.13, 0.05, 0, 0, 0.02)); // back plate, trunnion block
     steel.push(box(0.025, 0.025, rear * 0.55, 0.055, 0.02, rear * 0.6)); // the charging handle's slide
+    steel.push(box(0.012, 0.05, 0.012, 0.072, 0.02, rear * 0.82), box(0.04, 0.012, 0.012, 0.085, 0.045, rear * 0.82)); // its T-handle
+    steel.push(cyl(0.008, 0.008, -0.048, 0.048, 8).rotateY(Math.PI / 2).translate(0, 0.074, rear * 0.62)); // the feed cover's hinge pin
+    steel.push(cyl(0.022, 0.022, rear + 0.04, rear + 0.1, 10)); // the buffer tube out of the back plate
+    for (let k = 0; k < 7; k++) for (const s of [-1, 1]) for (const y of [-0.035, 0.035]) steel.push(new THREE.SphereGeometry(0.005, 5, 3).translate(s * 0.0435, y, 0.04 + (k / 6) * (rear - 0.06))); // rivets down the side plates
+    parker.push(box(0.05, 0.045, 0.1, -0.065, 0.01, rear * 0.4)); // the feed tray, the belt coming in from the side
     g.userData.receiver = new THREE.Vector3(0.06, 0.02, rear * 0.45);
   }
   const jLen = Math.max(0.2, front - 0.22 + j0);
@@ -83,7 +97,7 @@ export function buildBrowning(kind, front, rear = 0.12, inside = false) {
   steel.push(cyl(0.012, 0.012, j0, -front + 0.06, 8)); // the barrel inside it
   steel.push(cyl(0.026, 0.018, -front + 0.2, -front, 12)); // muzzle booster
   // (all the solid parts in one mesh, one draw: the receiver's parkerising and the grips' wood are dark enough to share the steel)
-  for (const [list, mat] of [[[...steel, ...parker, ...grip], M.steel], [jacket, M.jacket]]) {
+  for (const [list, mat] of [[[...steel, ...parker, ...grip], M.steel], [jacket, M.jacket], [brass, M.brass]]) {
     if (!list.length) continue;
     const m = new THREE.Mesh(mergeGeometries(list.map((x) => { const y = x.index ? x.toNonIndexed() : x; y.deleteAttribute('uv'); return y; }), false), mat);
     if (mat === M.jacket) m.geometry = jacketUV(m.geometry, jLen);

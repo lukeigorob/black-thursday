@@ -18,11 +18,12 @@ const AMMO = { bf109: [1000, 1000, 200], p51: [400, 400, 270, 270, 270, 270], fw
 const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1], fw190: [0, 0.86, -0.22] }; // pilot's eye in the model (as in cockpit.js)
 const PLAYER_TURN = 0.5; // rad/s: the nose follows your aim this fast, in whichever fighter (the P-51's combat turn)
 const CHASE_BACK = 20, CHASE_UP = 4.5; // m behind and above: watching your plane go down
+const THIRD_BACK = 14, THIRD_UP = 3.2; // m behind and above: the third-person view (V)
 const HEAD_YAW = THREE.MathUtils.degToRad(150), HEAD_UP = 1.2, HEAD_DOWN = -0.5; // free look (C) limits, rad
 const DEAD_ZONE = 0.002, SETTLE = 0.2; // rad: no steering inside the dead zone; full turn rate beyond SETTLE
 const _aim = new V(), _t = new V(), _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler();
-const _ax = new V(), _ay = new V(), _fq = new THREE.Quaternion(), _l = new V();
-const AIM_MAX = 1.3; // rad: the aim mark can lead the nose by this much at most
+const _ax = new V(), _ay = new V(), _fq = new THREE.Quaternion(), _l = new V(), _hq = new THREE.Quaternion();
+const AIM_MAX = 0.7; // rad: the aim mark can lead the nose by this much at most (~40 degrees: it stays on the screen)
 const RETICLE_AT = 3; // m ahead of the eye the collimated sight image is drawn (its size scales with it)
 
 export class Pilot {
@@ -36,6 +37,7 @@ export class Pilot {
     this.camQ = new THREE.Quaternion(); // the view last frame: the mouse moves the aim across it
     this.night = 0; // instrument glow, 0..1
     this.plainSight = false; // a plain crosshair instead of the reflector sight (the Options tab)
+    this.third = false; // the third-person view instead of the cockpit (V, or the Options tab)
     this.throttle = 0.85;
     this.firing = false; this.zoom = false; this.lookScale = 1; this.freeLook = false;
     this.view = 'nose';
@@ -135,7 +137,7 @@ export class Pilot {
     // (eased in the last few degrees so the nose settles on the aim without a wobble; a tiny dead zone)
     const off = f.dir.angleTo(this.aimDir());
     // (every type answers the stick as the P-51 does: the same turn rate, the same easing)
-    if (off > DEAD_ZONE) f.steer(_aim, PLAYER_TURN * Math.min(1, 0.25 + off / SETTLE), dt, true);
+    f.steer(_aim, PLAYER_TURN * Math.min(1, 0.25 + off / SETTLE), dt, true); // (always: with the aim ahead it rolls the wings level)
     // A / D roll on top of that (a barrel roll, or rolling to look), easing back level when let go
     const roll = (keys.KeyA ? 1 : 0) - (keys.KeyD ? 1 : 0);
     // (kept within half a turn either way: let go after a full roll and it levels out the short way, it doesn't unwind)
@@ -171,7 +173,7 @@ export class Pilot {
         const muzzle = _t.fromArray(g.at).applyMatrix4(f.obj.matrixWorld);
         const d = _aim.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).multiplyScalar(SPREAD * 2).add(f.dir).normalize();
         this.fighters.bullets.spawn(muzzle, d.multiplyScalar(f.k.muzzle).add(vel), f.rounds++ % g.tracer === 0, team, 'player', g.cannon, f, 2.2);
-        this.ammo[i]--;
+        if (!this.infinite) this.ammo[i]--; // (the Options' infinite ammunition)
         this.heat[i] += 60 / g.rpm / HEAT_TIME;
         if (this.heat[i] >= 1) { this.jammed[i] = true; this.audio.overheat(); }
         if (g.cannon || f.rounds % 2 === 0) this.audio.gunshot(g.cannon ? 0.9 : 0.55);
@@ -189,6 +191,19 @@ export class Pilot {
     if (!this.keys.KeyC) { // let go of C: the view eases back over the nose (~0.3 s)
       const k = Math.exp(-dt * 10);
       this.headYaw *= k; this.headPitch *= k;
+    }
+    if (f.alive && this.third) { // third person: behind and above your plane, rolling with it; C swings the view round it
+      this.showCockpit(null);
+      for (const r of Object.values(this.reticles)) r.visible = false;
+      f.obj.matrixWorld.decompose(_t, _fq, _l);
+      _q.copy(_fq).multiply(_hq.setFromEuler(_e.set(this.headPitch, this.headYaw, 0, 'YXZ')));
+      camera.position.copy(f.pos).add(_l.set(0, THIRD_UP, THIRD_BACK).applyQuaternion(_q));
+      camera.up.set(0, 1, 0).applyQuaternion(_fq);
+      camera.lookAt(_t.copy(f.pos).add(_aim.set(0, 0, -60).applyQuaternion(_q)));
+      this.camQ.copy(_fq);
+      this.camPos.copy(camera.position);
+      this.view = 'third';
+      return;
     }
     if (f.alive) {
       const c = this.showCockpit(f);
@@ -223,6 +238,20 @@ export class Pilot {
     // shot down: out of the cockpit, to watch your plane go
     this.showCockpit(null);
     this.view = 'chase';
+    if (f.killedBy === 'collision' || f.wingGone || f.tailGone || f.state === 'gone') { // torn apart: watch the wreck from a little way off, level, swinging slowly round it
+      if (!this.wreckT) { this.wreckAt = f.pos.clone(); this.wreckV = f.velocity.clone(); this.camPos.copy(camera.position); } // (where the pieces go: on with her speed, slowing, falling)
+      this.wreckT = (this.wreckT ?? 0) + dt;
+      this.wreckV.multiplyScalar(Math.exp(-dt * 0.25)); this.wreckV.y -= 9.81 * dt * 0.6;
+      this.wreckAt.addScaledVector(this.wreckV, dt);
+      const a = this.wreckT * 0.35, r = 30 + this.wreckT * 4;
+      _t.set(this.wreckAt.x + Math.sin(a) * r, this.wreckAt.y + 8, this.wreckAt.z + Math.cos(a) * r);
+      this.camPos.lerp(_t, 1 - Math.exp(-dt * 5)).addScaledVector(this.wreckV, dt);
+      camera.position.copy(this.camPos);
+      camera.up.set(0, 1, 0);
+      camera.lookAt(this.wreckAt);
+      return;
+    }
+    this.wreckT = 0;
     const aim = f.alive ? this.aimDir() : _aim.copy(f.dir);
     _t.copy(f.pos).addScaledVector(aim, -CHASE_BACK);
     _t.y += CHASE_UP;
@@ -239,7 +268,7 @@ export class Pilot {
     const parts = f.k.parts;
     let have = 0, max = 0;
     for (const [n, p] of Object.entries(parts)) { have += Math.max(0, f.parts[n]) / p.hp; max++; }
-    const pt = (p) => { const s = _t.copy(p).project(camera); return camera.getWorldDirection(_aim).dot(_t.copy(p).sub(camera.position)) > 0 && Math.abs(s.x) < 1.2 && Math.abs(s.y) < 1.2 ? { x: (s.x + 1) / 2, y: (1 - s.y) / 2 } : null; };
+    const pt = (p) => { const s = _t.copy(p).project(camera); return camera.getWorldDirection(_aim).dot(_ax.copy(p).sub(camera.position)) > 0 /* (not _t: that's s) */ && Math.abs(s.x) < 1.2 && Math.abs(s.y) < 1.2 ? { x: (s.x + 1) / 2, y: (1 - s.y) / 2 } : null; };
     // the gunsight sits on the nose (where the guns point); the aim point is where the mouse is taking you
     const marker = pt(new V().copy(f.dir).multiplyScalar(600).add(f.pos));
     const aim = pt(this.aimDir(new V()).multiplyScalar(600).add(f.pos));
@@ -247,7 +276,7 @@ export class Pilot {
     f.k.guns.forEach((g, i) => { const key = g.cannon ? 'cannon' : 'mg'; (byType[key] ??= { n: 0, max: 0 }).n += this.ammo[i]; byType[key].max += AMMO[f.kind][i]; });
     return {
       kind: f.k.name, view: this.view, speed: f.speed, alt: (ALTITUDE + f.pos.y) * 3.281, throttle: this.throttle,
-      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker, aim, reflector: !this.plainSight,
+      health: f.alive ? have / max : 0, heat: Math.max(...this.heat), jammed: this.jammed.some(Boolean), ammo: byType, marker, aim, reflector: !this.plainSight && !this.third,
       damage: f.burning ? 'ON FIRE' : f.engineDead ? 'ENGINE OUT' : f.smoking ? 'ENGINE HIT' : '',
     };
   }

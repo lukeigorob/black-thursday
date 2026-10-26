@@ -57,12 +57,17 @@ export class Eject {
     this.onDone = onDone;
     this.t = 0;
     this.ready = false;
+    this.openAt = null; // when the ripcord was pulled (J); a static line opens it for you at 7 s
     // look up at the bomber stream flying on ahead (you drift back behind it)
     this.yaw = 0;
     this.pitch = 0.35;
   }
 
   stop() { this.active = false; this.canopy.visible = false; this.onDone = null; }
+
+  /** J in free fall: pull the ripcord (after the first moment: clear of the plane). */
+  pull() { if (this.active && this.openAt == null) this.openAt = Math.max(this.t, 0.6); } // (clear of the plane first: a pull in the first moment opens it just after)
+  get falling() { return this.active && this.openAt == null; }
 
   /** You, in the harness: hands up on the risers, legs dangling and swinging a little. */
   hang(t) {
@@ -87,7 +92,8 @@ export class Eject {
   update(dt, camera) {
     if (!this.active) return;
     this.t += dt;
-    const open = this.t > FREEFALL;
+    if (this.openAt == null && this.t > 7) this.openAt = this.t;
+    const open = this.openAt != null && this.t > this.openAt + 0.35, t0 = (this.openAt ?? FREEFALL) + 0.35;
     if (!open) { // tumbling out: gravity, and the air quickly takes away the plane's speed
       const d = Math.exp(-dt * 1.2);
       this.vel.x *= d; this.vel.z = AIRSPEED + (this.vel.z - AIRSPEED) * d;
@@ -101,7 +107,7 @@ export class Eject {
     this.canopy.visible = open;
     if (!open) { camera.position.copy(this.pos); camera.quaternion.copy(look); }
     else { // you hang under the canopy and swing with it like a pendulum
-      const t = this.t - FREEFALL;
+      const t = this.t - t0;
       this.centre.copy(this.pos).y += EYE;
       chuteSwing(t, 0.7, _q);
       this.canopy.position.copy(this.centre);
@@ -112,6 +118,6 @@ export class Eject {
       camera.quaternion.copy(_q).multiply(look); // your view swings with you
       this.hang(t);
     }
-    this.ready = this.t > FREEFALL + HANG;
+    this.ready = open && this.t > t0 + HANG;
   }
 }

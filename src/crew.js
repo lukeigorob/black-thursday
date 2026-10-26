@@ -2,6 +2,25 @@
 // In the player's bomber the crew are visible figures who walk to help the wounded; in every other
 // bomber the same rules run without figures.
 import * as THREE from 'three';
+
+// flak fragments through the hull: the fuselage's box in bomber space, a man's half-width round his chest,
+// and who wears a flak vest (the gunners in the waist, the tail and the ball)
+const HULL = [-1.25, 1.25, -2.45, 1.8, -11.4, 11.4], BODY = 0.4, VEST = /waist|tail|ball/;
+const _chest = new THREE.Vector3(0, 0.95, 0), _fd = new THREE.Vector3(), _fp = new THREE.Vector3(), _fa = new THREE.Vector3(), _fu = new THREE.Vector3(), _fw = new THREE.Vector3();
+const HULL_R = Math.hypot(1.25, 2.45, 11.4); // m: the hull's bounding sphere, round the bomber's origin
+/** Where a path from `o` along `d` enters the fuselage's box (its distance), or null if it misses it. */
+function slab(o, d) {
+  let t0 = 0, t1 = Infinity;
+  for (let a = 0; a < 3; a++) {
+    const oa = o.getComponent(a), da = d.getComponent(a), lo = HULL[a * 2], hi = HULL[a * 2 + 1];
+    if (Math.abs(da) < 1e-9) { if (oa < lo || oa > hi) return null; continue; }
+    let ta = (lo - oa) / da, tb = (hi - oa) / da;
+    if (ta > tb) [ta, tb] = [tb, ta];
+    t0 = Math.max(t0, ta); t1 = Math.min(t1, tb);
+    if (t0 > t1) return null;
+  }
+  return t0;
+}
 import { SECTIONS } from './bomber.js';
 import { makeFigure, reachFor } from './figure.js';
 
@@ -37,7 +56,7 @@ const SURNAMES = ['Miller', 'Kowalski', 'Brennan', 'Haskell', 'DeLuca', 'Ostrows
 const SPOTS = {
   pilot: { at: [-0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [-0.55, 0.05, -7.6], liePose: 'slump', help: [-0.18, -0.40, -7.2] },
   copilot: { at: [0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [0.55, 0.05, -7.6], liePose: 'slump', help: [0.18, -0.40, -7.2] },
-  bombardier: { at: [0.26, -0.72, -9.95], pose: 'crouch', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (stooped at the right nose gun)
+  bombardier: { at: [0.26, -0.72, -9.9], pose: 'kneel', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (kneeling upright behind the right nose gun: standing, the low nose bent him double)
   navigator: { at: [0.5, -1.36, -1.62], pose: 'hidden', yaw: 90 * D, // (the bombardier has the nose to himself: the navigator isn't shown)
     lie: [0.2, -1.80, -1.4], liePose: 'lie' },
   engineer: { at: [0, -0.28, -6.78], pose: 'stand', yaw: 0, lie: [0.1, -0.40, -7.05], liePose: 'lie' },
@@ -241,8 +260,7 @@ export class Crew {
       const d = harm(Math.max(0, 1 - p.distanceTo(local) / 2.2));
       if (!d) continue;
       m.health = (m.health ?? 1) - d;
-      if (m.health <= -0.6) this.kill(m); // (a shell burst right by him)
-      else if (m.health <= 0) this.wound(m);
+      if (m.health <= 0) m.patched ? this.kill(m) : this.wound(m); // (down the first time; patched up once, the next one kills him)
       else this.onSound?.('hurt', m);
     }
     if (player && !player.wounded && !player.dead) {
@@ -250,7 +268,61 @@ export class Crew {
       const how = player.hurt(harm(Math.max(0, 1 - p.distanceTo(local) / 2.0)));
       if (how) this.onSound?.(how === 'down' ? 'down' : 'hurt', null);
       if (how === 'down') { this.emit("You're hit!"); this.findHelper({ player }); }
+      if (how === 'dead') this.emit("You're hit again. You didn't make it.");
     }
+  }
+
+  /**
+   * Flak fragments through the fuselage: n of them flung every way from the burst at `from` (bomber space);
+   * those whose path crosses the hull go through it (so a burst close by sprays her near side, one further
+   * off sends a few through). The first man (or you) within a body's width of a fragment's path takes it, harder
+   * the less hull it has come through; a flak vest takes some of it. Returns where up to three of them
+   * came in (for the holes in her skin): [{ at, dir }].
+   */
+  shrapnel(from, n, player) {
+    const holes = [], men = [];
+    for (const m of this.members) {
+      if (m.state !== 'ok') continue;
+      men.push({ m, p: new V(...(m.task === 'station' ? m.spot.at : m.pos?.toArray() ?? m.spot.at)).add(_chest), vest: VEST.test(m.role.id) });
+    }
+    if (player && !player.wounded && !player.dead) men.push({ player, p: player.feet.clone().add(_chest), vest: VEST.test(player.role ?? '') });
+    // only those flung towards her can reach her: the cone round the hull's bounding sphere (the same share
+    // of the n as that cone is of all directions), each evenly spread through it
+    const dist = from.length(), cosA = dist > HULL_R ? Math.sqrt(1 - (HULL_R / dist) ** 2) : -1;
+    const toward = Math.round(n * (1 - cosA) / 2 + Math.random() - 0.5), axis = _fa.copy(from).negate().normalize();
+    const u = _fu.set(1, 0, 0).cross(axis); if (u.lengthSq() < 1e-6) u.set(0, 1, 0).cross(axis); u.normalize();
+    const w = _fw.crossVectors(axis, u);
+    for (let i = 0; i < toward; i++) {
+      const ct = 1 - Math.random() * (1 - cosA), st = Math.sqrt(1 - ct * ct), ph = Math.random() * Math.PI * 2;
+      const dir = _fd.copy(axis).multiplyScalar(ct).addScaledVector(u, st * Math.cos(ph)).addScaledVector(w, st * Math.sin(ph));
+      const tIn = slab(from, dir);
+      if (tIn == null) continue;
+      if (holes.length < 3) holes.push({ at: from.clone().addScaledVector(dir, tIn), dir: dir.clone() });
+      let hit = null, ht = Infinity;
+      for (const x of men) { // the first man along its path
+        const t = _fp.copy(x.p).sub(from).dot(dir);
+        if (t < tIn || t >= ht) continue;
+        if (_fp.copy(from).addScaledVector(dir, t).distanceTo(x.p) > BODY) continue;
+        hit = x; ht = t;
+      }
+      if (!hit) continue;
+      // (slowed by the air on the way, by the hull and what's inside, by a flak vest)
+      const force = THREE.MathUtils.clamp(1.15 - tIn / 90, 0.25, 1) * THREE.MathUtils.clamp(1 - (ht - tIn) / 4.5, 0.15, 1) * (hit.vest ? 0.6 : 1);
+      const harm = rand(0.3, 0.95) * force;
+      tally.fragments = (tally.fragments ?? 0) + 1;
+      if (hit.player) {
+        const how = hit.player.hurt(harm);
+        if (how) this.onSound?.(how === 'hurt' ? 'hurt' : 'down', null);
+        if (how === 'down') { this.emit("You're hit! Flak!"); this.findHelper({ player: hit.player }); }
+        if (how === 'dead') this.emit("You're hit again. You didn't make it.");
+        if (how && how !== 'hurt') men.splice(men.indexOf(hit), 1);
+      } else {
+        const m = hit.m;
+        m.health = (m.health ?? 1) - harm;
+        if (m.health <= 0) { m.patched ? this.kill(m) : this.wound(m); men.splice(men.indexOf(hit), 1); } else this.onSound?.('hurt', m);
+      }
+    }
+    return holes;
   }
 
   /** Killed outright. */
@@ -260,6 +332,27 @@ export class Crew {
     m.state = 'dead';
     this.emit(`${m.role.title} ${m.name} is dead.`);
     if (this.visible) this.place(m);
+    this.checkPilots();
+  }
+
+  /** Going down: every man who can goes for the nearest hatch and out (some don't make it: hit, trapped). */
+  bailOut(hatches, effects) {
+    this.bailFx = effects;
+    for (const m of this.members) {
+      if (m.state !== 'ok' || m.state === 'player') continue;
+      if (Math.random() < 0.2) continue; // (trapped, too badly hurt to move, or held by the forces of her fall)
+      const from = m.pos ?? new V(...(m.task === 'station' ? m.spot.at : m.spot.at));
+      let best = hatches[0], bd = Infinity;
+      for (const h of hatches) { const d = Math.abs(h.pos.z - from.z); if (d < bd) { bd = d; best = h; } }
+      m.pos = from.clone(); m.task = 'bailing'; m.hatch = best;
+      if (this.visible) { m.path = walkPath(m.pos, best.pos.clone()); } else m.walkT = rand(3, 12);
+    }
+  }
+
+  /** Both pilots dead: nobody flies her (unless you take the controls): she glides down out of the box. */
+  checkPilots() {
+    const gone = (id) => { const p = this.members.find((x) => x.role.id === id); return !p || p.state === 'dead' || p.state === 'bailed'; };
+    if (gone('pilot') && gone('copilot') && !this.bomber.pilotless) { this.bomber.pilotless = true; this.emit('Both pilots are dead! Somebody get on the controls!'); }
   }
 
   wound(m, quiet = false) {
@@ -352,6 +445,12 @@ export class Crew {
         m.state = 'dead';
         this.emit(`${m.role.title} ${m.name} is dead.`);
         if (this.visible) this.place(m);
+        this.checkPilots();
+      }
+      if (m.task === 'bailing' && m.state === 'ok') { // making for his hatch, then out
+        const out = () => { m.state = 'bailed'; m.task = 'down'; if (this.visible) this.place(m); this.bailFx?.parachute(m.hatch.pos.clone().applyMatrix4(this.bomber.group.matrixWorld)); };
+        if (!this.visible) { if ((m.walkT -= dt) <= 0) out(); } else if (m.path?.length) this.walk(m, dt, time); else out();
+        continue;
       }
       if (m.task === 'helping') this.updateHelper(m, dt, player, time);
       else if (m.task === 'returning') this.walk(m, dt, time, () => { m.task = 'station'; this.place(m); });
@@ -384,7 +483,13 @@ export class Crew {
   revive(p, byPlayer = false) {
     if (this.visible) tally.saved++;
     if (byPlayer) tally.savedByYou++;
-    if (p.player) { p.player.revive(); this.emit("You're patched up. Back to your post!"); } else {
+    if (p.player) {
+      p.player.revive();
+      const me = this.members.find((m) => m.state === 'player');
+      if (me) me.patched = true;
+      this.emit("You're patched up, but another hit like that will finish you. Back to your post!");
+    } else {
+      p.member.patched = true; // (once: the next wound like that kills him)
       p.member.state = 'ok';
       p.member.task = 'station';
       p.member.woundLeft = 0;
@@ -419,7 +524,7 @@ export class Crew {
 
   /** Put a figure where his state says he should be. */
   place(m) {
-    if (!m.fig) return;
+    if (!m.fig || m.onTail) return; // (he went down with the tail: his figure rides the falling piece)
     const s = m.spot;
     // (you, or out of the plane; when you've walked away from your own post, a stand-in mans it)
     if ((m.state === 'player' && !m.standIn) || m.state === 'bailed') { m.fig.visible = false; return; }

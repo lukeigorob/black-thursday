@@ -68,7 +68,7 @@ export function glassMaterial() {
   return wetGlass(m);
 }
 
-/** The amber K-4 reticle: a ring, its centre dot and four short ticks, on black (drawn additively). */
+/** The amber K-4 reticle: a cross with a gap in the middle and a dot at its centre, on black (drawn additively). */
 function reticleTexture() {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
@@ -76,8 +76,8 @@ function reticleTexture() {
   g.fillStyle = '#000'; g.fillRect(0, 0, 256, 256);
   g.shadowColor = '#ffb040'; g.shadowBlur = 6;
   g.strokeStyle = '#ffd08a'; g.lineWidth = 4.5;
-  g.beginPath(); g.arc(m, m, 96, 0, Math.PI * 2); g.stroke();
-  for (let k = 0; k < 4; k++) { const a = (k * Math.PI) / 2; g.beginPath(); g.moveTo(m + Math.cos(a) * 104, m + Math.sin(a) * 104); g.lineTo(m + Math.cos(a) * 120, m + Math.sin(a) * 120); g.stroke(); }
+  g.lineCap = 'round';
+  for (let k = 0; k < 4; k++) { const a = (k * Math.PI) / 2; g.beginPath(); g.moveTo(m + Math.cos(a) * 22, m + Math.sin(a) * 22); g.lineTo(m + Math.cos(a) * 104, m + Math.sin(a) * 104); g.stroke(); }
   g.fillStyle = '#ffe2b0'; g.beginPath(); g.arc(m, m, 4.5, 0, Math.PI * 2); g.fill();
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;

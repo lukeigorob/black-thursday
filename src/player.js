@@ -3,12 +3,15 @@
 import * as THREE from 'three';
 import { makeFigure, pose, spotFor } from './crew.js';
 import { reachFor } from './figure.js';
-import { turretPoint, PASSAGES, turretFloor } from './interior.js';
+import { turretPoint, PASSAGES, TAILWAY, turretFloor } from './interior.js';
 
 const R = 0.2; // body radius
 const STAND_EYE = 1.58, MIN_EYE = 0.42, MIN_HEADROOM = 0.55;
 const STEP = 0.42, WALK = 1.7, GRAVITY = 9.8, LOOK = 0.0022;
 const _sh = new THREE.Vector3(), _sh2 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
+const OUT_BY = { tail: TAILWAY.fwd }; // positions you leave by crawling straight out (E at the tail gun: back to the waist)
+// a crawl's progress against time: easing in and out over its first and last 12%, steady between
+const easeEnds = (k, a = 0.12) => { const v = 1 / (1 - a); return k < a ? v * k * k / (2 * a) : k > 1 - a ? 1 - v * (1 - k) ** 2 / (2 * a) : v * (k - a / 2); };
 const BODY_DROP = 0.14, BODY_BACK = 0.22; // m: your body's neck sits this far below and behind your eye
 const TO_STATION = 4; // 1 / seconds to move into a gun position
 const HEAD_YAW = THREE.MathUtils.degToRad(150); // pilots free-looking (C): as far round as a head turns in the seat
@@ -19,7 +22,8 @@ const EDGE = 0.9; // without mouse capture: only the outer edge of the screen ke
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const clamp = THREE.MathUtils.clamp;
 const NOSE_KEYS = ['cheekL', 'noseL', 'noseR', 'cheekR', 'bombsight']; // (keys 1 - 5 in the nose: the guns left to right, then the sight)
-const _crawlAt = new THREE.Vector3(), _crawlQ = new THREE.Quaternion();
+const _crawlAt = new THREE.Vector3(), _crawlQ = new THREE.Quaternion(), _third = new THREE.Vector3();
+const THIRD_BACK = 36, THIRD_UP = 6; // m: the third-person view from the pilot's seat, behind and above your bomber
 const _inv = new THREE.Quaternion(), _walkPos = new THREE.Vector3(), _walkRot = new THREE.Quaternion(), _gunRot = new THREE.Quaternion(), _euler = new THREE.Euler();
 
 export class Player {
@@ -43,6 +47,7 @@ export class Player {
     this.keys = {};
     this.enabled = false;
     this.near = null;
+    this.learned = new Set(); // the positions you've taken this game (their E no longer shown)
     this.firing = false; // left mouse held
     this.reloadPressed = false;
     this.recoil = 0;
@@ -60,7 +65,7 @@ export class Player {
 
     addEventListener('keydown', (e) => {
       this.keys[e.code] = true;
-      if (e.code === 'KeyE' && this.enabled && !e.repeat) this.interact();
+      if (e.code === 'KeyE' && this.enabled && !e.repeat) this.use();
       if (e.code === 'KeyB' && this.enabled && !e.repeat) this.useSight(); // the bombsight, from anywhere in the nose (on the bomb run)
       if (/^Digit[1-5]$/.test(e.code) && this.enabled && !e.repeat && this.inNose) this.noseSwitch(+e.code.slice(5)); // the bombardier's guns and sight
       if (e.code === 'KeyR' && this.enabled && !e.repeat) this.reloadPressed = true;
@@ -72,7 +77,8 @@ export class Player {
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
     addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
     addEventListener('mousedown', (e) => {
-      if (e.button === 0 && this.enabled && !this.station && this.passage && !this.crawl) { this.interact(); return; } // (a click at the crawlway takes it, as E does)
+      if (e.button === 0 && this.enabled && this.hatch && !this.wounded) { this.onHatch?.(); return; } // (a click at a lit hatch: out)
+      if (e.button === 0 && this.enabled && !this.station && (this.passage || this.near) && !this.crawl && !this.wounded) { this.interact(); return; } // (a click at a crawlway or a position takes it, as E does)
       if (e.button === 0 && this.enabled) this.firing = true;
       if (e.button === 2 && this.enabled) this.zoom = true; // hold right click to zoom in
     });
@@ -173,6 +179,7 @@ export class Player {
     this.health = Math.max(0, this.health - amount);
     this.hurtAt = performance.now();
     if (this.health > 0) return 'hurt';
+    if (this.patched) { this.wound(); return 'dead'; } // (patched up once already: this one kills you)
     this.wound();
     return 'down';
   }
@@ -181,6 +188,7 @@ export class Player {
   wound(time = 30) {
     if (this.wounded || this.dead) return;
     if (this.station) this.interact(); // knocked off the gun
+    if (this.patched) { this.dead = true; this.firing = false; return; } // the second time: no getting up from it
     this.wounded = true;
     this.woundLeft = time;
     this.firing = false;
@@ -191,6 +199,7 @@ export class Player {
     this.wounded = false;
     this.woundLeft = 0;
     this.health = 0.6; // (patched up, not new)
+    this.patched = true; // (once: another wound like that and you're dead)
   }
 
   /** Start again as another man of the crew, at his post. */
@@ -210,7 +219,24 @@ export class Player {
     this.vel.set(0, 0, 0);
   }
 
+  /** E: as interact(), but from the tail gun straight out along the crawl to the waist (not while she's
+   * going down: then you're left in the tail, by its door). */
+  use() {
+    const p = this.station && OUT_BY[this.station.id];
+    if (p && this.blend > 0.95 && !this.hatches && !this.hatch && !this.wounded && !this.dead && !this.crawl) { this.crawlOut(p); return; }
+    this.interact();
+  }
+
+  /** Off a position and into a crawl from it: from your eye where it is, back the way in, then the crawl. */
+  crawlOut(p) {
+    const s = this.station, from = this.camera.position.clone(), yaw = s.yaw + this.sYaw, pitch = this.sPitch;
+    this.feet.copy(s.stand); this.vel.set(0, 0, 0);
+    this.station = null; this.lastStation = null; this.blend = 0;
+    this.startCrawl(p, { from, via: s.entry ? [...s.entry.path].reverse() : [], yaw, pitch });
+  }
+
   interact() {
+    if (this.hatch && !this.wounded && !this.dead) { this.onHatch?.(); return; } // (going down: out through the hatch)
     this.firing = false;
     if (this.wounded || this.dead || this.crawl) return;
     if (!this.station && this.passage) { this.startCrawl(this.passage); return; }
@@ -222,6 +248,7 @@ export class Player {
       this.station = null;
     } else if (this.near) {
       const s = (this.station = this.near);
+      if (!this.learned.has(s.id)) { this.learned.add(s.id); this.leaveHintUntil = performance.now() + 4500; } // (the first time here)
       if (s.flies) {
         const f = this.bomber.flight;
         this.aimYaw = f.heading; this.aimPitch = f.pitch; this.throttle = f.throttle;
@@ -232,7 +259,10 @@ export class Player {
     }
   }
 
-  /** An "E" hanging over each crawlway's opening while you're near it, brighter when you can take it. */
+  /**
+   * An "E" hanging over each crawlway's opening while you're near it, brighter when you can take it; and
+   * one at every position (the guns, the seats, the sight) until you've taken it once this game.
+   */
   passageMarks() {
     if (!this.marks) {
       const c = document.createElement('canvas'); c.width = c.height = 128;
@@ -247,9 +277,29 @@ export class Player {
         this.it.group.add(s);
         return s;
       });
+      // the positions': over the gun, the seat or the sight, a little below where your eye goes
+      for (const st of this.it.stations) {
+        const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false, opacity: 0 }));
+        s.scale.setScalar(0.13); s.renderOrder = 7; s.userData.st = st;
+        s.position.copy(st.eye).add(new THREE.Vector3(0, st.seat ? -0.15 : -0.22, 0));
+        if (st.id === 'ball') s.position.set(st.stand.x, st.stand.y + 0.25, st.stand.z); // (the ball's hatch, in the floor)
+        if (st.id === 'top') s.position.set(st.stand.x, st.stand.y + 1.25, st.stand.z);
+        this.it.group.add(s);
+        this.marks.push(s);
+      }
     }
     const t = performance.now() / 1000;
     for (const s of this.marks) {
+      const st = s.userData.st;
+      if (st) { // a position's: near it, not yet learned
+        const d = Math.hypot(this.feet.x - st.stand.x, this.feet.z - st.stand.z);
+        const on = !this.station && !this.crawl && !this.away && !this.wounded && !this.dead && !this.learned.has(st.id) && d < 2.0 && Math.abs(this.feet.y - st.stand.y) < 0.6;
+        const k = on ? (this.near === st ? 1 : 0.45) : 0;
+        s.material.opacity += (k - s.material.opacity) * 0.15;
+        s.visible = s.material.opacity > 0.02;
+        s.scale.setScalar(this.near === st ? 0.13 + 0.01 * Math.sin(t * 5) : 0.11);
+        continue;
+      }
       const p = s.userData.p, d = Math.hypot(this.feet.x - p.from[0], this.feet.z - p.from[1]);
       const on = !this.station && !this.crawl && !this.away && Math.abs(this.feet.y - p.floor) < 0.3 && d < 2.6;
       const k = on ? (this.passage === p ? 1 : 0.55) : 0;
@@ -259,22 +309,63 @@ export class Player {
     }
   }
 
+  /** Going down: a red "E" over every bail-out hatch, pulsing, brightest at the one you're at. */
+  hatchMarks() {
+    if (!this.hatchSprites && this.hatches) {
+      const c = document.createElement('canvas'); c.width = c.height = 128;
+      const g = c.getContext('2d');
+      g.fillStyle = 'rgba(150,20,10,0.85)'; g.strokeStyle = '#ffb0a0'; g.lineWidth = 6;
+      g.beginPath(); g.roundRect(14, 14, 100, 100, 16); g.fill(); g.stroke();
+      g.fillStyle = '#fff'; g.font = 'bold 72px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('E', 64, 70);
+      const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+      this.hatchSprites = this.hatches.map((h) => {
+        const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: false }));
+        s.position.copy(h.pos).add(new THREE.Vector3(0, 0.55, 0)); s.renderOrder = 8; s.userData.h = h;
+        this.it.group.add(s);
+        return s;
+      });
+    }
+    if (!this.hatchSprites) return;
+    const t = performance.now() / 1000;
+    for (const s of this.hatchSprites) {
+      s.visible = !!this.hatches;
+      s.scale.setScalar((this.hatch === s.userData.h ? 0.2 : 0.15) * (1 + 0.12 * Math.sin(t * 7)));
+    }
+  }
+
   /** Down through the hatch and forward under the flight deck to the nose (or back): the eye along the way. */
-  startCrawl(p) {
-    const pts = [new THREE.Vector3(this.feet.x, this.camY, this.feet.z), ...p.path.map((q) => new THREE.Vector3(...q)), new THREE.Vector3(...p.to).setY(p.to[1] + STAND_EYE)];
-    this.crawl = { p, t: 0, curve: new THREE.CatmullRomCurve3(pts), yaw0: this.yaw, pitch0: this.pitch };
+  startCrawl(p, o = {}) {
+    const V = (q) => new THREE.Vector3(...q), st = p.station && this.it.stations.find((s) => s.id === p.station);
+    const mid = [...(o.via ?? []).map(V), ...p.path.map(V)];
+    let end;
+    if (st) { // onto a position: on along its way in, ending at its eye (no standing up first)
+      mid.push(...(st.entry?.path ?? []).map(V));
+      end = st.eye.clone();
+    } else { // onto your feet: as high as the room there lets you stand
+      const room = this.it.headroom(p.to[0], p.to[2], p.to[1], R, STEP);
+      end = V(p.to).setY(p.to[1] + clamp(room - 0.12, MIN_EYE, STAND_EYE));
+      // a big rise at the end (out of the nose crawlway): most of it early, slowing as you straighten up
+      const last = mid.at(-1);
+      if (last && end.y - last.y > 0.3) mid.push(last.clone().lerp(end, 0.55).setY(last.y + (end.y - last.y) * 0.8));
+    }
+    const pts = [o.from ?? new THREE.Vector3(this.feet.x, this.camY, this.feet.z), ...mid, end];
+    this.crawl = { p, t: 0, st, endY: end.y, curve: new THREE.CatmullRomCurve3(pts, false, 'centripetal'), yaw0: o.yaw ?? this.yaw, pitch0: o.pitch ?? this.pitch };
     this.vel.set(0, 0, 0);
     this.onCrawl?.(p);
   }
 
   endCrawl() {
-    const p = this.crawl.p;
+    const { p, st, endY } = this.crawl;
     this.crawl = null;
     this.feet.set(...p.to); this.safe.copy(this.feet); this.vy = 0;
-    this.eye = STAND_EYE; this.camY = this.feet.y + STAND_EYE;
+    this.camY = endY; this.eye = endY - this.feet.y; // (on from the height the crawl left you at: no second rise)
+    this.room = this.it.headroom(this.feet.x, this.feet.z, this.feet.y, R, STEP); // (here's: not where the crawl began)
     this.yaw = p.yaw; this.pitch = 0;
-    const st = p.station && this.it.stations.find((s) => s.id === p.station);
-    if (st) { this.near = st; this.passage = null; this.interact(); } // (and straight onto the gun you crawled back to)
+    if (st) { // and straight onto the gun you crawled back to: you're already at its eye
+      this.near = st; this.passage = null; this.interact();
+      this.gunEye = null; // (the last gun's eye, till the guns work out this one's: not a frame back at that one)
+      this.blend = 1; this.lastStation = st;
+    }
   }
 
   get location() { return this.station ? this.station.name : this.it.zoneAt(this.feet.z); }
@@ -318,6 +409,9 @@ export class Player {
 
   get prompt() {
     if (this.wounded || this.dead) return '';
+    if (this.hatch) return `<b>E</b> or <b>click</b> Bail out through ${this.hatch.name}`;
+    if (this.hatches && this.station?.flies) return '<span style="color:#ff8a70">Bail out! <b>E</b> out of the seat, then the red <b>E</b> at the crawlway down to the nose hatch, or the bomb bay</span>';
+    if (this.hatches) return '<span style="color:#ff8a70">Bail out! Get to a hatch: the red <b>E</b></span>';
     if (this.firstAid) return this.firstAid;
     if (this.station?.flies) { // engine trouble: what you can do about the worst of it
       const t = this.bomber.engineTrouble;
@@ -332,9 +426,9 @@ export class Player {
     const sight = !this.inNose ? '' : `&nbsp;&nbsp;&nbsp;<b>1</b><b>2</b><b>3</b><b>4</b> guns, left to right ${this.sightOK ? '<b>5</b> bombsight' : '<span class="dim"><b>5</b> bombsight from the initial point</span>'}`;
     if (this.crawl) return '';
     if (this.passage) return `<b>E</b> or <b>click</b> ${this.passage.name}`;
-    if (this.station?.sight) return `<b>B</b> or <b>E</b> Leave the bombsight${sight}`;
-    if (this.station) return `<b>E</b> Leave the ${this.station.name.toLowerCase()}${sight}`;
-    if (this.near) return `<b>E</b> ${this.near.seat ? 'Sit in the' : 'Take the'} ${this.near.name.toLowerCase()}${sight}`;
+    // (taking a position: only its E, there over it; leaving: "E Leave" a moment, the first time at each)
+    const leave = this.station && performance.now() < (this.leaveHintUntil ?? 0) ? `<b>E</b> Leave${this.station.sight ? ' (or <b>B</b>)' : ''}` : '';
+    if (this.station) return (leave + sight).replace(/^(&nbsp;)+/, '');
     return this.inNose ? sight.replace(/^(&nbsp;)+/, '') : '';
   }
 
@@ -361,14 +455,20 @@ export class Player {
       this.eye += (0.3 - this.eye) * (1 - Math.exp(-dt * 3)); // lying on the floor
     } else if (this.enabled && !this.station && !this.dead && !this.crawl) this.walk(dt);
     this.near = this.station || this.wounded || this.crawl ? null : this.it.nearestStation(this.feet);
+    if (this.near?.id === 'tail' && this.bomber.noTail) this.near = null; // (the tail's gone: nothing back there to take)
     // the crawlway: its hatch (or its mouth in the nose) in reach, and nearer than any station
     this.passage = null;
     if (!this.station && !this.wounded && !this.dead && !this.crawl && !this.away) {
       for (const p of PASSAGES) {
+        if (p.station === 'tail' && this.bomber.noTail) continue;
         const d = Math.hypot(this.feet.x - p.from[0], this.feet.z - p.from[1]);
         if (d < (p.reach ?? 0.38) && Math.abs(this.feet.y - p.floor) < 0.1 && (!this.near || d < this.near.stand.distanceTo(this.feet) || d < 0.3 || this.pitch < -0.35)) { this.passage = p; this.near = null; } // (over it, or looking down at it: the crawlway, not the seat beside it)
       }
     }
+    // going down: the nearest lit hatch in reach
+    this.hatch = null;
+    if (this.hatches && !this.wounded && !this.dead) for (const h of this.hatches) if (Math.hypot(this.feet.x - h.pos.x, this.feet.z - h.pos.z) < 0.85 && Math.abs(this.feet.y - h.pos.y) < 0.8) this.hatch = h;
+    this.hatchMarks();
     if (this.crawl && (this.crawl.t += dt / this.crawl.p.time) >= 1) this.endCrawl();
     this.passageMarks(); // (the E over each crawlway's opening)
     const rate = 1 / ((this.station ?? this.lastStation)?.entry?.time ?? 1 / TO_STATION); // (crawling into the tail takes a while)
@@ -432,6 +532,9 @@ export class Player {
       const need = E.y - 0.7 - spot.at.y;
       const name = spot.pose === 'sit' ? 'sit' : need > 0.8 ? 'gun' : need > 0.56 ? 'crouch' : 'kneel';
       pose(b, name);
+      // looking round over your shoulder from the pilots' seats (C): your own shoulders and collar would fill the
+      // view from inside, so you don't see yourself then
+      if (s.flies && !this.third && Math.abs(this.headYaw) > 1.0) b.visible = false;
       const yaw = s.yaw + this.sYaw * (s.yawLim >= Math.PI ? 1 : 0.6);
       const y = E.y - 0.6 - BODY_DROP - j.hips.position.y;
       b.rotation.y = yaw;
@@ -554,9 +657,10 @@ export class Player {
     const walkPos = _walkPos.set(clamp(this.feet.x, -wall, wall), this.camY, this.feet.z);
     const walkRot = _walkRot.setFromEuler(_euler.set(this.pitch, this.yaw, 0, 'YXZ'));
     if (this.crawl) { // on hands and knees through the crawlway: the eye along its path, looking the way you go
-      const c = this.crawl, k = clamp(c.t, 0, 1);
+      const c = this.crawl, k = easeEnds(clamp(c.t, 0, 1));
       c.curve.getPointAt(k, this.camera.position);
-      if (k > 0.1 && k < 0.9) this.camera.position.y += Math.sin(k * Math.PI * 10) * 0.02; // (hands and knees)
+      // (hands and knees: the bob comes in once you're down and dies away before you arrive)
+      this.camera.position.y += Math.sin(k * Math.PI * 10) * 0.02 * THREE.MathUtils.smoothstep(k, 0.05, 0.18) * (1 - THREE.MathUtils.smoothstep(k, 0.7, 0.85));
       const ahead = c.curve.getPointAt(Math.min(1, k + 0.08), _crawlAt).sub(this.camera.position);
       const look = Math.hypot(ahead.x, ahead.z) > 0.02 ? Math.atan2(-ahead.x, -ahead.z) : c.p.yaw;
       // (turning from where you looked to the way through, and at the end the way you come out facing)
@@ -598,6 +702,11 @@ export class Player {
       if (k > 0 && k < 1) this.camera.position.y += Math.sin(k * Math.PI * 2 * e.bobs) * e.bob * (1 - k * 0.6); // hands and knees
     } else this.camera.position.lerpVectors(walkPos, this.eyeAt(s), t);
     this.camera.quaternion.slerpQuaternions(walkRot, gunRot, t);
+    if (this.third && this.station?.flies && t > 0.999) { // third person: out behind your bomber, looking where you fly (C still looks round her)
+      this.camera.quaternion.copy(gunRot);
+      this.camera.position.set(0, 0.5, -1).add(_third.set(0, THIRD_UP, THIRD_BACK).applyQuaternion(gunRot));
+      return;
+    }
     // recoil shake: small random jolts that die away quickly
     if (this.shake > 0.01) { // a flak burst close by: a hard jolt that dies away
       const r = this.shake * 0.03;

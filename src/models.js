@@ -90,8 +90,9 @@ const loader = new GLTFLoader();
 const cache = new Map();
 const depthMats = new Map();
 
-// the B-17G's chin turret: our B-17s have the F's nose (its guns are hand-held, out through the glass)
-const REMOVED = ['FrontGunCapsule', 'LowerFrontGuns'];
+// the B-17G's chin turret: our B-17s have the F's nose (its guns are hand-held, out through the glass);
+// and the spinner-like knob under the nose, which looked from the ball turret like a propeller hub
+const REMOVED = ['FrontGunCapsule', 'LowerFrontGuns', 'NavigationKnob'];
 
 function prepare(root) {
   for (const n of REMOVED) root.getObjectByName(n)?.removeFromParent();

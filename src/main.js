@@ -24,6 +24,7 @@ import { Stats, POINTS } from './stats.js';
 import { Eject } from './eject.js';
 import { Dust } from './dust.js';
 import { Breakup } from './breakup.js';
+import { StreamBattle } from './streambattle.js';
 import { DETAIL } from './cabinlook.js';
 import { SCARS, bakeBomberSpace, scarMaterial, addScar, clearScars } from './scars.js';
 import { loadEnv, saveEnv, WET, WEATHER, loadEnvMode, saveEnvMode, rollEnv, DEFAULT_ENV, envLabel } from './environment.js';
@@ -74,7 +75,15 @@ const weapons = new Weapons(scene, audio);
 weapons.attach(bomber);
 const effects = new Effects(scene);
 weapons.effects = effects; // (the guns' muzzle smoke)
-ui.sound((v, muted) => audio.setVolume(v, muted)); // (the menu's mute button and volume line)
+ui.fullscreen(); // (the full-screen buttons and Alt+Enter)
+ui.sound((v, muted, mix) => audio.setVolume(v, muted, mix)); // (the menus' mute button and volume line, and the mix)
+// the menus answer you: a tick on what you can press, a click when you press it (sound starts at the first click)
+{
+  const PRESSABLE = '.btn, .seat-btn[data-seat], .crew-row:not(:disabled), .role-card, .tool, .tab, .z, [data-z], .icon-btn';
+  let over = null;
+  document.addEventListener('pointerover', (e) => { const el = e.target.closest?.(PRESSABLE); if (el && el !== over && state !== 'playing') audio.uiTick('hover'); over = el; });
+  document.addEventListener('pointerdown', (e) => { if (state === 'playing') return; audio.ensure(); if (e.target.closest?.(PRESSABLE)) audio.uiTick('select'); });
+}
 // bombers coming apart: their lost wings and tails fall away on their own (breakup.js), copied from
 // clean models (the pooled ones may be cut at the time)
 const breakup = new Breakup(scene, effects, { lod: lod.scene, mid: (await loading.track(loadModel('b17', { mid: true }), ARM)).scene });
@@ -91,7 +100,7 @@ const AXIS_ROLES = new Set(['bf109', 'fw190']);
 let mode = 'crew';
 const pilot = new Pilot(audio);
 fighters.pilot = pilot;
-ui.hudOptions((o) => { Object.assign(tags.opts, o); pilot.plainSight = o.plainSight; }); // (which markers are drawn, which fighter sight: the Options tab)
+ui.hudOptions((o) => { Object.assign(tags.opts, o); pilot.plainSight = o.plainSight; pilot.third = player.third = o.third; weapons.infinite = pilot.infinite = o.infinite; }); // (which markers are drawn, which fighter sight, which view: the Options tab)
 // the time of day, season and weather: the world, the contrails and the cabin lights follow it
 // this mission's conditions: the default (summer, day, clear), the ones chosen, or rolled at random for every mission
 let envMode = loadEnvMode();
@@ -133,11 +142,18 @@ fighters.report = (kind, name, dmg) => {
 const crews = new Map(bombers.map((b) => [b, new Crew(b, b === bomber ? { visible: true, playerRole: 'radio', interior: bomber.interior } : {})]));
 let crew = crews.get(bomber); // the crew you're part of (changes when you move to another bomber)
 // (you can only be hurt aboard while you're a crewman, not while you're off flying a fighter)
+// another B-17 bumping yours: the jolt through the airframe and the crunch of it (fighters.bomberContact)
+// flak fragments through a bomber's fuselage: the men inside take them, and your bomber's skin shows the holes
+function onShrapnel(b, from, n) {
+  const holes = crews.get(b).shrapnel(from, n, b === bomber && mode === 'crew' && !player.away ? player : null);
+  if (b === bomber) for (const h of holes) addScar(b, h.at, h.dir, false);
+}
+fighters.onBumped = (k, level) => { if (mode === 'crew' && !player.away) { player.jolt(Math.min(1, k * 1.3)); audio.impact(level > 0); if (level > 0) audio.flakClose(k); } };
 fighters.onBomberHit = (b, part, local, cannon, dir) => {
   if (b === bomber && dir) addScar(b, local, dir, cannon); // a hole in her skin where it went in
   crews.get(b).onHit(part, local, cannon, b === bomber && mode === 'crew' ? player : null);
 };
-const flak = new Flak({ effects, audio, ui, bombers, playerBomber: bomber, onBomberHit: fighters.onBomberHit,
+const flak = new Flak({ effects, audio, ui, bombers, playerBomber: bomber, onBomberHit: fighters.onBomberHit, onShrapnel,
   onClose: (k) => { if (mode === 'crew' && !player.away && !eject.active) { player.jolt(k); audio.flakClose(k); } } }); // (felt inside your bomber)
 player.onSightRefused = () => ui.log(mission.phase === 'outbound' ? `Bombsight: nothing to aim at yet. ${mission.status(missionTime).replace(/^Outbound · /, '')}.` : 'Bombsight: the bombs are away.');
 flakEnv = () => { flak.night = env.time === 'night' ? 1 : env.time === 'twilight' ? 0.45 : 0; flak.muffle = WEATHER[env.weather]?.overcast ?? 0; };
@@ -165,6 +181,8 @@ gfx.onQualityChange(pixelScale);
 // The game starts on the click even if the browser refuses to capture the mouse;
 // then you drag with the left button to look, and Esc still pauses.
 let state = 'menu';
+const viewHinted = new Set(); // (the V hint, once a game for the B-17 and once for the fighters)
+let miniT = 0; const _miniAt = new THREE.Vector3(), _miniDir = new THREE.Vector3(); // (the mini map)
 const canvas = gfx.renderer.domElement;
 
 // Capture the mouse with raw input (no OS pointer acceleration, so the same hand movement always turns
@@ -229,14 +247,14 @@ function showMenu(paused) {
     status: {
       phase: d.phase, detail: mission.status(missionTime), toTarget: d.toTarget, role: mode,
       health: mode === 'crew' ? (player.away ? null : bomber.health) : pilot.alive ? pilot.status(camera).health : null,
-      engines: 4 - bomber.deadEngines, crewFit: crew.members.filter((m) => m.state === 'ok' || m.state === 'player').length,
+      engines: 4 - bomber.deadEngines, crewFit: crew.members.filter((m) => m.state === 'ok' || m.state === 'player').length, crewMen: menCount(crew),
       life: stats.life, mission: stats.mission, lives: stats.lives, forces: bomberCounts(),
     },
     button: 'Resume', onClick: play, quality, onQuality,
     seats: mode === 'crew' && !player.away && !player.dead && !player.wounded ? seatList() : null,
     onSeat: (id) => { moveToSeat(id); play(); },
     actions: [{ label: 'Change aircraft', onClick: () => showRoleMenu('Change aircraft', true) }, { label: 'Controls', onClick: () => ui.drawer('controls') }, { label: 'Options', onClick: () => ui.drawer('options') }, { label: 'Settings', onClick: () => ui.drawer('settings') },
-      { label: 'Quit to menu', confirm: 'Click again to quit', onClick: () => location.reload() }],
+      { label: 'Quit to menu', confirm: 'Click again to quit', onClick: quitToMenu }],
     hint: 'Quitting starts the mission again from the briefing',
   });
 }
@@ -251,8 +269,10 @@ function seatList() {
     const here = player.station?.id === id;
     const out = !bomber.turretWorks(id);
     const state = here ? 'you' : out ? 'out' : !m ? 'free' : m.state === 'player' ? 'free' : m.state === 'ok' ? 'ok' : m.state;
-    const who = m ? (m.state === 'player' ? 'your post' : `${m.role.title} ${m.name}`) : 'no one';
-    return { id, name, who, state, here, can: !out && m?.state !== 'dead' };
+    // the man by name (his rank and surname), his job under it if it isn't this position's name
+    const who = id === 'tail' && bomber.noTail ? 'Lost with the tail' : !m ? 'No one' : m.state === 'player' ? 'You' : m.name;
+    const job = [m && m.role.title.toLowerCase() !== name.toLowerCase() && m.state !== 'player' ? m.role.title : '', m?.patched && m.state !== 'dead' ? 'wounded once' : ''].filter(Boolean).join(' · ');
+    return { id, name, who, job, state, here, can: !out && m?.state !== 'dead' };
   });
 }
 function moveToSeat(id) {
@@ -292,14 +312,16 @@ function leaveFighter() {
 let pilotDeathT = 0, roleBusy = false;
 async function chooseRole(id) {
   if (roleBusy) return;
-  roleBack = false;
+  mapBack = null;
   if (id === 'crew') {
-    leaveFighter();
-    if (mode === 'crew' && !player.away && !player.dead) { if (!stats.lives) stats.newLife('crew'); play(); return; } // the start: you're the radio operator
-    mode = 'crew';
-    showSeatMap('Pick your bomber');
+    // the formation plot, every time: pick any bomber, then the man you'll fly as. Nothing changes until
+    // you do: Back (or Esc) returns to the menu you came from as it was
+    const from = state === 'menu' ? () => { state = 'menu'; showMenu(false); } : roleBack ? () => showRoleMenu('Change aircraft', true) : () => showRoleMenu(lastRoles);
+    roleBack = false;
+    showSeatMap('Pick your bomber', from);
     return;
   }
+  roleBack = false;
   roleBusy = true;
   eject.stop(); ui.ejected(null); bailedOut = false;
   if (mode === 'crew') leaveCrew(); else leaveFighter();
@@ -329,8 +351,11 @@ function fighterLife(dt) {
   const f = pilot.f;
   if (pilotDeathT === 0 && !bailedOut) { pilotStats.deaths++; ui.toast(f?.killedBy === 'ground' ? 'You flew into the ground.' : 'You\'ve been shot down!', 'kill'); pilot.firing = false; }
   pilotDeathT += dt;
-  if (!bailedOut && f && !f.pilotDead && f.killedBy !== 'ground' && pilotDeathT > 1.2) { startEject(f.pos, f.velocity, 'fighter'); return; }
-  if (pilotDeathT > 4 && state === 'playing') showRoleMenu('You were shot down');
+  // torn apart (a collision, a wing or the tail gone, blown up, into the ground): no getting out. The camera
+  // stays with her a few seconds, the explosion and the pieces, then the menu. Going down whole: you bail out
+  const wrecked = f && (f.killedBy === 'collision' || f.killedBy === 'ground' || f.wingGone || f.tailGone || f.state === 'gone' || f.pilotDead);
+  if (!bailedOut && f && !wrecked && pilotDeathT > 1.2) { startEject(f.pos, f.velocity, 'fighter'); return; }
+  if (pilotDeathT > (wrecked ? 3.8 : 4) && state === 'playing') showRoleMenu(f?.killedBy === 'collision' ? 'You collided' : 'You were shot down');
 }
 
 /** J: bail out. From a fighter, or from your B-17 (a sensible idea when it's going down). */
@@ -348,6 +373,7 @@ function bailOut() {
   }
   const me = crew.members.find((m) => m.state === 'player');
   if (!me || player.dead || player.wounded) return;
+  player.hatch = null; // (or leaving the seat beside the crawlway hatch would go out through it again, and again)
   if (player.station) player.interact();
   player.detachAll(); // (the iron sight and turret cockpits off the camera before it leaves the plane)
   me.state = 'bailed'; me.task = 'down';
@@ -358,15 +384,43 @@ function bailOut() {
   startEject(_ej.add(_up.set(0, -2.5, 0)), _up.set(0, -3, 0), 'crew'); // out of the waist door, into the slipstream
   ui.log(bomber.down ? 'You got out!' : 'You bailed out of a flying bomber!');
 }
-addEventListener('keydown', (e) => { if (e.code === 'KeyJ' && !e.repeat) bailOut(); });
+addEventListener('keydown', (e) => {
+  if (e.code !== 'KeyJ' || e.repeat) return;
+  if (eject.active) { eject.pull(); return; } // the ripcord
+  if (mode !== 'crew') { bailOut(); return; }
+  // in a B-17: ring the bail-out bell (the pilot's order: anyone may when she's finished): the hatches lit,
+  // the crew going for them; you get out through one (E at it: in the pilots' seats, the one beside you)
+  if (state === 'playing' && !player.away && !player.dead && !bailOrdered) { bailOrdered = true; ui.log('You rang the bail-out bell. Abandon ship!'); }
+});
+// ---------- going down: the bail-out bell, the hatches lit red, the crew going for them ----------
+const HATCHES = [ // in bomber space (x, z): the main door aft of the waist, the tail door, the bomb bay, the nose hatch
+  { name: 'the main door', at: [0.72, 4.45] }, { name: 'the tail door', at: [0.45, 8.6] }, { name: 'the bomb bay', at: [0, -4.4] }, { name: 'the nose hatch', at: [-0.35, -8.25] },
+  { name: 'the nose hatch, down the crawlway', at: [0, -7.55], y: -0.40 }, // (from the flight deck: down past the panel and out under the nose)
+].map((h) => ({ ...h, pos: new THREE.Vector3(h.at[0], h.y ?? bomber.interior?.floorAt(h.at[0], h.at[1], 2) ?? -1.9, h.at[1]) }));
+let bellT = 0, bailCalled = false, bailOrdered = false;
+function goingDown(dt) {
+  const on = (bomber.down || bailOrdered) && mode === 'crew' && !player.away && !player.dead && !player.ridingTail && !eject.active && state === 'playing';
+  // (the ones still there: none on a tail that's gone, nor the main door with the waist broken away)
+  player.hatches = on ? HATCHES.filter((h) => !(bomber.noTail && h.pos.z > 5.2) && !(bomber.lost.waist && h.pos.z > -1.25)) : null;
+  if (!on) { bailCalled = false; return; }
+  if (!bailCalled) { bailCalled = true; ui.toast('Bail out! Get to a hatch!', 'kill'); crew.bailOut(HATCHES, effects); }
+  if ((bellT -= dt) <= 0) { bellT = 0.55; audio.bell(); } // the alarm bell, on and on
+}
+player.onHatch = () => { bailOut(); };
 addEventListener('keydown', (e) => { if (e.code === 'KeyH' && !e.repeat && state === 'playing') ui.toggleControls(); });
+// V: the pilots' view, cockpit or third person (in a fighter, or in your B-17's pilot or co-pilot seat)
+addEventListener('keydown', (e) => {
+  if (e.code !== 'KeyV' || e.repeat || state !== 'playing' || !(mode !== 'crew' ? pilot.alive : player.station?.flies)) return;
+  ui.toast(ui.toggleHud('third') ? 'Third-person view (V)' : 'Cockpit view (V)');
+});
 
 /** The keys that do something where you are (the controls card): [rows, a key for where that is]. */
 function controlsFor(p) {
   const s = p.station;
   if (p.wounded || p.dead) return [[], 'none'];
-  if (!s) return [[['W A S D', 'walk'], ['Shift', 'hurry'], ['E', 'take a station'], ['F', 'first aid (hold, by a wounded man)'], ['M', 'formation map'], ['J', 'bail out']], 'walk'];
-  if (s.flies) return [[['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 / 2 / 3 / 4', 'a bottle on that engine'], ['C', 'hold: look round'], ['E', 'leave the seat']], `seat:${s.id}`];
+  if (!s) return [[['W A S D', 'walk'], ['Shift', 'hurry'], ['E', 'take a station'], ['F', 'first aid (hold, by a wounded man)'], ['M', 'formation map'], ['J', 'ring the bail-out bell'], ['E', 'then out through a red hatch']], 'walk'];
+  if (s.flies) return [[['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 / 2 / 3 / 4', 'a bottle on that engine'], ['C', 'hold: look round'],
+    ['V', p.third ? 'view: third person' : 'view: cockpit'], ['J', 'ring the bail-out bell'], ['E', 'leave the seat']], `seat:${s.id}:${p.third}`];
   if (s.sight) return [[['A / D', 'steer the formation'], ['Space / Click', 'bombs away'], ['C', 'hold: look round'], ['E', 'leave the sight']], 'sight'];
   return [[['Click', 'fire'], ['Right click', 'zoom'], ['R', 'reload'], ['C', 'hold: look round'], ['E', 'leave the gun']], `gun:${s.id}`];
 }
@@ -405,7 +459,9 @@ function finishEject() {
   if (from === 'crew') showSeatMap('You bailed out'); else showRoleMenu('You bailed out');
 }
 
+let mapBack = null, lastRoles = 'Pick again'; // (the plot's way back; the role menu's last title)
 function showRoleMenu(title, change = false) {
+  if (!change) lastRoles = title;
   state = 'choosing';
   pilot.active = false;
   audio.fighterDrone(Infinity, 0);
@@ -499,7 +555,8 @@ document.addEventListener('pointerlockchange', () => {
 document.addEventListener('pointerlockerror', captureFailed);
 canvas.addEventListener('mousedown', () => { if (state === 'playing' && !document.pointerLockElement) lock(); }); // try again on every click
 addEventListener('keydown', (e) => {
-  if (e.code === 'Escape' && state === 'playing' && !document.pointerLockElement) pause();
+  if (e.code === 'Escape' && state === 'playing') pause(); // (in full screen the page keeps Esc: the mouse is still captured, pause() lets it go)
+  else if (e.code === 'Escape' && state === 'choosing' && mapBack) { const b = mapBack; mapBack = null; b(); }
   else if (e.code === 'Escape' && state === 'choosing' && roleBack) backToPause();
 });
 
@@ -522,8 +579,26 @@ function lifeAndDeath(dt) {
   ui.hurt(player.wounded ? player.woundLeft : null, WOUND_TIME, crew.members.some((m) => m.task === 'helping' && m.patient?.player));
   audio.heartbeat(player.wounded ? 1 - player.woundLeft / WOUND_TIME : 0, dt);
 
-  // bomber going down, or you bled out: pick another man on any surviving bomber
-  if (bomber.down && !player.dead && (deathT += dt) > 8) player.dead = true;
+  // the tail shot away: its gunner goes down with it (his parachute was stowed forward: he has none);
+  // you too if you were back there, your view riding the falling tail a few seconds
+  if (bomber.noTail && !tailDone && (bomber.tailPiece || (tailWait += dt) > 0.6)) { // (once the piece is there to ride)
+    tailDone = true;
+    const piece = bomber.tailPiece, tg = crew.members.find((m) => m.role.id === 'tail');
+    if (tg && tg.state !== 'dead' && tg.state !== 'bailed' && tg.state !== 'player') {
+      crew.kill(tg);
+      if (piece && tg.fig) { tg.onTail = true; piece.g.attach(tg.fig); }
+    }
+    if (mode === 'crew' && !player.dead && !player.away && (player.station?.id === 'tail' || player.feet.z > 6.0)) {
+      if (player.station) player.interact();
+      player.enabled = false; player.ridingTail = true;
+      if (piece) piece.g.add(camera); // (the camera keeps its place in the bomber's frame: now the falling tail's)
+      ui.toast('The tail\'s gone! No parachute back here...', 'kill');
+      setTimeout(() => { if (player.ridingTail) { player.dead = true; ui.log('You went down with the tail.'); } }, 3600);
+    }
+  }
+  goingDown(dt);
+  // bomber going down: some time to get out through a hatch, then she takes you with her
+  if (bomber.down && !player.dead && (deathT += dt) > 24) player.dead = true;
   if (player.dead && !player.deathShown) {
     player.deathShown = true;
     ui.toast(bomber.down ? 'Your bomber is going down.' : 'You were killed.', 'kill');
@@ -531,8 +606,10 @@ function lifeAndDeath(dt) {
   }
 }
 
-/** "You were killed": the formation map, to carry on as any fit AI crewman on any surviving bomber. */
-function showSeatMap(title = null) {
+/** "You were killed": the formation map, to carry on as any fit AI crewman on any surviving bomber (or, choosing: your pick of them). */
+function showSeatMap(title = null, back = null) {
+  const choosing = !!back;
+  mapBack = back;
   if (state === 'over') return; // the mission ended in the meantime
   state = 'choosing';
   audio.fighterDrone(Infinity, 0); // the world stands still: no engine snarl
@@ -540,7 +617,7 @@ function showSeatMap(title = null) {
   if (document.pointerLockElement) document.exitPointerLock();
   ui.hurt(null);
   const me = crew.members.find((m) => m.state === 'player');
-  if (me) { // the man you were stays where he fell
+  if (me && !choosing) { // the man you were stays where he fell
     me.state = 'dead';
     me.spot = { ...me.spot, lie: player.feet.toArray(), liePose: 'lie' };
     crew.place(me);
@@ -549,9 +626,18 @@ function showSeatMap(title = null) {
   if (!anyone) { gameOver('The bombers are all gone'); return; }
   ui.map({
     title: title ?? (bomber.down ? 'Your bomber went down' : 'You were killed'),
-    text: 'Pick any surviving bomber on the map, then the crewman you will carry on as.',
-    record: stats.lives ? ui.lifeCard(stats.life, 'That life') : '',
-    bombers, crewOf: (b) => crews.get(b), mine: bomber, onPick: takeSeat, onRole: chooseRole,
+    text: `Pick any ${choosing ? '' : 'surviving '}bomber on the map, then the crewman you will ${choosing ? 'fly as' : 'carry on as'}. Double-click a bomber to board her straight away.`,
+    record: stats.lives && !choosing ? ui.lifeCard(stats.life, 'That life') : '',
+    bombers, crewOf: (b) => crews.get(b), mine: bomber, onRole: chooseRole,
+    onBack: back ? () => { mapBack = null; back(); } : null,
+    onPick: (b, m) => {
+      mapBack = null;
+      if (choosing) { // now you leave what you were: your fighter, or your post (your man goes back to it)
+        eject.stop(); ui.ejected(null); bailedOut = false;
+        if (mode === 'crew' && !player.away && !player.dead) leaveCrew();
+      }
+      takeSeat(b, m);
+    },
   });
 }
 
@@ -585,7 +671,9 @@ function takeSeat(target, member) {
   eject.stop(); ui.ejected(null); bailedOut = false;
   stats.newLife('crew');
   crew.becomePlayer(member);
+  player.patched = !!member.patched; player.role = member.role.id; // (wounded once already as that man?)
   const st = STATIONS.find((s) => s.id === member.role.station);
+  player.ridingTail = false; tailDone = !!bomber.noTail; tailWait = 0; bailOrdered = false;
   player.becomes(st ? st.stand : new THREE.Vector3(0, -1.8, -1.8), st ? st.yaw : Math.PI);
   player.deathShown = false;
   deathT = 0;
@@ -613,10 +701,19 @@ function missionComplete(d) {
     kills: fighters.tally ?? { player: 0, crew: 0, escorts: 0, alliedLost: 0 },
     bombersLost: bombers.filter((b) => b.down).length, bombers: bombers.length,
     saved: tally.saved, savedByYou: tally.savedByYou,
-    crewHome: crew.members.filter((m) => m.state === 'ok' || m.state === 'wounded' || m.state === 'player').length,
+    crewHome: crew.members.filter((m) => m.state === 'ok' || m.state === 'wounded' || m.state === 'player').length, crewMen: menCount(crew), men: menCount(),
     pilot: { bombers: pilotStats.bombers, fighters: fighters.kills - (pilotStats.killBase ?? fighters.kills), deaths: pilotStats.deaths, saved: fighters.saved ?? 0 },
     score: stats.mission, lives: stats.lives, forces: { b: bomberCounts(), f: fighters.counts() },
-  }, () => location.reload(), (q) => gfx.setQuality(q), mode);
+  }, quitToMenu, (q) => gfx.setQuality(q), mode);
+}
+
+/** Back to the briefing: the mission starts again from the top (the page reloads), saying so at once. */
+function quitToMenu() {
+  state = 'over';
+  audio.suspend();
+  ui.menu({ kind: 'loading', kicker: 'Eighth Air Force · 1944', title: 'B-17', sub: 'Flying Fortress', text: 'Returning to the briefing…' });
+  try { if (document.fullscreenElement) sessionStorage.setItem('bomber.fs', '1'); } catch { /* (no storage) */ } // (full screen back on after the reload)
+  setTimeout(() => location.reload(), 30); // (after the screen has changed)
 }
 
 function gameOver(title) {
@@ -627,7 +724,7 @@ function gameOver(title) {
   if (document.pointerLockElement) document.exitPointerLock();
   ui.hurt(null);
   ui.menu({ kind: 'over', kicker: 'Mission failed', title, stamp: 'Lost', text: `Fighters shot down: ${fighters.kills}.`, body: stats.lives ? ui.lifeCard(stats.mission, 'Whole mission') : '',
-    button: 'Fly again', onClick: () => location.reload(), quality: gfx.qualityName, onQuality: (q) => gfx.setQuality(q) });
+    button: 'Fly again', onClick: quitToMenu, quality: gfx.qualityName, onQuality: (q) => gfx.setQuality(q) });
 }
 
 /**
@@ -647,9 +744,18 @@ function pickActiveGunners(dt) {
 
 /** How the bomber stream stands: healthy, damaged (any part below 70%), shot down. */
 function bomberCounts() {
-  const c = { total: bombers.length, healthy: 0, damaged: 0, down: 0 };
+  const c = { total: bombers.length, healthy: 0, damaged: 0, down: 0, men: menCount() };
   for (const b of bombers) { if (b.down || b.gone) c.down++; else if (b.damaged) c.damaged++; else c.healthy++; }
   return c;
+}
+/** The men: in the bombers still flying (or of one crew): alive (fit), wounded (down, waiting for help), dead. */
+function menCount(only = null) {
+  const n = { alive: 0, wounded: 0, dead: 0 };
+  for (const [b, c] of crews) {
+    if (only ? c !== only : b.down || b.gone) continue;
+    for (const m of c.members) { if (m.state === 'ok' || m.state === 'player') n.alive++; else if (m.state === 'wounded') n.wounded++; else if (m.state === 'dead') n.dead++; }
+  }
+  return n;
 }
 let forcesT = 0;
 const BALL_STRETCH = 1.6; // (your bomber's length as you see it from the ball)
@@ -675,12 +781,54 @@ function ballRange() {
 // About a third of the bombers are lost on a mission like this one (35%): the enemy's fire on the other
 // bombers is weighted, a little at a time, to keep the losses on that course: few early on, most of
 // them in the fight round the target. (Your own bomber's odds are its own: fighters.js, flak.js.)
+let wasOut = false; // (your bomber out of the box at the last look)
+const stream = new StreamBattle({ bombers, crews, effects }); // (the battle down the rest of the stream: streambattle.js)
+fighters.groupBias = flak.groupBias = stream.groupBias;
+let tailDone = false, tailWait = 0; // (your bomber's tail: its loss dealt with)
+/**
+ * The formation re-forming as it's shot to pieces: in each 18-ship group the bombers still able to keep up
+ * close on the lead's slots, filling the gaps of the lost (each into the nearest free slot, flown there by
+ * the autopilot, a few metres a second: slow, it takes a while). A group cut down below four joins the
+ * nearest group of its wing with room for it. Not the crippled (they can't keep up), nor yours while you fly her.
+ */
+const GROUP_SLOTS = new Map(); // group -> its slots, lead first (from the stream as it took off)
+for (const [i, b] of bombers.entries()) (GROUP_SLOTS.get(b.squad) ?? GROUP_SLOTS.set(b.squad, []).get(b.squad)).push({ pos: slots[i].pos.clone(), lead: b.lead });
+for (const list of GROUP_SLOTS.values()) list.sort((p, q) => (q.lead ? 1 : 0) - (p.lead ? 1 : 0));
+function reform() {
+  const able = (b) => !b.down && !b.gone && !b.pilotless && !b.flown && (b.deadEngines === 0 || (b.deadEngines === 1 && (b.stragT ?? 0) > 120)) && b.drift.y > -0.5;
+  const groups = new Map();
+  for (const b of bombers) if (able(b)) (groups.get(b.squad) ?? groups.set(b.squad, []).get(b.squad)).push(b);
+  // the remnants of a group that's all but gone join the nearest group of their wing
+  for (const [g, list] of groups) {
+    if (list.length >= 4) continue;
+    const wing = g.split('-')[0];
+    let best = null, bd = Infinity;
+    for (const [h, other] of groups) {
+      if (h === g || h.split('-')[0] !== wing || other.length < 4 || other.length + list.length > GROUP_SLOTS.get(h).length) continue;
+      const d = other[0].base.distanceTo(list[0].base);
+      if (d < bd) { bd = d; best = h; }
+    }
+    if (best) { for (const b of list) { b.squad = best; groups.get(best).push(b); } groups.delete(g); }
+  }
+  // each into the nearest free slot, the lead's first
+  for (const [g, list] of groups) {
+    const free = [...list];
+    for (const slot of GROUP_SLOTS.get(g) ?? []) {
+      if (!free.length) break;
+      let k = 0, bd = Infinity;
+      for (const [i, b] of free.entries()) { const d = b.home.distanceToSquared(slot.pos); if (d < bd) { bd = d; k = i; } }
+      const b = free.splice(k, 1)[0];
+      if (b.home.distanceToSquared(slot.pos) > 4) { b.home.copy(slot.pos); b.slot0.copy(slot.pos); }
+    }
+  }
+}
+let reformT = 8;
 const LOSS_GOAL = 0.35, MISSION_LENGTH = 480; // s: outbound, the bomb run and the run home
 let lossT = 0;
 function steerLosses() {
   const c = bomberCounts(), p = Math.min(1, missionTime / MISSION_LENGTH);
   const want = LOSS_GOAL * p ** 1.3, have = c.down / Math.max(1, c.total);
-  fighters.lossBias = flak.lossBias = THREE.MathUtils.clamp(1 + (want - have) * 10, 0.25, 3.5);
+  fighters.lossBias = flak.lossBias = THREE.MathUtils.clamp(1 + (want - have) * 10, 0.1, 3.5);
 }
 
 /** Speed, height, heading and where the nose points, while you fly. */
@@ -773,7 +921,20 @@ gfx.renderer.setAnimationLoop((now) => {
     if (live) {
       missionTime += dt;
       safely('mission', () => mission.update(dt, { player, time: missionTime, flak, fighters }));
-      if ((lossT -= dt) <= 0) { lossT = 1; steerLosses(); }
+      if ((reformT -= dt) <= 0) { reformT = 8; reform(); }
+      safely('stream', () => stream.update(dt, { center: bomber.group.position, progress: missionTime / MISSION_LENGTH, goal: LOSS_GOAL, fighters, flak, lossBias: fighters.lossBias }));
+      if ((lossT -= dt) <= 0) {
+        lossT = 1; steerLosses();
+        for (const [b, c] of crews) if (b.noTail) { const tg = c.members.find((m) => m.role.id === 'tail'); if (tg && (tg.state === 'ok' || tg.state === 'wounded')) c.kill(tg); }
+        // your bomber out of the box, or back in it
+        const out = bomber.straggling;
+        if (mode === 'crew' && !player.away && out !== wasOut && !bomber.down) {
+          if (out) { ui.toast("We're out of formation! Fighters closing in!", 'kill'); ui.log("Pilot to crew: we've lost the formation. Fighters will be on us. Watch your sectors!"); }
+          else ui.toast('Back in formation');
+        }
+        wasOut = out;
+      }
+      flak.inside = mode === 'crew' && !player.away && !eject.active && !(player.third && player.station?.flies);
       safely('flak', () => flak.update(dt));
     }
     safely('bullets', () => weapons.bullets.update(dt, camera.getWorldPosition(camPos), collide));
@@ -807,20 +968,22 @@ gfx.renderer.setAnimationLoop((now) => {
       if ((forcesT -= dt) <= 0) { forcesT = 0.3; ui.forces(bomberCounts(), fighters.counts()); } // a few times a second
       if (eject.active) { // under the parachute: the battle goes on above you
         ui.you(null);
-        ui.hud({ location: eject.t > 1.8 ? 'Under the parachute' : 'Bailing out', prompt: '', atStation: false });
+        ui.hud({ location: eject.falling ? 'Free fall' : 'Under the parachute', prompt: eject.falling ? '<span style="font-size:24px">Press <b>J</b> to pull your parachute</span>' : '', atStation: false });
         ui.ejected(ui.lifeCard(stats.life, eject.from === 'crew' ? 'That life' : 'This sortie'), eject.ready);
         tags.update(camera, fighters.list, { side: fighters.playerSide });
         return;
       }
       if (mode !== 'crew') { // flying a fighter
         ui.you(null);
-        ui.hud({ location: pilot.f ? `${pilot.f.k.name} · ${pilot.view === 'look' ? 'looking round' : pilot.alive ? 'cockpit' : 'shot down'}` : '', prompt: '', atStation: true });
+        ui.hud({ location: pilot.f ? `${pilot.f.k.name} · ${pilot.view === 'look' ? 'looking round' : !pilot.alive ? 'shot down' : pilot.third ? 'third person' : 'cockpit'}` : '', prompt: '', atStation: true });
+        ui.controls([['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Click', 'guns'], ['C', 'hold: look round'], ['V', pilot.third ? 'view: third person' : 'view: cockpit'], ['J', 'bail out']], `fighter:${pilot.third}`);
         if (pilot.f) { ui.fighter(pilot.status(camera)); ui.fighterDamage(pilot.f); }
+        if (pilot.alive && !viewHinted.has('fighter')) { viewHinted.add('fighter'); ui.toast('V: third-person view'); }
         tags.update(camera, fighters.list, { side: fighters.playerSide, lead: pilot.alive, self: pilot.f, bombers });
         return;
       }
       const inBall = player.station?.id === 'ball' && player.blend > 0.9;
-      ui.hud({ location: player.location, prompt: player.prompt, atStation: !!player.station, looking: player.freeLooking, reflector: inBall });
+      ui.hud({ location: player.location, prompt: player.prompt, atStation: !!player.station, looking: player.freeLooking, reflector: inBall || (/^waist/.test(player.station?.id ?? '') && player.blend > 0.9) }); // (the waist guns: their ring-and-post sights are the aim)
       audio.turretWhine(inBall ? player.turretSpeed ?? 0 : 0);
       if (inBall) ballRange();
       // (and her length: from right under the belly the wide view squashes her, the tail on top of you;
@@ -841,6 +1004,8 @@ gfx.renderer.setAnimationLoop((now) => {
           if (inBall) { c.userData.shownBeforeBall = c.visible; c.visible = false; } else c.visible = c.userData.shownBeforeBall ?? true;
         }
       }
+      if (player.station?.flies && player.blend > 0.9 && !viewHinted.has('b17')) { viewHinted.add('b17'); ui.toast('V: third-person view'); } // (once a game)
+      bomber.flown = !!player.station?.flies && mode === 'crew'; // (pilots dead: you at the controls keep her up)
       const [rows, key] = controlsFor(player);
       ui.controls(rows, key);
       ui.gun(weapons.status(player));
@@ -853,6 +1018,11 @@ gfx.renderer.setAnimationLoop((now) => {
     });
   }
   ui.tick(rawDt);
+  if ((miniT -= rawDt) <= 0) { // the mini map, ten times a second
+    miniT = 0.1;
+    const on = state === 'playing' && !eject.active && (mode === 'crew' ? !player.away : !!pilot.f);
+    ui.minimap(on ? { at: camera.getWorldPosition(_miniAt), yaw: Math.atan2(-camera.getWorldDirection(_miniDir).x, -_miniDir.z), bombers, fighters: fighters.list, target: mission.target.center, range: 3000, flak: flak.on ? flak.heavy : 0 } : null);
+  }
   safely('figures', syncFigures); // the crew's poses onto their skeletons
   if (gfx.ssao) gfx.ssao.enabled = !(mode === 'crew' && player.station?.id === 'ball' && player.blend > 0.5); // (in the ball you see out only through its window: no shading from what's behind its steel)
   safely('render', () => gfx.render());
@@ -861,4 +1031,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, pilotStats, stats, eject, bailOut, addScar, breakup, get mode() { return mode; }, skip: (s) => { missionTime += s; } } });
+Object.assign(window, { game: { THREE, PART, tally, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, pilotStats, stats, eject, bailOut, addScar, breakup, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });

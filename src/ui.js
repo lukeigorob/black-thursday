@@ -1,6 +1,5 @@
 // Menus (start / pause with the graphics setting) and the HUD (crosshair, prompts, location, fps).
 import { QUALITY } from './graphics.js';
-import { BATTLES, battleName, setBattle } from './battle.js';
 import { ENV_OPTIONS, envLabel } from './environment.js';
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -85,6 +84,7 @@ const ROLES = {
     does: ['Fly escort over the stream', 'Break up attacks before they land', 'Shoot down the 109s'] },
 };
 const ICON = {
+  full: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>',
   gear: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></svg>',
   keys: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h1M9.5 10h1M13 10h1M16.5 10h1M7 14h10"/></svg>',
   info: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>',
@@ -92,12 +92,12 @@ const ICON = {
   muted: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
 };
 const CONTROLS = [
-  ['General', [['Esc', 'pause'], ['M', 'mission map (hold)'], ['H', 'controls card'], ['N', 'mute'], ['F3', 'frame rate'], ['J', 'bail out']]],
+  ['General', [['Esc', 'pause'], ['M', 'mission map (hold)'], ['H', 'controls card'], ['N', 'mute'], ['F3', 'frame rate'], ['J', 'bail out (B-17: rings the bell, then E at a red hatch) · in free fall: the ripcord'], ['Alt+Enter', 'full screen']]],
   ['B-17 crewman', [['W A S D', 'walk'], ['Shift', 'hurry'], ['Mouse', 'look'], ['E', 'take / leave a position'], ['Left click', 'fire'], ['Right click', 'zoom'], ['R', 'reload'],
     ['C', 'hold: look round'], ['F', 'hold by a wounded man: first aid']]],
-  ['Pilot\'s seat', [['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 – 4', 'a bottle on that engine'], ['C', 'hold: look round']]],
+  ['Pilot\'s seat', [['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 – 4', 'a bottle on that engine'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view']]],
   ['Bombsight', [['1 – 4', 'in the nose: its guns, left to right'], ['5 / B', 'in the nose, from the initial point: the bombsight'], ['A / D', 'steer the formation'], ['Space / Click', 'bombs away'], ['B / E', 'leave the sight']]],
-  ['Fighters', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Left click', 'guns'], ['C', 'hold: look round'], ['J', 'bail out']]],
+  ['Fighters', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Left click', 'guns'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view'], ['J', 'bail out']]],
 ];
 /** "W / S" -> <kbd>W</kbd> <kbd>S</kbd>; "W A S D" -> four keys. */
 const keycaps = (k) => k.split(' / ').flatMap((x) => (/^([A-Z] )+[A-Z]$/.test(x) ? x.split(' ') : [x])).map((x) => `<kbd>${x}</kbd>`).join(' ');
@@ -137,7 +137,10 @@ export class UI {
         <div class="m-frame">
           <header class="m-top">
             <div class="m-brand">${EMBLEM.crew()}<span>Eighth Air Force</span><i></i><span>VIII Bomber Command</span></div>
-            <nav class="m-tools"><button class="tool" data-open="controls">${ICON.keys}<span>Controls</span></button>
+            <nav class="m-tools"><div class="tool snd-top" title="Sound (N mutes)"><button id="snd-mute-top" class="icon-btn" aria-label="Mute"></button>
+                <input id="snd-vol-top" type="range" min="0" max="100" step="1" value="100" aria-label="Volume"><output id="snd-val-top"></output></div>
+              <button class="tool" data-fs title="Full screen (Alt+Enter)">${ICON.full}<span>Full screen</span></button>
+              <button class="tool" data-open="controls">${ICON.keys}<span>Controls</span></button>
               <button class="tool" data-open="settings">${ICON.gear}<span>Settings</span></button></nav>
           </header>
           <main class="m-main"><div class="m-card" id="menu-card">
@@ -166,23 +169,26 @@ export class UI {
           <div class="drawer-head"><div class="tabs" role="tablist"><button class="tab" data-tab="settings" role="tab">Settings</button><button class="tab" data-tab="options" role="tab">Options</button><button class="tab" data-tab="controls" role="tab">Controls</button></div>
             <button class="tool close" id="drawer-close" aria-label="Close">Close <kbd>Esc</kbd></button></div>
           <section class="pane" data-pane="settings">
+            <div class="set-row"><label>Display</label><p>Alt+Enter switches it in the game too.</p>
+              <button class="btn ghost" data-fs style="padding:9px 18px;font-size:15px">Full screen</button></div>
             <div class="set-row"><label for="menu-quality">Graphics</label><p>Lower it if the frame rate drops.</p>
               <div class="select"><select id="menu-quality">${Object.entries(QUALITY).map(([k, q]) => `<option value="${k}">${q.label}</option>`).join('')}</select></div></div>
             <div class="set-row"><label for="snd-vol">Sound</label><p>N mutes it in the game too.</p>
               <div class="sound"><button id="snd-mute" class="icon-btn" title="Mute (N)" aria-label="Mute"></button>
                 <input id="snd-vol" type="range" min="0" max="100" step="1" value="100" aria-label="Volume"><output id="snd-val"></output></div></div>
+            <div class="set-row"><label>Sound mix</label><p>Each kind of sound on its own.</p>
+              <div class="mix">${[['guns', 'Guns'], ['engines', 'Engines'], ['battle', 'Flak and hits'], ['crew', 'Crew and turret motors'], ['ui', 'Menu sounds']].map(([k, l]) => `<label class="sound"><span>${l}</span>
+                <input type="range" min="0" max="100" step="1" value="100" data-mix="${k}" aria-label="${l}"><output data-mix-val="${k}"></output></label>`).join('')}</div></div>
             ${[['time', 'Time of day', 'Morning sun, high noon, dusk or a moonlit night.'], ['season', 'Season', 'Winter brings snow on the ground and thicker contrails.'],
     ['weather', 'Weather', 'Clear, cloudy, rain, or a thunderstorm with lightning.']].map(([k, name, help]) => `<div class="set-row"><label for="env-${k}">${name}</label><p>${help}</p>
               <div class="select"><select id="env-${k}" data-env="${k}">${ENV_OPTIONS[k].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div></div>`).join('')}
-            <div class="set-row"><label for="menu-battle">Battle size</label><p>Changing it restarts the mission.</p>
-              <div class="select"><select id="menu-battle">${Object.entries(BATTLES).map(([k, b]) => `<option value="${k}">${b.label}: ${b.wings * 54} B-17s, ${b.axisActive} enemy fighters at once</option>`).join('')}</select></div></div>
           </section>
           <section class="pane" data-pane="options">
             <p class="pane-note">What's drawn over the battle. Each one on its own; remembered for next time.</p>
             ${[['enemy', 'Enemy markers', 'The red triangles over enemy aircraft'], ['friend', 'Friendly markers', 'The blue triangles over your own side'],
     ['distance', 'Distance numbers', 'The range under each marker, once within 1,000 m'], ['lead', 'Lead marker', 'Where to aim ahead of a fighter so your rounds meet it'],
-    ['plainSight', 'Plain crosshair in fighters', 'Instead of the reflector gunsight in the cockpit']]
-    .map(([k, name, help]) => `<label class="set-row toggle"><span><b>${name}</b><small>${help}</small></span><input type="checkbox" data-hud="${k}"${k === 'plainSight' ? '' : ' checked'}><i></i></label>`).join('')}
+    ['plainSight', 'Plain crosshair in fighters', 'Instead of the reflector gunsight in the cockpit'], ['third', 'Third-person view for pilots', 'Behind your fighter or your B-17 instead of the cockpit. V switches it in flight'], ['infinite', 'Infinite ammunition', 'Your guns never run out (off: limited, as the real ones were: reload with R)']]
+    .map(([k, name, help]) => `<label class="set-row toggle"><span><b>${name}</b><small>${help}</small></span><input type="checkbox" data-hud="${k}"${k === 'lead' ? ' checked' : ''}><i></i></label>`).join('')}
           </section>
           <section class="pane" data-pane="controls"><div class="ctl-groups">${CONTROLS.map(([name, rows]) => `<div class="ctl-group"><h4>${name}</h4>
             ${rows.map(([k, what]) => `<div><span>${keycaps(k)}</span><span>${what}</span></div>`).join('')}</div>`).join('')}</div></section>
@@ -192,7 +198,7 @@ export class UI {
         <div class="m-frame seat">
           <header class="m-top"><div class="m-brand">${EMBLEM.crew()}<span>Eighth Air Force</span><i></i><span>Formation plot</span></div>
             <div class="m-top-note">The battle holds while you choose</div></header>
-          <div class="seat-head"><div class="m-kicker">Pick your seat</div><h1 id="map-title"></h1><p id="map-text"></p></div>
+          <div class="seat-head"><button class="btn ghost map-back" id="map-back">← Back <kbd>Esc</kbd></button><div class="m-kicker">Pick your seat</div><h1 id="map-title"></h1><p id="map-text"></p></div>
           <div class="seat-grid">
             <aside class="seat-left"><div id="map-record"></div>
               <div class="how"><div><span>Pan</span><span>drag the map</span></div><div><span>Zoom</span><span>mouse wheel · <kbd>+</kbd> <kbd>−</kbd></span></div>
@@ -237,6 +243,7 @@ export class UI {
         <div id="ejectcard"></div>
         <div id="toasts"></div>
         <div id="mmap"><canvas id="mmap-canvas" width="720" height="720"></canvas><div id="mmap-side"></div></div>
+        <div id="minimap"><canvas id="minimap-canvas" width="400" height="400"></canvas></div>
         <div id="gun">
           <div id="gun-ammo"></div>
           <div class="bar"><i id="gun-heat"></i></div><span class="lbl">Barrel heat</span>
@@ -321,7 +328,7 @@ export class UI {
     const cross = this.el('crosshair'), flying = s && s.view !== 'chase';
     // (the cockpit's reflector sight is the gunsight; with the plain crosshair option, these instead)
     sight.style.display = flying && s.marker && !s.reflector ? 'block' : 'none';
-    nose.style.display = s?.marker && !s.reflector ? 'block' : 'none';
+    nose.style.display = s?.marker && !s.reflector && sight.style.display === 'none' ? 'block' : 'none'; // (not under the gunsight: one mark there)
     cross.style.display = !s || s.view === 'chase' || s.aim ? '' : 'none';
     const at = (el, p) => { el.style.left = p ? `${p.x * 100}%` : ''; el.style.top = p ? `${p.y * 100}%` : ''; };
     at(cross, flying ? s.aim : null);
@@ -360,6 +367,15 @@ export class UI {
     if (kind === 'start' && text && !this.briefed) { this.briefed = true; this.typewrite(brief, text); } else brief.textContent = text ?? '';
     this.el('menu-facts').innerHTML = facts ? facts.map(([k, v]) => `<div${k === 'Conditions' ? ' data-fact="cond"' : ''}><span>${k}</span><b>${v}</b></div>`).join('') : '';
     this.el('menu-status').innerHTML = status ? this.statusHtml(status) : '';
+    if (status && !this.counted && !matchMedia('(prefers-reduced-motion: reduce)').matches) { // the first time: the numbers count up
+      this.counted = true;
+      for (const b of this.el('menu-status').querySelectorAll('b')) {
+        const m = /^(\d[\d,]*)(.*)$/.exec(b.textContent), to = m ? +m[1].replace(/,/g, '') : 0;
+        if (!m || to < 2) continue;
+        const t0 = performance.now(), step = () => { const k = Math.min(1, (performance.now() - t0) / 450); b.textContent = `${Math.round(to * (1 - (1 - k) ** 3)).toLocaleString()}${m[2]}`; if (k < 1) requestAnimationFrame(step); };
+        step();
+      }
+    }
     this.el('menu-body').innerHTML = body + (seats ? this.seatsHtml(seats) : '');
     for (const b of this.el('menu-body').querySelectorAll('.seat-btn[data-seat]')) b.onclick = () => onSeat(b.dataset.seat);
     if (kind !== 'loading') { this.el('menu-loading').innerHTML = ''; clearInterval(this.factTimer); }
@@ -380,9 +396,6 @@ export class UI {
       extra.append(b);
     }
     this.el('menu-hint').innerHTML = hint;
-    const bs = this.el('menu-battle'); // (changing it rebuilds the battle: the page reloads)
-    bs.value = battleName;
-    bs.onchange = () => setBattle(bs.value);
     const q = this.el('menu-quality');
     if (quality) q.value = quality;
     if (onQuality) q.onchange = () => onQuality(q.value);
@@ -471,18 +484,18 @@ export class UI {
       tile('Mission', s.phase, s.detail),
       tile('Target', s.toTarget != null ? mmss(s.toTarget) : 'Behind us', s.toTarget != null ? 'until it\'s under the bombsight' : 'heading for home'),
       s.health == null ? tile(s.role === 'crew' ? 'Your bomber' : 'Your fighter', '—', 'not flying')
-        : tile(s.role === 'crew' ? 'Your bomber' : 'Your fighter', `${pct(s.health)}%`, s.role === 'crew' ? `${s.engines} of 4 engines · ${s.crewFit} of 10 crew fit` : '', meter(s.health)),
+        : tile(s.role === 'crew' ? 'Your bomber' : 'Your fighter', `${pct(s.health)}%`, s.role === 'crew' ? `${s.engines} of 4 engines · ${s.crewMen ? `${s.crewMen.alive} fit${s.crewMen.wounded ? `, ${s.crewMen.wounded} wounded` : ''}${s.crewMen.dead ? `, ${s.crewMen.dead} dead` : ''}` : `${s.crewFit} of 10 crew fit`}` : '', meter(s.health)),
       tile('This life', `${kills} kill${kills === 1 ? '' : 's'}`, `${l.hits} hits · ${acc}% accuracy`),
       tile('Mission score', s.mission.points.toLocaleString(), `${s.lives} ${s.lives === 1 ? 'life' : 'lives'} so far`),
-      tile('The stream', `${f.healthy + f.damaged} of ${f.total}`, `${f.damaged} damaged · ${f.down} lost`),
+      tile('The stream', `${f.healthy + f.damaged} of ${f.total}`, `${f.damaged} damaged · ${f.down} lost${f.men ? ` · men ${f.men.dead} dead, ${f.men.wounded} wounded` : ''}`),
     ].join('');
   }
 
   /** The pause sheet's crew positions: who's there, and whether you can take it. seats: [{ id, name, who, state, can, here }]. */
   seatsHtml(seats) {
-    const word = { ok: 'Manned', wounded: 'Wounded', dead: 'KIA', bailed: 'Gone', free: 'Free', you: 'You', out: 'Knocked out' };
+    const word = { ok: '✓ Manned', wounded: '✚ Wounded', dead: '✕ KIA', bailed: '↓ Gone', free: '○ Free', you: '★ You', out: '✕ Knocked out' };
     return `<section class="seats"><h3>Change position</h3><div class="seat-grid2">${seats.map((s) => `<button class="seat-btn ${s.state}${s.here ? ' here' : ''}" ${s.can && !s.here ? `data-seat="${s.id}"` : 'disabled'}>
-      <b>${s.name}</b><small>${esc(s.who ?? '')}</small><span class="chip ${s.state === 'you' ? 'player' : s.state === 'free' ? 'ok' : s.state}">${s.here ? 'You' : word[s.state]}</span></button>`).join('')}</div></section>`;
+      <b>${s.name}</b><small>${esc(s.who ?? '')}</small>${s.job ? `<em>${esc(s.job)}</em>` : ''}<span class="chip ${s.state === 'you' ? 'player' : s.state === 'free' ? 'ok' : s.state}">${s.here ? word.you : word[s.state]}</span>${s.can && !s.here ? '<span class="take">Take it ›</span>' : ''}</button>`).join('')}</div></section>`;
   }
 
   /**
@@ -539,11 +552,14 @@ export class UI {
    * she stands. crewOf(bomber) -> Crew. onPick(bomber, member) is called with the choice; record: the
    * service record of the life just ended (HTML).
    */
-  map({ title, text, record = '', bombers, crewOf, mine, onPick, onRole }) {
+  map({ title, text, record = '', bombers, crewOf, mine, onPick, onRole, onBack = null }) {
     const box = this.el('map'), cv = this.el('map-canvas'), g = cv.getContext('2d'), side = this.el('map-side'), tip = this.el('map-tip');
     this.el('map-title').textContent = title;
     this.el('map-text').textContent = text;
     this.el('map-record').innerHTML = record;
+    const back = this.el('map-back'); // (only when you came here by choice: there's somewhere to go back to)
+    back.style.display = onBack ? '' : 'none';
+    back.onclick = () => { box.style.display = 'none'; onBack(); };
     this.el('menu').style.display = 'none';
     this.el('hud').style.display = 'none';
     box.style.display = 'flex';
@@ -622,7 +638,7 @@ export class UI {
       g.fillStyle = stain; g.fillRect(0, 0, W, H);
       // the grid, lettered across and numbered down like a briefing map
       const step = nice(80 / view.s), wx0 = view.cx - W / 2 / view.s, wz0 = view.cz - H / 2 / view.s;
-      g.lineWidth = 1; g.font = '11px "Special Elite", "Courier New", monospace'; g.textBaseline = 'top';
+      g.lineWidth = 1; g.font = '600 13px "Barlow Condensed", system-ui, sans-serif'; g.textBaseline = 'top';
       for (let k = Math.floor(wx0 / step) * step; k < wx0 + W / view.s; k += step) {
         const x = Math.round(W / 2 + (k - view.cx) * view.s) + 0.5, n = Math.round(k / step);
         g.strokeStyle = n % 5 ? '#8f774b38' : '#8f774b70'; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke();
@@ -669,7 +685,7 @@ export class UI {
       if (!mine.gone) {
         ring(mine, r0 + 6, INK, 1.6, [3, 3]);
         const [x, y] = px(mine);
-        g.fillStyle = INK; g.font = '12px "Special Elite", "Courier New", monospace'; g.fillText('YOU WERE HERE', x + r0 + 12, y - r0 - 8);
+        g.fillStyle = INK; g.font = '700 14px "Barlow Condensed", system-ui, sans-serif'; g.fillText('YOU WERE HERE', x + r0 + 12, y - r0 - 8);
       }
       // the heading marker, the title, the scale and the frame
       const hx = 40, hy = 44;
@@ -677,9 +693,9 @@ export class UI {
       for (let i = 0; i < 4; i++) { const a = (i * Math.PI) / 2; g.beginPath(); g.moveTo(hx + Math.sin(a) * 20, hy - Math.cos(a) * 20); g.lineTo(hx + Math.sin(a) * 25, hy - Math.cos(a) * 25); g.stroke(); }
       g.fillStyle = RED; g.beginPath(); g.moveTo(hx, hy - 17); g.lineTo(hx + 6, hy + 4); g.lineTo(hx, hy); g.closePath(); g.fill();
       g.fillStyle = INK; g.beginPath(); g.moveTo(hx, hy - 17); g.lineTo(hx - 6, hy + 4); g.lineTo(hx, hy); g.closePath(); g.fill();
-      g.font = '11px "Special Elite", "Courier New", monospace'; g.textAlign = 'center'; g.fillText('HEADING', hx, hy + 34); g.textAlign = 'left';
-      g.font = '13px "Special Elite", "Courier New", monospace'; g.fillText('FORMATION PLOT', 78, 34);
-      g.fillStyle = '#5d4f39'; g.font = '11px "Special Elite", "Courier New", monospace'; g.fillText(`${live.size} bombers with men to spare`, 78, 52);
+      g.font = '700 13px "Barlow Condensed", system-ui, sans-serif'; g.textAlign = 'center'; g.fillText('HEADING', hx, hy + 34); g.textAlign = 'left';
+      g.font = '20px "Special Elite", "Courier New", monospace'; g.fillText('FORMATION PLOT', 78, 34);
+      g.fillStyle = '#3d3222'; g.font = '500 15px Barlow, system-ui, sans-serif'; g.fillText(`${live.size} bombers with men to spare`, 78, 56);
       const L = nice(110 / view.s), lw = L * view.s, sx = W - 22 - lw, sy = H - 26;
       for (let i = 0; i < 4; i++) { g.fillStyle = i % 2 ? '#efe6cc' : INK; g.fillRect(sx + (i * lw) / 4, sy, lw / 4, 5); }
       g.strokeStyle = INK; g.lineWidth = 1; g.strokeRect(sx + 0.5, sy + 0.5, lw, 5);
@@ -702,7 +718,7 @@ export class UI {
         <div><span>Airframe</span> ${Math.round(b.health * 100)}%</div>
         <div><span>Crew</span> ${n} of 10 fit</div>
         <div><span>Height</span> ${heightWord(b)}</div>
-        <div class="cta"${live.has(b) ? '' : ' style="color:var(--fire)"'}>${live.has(b) ? 'Click: see her crew' : 'No one left to take over'}</div>`;
+        <div class="cta"${live.has(b) ? '' : ' style="color:var(--fire)"'}>${live.has(b) ? 'Click: her crew · double-click: board her' : 'No one left to take over'}</div>`;
       tip.style.display = 'block';
       const tw = tip.offsetWidth, th = tip.offsetHeight; // beside the cursor, inside the map
       let x = mx + 18, y = my + 16;
@@ -723,6 +739,14 @@ export class UI {
       for (const btn of side.querySelectorAll('.crew-row')) btn.onclick = () => { box.style.display = 'none'; onPick(b, crew.members[+btn.dataset.i]); };
     };
     const select = (b) => { selected = b; draw(); showSide(b); };
+    // straight aboard: as one of her gunners if one's fit, or whoever is
+    const GUNS = ['tail', 'top', 'ball', 'waistL', 'waistR', 'radio', 'cheekL', 'cheekR', 'noseL', 'noseR'];
+    const board = (b) => {
+      const fit = crewOf(b).members.filter((m) => m.state === 'ok');
+      const m = GUNS.map((id) => fit.find((x) => x.role.station === id)).find(Boolean) ?? fit[0];
+      if (!m) return;
+      box.style.display = 'none'; onPick(b, m);
+    };
 
     const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
     cv.onpointerdown = (e) => { drag = { x: e.clientX, y: e.clientY, cx: view.cx, cz: view.cz, moved: false }; cv.setPointerCapture(e.pointerId); };
@@ -743,6 +767,7 @@ export class UI {
       if (drag && !drag.moved) { const h = hit(...local(e)); if (h && live.has(h)) select(h); }
       drag = null; cv.classList.remove('drag');
     };
+    cv.ondblclick = (e) => { const h = hit(...local(e)); if (h && live.has(h)) board(h); };
     cv.onpointerleave = () => { if (!drag && hover) { hover = null; setTip(null); draw(); } };
     cv.onwheel = (e) => { e.preventDefault(); zoomAt(...local(e), e.deltaY < 0 ? 1.25 : 0.8); };
     for (const b of box.querySelectorAll('[data-z]')) {
@@ -822,7 +847,8 @@ export class UI {
           ['Target buildings destroyed', `${d.destroyed} of ${d.buildings}`]])}
           ${this.section('Your crew', [
           ['Crewmen saved by first aid', `${d.saved} (${d.savedByYou} by you)`],
-          ['Your crew home safe', `${d.crewHome} of 10`]])}</div>
+          ['Your crew home safe', `${d.crewHome} of 10`],
+          ...(d.crewMen ? [['Your crew', `${d.crewMen.alive} fit · ${d.crewMen.wounded} wounded · ${d.crewMen.dead} dead`]] : [])])}</div>
         <div>${this.section('The air battle', [
           ['Fighters shot down by you', d.kills.player],
           ['… by your crews\' gunners', d.kills.crew],
@@ -832,7 +858,8 @@ export class UI {
           ['P-51s', `${f.f.allied.down} lost of ${f.f.allied.total - f.f.allied.reserve} sent up`]])}
           ${this.section('The stream', [
           ['B-17s lost', `${d.bombersLost} of ${d.bombers}`],
-          ['At the end', `${f.b.healthy} healthy, ${f.b.damaged} damaged`]])}</div>
+          ['At the end', `${f.b.healthy} healthy, ${f.b.damaged} damaged`],
+          ...(d.men ? [['Men in the bombers home', `${d.men.alive} fit · ${d.men.wounded} wounded · ${d.men.dead} dead`]] : [])])}</div>
         <div class="db-rec"><div class="stamp rating ${rating.toLowerCase()}"><small>Bombing</small>${rating}</div>
           ${this.lifeCard(d.score, 'Whole mission')}</div>
       </div>`,
@@ -874,7 +901,8 @@ export class UI {
           : m.state === 'dead' ? '<span class="dead">KIA</span>'
             : m.state === 'bailed' ? '<span class="busy">BAILED OUT</span>'
               : m.task === 'helping' ? '<span class="busy">FIRST AID</span>' : '<span class="ok">●</span>';
-      return `<div class="${m.state}">${m.role.title}<b>${s}</b></div>`;
+      const once = m.patched && (m.state === 'ok' || m.state === 'player') ? ' <span class="hurt" title="Wounded once: the next wound like that kills him">✚1</span>' : '';
+      return `<div class="${m.state}">${m.role.title}${once}<b>${s}</b></div>`;
     }).join('');
     if (html !== this.lastCrew) this.el('crew').innerHTML = this.lastCrew = html;
   }
@@ -973,6 +1001,55 @@ export class UI {
   }
 
   /** Your health, top left (null hides it: flying a fighter, your plane's own health shows instead). */
+  /**
+   * The mini map: a round radar plot, always up in the corner, turned with your view (straight up is where
+   * you're looking). You in the middle; the B-17s as grey dots (paler lower down, crosses for the ones going
+   * down), the P-51s blue, the Luftwaffe red; the target's bearing and range on the rim. d: { at, yaw,
+   * bombers, fighters, target, side, range }.
+   */
+  minimap(d) {
+    const box = this.el('minimap');
+    box.style.display = d ? 'block' : 'none';
+    if (!d) return;
+    const cv = this.el('minimap-canvas'), g = cv.getContext('2d'), S = cv.width, R = S / 2 - 8, k = R / d.range;
+    const cs = Math.cos(d.yaw), sn = Math.sin(d.yaw);
+    const plot = (p) => { const dx = p.x - d.at.x, dz = p.z - d.at.z; return [S / 2 + (dx * cs - dz * sn) * k, S / 2 + (dx * sn + dz * cs) * k]; };
+    g.clearRect(0, 0, S, S);
+    g.save(); g.beginPath(); g.arc(S / 2, S / 2, R, 0, 7); g.clip();
+    g.fillStyle = '#0d110bcc'; g.fillRect(0, 0, S, S);
+    g.strokeStyle = '#c9a55a33'; g.lineWidth = 2;
+    for (const f of [1 / 3, 2 / 3]) { g.beginPath(); g.arc(S / 2, S / 2, R * f, 0, 7); g.stroke(); } // 1 km rings
+    g.beginPath(); g.moveTo(S / 2, 8); g.lineTo(S / 2, S - 8); g.moveTo(8, S / 2); g.lineTo(S - 8, S / 2); g.stroke();
+    for (const b of d.bombers) { // the stream
+      if (b.gone) continue;
+      const [x, y] = plot(b.group.position);
+      if (x < 0 || y < 0 || x > S || y > S) continue;
+      if (b.down) { g.strokeStyle = '#ff6a4a'; g.lineWidth = 2; g.beginPath(); g.moveTo(x - 4, y - 4); g.lineTo(x + 4, y + 4); g.moveTo(x + 4, y - 4); g.lineTo(x - 4, y + 4); g.stroke(); continue; }
+      g.fillStyle = b.straggling ? '#e8b04a' : '#b9bfc4'; g.beginPath(); g.arc(x, y, 3.6, 0, 7); g.fill();
+    }
+    for (const f of d.fighters) {
+      if (!f.alive || f.player) continue;
+      const [x, y] = plot(f.pos);
+      if (x < 0 || y < 0 || x > S || y > S) continue;
+      g.fillStyle = f.side === 'axis' ? '#ff3a2a' : '#4aa0ff';
+      g.beginPath(); g.moveTo(x, y - 5); g.lineTo(x + 4.5, y + 4); g.lineTo(x - 4.5, y + 4); g.closePath(); g.fill();
+    }
+    g.restore();
+    // the rim (red in the flak belt), the target's bearing, you
+    g.strokeStyle = d.flak ? `rgba(255,${120 - d.flak * 80 | 0},70,${0.5 + d.flak * 0.5})` : '#c9a55a99'; g.lineWidth = d.flak ? 5 : 3; g.beginPath(); g.arc(S / 2, S / 2, R, 0, 7); g.stroke();
+    if (d.flak) { g.fillStyle = '#ff8a6a'; g.font = '700 22px "Barlow Condensed", system-ui'; g.textAlign = 'center'; g.fillText('FLAK', S / 2, 44); }
+    if (d.target) {
+      const dx = d.target.x - d.at.x, dz = d.target.z - d.at.z, a = Math.atan2(dx * sn + dz * cs, dx * cs - dz * sn), dist = Math.hypot(dx, dz);
+      const x = S / 2 + Math.cos(a) * (R - 2), y = S / 2 + Math.sin(a) * (R - 2);
+      g.fillStyle = '#ff5040'; g.beginPath(); g.arc(x, y, 9, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 4, 0, 7); g.stroke();
+      g.fillStyle = '#ece8dc'; g.font = '600 20px system-ui'; g.textAlign = 'center';
+      g.fillText(`TARGET ${(dist / 1000).toFixed(0)} km`, S / 2, S - 26);
+    }
+    g.fillStyle = '#ffd24a'; g.strokeStyle = '#000'; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(S / 2, S / 2 - 11); g.lineTo(S / 2 + 8, S / 2 + 8); g.lineTo(S / 2, S / 2 + 3); g.lineTo(S / 2 - 8, S / 2 + 8); g.closePath(); g.fill(); g.stroke();
+    g.fillStyle = '#ece8dc99'; g.font = '600 17px system-ui'; g.textAlign = 'left'; g.fillText(`${d.range / 1000} km`, 14, S - 12);
+  }
+
   you(h) {
     const el = this.el('you');
     el.style.display = h == null ? 'none' : 'flex';
@@ -1173,31 +1250,65 @@ export class UI {
   }
 
   /**
-   * The sound controls in the settings: a mute button and a volume line, remembered between games.
-   * onChange(volume 0..1, muted) is called now and whenever they change. N mutes too.
+   * The sound controls: a mute button and a volume line on every menu's top bar and in the settings (kept
+   * in step), and the mix in the settings (guns, engines, battle, crew), all remembered between games.
+   * onChange(volume 0..1, muted, mix) is called now and whenever they change. N mutes too.
    */
   sound(onChange) {
-    let vol = 1, muted = false;
-    try { const s = JSON.parse(localStorage.getItem('bomber.sound') ?? 'null'); if (s) ({ vol, muted } = s); } catch { /* (no storage: defaults) */ }
-    const btn = this.el('snd-mute'), slider = this.el('snd-vol'), val = this.el('snd-val');
+    let vol = 1, muted = false, mix = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 };
+    try { const s = JSON.parse(localStorage.getItem('bomber.sound') ?? 'null'); if (s) { ({ vol, muted } = s); mix = { ...mix, ...s.mix }; } } catch { /* (no storage: defaults) */ }
+    const sets = [['snd-mute', 'snd-vol', 'snd-val'], ['snd-mute-top', 'snd-vol-top', 'snd-val-top']].map((ids) => ids.map((i) => this.el(i)));
+    const mixers = [...document.querySelectorAll('[data-mix]')];
     const apply = () => {
       const off = muted || vol === 0;
-      btn.innerHTML = off ? ICON.muted : ICON.sound;
-      btn.classList.toggle('off', off);
-      btn.setAttribute('aria-pressed', String(muted));
-      slider.value = Math.round(vol * 100);
-      val.textContent = muted ? 'off' : `${Math.round(vol * 100)}%`;
-      try { localStorage.setItem('bomber.sound', JSON.stringify({ vol, muted })); } catch { /* (not remembered) */ }
-      onChange(vol, muted);
+      for (const [btn, slider, val] of sets) {
+        btn.innerHTML = off ? ICON.muted : ICON.sound;
+        btn.classList.toggle('off', off);
+        btn.setAttribute('aria-pressed', String(muted));
+        slider.value = Math.round(vol * 100);
+        val.textContent = muted ? 'off' : `${Math.round(vol * 100)}%`;
+      }
+      for (const m of mixers) { m.value = Math.round(mix[m.dataset.mix] * 100); document.querySelector(`[data-mix-val="${m.dataset.mix}"]`).textContent = `${m.value}%`; }
+      try { localStorage.setItem('bomber.sound', JSON.stringify({ vol, muted, mix })); } catch { /* (not remembered) */ }
+      onChange(vol, muted, mix);
     };
-    btn.addEventListener('click', () => { muted = !muted; apply(); });
-    slider.addEventListener('input', () => { vol = slider.value / 100; if (vol > 0) muted = false; apply(); });
+    for (const [btn, slider] of sets) {
+      btn.addEventListener('click', () => { muted = !muted; apply(); });
+      slider.addEventListener('input', () => { vol = slider.value / 100; if (vol > 0) muted = false; apply(); });
+    }
+    for (const m of mixers) m.addEventListener('input', () => { mix[m.dataset.mix] = m.value / 100; apply(); });
     addEventListener('keydown', (e) => {
       if (e.code !== 'KeyN' || e.repeat || e.target.matches?.('input, select')) return;
       muted = !muted; apply();
       if (this.el('hud').style.display === 'block') this.toast(muted ? 'Sound off (N)' : 'Sound on (N)');
     });
     apply();
+  }
+
+  /** Full screen: the buttons on the menus and in the settings, and Alt+Enter; kept in step when the browser leaves it itself (Esc). */
+  fullscreen() {
+    const on = () => !!document.fullscreenElement;
+    const toggle = () => { try { on() ? document.exitFullscreen() : document.documentElement.requestFullscreen({ navigationUI: 'hide' })?.catch?.(() => {}); } catch { /* (not allowed here) */ } };
+    // Esc is the game's (pause), not the browser's: in full screen the page keeps the key (Chrome, Edge),
+    // so pausing doesn't drop you out of it. Holding Esc down still leaves full screen, as browsers insist.
+    const keep = () => { try { if (on()) navigator.keyboard?.lock?.(['Escape'])?.catch?.(() => {}); else navigator.keyboard?.unlock?.(); } catch { /* (not supported) */ } };
+    document.addEventListener('fullscreenchange', keep);
+    const show = () => { for (const b of document.querySelectorAll('[data-fs]')) { const t = on() ? 'Exit full screen' : 'Full screen'; const s = b.querySelector('span'); if (s) s.textContent = t; else b.textContent = t; b.classList.toggle('on', on()); } };
+    for (const b of document.querySelectorAll('[data-fs]')) b.addEventListener('click', toggle);
+    addEventListener('keydown', (e) => { if (e.code === 'Enter' && e.altKey && !e.repeat) { e.preventDefault(); toggle(); } });
+    document.addEventListener('fullscreenchange', show);
+    show();
+    // back from a mission (the page reloads, and the browser drops full screen with it): full screen again at
+    // your first click or key on the menu (browsers only allow it on one)
+    let back = false;
+    try { back = sessionStorage.getItem('bomber.fs') === '1'; sessionStorage.removeItem('bomber.fs'); } catch { /* (no storage) */ }
+    if (back) {
+      const again = (e) => {
+        removeEventListener('pointerdown', again, true); removeEventListener('keydown', again, true);
+        if (!on() && !e.target?.closest?.('[data-fs]')) toggle();
+      };
+      addEventListener('pointerdown', again, true); addEventListener('keydown', again, true);
+    }
   }
 
   /** The time of day, season and weather selects: env is changed in place, onChange(env, 'settings') on every change. */
@@ -1228,8 +1339,9 @@ export class UI {
 
   /** The Options switches (markers, distances, lead): remembered between games; onChange(opts) now and on every change. */
   hudOptions(onChange) {
-    let o = { enemy: true, friend: true, distance: true, lead: true, plainSight: false };
-    try { o = { ...o, ...JSON.parse(localStorage.getItem('bomber.hud') ?? '{}') }; } catch { /* (defaults) */ }
+    let o = { enemy: false, friend: false, distance: false, lead: true, plainSight: false, third: false, infinite: false, v: 2 };
+    try { const saved = JSON.parse(localStorage.getItem('bomber.hud') ?? '{}'); if (saved.v === 2) o = { ...o, ...saved }; } catch { /* (defaults) */ }
+    o.third = false; // (every game starts in the cockpit: V switches)
     const boxes = document.querySelectorAll('[data-hud]');
     for (const b of boxes) {
       b.checked = o[b.dataset.hud];
@@ -1240,6 +1352,14 @@ export class UI {
       });
     }
     onChange({ ...o });
+    /** Flip one option from the game (V: the view), kept in step with its box and remembered. */
+    this.toggleHud = (k) => {
+      o[k] = !o[k];
+      for (const b of boxes) if (b.dataset.hud === k) b.checked = o[k];
+      try { localStorage.setItem('bomber.hud', JSON.stringify(o)); } catch { /* (not remembered) */ }
+      onChange({ ...o });
+      return o[k];
+    };
   }
 
   hint(text) {

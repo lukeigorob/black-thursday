@@ -43,9 +43,9 @@ export function envLabel(env) {
 // sky model's haze, how bright the sky is drawn, exposure, the ambient (sky / ground) and how sunlit
 // the clouds look
 export const TIMES = {
-  morning: { elev: 9, az: 100, sun: [1, 0.74, 0.5], sunI: 2.5, turb: 5, ray: 2.6, mie: 0.007, dim: 0.62, exp: 0.6, hemi: [0x9fb2d6, 0x564a3a, 0.22], cloud: [1.35, 1.12, 0.95], env: 0.55 },
+  morning: { elev: 9, az: 100, sun: [1, 0.74, 0.5], sunI: 2.5, turb: 5, ray: 2.6, mie: 0.0045, dim: 0.62, exp: 0.6, hemi: [0x9fb2d6, 0x564a3a, 0.22], cloud: [1.35, 1.12, 0.95], env: 0.55 },
   day: { elev: 38, az: 150, sun: [1, 0.95, 0.88], sunI: 3.2, turb: 2.2, ray: 1.6, mie: 0.004, dim: 0.55, exp: 0.55, hemi: [0xc4d8f0, 0x6a6458, 0.2], cloud: [1.55, 1.55, 1.55], env: 0.6 },
-  twilight: { elev: 1.2, az: 255, sun: [1, 0.48, 0.26], sunI: 1.15, turb: 9, ray: 3.2, mie: 0.012, dim: 0.75, exp: 0.95, hemi: [0x5c6290, 0x2a221e, 0.24], cloud: [1.05, 0.68, 0.6], env: 0.4 },
+  twilight: { elev: 4, az: 255, sun: [1, 0.52, 0.3], sunI: 1.7, turb: 8, ray: 3, mie: 0.011, dim: 0.75, exp: 1.15, hemi: [0x7c84b8, 0x3e3228, 0.4], cloud: [1.1, 0.74, 0.66], env: 0.55 }, // (dusk, but you can still see: the cabins weren't black)
   night: { night: true, elev: 32, az: 210, sun: [0.55, 0.66, 0.95], sunI: 0.42, dim: 1, exp: 1.05, hemi: [0x1e2846, 0x0a0a0c, 0.14], cloud: [0.09, 0.1, 0.14], env: 0.12 },
 };
 // cover: clouds against the quality setting's count; deck: how many lie in the low deck; fog: haze
@@ -147,17 +147,71 @@ export function nightSkyScene() {
   return s;
 }
 
-/** The moon's disc: pale, with darker seas. */
+/**
+ * The moon's disc, as it looks from 25,000 feet on a clear night: a bright, slightly gibbous moon, its
+ * dark seas where they are on the real near side (Imbrium, Serenitatis, Tranquillitatis, Crisium,
+ * Procellarum, Nubium...), bright young craters with their rays (Tycho's down in the south, Copernicus,
+ * Kepler), a mottled highland grain, the limb a little darker, the terminator soft. Drawn once.
+ */
 export function moonTexture() {
-  const c = document.createElement('canvas');
-  c.width = c.height = 128;
-  const g = c.getContext('2d');
-  const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-  grd.addColorStop(0, 'rgba(255,255,255,1)'); grd.addColorStop(0.28, 'rgba(240,240,232,1)');
-  grd.addColorStop(0.31, 'rgba(200,210,235,0.25)'); grd.addColorStop(1, 'rgba(160,180,220,0)');
-  g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
-  g.fillStyle = 'rgba(150,150,145,0.45)';
-  for (const [x, y, r] of [[56, 54, 9], [72, 66, 7], [60, 74, 6], [70, 50, 5]]) { g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+  const S = 512, c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d'), R = S * 0.46, cx = S / 2, cy = S / 2;
+  let seed = 11;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  g.save(); g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.clip();
+  // the highlands: warm grey-white, a fine grain all over
+  g.fillStyle = '#e9e6dc'; g.fillRect(0, 0, S, S);
+  for (let i = 0; i < 9000; i++) { const v = 200 + rnd() * 55 | 0; g.fillStyle = `rgba(${v},${v - 4},${v - 10},0.25)`; g.fillRect(rnd() * S, rnd() * S, 1 + rnd() * 3, 1 + rnd() * 3); }
+  // the seas: overlapping soft dark blotches (x, y in disc radii from the centre, size)
+  const seas = [[-0.38, -0.35, 0.3], [-0.1, -0.42, 0.22], [0.14, -0.3, 0.2], [0.22, -0.05, 0.24], [0.55, -0.12, 0.13], [-0.55, 0.05, 0.36],
+    [-0.62, -0.18, 0.22], [-0.2, 0.25, 0.18], [0.05, 0.12, 0.12], [0.38, 0.2, 0.16], [-0.42, 0.42, 0.14], [-0.05, -0.05, 0.1]];
+  for (const [x, y, r] of seas) for (let k = 0; k < 7; k++) {
+    const px = cx + (x + (rnd() - 0.5) * r * 0.6) * R, py = cy + (y + (rnd() - 0.5) * r * 0.6) * R, pr = r * R * (0.55 + rnd() * 0.5);
+    const gr = g.createRadialGradient(px, py, 0, px, py, pr);
+    gr.addColorStop(0, 'rgba(88,92,102,0.5)'); gr.addColorStop(0.7, 'rgba(104,108,116,0.3)'); gr.addColorStop(1, 'rgba(120,120,125,0)');
+    g.fillStyle = gr; g.fillRect(px - pr, py - pr, pr * 2, pr * 2);
+  }
+  // craters: small dark-rimmed pits, and the bright young ones with rays
+  for (let i = 0; i < 140; i++) {
+    const a = rnd() * Math.PI * 2, d = Math.sqrt(rnd()) * R, x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, r = 1 + rnd() ** 3 * 9;
+    g.fillStyle = 'rgba(120,118,112,0.2)'; g.beginPath(); g.arc(x + r * 0.2, y + r * 0.2, r, 0, 7); g.fill();
+    g.fillStyle = 'rgba(255,253,245,0.35)'; g.beginPath(); g.arc(x - r * 0.15, y - r * 0.15, r * 0.75, 0, 7); g.fill();
+  }
+  for (const [x, y, n, len] of [[-0.12, 0.66, 26, 0.9], [-0.28, -0.08, 16, 0.45], [-0.58, -0.02, 10, 0.3], [0.62, -0.42, 8, 0.25]]) { // Tycho, Copernicus, Kepler, a fourth
+    const px = cx + x * R, py = cy + y * R;
+    g.strokeStyle = 'rgba(255,255,250,0.13)';
+    for (let k = 0; k < n; k++) { const a = rnd() * Math.PI * 2, l = R * len * (0.4 + rnd() * 0.6); g.lineWidth = 1 + rnd() * 2.5; g.beginPath(); g.moveTo(px, py); g.lineTo(px + Math.cos(a) * l, py + Math.sin(a) * l); g.stroke(); }
+    g.fillStyle = 'rgba(255,255,252,0.95)'; g.beginPath(); g.arc(px, py, 4, 0, 7); g.fill();
+  }
+  // the limb a little darker and cooler; the terminator, soft, just past full on the left
+  const limb = g.createRadialGradient(cx, cy, R * 0.55, cx, cy, R);
+  limb.addColorStop(0, 'rgba(0,0,0,0)'); limb.addColorStop(1, 'rgba(40,46,70,0.38)');
+  g.fillStyle = limb; g.fillRect(0, 0, S, S);
+  const term = g.createLinearGradient(cx - R, 0, cx - R * 0.55, 0);
+  term.addColorStop(0, 'rgba(6,8,16,0.92)'); term.addColorStop(1, 'rgba(6,8,16,0)');
+  g.fillStyle = term; g.fillRect(0, 0, S, S);
+  g.restore();
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  return t;
+}
+
+/** The moon's glow: a soft cold light round it, fading smoothly to nothing. */
+export function moonGlowTexture() {
+  // a soft glow round the moon, falling smoothly away to nothing: no halo ring, and dithered so its
+  // 8-bit steps don't show as rings either
+  const S = 512, c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d'), img = g.createImageData(S, S), d = img.data, m = S / 2;
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+    const r = Math.hypot(x + 0.5 - m, y + 0.5 - m) / m;
+    const a = r >= 1 ? 0 : (0.5 * Math.exp(-r / 0.045) + 0.2 * Math.exp(-r / 0.16) + 0.05 * Math.exp(-r / 0.4)) * (1 - r * r) ** 2;
+    const k = (y * S + x) * 4, n = Math.random() - 0.5;
+    d[k] = 205 - 60 * Math.min(1, r * 2); d[k + 1] = 218 - 55 * Math.min(1, r * 2); d[k + 2] = 250 - 30 * Math.min(1, r * 2);
+    d[k + 3] = Math.max(0, Math.min(255, a * 255 + n));
+  }
+  g.putImageData(img, 0, 0);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   return t;

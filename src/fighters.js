@@ -29,8 +29,48 @@ const CELL = 100, CELL_PAD = 65; // m: bombers are filed in a grid so a round on
 const FCELL = 100, FCELL_PAD = 60; // m: fighters are filed too (a frame's flight of a round plus a wingspan)
 const RAM = 6; // m between two fighters' centres: closer than that their wings or props meet
 const RAM_PAD = 2.5; // m added round a B-17's hit boxes for a fighter's size
-const AI_RAM_CHANCE = 0.15, AI_MIDAIR_CHANCE = 0.3; // AI pilots mostly just miss (rolled once per close pass)
-const BOMBER_RAM = 22; // m between two B-17s' centres (only checked while you fly yours out of its slot)
+const AI_RAM_CHANCE = 0.06, AI_MIDAIR_CHANCE = 0.3; // AI pilots mostly just miss (rolled once per close pass)
+const BOMBER_RAM = 11; // m between two B-17s' centres: a crippled or falling one drifting into another (their bodies, not their spans)
+const CONTACT_NEAR = 35; // m between centres: closer than this, your B-17's shape is tested against hers
+const BRUSH = 5, SMASH = 14, WING_OFF = 9; // how hard (m/s closing + 6 x depth in m): a brush below BRUSH, a big hit above SMASH; wings off above WING_OFF
+
+// the shapes that can touch (wings, tailplane, fuselage) and points spread through each, in bomber space
+const SOLID = BOMBER_PARTS.filter((p) => p.kind === 'wing' || p.kind === 'tail' || p.kind === 'section');
+const SAMPLES = SOLID.map((p) => {
+  const pts = [], n = (a, b, step) => Math.max(2, Math.ceil((b - a) / step) + 1);
+  for (const [x0, x1, y0, y1, z0, z1] of p.boxes) {
+    const nx = n(x0, x1, 1.4), ny = n(y0, y1, 1.6), nz = n(z0, z1, 1.4);
+    for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) for (let k = 0; k < nz; k++) pts.push(new THREE.Vector3(x0 + (x1 - x0) * i / (nx - 1), y0 + (y1 - y0) * j / (ny - 1), z0 + (z1 - z0) * k / (nz - 1)));
+  }
+  return { part: p, pts };
+});
+const _cv = new THREE.Vector3(), _cw = new THREE.Vector3(), _cn = new THREE.Vector3(), _cp = new THREE.Vector3(), _cs = new THREE.Vector3(), _cm = new THREE.Matrix4();
+/**
+ * Does any of b's shape reach into a's? Points through b's wings, tailplane and fuselage, taken into a's
+ * frame and tested against a's. The deepest: { a: a's part, b: b's part, depth, at (world), la, lb (local) }
+ * (swap: the parts given the other way round, so `a` is always the first bomber's).
+ */
+function contact(a, b, swap = false) {
+  _cm.multiplyMatrices(a._inv, b.group.matrix); // b's space into a's
+  let best = null;
+  for (const { part: pbp, pts } of SAMPLES) {
+    if (b.lost[pbp.name]) continue;
+    for (const p of pts) {
+      const l = _cs.copy(p).applyMatrix4(_cm);
+      for (const pa of SOLID) {
+        if (a.lost[pa.name]) continue;
+        for (const q of pa.boxes) {
+          if (l.x <= q[0] || l.x >= q[1] || l.y <= q[2] || l.y >= q[3] || l.z <= q[4] || l.z >= q[5]) continue;
+          const depth = Math.min(l.x - q[0], q[1] - l.x, l.y - q[2], q[3] - l.y, l.z - q[4], q[5] - l.z);
+          if (!best || depth > best.depth) best = { pa, pb: pbp, depth, la: l.clone(), lb: p.clone() };
+        }
+      }
+    }
+  }
+  if (!best) return null;
+  const at = best.la.clone().applyMatrix4(a.group.matrix);
+  return swap ? { a: best.pb, b: best.pa, depth: best.depth, at, la: best.lb, lb: best.la } : { a: best.pa, b: best.pb, depth: best.depth, at, la: best.la, lb: best.lb };
+}
 let nextId = 1;
 const SPREAD_CHECKS = 3; // the pairwise checks (on my tail? who to chase?) run every 3rd frame per fighter
 
@@ -38,7 +78,7 @@ const KINDS = {
   bf109: {
     // m/s through the air: cruise ~410 km/h, flat out ~600 km/h at 25,000 ft; turn rates in rad/s (sustained,
     // in a fight, and a hard break)
-    side: 'axis', name: 'Bf 109', cruise: 114, setup: 155, attack: 150, max: 167, turn: 0.32, combat: 0.5, breakTurn: 0.62, muzzle: 780,
+    side: 'axis', name: 'Bf 109', roll: 2.8, pitchRate: 1.15, yawRate: 0.35, cruise: 114, setup: 155, attack: 150, max: 167, turn: 0.32, combat: 0.5, breakTurn: 0.62, muzzle: 780,
     // hit boxes in the fighter's own space (nose -Z, prop axis at y = 0), measured from the model
     parts: {
       pilot: { box: [-0.33, 0.33, 0.05, 0.8, -1.5, -0.3], hp: 2 },
@@ -58,7 +98,7 @@ const KINDS = {
   fw190: {
     // the Fw 190 A-8: heavier, armoured, a little faster than the 109 but not so good a climber up here;
     // the Sturmgruppen took the bombers head-on in tight groups
-    side: 'axis', name: 'Fw 190', cruise: 118, setup: 158, attack: 155, max: 180, turn: 0.3, combat: 0.47, breakTurn: 0.58, muzzle: 800,
+    side: 'axis', name: 'Fw 190', roll: 3.8, pitchRate: 1.05, yawRate: 0.33, cruise: 118, setup: 158, attack: 155, max: 180, turn: 0.3, combat: 0.47, breakTurn: 0.58, muzzle: 800,
     parts: {
       pilot: { box: [-0.34, 0.34, 0.1, 0.9, -1.0, 0.4], hp: 4 }, // (armoured glass and plate)
       engine: { box: [-0.62, 0.62, -0.62, 0.62, -4.0, -2.3], hp: 20 }, // the radial takes a lot of hits
@@ -77,7 +117,7 @@ const KINDS = {
   },
   p51: {
     // cruise ~430 km/h, flat out ~700 km/h: faster than the 109 up here, turns about as well
-    side: 'allied', name: 'P-51', cruise: 120, setup: 175, attack: 170, max: 194, turn: 0.31, combat: 0.5, breakTurn: 0.6, muzzle: 880,
+    side: 'allied', name: 'P-51', roll: 3.1, pitchRate: 1.2, yawRate: 0.36, cruise: 120, setup: 175, attack: 170, max: 194, turn: 0.31, combat: 0.5, breakTurn: 0.6, muzzle: 880,
     parts: {
       pilot: { box: [-0.35, 0.35, 0.05, 0.75, -0.9, 0.5], hp: 2 },
       engine: { box: [-0.42, 0.42, -0.85, 0.6, -4.6, -2.4], hp: 14 },
@@ -154,7 +194,7 @@ function clock(bomber, p) {
   return { h, level: d.y > 150 ? 'high' : d.y < -150 ? 'low' : 'level' };
 }
 
-const _lvl = new V(), BANK_MAX = THREE.MathUtils.degToRad(60); // (the player's fighter: its steepest bank in a turn)
+const _lvl = new V(), _flyU = new V(), _flyR = new V(), BANK_MAX = THREE.MathUtils.degToRad(70); // (the player's fighter: its steepest bank in a turn)
 
 class Fighter {
   constructor(kind, obj, full, pos, dir) {
@@ -193,6 +233,7 @@ class Fighter {
   steer(want, rate, dt, push = false) {
     if (!(dt > 0) || want.lengthSq() < 1e-9) return;
     want = _want.copy(want).normalize();
+    if (push) return this.fly(want, rate, dt);
     const old = _old.copy(this.dir);
     const angle = old.angleTo(want);
     if (angle > 1e-4) {
@@ -221,6 +262,39 @@ class Fighter {
       }
       this.up.lerp(lift, 1 - Math.exp(-dt * (push ? 2.2 : 4))).normalize();
     }
+  }
+
+  /**
+   * Yours, flown as the mouse-aim games fly it (War Thunder's "instructor", the MouseFlight scheme): the
+   * aim is a point the plane chases and catches. Elevator, rudder and ailerons all at once, each rate in
+   * proportion to how far the aim is off in its own axis (quick, and no crawl over the last degrees): the
+   * nose pulled round to it, a little rudder for the fine part, and the roll blended from "wings level"
+   * when the aim's near the nose to "the aim over your head" when it's well off, so a turn is always a bank
+   * INTO it, banked as far as it needs. Behind or straight up: full rate, the shortest way round.
+   */
+  fly(want, rate, dt) {
+    const k = this.k, fwd = this.dir, up = _flyU.copy(this.up).addScaledVector(fwd, -this.up.dot(fwd)).normalize();
+    const right = _flyR.crossVectors(fwd, up).normalize();
+    const ax = want.dot(right), ay = want.dot(up), az = want.dot(fwd), off = Math.acos(THREE.MathUtils.clamp(az, -1, 1));
+    const pitchRate = k.pitchRate ?? 1.1, yawRate = k.yawRate ?? 0.35, rr = k.roll ?? 3;
+    // the roll: wings level near the nose, the aim overhead once it's more than ~10 degrees off
+    const level = _lvl.copy(UP).addScaledVector(fwd, -fwd.y), hasLevel = level.lengthSq() > 0.04;
+    if (hasLevel) level.normalize();
+    const bank = hasLevel ? Math.atan2(-level.dot(right), level.dot(up)) : 0; // + = right wing down
+    const toAim = Math.atan2(ax, ay), wings = THREE.MathUtils.smoothstep(off, 0.03, 0.18);
+    const rollErr = THREE.MathUtils.lerp(-bank, toAim, wings);
+    const roll = THREE.MathUtils.clamp(rollErr * 5, -rr, rr) * dt;
+    up.applyAxisAngle(fwd, roll); // (+: roll right, the right wing down)
+    right.crossVectors(fwd, up).normalize();
+    // the elevator and the rudder: rates in proportion to the error, up to the type's (pushing: less)
+    const pitchErr = Math.atan2(want.dot(up), want.dot(fwd)), yawErr = Math.atan2(want.dot(right), want.dot(fwd));
+    const pitch = THREE.MathUtils.clamp(pitchErr * 6, -pitchRate * 0.5, pitchRate) * dt;
+    const yaw = THREE.MathUtils.clamp(yawErr * 6, -yawRate, yawRate) * dt;
+    fwd.applyAxisAngle(right, pitch); up.applyAxisAngle(right, pitch);
+    fwd.applyAxisAngle(up, -yaw);
+    fwd.normalize();
+    this.up.copy(up).addScaledVector(fwd, -up.dot(fwd)).normalize();
+    void rate;
   }
 
   pose() {
@@ -310,8 +384,33 @@ export class Fighters {
     return f;
   }
 
-  newAttack(f) {
-    if (this.suppressed && Math.random() < 0.7) { // their own flak is up: most stand off and wait
+  /**
+   * A bomber out of the box draws them: fighters near her peel off from whatever they were setting up and
+   * come at her (from astern and below), several at once and again and again, until she's back in the box
+   * or going down. Now and then a P-51 or two breaks off to help her.
+   */
+  pounce() {
+    for (const b of this.nearBombers()) {
+      if (!b.straggling) continue;
+      const at = b.group.position;
+      let on = 0;
+      for (const f of this.axis) if (f.target === b && !f.player) on++;
+      const want = b === this.playerBomber ? 6 : 3; // (yours, alone, draws them most: the fight's round you)
+      if (on < want) {
+        const free = this.axis.filter((f) => !f.player && f.target !== b && (f.state === 'extend' || f.state === 'approach' || f.state === 'hunt') && f.pos.distanceTo(at) < 3500)
+          .sort((p, q) => p.pos.distanceToSquared(at) - q.pos.distanceToSquared(at));
+        for (const f of free.slice(0, want - on)) { f.role = 'raider'; f.plan = null; this.newAttack(f, b); }
+      }
+      if (on && Math.random() < 0.35) { // the escort sees it
+        const attacker = this.axis.find((f) => f.target === b && !this.chased.has(f));
+        const esc = attacker && this.allied.filter((f) => !f.player && f.state === 'patrol').sort((p, q) => p.pos.distanceToSquared(at) - q.pos.distanceToSquared(at))[0];
+        if (esc && esc.pos.distanceTo(at) < 4000) { esc.prey = attacker; esc.state = 'engage'; esc.timer = 25; this.chased.add(attacker); }
+      }
+    }
+  }
+
+  newAttack(f, onto = null) {
+    if ((this.suppressed || this.leaving) && !onto && Math.random() < 0.85) { // (their own flak up: most stand off and wait; a few brave it) // their own flak is up: most stand off and wait
       f.state = 'extend';
       f.timer = rand(6, 10);
       return;
@@ -321,17 +420,22 @@ export class Fighters {
     const plan = f.plan;
     f.plan = null; // the gaggle attacks together once; after that each one picks his own
     const group = plan?.squad ? near.filter((b) => b.squad === plan.squad) : [];
-    const stragglers = near.filter((b) => b.deadEngines > 0);
+    // a bomber out of the box first, almost always (alone, without the box's guns round her: easy meat);
+    // then a crippled one; then any in the box
+    const out = near.filter((b) => b.straggling), crippled = near.filter((b) => b.deadEngines > 0);
     const r = Math.random();
-    // (no extra share for the bomber you're in: it takes its chances like any other in the box.
-    // The fight is only ever round you, so an extra share made yours many times likelier to go down)
-    f.target = group.length ? group[Math.floor(Math.random() * group.length)]
-      : stragglers.length && r < 0.6 ? stragglers[Math.floor(Math.random() * stragglers.length)]
-        : near[Math.floor(Math.random() * near.length)] ?? this.playerBomber;
-    f.attack = plan?.attack ?? pick(ATTACKS);
+    // (no extra share for the bomber you're in while she keeps her place: it takes its chances like any
+    // other in the box. The fight is only ever round you, so an extra share made yours far likelier to go down)
+    f.target = onto ?? (out.length && r < 0.85 ? out[Math.floor(Math.random() * out.length)]
+      : group.length ? group[Math.floor(Math.random() * group.length)]
+        : crippled.length && r < 0.6 ? crippled[Math.floor(Math.random() * crippled.length)]
+          : near[Math.floor(Math.random() * near.length)] ?? this.playerBomber);
+    // a straggler: from astern and from below, pressed in close
+    f.attack = f.target.straggling && !plan ? (Math.random() < 0.6 ? 'tail' : 'low') : plan?.attack ?? pick(ATTACKS);
     f.side3 = plan?.side3 ?? (Math.random() < 0.5 ? -1 : 1);
     const o = { headOn: [rand(-200, 200), rand(250, 550), -2600], high: [f.side3 * rand(500, 900), rand(800, 1100), rand(-900, -300)],
-      tail: [rand(-300, 300), rand(60, 300), 1900], beam: [f.side3 * 1600, rand(-50, 250), rand(-300, 200)] }[f.attack];
+      tail: [rand(-300, 300), rand(60, 300), 1900], beam: [f.side3 * 1600, rand(-50, 250), rand(-300, 200)],
+      low: [rand(-250, 250), rand(-480, -260), rand(1000, 1600)] }[f.attack];
     f.setup = new V(...o);
     f.aimOffset = new V(rand(-2, 2), rand(-1, 1), rand(-8, 8)); // somewhere on the airframe
     f.state = 'approach';
@@ -349,6 +453,7 @@ export class Fighters {
     }
     this.tickWaves(dt);
     this.tickSlots(this.alliedSlots, 'p51', dt);
+    if ((this.pounceT = (this.pounceT ?? 0) - dt) <= 0) { this.pounceT = 1.5; this.pounce(); }
     let nearest = Infinity, closing = 0;
     const cam = player.camera.getWorldPosition(_t2);
     for (const f of this.list) {
@@ -356,6 +461,9 @@ export class Fighters {
       else if (f.alive) {
         const check = (this.frame + f.slot) % SPREAD_CHECKS === 0;
         if (check && f.state !== 'evade' && f.state !== 'break' && this.threatened(f)) { f.resume = f.state; this.startEvade(f); }
+        if (this.leaving && f.side === 'axis' && f.state !== 'attack' && f.state !== 'rtb' && f.state !== 'evade') f.state = 'rtb';
+        // fuel: a German fighter has so long over the bombers, then heads home (and the next comes up in his place)
+        if (f.side === 'axis' && (f.fuel = (f.fuel ?? rand(140, 230)) - dt) <= 0 && f.state !== 'attack' && f.state !== 'rtb') f.state = 'rtb';
         f.checkNow = check;
         this.fly(f, dt);
       } else this.fall(f, dt);
@@ -379,11 +487,14 @@ export class Fighters {
     }
     this.far.update(this.list, cam);
     this.fileFighters();
-    this.collisions();
+    this.collisions(dt);
     this.audio.fighterDrone(nearest, closing);
   }
 
   freeAxisSlot(slot) { this.axisSlots[slot] = FREE; }
+
+  /** Out of the flak belt: a fresh attack, gaggle after gaggle, fully armed. */
+  surge() { this.surgeT = 45; this.waveT = 0; }
 
   /** Each side's strength: in the air, shot down, still to come. */
   counts() {
@@ -398,7 +509,10 @@ export class Fighters {
 
   /** Bf 109s arrive in gaggles: when enough are missing, a whole group comes in together from one direction. */
   tickWaves(dt) {
+    if (this.noWaves) return; // (the end of the day: no more coming up)
+    this.surgeT = Math.max(0, (this.surgeT ?? 0) - dt);
     if ((this.waveT -= dt) > 0) return;
+    if (this.suppressed && Math.random() < 0.8) { this.waveT = rand(...WAVE_GAP); return; } // (over the flak belt, only the odd gaggle)
     const free = [];
     for (let i = 0; i < this.axisSlots.length; i++) if (this.axisSlots[i] === FREE) free.push(i);
     if (free.length < GAGGLE[0]) { this.waveT = 2; return; }
@@ -417,7 +531,7 @@ export class Fighters {
     this.reserve.axis -= count;
     if (fw) this.fwLeft -= count;
     for (let i = 0; i < count; i++) { this.axisSlots[free[i]] = 0; this.spawn(kind, free[i], plan, i, count); }
-    this.waveT = rand(...WAVE_GAP);
+    this.waveT = this.surgeT > 0 ? rand(1.5, 3.5) : rand(...WAVE_GAP);
     if (this.crewView && this.time > 20) this.ui.log(`Large formation of ${fw ? 'Fw 190s' : 'fighters'} coming in! ${count} of them.`);
   }
 
@@ -478,7 +592,8 @@ export class Fighters {
         f.steer(toTgt, k.combat - 0.1, dt);
         if (dist < FIRE_RANGE && f.dir.angleTo(toTgt) < 0.07) this.shoot(f, dt);
         const closure = f.velocity.dot(toTgt.clone().normalize());
-        if (dist < BREAK_RANGE || (closure > 0 && dist / closure < 0.9) || dist > 3500) this.startBreak(f);
+        const alone = f.target.straggling; // (a straggler can't hit back much: they come in to point-blank)
+        if (dist < (alone ? 90 : BREAK_RANGE) || (closure > 0 && dist / closure < (alone ? 0.45 : 0.9)) || dist > 3500) this.startBreak(f);
         break;
       }
       case 'break': // pull away under or past the bombers
@@ -487,10 +602,21 @@ export class Fighters {
         if ((f.timer -= dt) <= 0) { f.state = 'extend'; f.timer = rand(3, 5); }
         break;
       case 'extend': { // run out, climb back, then come round again
-        const out = f.pos.clone().sub(this.center).setY(0);
+        if (f.target?.straggling) { // (on a straggler: only out a little way and straight back in)
+          const away = f.pos.clone().sub(f.target.group.position).setY(0);
+          away.lengthSq() < 1 ? away.set(1, 0, 0) : away.normalize();
+          f.speed += (k.cruise - f.speed) * dt * 0.3;
+          f.steer(away.setY(0.25), k.turn, dt);
+          if ((f.timer -= dt) <= 0 && f.pos.distanceTo(f.target.group.position) > 900) this.newAttack(f);
+          break;
+        }
+        const out = f.pos.clone().sub(this.center).setY(0), far = out.length();
         out.lengthSq() < 1 ? out.set(1, 0, 0) : out.normalize();
+        // (out to a couple of km, then round the stream rather than further away: never lost out of the fight)
+        if (far > 2200) out.set(-out.z, 0, out.x).multiplyScalar(f.side3 ?? 1).addScaledVector(out, -0.3).normalize();
         f.speed += (k.cruise - f.speed) * dt * 0.3;
-        f.steer(out.setY(0.35), k.turn, dt);
+        f.steer(out.setY(far > 2200 ? 0.05 : 0.35), k.turn, dt);
+        if (far > 3200 && f.timer <= 0) { this.newAttack(f); break; }
         if ((f.timer -= dt) <= 0 && f.pos.distanceTo(this.center) > 1500) this.newAttack(f);
         break;
       }
@@ -519,6 +645,14 @@ export class Fighters {
             this.ui.log(`Little friends at ${c.h} o'clock!`);
           }
         }
+        break;
+      }
+      case 'rtb': { // out of ammunition (or the end of the day): away from the bombers, climbing, and gone
+        const away = f.pos.clone().sub(this.center).setY(0);
+        away.lengthSq() < 1 ? away.set(1, 0, 0) : away.normalize();
+        f.speed += (k.cruise - f.speed) * dt * 0.3;
+        f.steer(away.setY(0.15), k.turn, dt);
+        if (f.pos.distanceTo(this.center) > 6500) f.state = 'gone';
         break;
       }
       case 'hunt': { // 109 hunter: find an escort and get on its tail
@@ -578,6 +712,7 @@ export class Fighters {
   shoot(f, dt) {
     // trigger discipline: bursts with pauses between them
     if (f.pauseT > 0) { f.pauseT -= dt; return; }
+    if (f.side === 'axis' && (f.fireLeft = (f.fireLeft ?? (f.kind === 'fw190' ? 13 : 16)) - dt) <= 0) { f.state = 'rtb'; return; } // out of ammunition: home
     if ((f.burstT = (f.burstT ?? rand(...F_BURST)) - dt) <= 0) { f.burstT = rand(...F_BURST); f.pauseT = rand(...F_PAUSE); }
     const vel = f.velocity, team = f.side === 'axis' ? 'enemy' : 'allied';
     f.k.guns.forEach((g, i) => {
@@ -748,7 +883,7 @@ export class Fighters {
    * the fighter is wrecked and the bomber badly damaged where it hit (a 109 pilot ramming counts as his kill).
    * B-17 with B-17: only possible while you fly yours out of its slot; both go down.
    */
-  collisions() {
+  collisions(dt = 0) {
     const key = (p) => cellKey(Math.floor(p.x / FCELL), Math.floor(p.y / FCELL), Math.floor(p.z / FCELL));
     for (const f of this.list) {
       if (!f.alive) continue;
@@ -780,7 +915,7 @@ export class Fighters {
     }
     // a crippled bomber drifting out of the box, or one falling, can hit another on the way
     for (const b of this.bombers) {
-      if (b.gone || b.crashed || !(b.down || b.deadEngines >= 2)) continue;
+      if (b.gone || b.crashed || !(b.down || b.deadEngines >= 2) || Math.random() < 0.7) continue; // (checked now and then: most near things miss)
       for (const o of this.grid?.get(key(b.group.position)) ?? []) {
         if (o === b || o.gone || o.crashed || o.group.position.distanceToSquared(b.group.position) > BOMBER_RAM * BOMBER_RAM) continue;
         b.crashed = o.crashed = true; // (they go down together; checked once)
@@ -793,15 +928,72 @@ export class Fighters {
         break;
       }
     }
-    const pb = this.playerBomber; // you flying your B-17 into another one
-    if (pb.offStation && !pb.down) {
-      for (const b of this.grid?.get(key(pb.group.position)) ?? []) {
-        if (b === pb || b.down || b.gone || b.group.position.distanceToSquared(pb.group.position) > BOMBER_RAM * BOMBER_RAM) continue;
-        b.goDown('Mid-air collision!');
-        pb.goDown('Mid-air collision! We hit another B-17!');
-        break;
-      }
+    this.bomberContact(dt);
+  }
+
+  /**
+   * You flying your B-17 into another: contact between their real shapes (wings, tailplane, fuselage), not
+   * their centres, and as bad as it was hard. A brush (a wingtip, a scrape): a jolt, a little damage, both
+   * knocked apart and the controls kicked for a moment. A real hit: heavy damage where they met, an engine
+   * or a wingtip gone, a long fight for control. Wing into wing hard: those wing panels come off. Only a big
+   * hit into a fuselage takes both straight down.
+   */
+  bomberContact(dt) {
+    const pb = this.playerBomber;
+    if (!pb.offStation || pb.down || pb.gone || dt <= 0) { this.lastPb = null; return; }
+    const at = pb.group.position;
+    const vA = _cv.copy(at).sub(this.lastPb ?? at).divideScalar(dt); // (your velocity through the box)
+    (this.lastPb ??= new V()).copy(at);
+    for (const b of this.bombers) {
+      if (b === pb || b.down || b.gone || b.group.position.distanceToSquared(at) > CONTACT_NEAR * CONTACT_NEAR) continue;
+      if ((b.bumpedUntil ?? 0) > this.time) continue; // (just knocked apart: not the same contact twice)
+      const c = contact(pb, b) ?? contact(b, pb, true);
+      if (!c) continue;
+      // how hard: the closing speed along the line between them, and how deep they went into each other
+      const vB = _cw.copy(b.group.position).sub(b.lastAt ?? b.group.position).divideScalar(dt);
+      const n = _cn.copy(b.group.position).sub(at).normalize();
+      const closing = Math.max(0, vA.dot(n) - vB.dot(n)), hard = closing + c.depth * 6;
+      this.lastBump = { hard, closing, depth: c.depth, mine: c.a.name, theirs: c.b.name }; // (for the tests)
+      this.bump(pb, b, c, n, hard);
     }
+    for (const b of this.bombers) if (!b.gone && b.group.position.distanceToSquared(at) < CONTACT_NEAR * CONTACT_NEAR * 4) (b.lastAt ??= new V()).copy(b.group.position);
+  }
+
+  bump(pb, b, c, n, hard) {
+    const mine = c.a, theirs = c.b; // the parts that met: yours, hers
+    const wings = mine.kind === 'wing' && theirs.kind === 'wing', hull = mine.kind === 'section' || theirs.kind === 'section';
+    const where = _cp.copy(c.at);
+    // knocked apart, both of them (her AI pilot then takes her back to her slot)
+    const push = c.depth * 0.6 + 0.5 + Math.min(4, hard * 0.15);
+    pb.base.addScaledVector(n, -push); b.base.addScaledVector(n, push);
+    pb.bumpedUntil = b.bumpedUntil = this.time + 1.5;
+    const level = hard < BRUSH ? 0 : hard < SMASH ? 1 : 2;
+    const k = [0.35, 0.8, 1][level], T = [1.6, 4.5, 6][level];
+    for (const x of [pb, b]) x.knock = { t: T, T, yaw: (Math.random() < 0.5 ? -1 : 1) * [0.08, 0.22, 0.35][level], roll: (Math.random() < 0.5 ? -1 : 1) * [0.25, 0.6, 0.9][level] };
+    this.effects.impact(where, true); this.effects.impact(where.clone().addScaledVector(n, 1), level > 0);
+    if (level > 0) this.effects.wreck(where, _t2.set(0, -3, 20), level === 2 ? 6 : 3, _la.set(1.2, 0.15, 0.8), 0.15);
+    this.onBumped?.(k, level);
+    // the damage where they met (and an engine on that stretch of wing)
+    const hits = [2, 8, 20][level]; // (each as a cannon shell: 3 points. A brush dents her; a hit takes a third of a wing panel; a big one tears it open)
+    const engines = (part, l) => (part.kind === 'wing' ? BOMBER_PARTS.filter((p) => p.kind === 'engine' && Math.abs((p.box[0] + p.box[1]) / 2 - l.x) < 1.6) : []);
+    for (const [x, part, l] of [[pb, mine, c.la], [b, theirs, c.lb]]) {
+      for (let i = 0; i < hits; i++) x.hit(part, true);
+      if (level > 0) for (const e of engines(part, l)) for (let i = 0; i < hits * 0.6; i++) x.hit(e, true);
+      this.onBomberHit?.(x, part, l, level > 0, n.clone().multiplyScalar(x === pb ? -1 : 1));
+    }
+    const side = (p) => (p.side < 0 ? 'left' : 'right');
+    let msg;
+    if (level === 2 && hull) { // into her fuselage, hard: both finished
+      b.goDown('Mid-air collision!'); pb.goDown('Mid-air collision! We hit another B-17!');
+      msg = "We've collided with another B-17! She's breaking up!";
+    } else if (level >= 1 && wings && hard > WING_OFF) { // wing into wing: those panels come off
+      b.loseWing(theirs.side, !!theirs.inner, 'Mid-air collision: her wing is gone!');
+      pb.loseWing(mine.side, !!mine.inner, `Mid-air collision! We've lost the ${side(mine)} wing!`);
+      msg = `We've lost the ${side(mine)} wing!`;
+    } else if (level === 0) msg = mine.kind === 'wing' ? `We scraped her wingtip! Our ${side(mine)} wing's dented.` : 'We bumped another B-17! Ease off!';
+    else msg = `We've hit another B-17! ${mine.kind === 'wing' ? `The ${side(mine)} wing is` : mine.kind === 'tail' ? 'The tail is' : 'We are'} badly damaged!`;
+    this.lastBump.level = level; this.lastBump.msg = msg;
+    if (this.crewView) this.ui.log(msg); else this.callCollision(where, 'Two B-17s have touched!');
   }
 
   /** An AI pilot's close pass: one roll per pass (a second), and most of the time he just misses. */
@@ -857,15 +1049,16 @@ export class Fighters {
       const la = _la.copy(a).applyMatrix4(inv), lb = _lb.copy(b).applyMatrix4(inv);
       let part = null, t = 2;
       for (const p of BOMBER_PARTS) {
-        const u = segBox(la, lb, p.box);
-        if (u >= 0 && u < t) { t = u; part = p; }
+        if (segBox(la, lb, p.box) < 0) continue; // (not near it at all)
+        for (const q of p.boxes) { const u = segBox(la, lb, q); if (u >= 0 && u < t) { t = u; part = p; } }
       }
       if (!part) continue;
       this.effects.impact(_t.copy(a).lerp(b, t), cannon);
       const mine = owner === 'player' && this.playerSide === 'axis' && !bomber.down;
       const crits = mine ? bomber.deadEngines + (bomber.burning ? 10 : 0) : 0;
       // (the enemy's fire on the rest of the stream, weighted to keep the mission's losses on course: main.js)
-      const k = owner !== 'player' && bomber !== this.playerBomber ? this.lossBias ?? 1 : 1;
+      // (never shielding a straggler: alone, she gets the full weight of it)
+      const k = owner !== 'player' && bomber !== this.playerBomber ? (this.lossBias ?? 1) * (this.groupBias?.get(bomber.squad) ?? 1) : 1;
       for (let n = Math.floor(k) + (Math.random() < k % 1 ? 1 : 0); n > 0; n--) bomber.hit(part, cannon);
       if (mine) {
         this.ui.hitMarker(bomber.down); // a 109 pilot's rounds on a B-17 (red and bigger if that brought it down)

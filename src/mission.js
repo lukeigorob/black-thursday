@@ -11,13 +11,13 @@ import { City } from './city.js';
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const clamp = THREE.MathUtils.clamp;
-export const TIMES = { target: 330, initialPoint: 80, home: 110 }; // s: when the target reaches us, IP lead, homeward leg
+export const TIMES = { target: 330, initialPoint: 80, home: 360 }; // s: when the target reaches us, IP lead, homeward leg (the second fighter attack, then clear air)
 const GROUND = -ALTITUDE;
 const WIND = new V(0, 0, AIRSPEED); // the air (and the ground) stream past the formation at airspeed
 const BOMB_DRAG = 1.25e-4; // 500 lb GP bomb: falls at up to ~280 m/s
 const TRAIN = 0.12; // s between bombs in the train
 const ON_TARGET = 305; // m: "within 1,000 feet of the aiming point", the measure used at the time
-const FLAK_AHEAD = 16000, FLAK_BEHIND = 3000; // m from the target where the flak belt starts and ends
+const FLAK_AHEAD = 11000, FLAK_BEHIND = 9000; // m from the target where the flak belt starts and ends
 
 /** Where a bomb let go from `p` (formation frame) hits, and how long it takes. */
 function fall(p0) {
@@ -125,7 +125,7 @@ export class Mission {
   }
 
   update(dt, { player, time, flak, fighters }) {
-    this.player = player;
+    this.player = player; this.fighters = fighters;
     this.target.update(dt, this.effects);
     const mine = this.groups.get(this.playerBomber.squad);
 
@@ -146,9 +146,20 @@ export class Mission {
       this.ui.log('Initial point. Bomb run, bomb doors open!');
     }
     player.sightOK = this.phase === 'bombrun' && !mine?.released; // (the Norden: only on the bomb run, until the bombs are away)
+    // the stages: outbound, the fighters and no flak; the flak belt, light at first and thickest over the
+    // target, the fighters mostly standing off (a few brave it); out of it, a fresh wave of fighters; then
+    // they turn for home, out of ammunition and fuel, and there's clear air to the coast
     flak.on = this.phase !== 'done' && -toGo < FLAK_BEHIND && toGo < FLAK_AHEAD;
-    flak.heavy = toGo > 0 ? Math.min(1, Math.max(0.3, 1.2 - toGo / 8000)) : Math.max(0.3, 1 + toGo / FLAK_BEHIND); // (thickest over the target)
+    flak.heavy = toGo > 0 ? 0.12 + 0.88 * (1 - toGo / FLAK_AHEAD) ** 1.6 : Math.max(0.05, (1 + toGo / FLAK_BEHIND) ** 1.3);
     fighters.suppressed = flak.on; // fighters stood off while their own flak was firing
+    if (this.flakWas && !flak.on && toGo < 0) { fighters.surge(); this.ui.log('Fighters! A fresh wave coming in, fully loaded!'); }
+    this.flakWas = flak.on;
+    // (no end to the attacks while any of the Luftwaffe's fighters are still to come: they all come, before the clear air)
+    const spent = fighters.reserve.axis <= 0;
+    // (and once they're all up and only a handful are still fighting, that's the end of it: no long wait in an empty sky)
+    const thin = spent && this.homeT > 45 && fighters.axis.filter((f) => f.state !== 'rtb').length <= 3;
+    if (this.phase === 'homeward' && ((this.homeT > 230 && spent) || thin || this.homeT > 300) && !fighters.noWaves) { fighters.noWaves = true; }
+    if (this.phase === 'homeward' && ((this.homeT > 265 && spent) || thin || this.homeT > 318) && !fighters.leaving) { fighters.leaving = true; this.ui.log('The fighters are turning back. Out of ammo, out of fuel. Clear air from here.'); }
 
     // releases: every group on its lead bombardier; yours on you if you're at the sight
     const releasePressed = player.releasePressed;
@@ -173,7 +184,8 @@ export class Mission {
       }
     }
     if (this.phase === 'rally' && -toGo > 4000) { this.phase = 'homeward'; this.ui.log('Through the target. Heading for home.'); }
-    if (this.phase === 'homeward' && (this.homeT += dt) > TIMES.home) {
+    if (this.phase === 'homeward' && fighters.leaving && !fighters.axis.some((f) => f.state !== 'rtb')) this.quietT = (this.quietT ?? 0) + dt; // (all quiet: the last of them turned for home)
+    if (this.phase === 'homeward' && ((this.homeT += dt) > TIMES.home || this.quietT > 15)) {
       this.phase = 'done';
       for (const fn of this.listeners) fn(this.debrief());
     }
@@ -219,7 +231,7 @@ export class Mission {
     if (this.phase === 'outbound') return `Outbound · initial point in ${mmss(Math.max(0, TIMES.target - TIMES.initialPoint - time))}`;
     if (this.phase === 'bombrun') return `Bomb run · target ${(Math.max(0, along) / 1000).toFixed(1)} km${this.groups.get(this.playerBomber.squad).released ? ' · bombs away' : ''}`;
     if (this.phase === 'rally') return 'Rally · leaving the target';
-    if (this.phase === 'homeward') return `Homeward · ${mmss(Math.max(0, TIMES.home - this.homeT))} to the coast`;
+    if (this.phase === 'homeward') return `Homeward · ${this.flakWas ? 'flak' : this.fighters?.leaving ? 'clear air' : 'fighters'} · ${mmss(Math.max(0, TIMES.home - this.homeT))} to the coast`;
     return 'Mission complete';
   }
 

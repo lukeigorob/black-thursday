@@ -168,7 +168,7 @@ export class Contrails {
     this.glowPos = new Float32Array(bombers.length * ENGINES.length * 3);
     const gg = new THREE.BufferGeometry();
     gg.setAttribute('position', new THREE.BufferAttribute(this.glowPos, 3));
-    this.glow = new THREE.Points(gg, new THREE.PointsMaterial({ map: glowDot(), size: 2.2, color: new THREE.Color(1, 0.55, 0.25).multiplyScalar(6),
+    this.glow = new THREE.Points(gg, new THREE.PointsMaterial({ map: glowDot(), size: 1.1, color: new THREE.Color(1, 0.55, 0.25).multiplyScalar(1.6),
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: true }));
     this.glow.frustumCulled = false;
     this.glow.visible = false;
@@ -186,7 +186,7 @@ export class Contrails {
     this.mesh.material.opacity = (winter ? 0.58 : 0.4) * (night ? 0.4 : 1);
     this.mesh.material.color.setRGB(1.35, 1.38, 1.45).multiplyScalar(night ? 0.12 : dusk ? 0.6 : 1);
     if (this.glow) this.glow.visible = night || dusk;
-    if (this.glow) this.glow.material.color.setRGB(1, 0.55, 0.25).multiplyScalar(night ? 6 : 2);
+    if (this.glow) this.glow.material.color.setRGB(1, 0.55, 0.25).multiplyScalar(night ? 1.6 : 0.7); // (a dull glow under the nacelles, not a blaze)
   }
 
   update() {

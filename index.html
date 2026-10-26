@@ -9,36 +9,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/menus.css" />
     <style>
-      html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d10; color: #ece8dc; font: 14px/1.5 system-ui, sans-serif; }
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d10; color: #ece8dc; font: 500 15px/1.5 Barlow, system-ui, sans-serif; }
       canvas { display: block; }
       body.free-look canvas { cursor: none; } /* the crosshair is the aim point */
       #hud { display: none; pointer-events: none; }
-      #crosshair { position: fixed; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px; border-radius: 50%; background: #ffffffaa; box-shadow: 0 0 2px #000; }
-      #crosshair.gun { width: 26px; height: 26px; margin: -13px; background: none; border: 1.5px solid #ffffff99; }
-      #location { position: fixed; left: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
-      #prompt { position: fixed; left: 0; right: 0; bottom: 18%; text-align: center; font-size: 16px; text-shadow: 0 1px 3px #000; opacity: 0; transition: opacity .15s; }
-      #controls { display: none; position: fixed; right: 18px; top: 36%; font-size: 12.5px; text-shadow: 0 1px 2px #000; color: #ece8dc; pointer-events: none; }
+      /* every aim mark is a crosshair: a thin cross with a gap in the middle and a dot at its centre, outlined dark for bright sky */
+      #crosshair, #nose, #gunsight { --c: #ffffffd0; --s: 18px; --g: 4px; --w: 2px; --d: 1.6px; width: var(--s); height: var(--s); margin: calc(var(--s) / -2); border: 0; border-radius: 0;
+        background: linear-gradient(var(--c), var(--c)) 50% 0 / var(--w) calc(50% - var(--g)) no-repeat, linear-gradient(var(--c), var(--c)) 50% 100% / var(--w) calc(50% - var(--g)) no-repeat,
+          linear-gradient(var(--c), var(--c)) 0 50% / calc(50% - var(--g)) var(--w) no-repeat, linear-gradient(var(--c), var(--c)) 100% 50% / calc(50% - var(--g)) var(--w) no-repeat,
+          radial-gradient(circle, var(--c) 0 var(--d), transparent calc(var(--d) + 0.6px)) 50% 50% / 100% 100% no-repeat;
+        box-shadow: none; filter: drop-shadow(0 0 1px #000c) drop-shadow(0 0 1px #0008); }
+      #crosshair { position: fixed; left: 50%; top: 50%; }
+      #crosshair.gun { --s: 30px; --g: 6px; --d: 2px; --c: #ffffffc0; }
+      #location { position: fixed; left: 18px; top: 14px; font: 700 15px 'Barlow Condensed', system-ui; letter-spacing: .1em; text-transform: uppercase; color: #ece8dc; text-shadow: 0 1px 2px #000, 0 0 6px #000c; }
+      #prompt { position: fixed; left: 0; right: 0; bottom: 18%; text-align: center; font: 600 18px Barlow, system-ui; text-shadow: 0 1px 2px #000, 0 0 6px #000c; opacity: 0; transition: opacity .15s; }
+      #controls { display: none; position: fixed; right: 18px; top: 36%; font: 500 14.5px Barlow, system-ui; text-shadow: 0 1px 2px #000, 0 0 6px #000c; color: #ece8dc; pointer-events: none; }
       #controls .ctl-tag { opacity: 0.55; text-align: right; transition: opacity .4s; }
       #controls .ctl-rows { max-height: 0; overflow: hidden; opacity: 0; transition: opacity .5s, max-height .5s; background: #0008; border: 1px solid #ece8dc33; border-radius: 4px; padding: 0 10px; }
       #controls.open .ctl-rows { max-height: 320px; opacity: 1; padding: 6px 10px; margin-top: 4px; }
       #controls.open .ctl-tag { opacity: 0.85; }
       #controls .ctl-rows div { display: flex; gap: 10px; justify-content: space-between; line-height: 1.75; }
       #controls .ctl-rows span { white-space: nowrap; }
-      #controls b { display: inline-block; min-width: 16px; padding: 0 5px; border: 1px solid #ece8dc88; border-radius: 3px; background: #0006; font-weight: 600; text-align: center; font-size: 11.5px; }
+      #controls b { display: inline-block; min-width: 16px; padding: 0 5px; border: 1px solid #ece8dc88; border-radius: 3px; background: #0006; font-weight: 700; text-align: center; font-size: 13px; }
       #speedwarn { display: none; position: fixed; left: 50%; transform: translateX(-50%); bottom: 26%; padding: 6px 14px; font-size: 15px; text-align: center; color: #ffd36a; background: #2a1a0ccc; border: 1px solid #ffb04a88; border-radius: 4px; text-shadow: 0 1px 2px #000; animation: warnpulse 1.2s ease-in-out infinite; }
       #speedwarn b { color: #ffe9b0; }
       @keyframes warnpulse { 50% { border-color: #ffb04aff; } }
       #prompt b { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; }
-      #prompt .dim { opacity: .6; font-size: 14px; }
-      #hint { display: none; position: fixed; left: 50%; top: 96px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10b0; font-size: 13px; text-align: center; }
+      #prompt .dim { opacity: .75; font-size: 15px; }
+      #hint { display: none; position: fixed; left: 50%; top: 96px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10c8; font-size: 15px; text-align: center; }
       #gun { display: none; position: fixed; right: 24px; bottom: 22px; width: 220px; text-align: right; text-shadow: 0 1px 3px #000; }
       #gun-ammo { font: 600 15px ui-monospace, Consolas, monospace; color: #ece8dcbb; }
       #gun-ammo b { font-size: 30px; color: #ece8dc; }
       #gun .bar { height: 5px; margin: 6px 0 2px; background: #0007; border: 1px solid #ece8dc44; border-radius: 2px; overflow: hidden; }
       #gun .bar i { display: block; height: 100%; width: 0; background: #d9d2b8; }
       #gun .bar.reload i { background: #b6d47a; }
-      #gun .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc88; }
-      #gun-state { min-height: 18px; margin-top: 6px; font-size: 13px; }
+      #gun .lbl { font: 700 13px 'Barlow Condensed', system-ui; letter-spacing: .1em; text-transform: uppercase; color: #ece8dccc; }
+      #gun-state { min-height: 18px; margin-top: 6px; font-size: 15px; }
       #gun-state.warn { color: #ffb36a; }
       /* hit marker: a red X round the crosshair that pulses out; the killing blow is bigger, brighter and longer */
       #hitmarker { position: fixed; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; }
@@ -53,9 +59,9 @@
       #hitmarker.kill i { left: -13px; width: 26px; height: 5px; transform-origin: 13px 2.5px; background: #ff2a1a; box-shadow: 0 0 10px #ff2a1a, 0 0 1px #000; }
       @keyframes hm { 0% { opacity: 1; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1.15); } 100% { opacity: 0; transform: scale(1.3); } }
       @keyframes hmk { 0% { opacity: 1; transform: scale(0.7); } 25% { opacity: 1; transform: scale(1.35); } 70% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1.5); } }
-      #kills { position: fixed; right: 18px; top: 14px; font: 600 13px system-ui; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 1px 3px #000; }
+      #kills { position: fixed; right: 18px; top: 14px; font: 700 15px 'Barlow Condensed', system-ui; letter-spacing: .08em; text-transform: uppercase; text-shadow: 0 1px 2px #000, 0 0 6px #000c; }
       #toasts { position: fixed; left: 0; right: 0; top: 22%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-      .toast { padding: 5px 14px; background: #0b0d10a0; border-radius: 3px; font: 600 17px system-ui; letter-spacing: 1px; text-shadow: 0 1px 3px #000; transition: opacity .5s; }
+      .toast { padding: 6px 16px; background: #0b0d10c8; border-radius: 3px; font: 600 18px Barlow, system-ui; letter-spacing: 1px; text-shadow: 0 1px 3px #000; transition: opacity .5s; }
       .toast.kill { color: #ffb36a; }
       .toast.out { opacity: 0; }
       #crew { position: fixed; left: 18px; top: 40px; font: 11px/1.55 system-ui; letter-spacing: .5px; text-shadow: 0 1px 2px #000; color: #ece8dcaa; }
@@ -66,22 +72,23 @@
       #crew div.dead { opacity: .6; text-decoration: line-through; }
       @keyframes blink { 50% { opacity: .35; } }
       #engines { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; }
-      .eng { display: inline-flex; flex-direction: column; align-items: center; min-width: 34px; padding: 3px 6px; border: 1px solid #ece8dc55; border-radius: 3px; background: #0b0d1080; font: 600 13px system-ui; }
-      .eng small { font-size: 9px; letter-spacing: .5px; min-height: 11px; }
+      .eng { display: inline-flex; flex-direction: column; align-items: center; min-width: 38px; padding: 3px 7px; border: 1px solid #ece8dc66; border-radius: 3px; background: #0b0d10b8; font: 700 15px 'Barlow Condensed', system-ui; }
+      .eng small { font-size: 12px; letter-spacing: .04em; min-height: 13px; }
       .eng.smoking { color: #ffd36a; border-color: #ffd36a; } .eng.dead { color: #888; border-color: #666; }
       .eng.fire { color: #ff5a3a; border-color: #ff5a3a; animation: blink .6s infinite; }
-      .eng.wing { font-size: 11px; justify-content: center; }
+      .eng.wing { font-size: 13px; justify-content: center; }
       #aid { display: none; position: fixed; left: 50%; bottom: calc(18% - 22px); width: 220px; transform: translateX(-50%); }
       #aid .bar { height: 6px; background: #0007; border: 1px solid #ece8dc55; border-radius: 2px; overflow: hidden; }
       #aid .bar i { display: block; height: 100%; width: 0; background: #b6d47a; }
       #hurt { display: none; position: fixed; inset: 0; align-items: flex-end; justify-content: center; padding-bottom: 30%; box-shadow: inset 0 0 220px 60px #6a0000; }
-      #hurt-text { font: 600 20px system-ui; color: #ffd0c0; text-shadow: 0 1px 4px #000; }
+      #hurt-text { font: 600 22px Barlow, system-ui; color: #ffd0c0; text-shadow: 0 1px 4px #000; }
       #sight { display: none; position: fixed; inset: 0; }
       #sight .ring { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 0 34vmin, #000 34.3vmin); }
       #sight .h, #sight .v { position: absolute; left: 50%; top: 50%; background: #1a1a1acc; }
-      #sight .h { width: 68vmin; height: 1px; transform: translate(-50%, 0); }
-      #sight .v { width: 1px; height: 68vmin; transform: translate(0, -50%); }
-      #sight-info { position: absolute; left: 0; right: 0; bottom: 6%; text-align: center; font-size: 14px; line-height: 1.6; text-shadow: 0 1px 3px #000; }
+      #sight .h { width: 68vmin; height: 1px; transform: translate(-50%, 0); background: linear-gradient(90deg, #1a1a1acc calc(50% - 1.2vmin), transparent 0 calc(50% + 1.2vmin), #1a1a1acc 0); }
+      #sight .v { width: 1px; height: 68vmin; transform: translate(0, -50%); background: linear-gradient(#1a1a1acc calc(50% - 1.2vmin), transparent 0 calc(50% + 1.2vmin), #1a1a1acc 0); }
+      #sight .h::after { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px; border-radius: 50%; background: #1a1a1a; } /* the Norden's centre dot */
+      #sight-info { position: absolute; left: 0; right: 0; bottom: 6%; text-align: center; font: 500 16px/1.6 Barlow, system-ui; text-shadow: 0 1px 2px #000, 0 0 6px #000c; }
       #health { position: fixed; right: 18px; bottom: 120px; width: 200px; text-align: center; text-shadow: 0 1px 3px #000; } /* the damage diagram, above the gun panel */
       #dmg { display: block; width: 200px; height: 140px; filter: drop-shadow(0 1px 2px #000a); }
       #dmg [data-part] { stroke: #0009; stroke-width: 0.8; fill-opacity: 0.82; transition: fill .4s; }
@@ -89,21 +96,18 @@
       @keyframes dmgfire { from { fill: #ff7a18; } to { fill: #ffd060; } }
       #health .bar, #flight .bar { height: 7px; margin: 2px 0; background: #0007; border: 1px solid #ece8dc55; border-radius: 2px; overflow: hidden; }
       #health .bar i, #flight .bar i { display: block; height: 100%; width: 100%; background: #8fcf6a; transition: width .3s; }
-      #health .lbl, #flight .lbl { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #ece8dc99; }
-      #health-pct { font-size: 11px; color: #ece8dccc; }
-      #flight { display: none; position: fixed; left: 18px; bottom: 22px; width: 210px; font: 13px/1.5 ui-monospace, Consolas, monospace; text-shadow: 0 1px 3px #000; }
-      #flight b { font-size: 16px; }
-      #nose { display: none; position: fixed; width: 18px; height: 18px; margin: -9px; border: 2px solid #b6ff9acc; border-radius: 50%; box-shadow: 0 0 2px #000; }
-      #nose::after { content: ''; position: absolute; left: 6px; top: 6px; width: 2px; height: 2px; background: #b6ff9a; }
+      #health .lbl, #flight .lbl { font: 700 13px 'Barlow Condensed', system-ui; letter-spacing: .08em; text-transform: uppercase; color: #ece8dccc; }
+      #health-pct { font: 600 14px Barlow, system-ui; color: #ece8dc; }
+      #flight { display: none; position: fixed; left: 18px; bottom: 22px; width: 220px; font: 500 15px/1.5 Barlow, system-ui; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px #000, 0 0 6px #000c; }
+      #flight b { font-size: 18px; font-weight: 700; }
+      #nose { display: none; position: fixed; --c: #b6ff9ad0; --s: 24px; --g: 5px; }
       #hud[data-mode="fighter"] #crew, #hud[data-mode="fighter"] #engines, #hud[data-mode="fighter"] #gun { display: none !important; }
       #hud[data-mode="fighter"] #health { bottom: 22px; }
       #flight .warn { color: #ffb36a; }
-      #gunsight { display: none; position: fixed; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px; border: 2px solid #ffb34aaa; border-radius: 50%; box-shadow: 0 0 6px #ff9a2a66; }
-      #gunsight::before, #gunsight::after { content: ''; position: absolute; background: #ffb34aaa; }
-      #gunsight::before { left: 50%; top: 10px; bottom: 10px; width: 2px; margin-left: -1px; }
-      #gunsight::after { top: 50%; left: 10px; right: 10px; height: 2px; margin-top: -1px; }
-      #gunsight i { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: #ffb34a; }
-      #lifestats { position: fixed; right: 18px; top: 34px; font: 12px system-ui; color: #ece8dccc; text-shadow: 0 1px 3px #000; }
+      #gunsight { display: none; position: fixed; left: 50%; top: 50%; --c: #ffb34ae0; } /* (the same cross as the aim mark: only its colour differs) */
+      #hud[data-mode="fighter"] #crosshair, #gunsight { --s: 24px; --g: 5px; --w: 2px; --d: 2px; } /* (in a fighter both marks the same cross: white where you steer, amber where the guns point) */
+      #gunsight i { display: none; }
+      #lifestats { position: fixed; right: 18px; top: 36px; font: 500 14px Barlow, system-ui; color: #ece8dc; text-shadow: 0 1px 2px #000, 0 0 6px #000c; }
       #lifestats b { color: #fff; }
       #ejectcard { display: none; position: fixed; right: 18px; bottom: 22px; }
       #hud[data-mode="eject"] #crew, #hud[data-mode="eject"] #engines, #hud[data-mode="eject"] #gun, #hud[data-mode="eject"] #flight,
@@ -112,13 +116,13 @@
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
       #mmap { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; gap: 18px; background: #0009; pointer-events: none; z-index: 20; }
       #mmap-canvas { width: min(720px, 86vh, 62vw); height: min(720px, 86vh, 62vw); box-shadow: 0 6px 30px #000a; }
-      #mmap-side { width: 270px; max-height: 86vh; overflow: hidden; padding: 14px 16px; background: #e8dcbc; color: #3b2f22; font: 13px/1.45 "Courier New", monospace; box-shadow: 0 6px 30px #000a; }
-      #mmap-side h3 { margin: 0 0 6px; font-size: 18px; text-transform: uppercase; }
+      #mmap-side { width: 300px; max-height: 86vh; overflow: hidden; padding: 16px 18px; background: #e8dcbc; color: #261f15; font: 500 15px/1.45 Barlow, system-ui; box-shadow: 0 6px 30px #000a; }
+      #mmap-side h3 { margin: 0 0 6px; font: 700 20px 'Barlow Condensed', system-ui; letter-spacing: .06em; text-transform: uppercase; }
       #mmap-side h4 { margin: 10px 0 2px; border-bottom: 1px solid #3b2f2255; }
       #mmap-side .key i { display: inline-block; width: 9px; height: 9px; margin: 0 4px 0 8px; border: 1px solid #3b2f22; }
       #mmap-side .key i:first-child { margin-left: 0; }
-      #mmap-side .ev { font-size: 12px; }
-      #mmap-side .hold { margin-top: 10px; opacity: 0.6; font-size: 12px; }
+      #mmap-side .ev { font-size: 14px; }
+      #mmap-side .hold { margin-top: 10px; opacity: 0.75; font-size: 14px; }
       @media (max-width: 760px) { #mmap { flex-direction: column; } #mmap-side { width: 86vw; } }
     </style>
   </head>

@@ -2,7 +2,7 @@
 // The formation stays near the origin; the ground and clouds scroll past instead.
 import * as THREE from 'three';
 import { Sky } from 'three/addons/objects/Sky.js';
-import { TIMES, WEATHER, SNOW, nightSkyScene, moonTexture, Rain, Lightning } from './environment.js';
+import { TIMES, WEATHER, SNOW, nightSkyScene, moonTexture, moonGlowTexture, Rain, Lightning } from './environment.js';
 
 export const ALTITUDE = 7600; // ~25,000 ft
 const SUN_ELEVATION = 38, SUN_AZIMUTH = 150; // degrees
@@ -87,7 +87,7 @@ export class World {
       u.turbidity.value = mix(L.turb, 20);
       u.rayleigh.value = mix(L.ray, 0.35);
       u.mieCoefficient.value = mix(L.mie, 0.04);
-      u.mieDirectionalG.value = 0.82;
+      u.mieDirectionalG.value = L.elev < 15 ? 0.74 : 0.82; // (a low sun: a softer glow round it, not a white-out)
       u.sunPosition.value.copy(this.sunDir);
       if (u.cloudCoverage) u.cloudCoverage.value = 0.25; // faint high cirrus
       // no physical sun disc: it is thousands of times brighter than anything else and would make the
@@ -126,14 +126,17 @@ export class World {
     const L = this.look;
     if (this.sunSprite) {
       this.sunSprite.position.copy(this.sunDir).multiplyScalar(90000);
-      this.sunSprite.material.color.setRGB(...L.sun).multiplyScalar(L.elev < 5 ? 10 : 18);
+      this.sunSprite.material.color.setRGB(...L.sun).multiplyScalar(L.elev < 5 ? 2.2 : L.elev < 15 ? 3 : 6); // (bright, but not a white-out through the bloom)
       this.sunSprite.visible = !L.night && L.overcast < 0.7;
-      this.moon ??= new THREE.Sprite(new THREE.SpriteMaterial({ map: moonTexture(), color: new THREE.Color(1.6, 1.6, 1.7), fog: false, depthWrite: false, blending: THREE.AdditiveBlending }));
+      this.moon ??= new THREE.Sprite(new THREE.SpriteMaterial({ map: moonTexture(), color: new THREE.Color(1.15, 1.15, 1.2), fog: false, depthWrite: false, transparent: true }));
+      this.moonGlow ??= new THREE.Sprite(new THREE.SpriteMaterial({ map: moonGlowTexture(), color: new THREE.Color(1.1, 1.15, 1.35), fog: false, depthWrite: false, blending: THREE.AdditiveBlending }));
       this.moon.position.copy(this.sunDir).multiplyScalar(90000);
-      this.moon.scale.setScalar(5200);
-      this.moon.renderOrder = -1;
-      this.moon.visible = !!L.night && L.overcast < 0.7;
-      if (!this.moon.parent) this.scene.add(this.moon);
+      this.moonGlow.position.copy(this.sunDir).multiplyScalar(91000);
+      this.moon.scale.setScalar(6800); // (a big moon: the way it looms over the clouds at night)
+      this.moonGlow.scale.setScalar(70000); // (its glow)
+      this.moon.renderOrder = -1; this.moonGlow.renderOrder = -2;
+      this.moon.visible = this.moonGlow.visible = !!L.night && L.overcast < 0.7;
+      if (!this.moon.parent) this.scene.add(this.moonGlow, this.moon);
       return;
     }
     const c = document.createElement('canvas');
@@ -142,7 +145,7 @@ export class World {
     const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
     grd.addColorStop(0, 'rgba(255,255,255,1)');
     grd.addColorStop(0.12, 'rgba(255,255,255,1)');
-    grd.addColorStop(0.2, 'rgba(255,240,215,0.25)');
+    grd.addColorStop(0.2, 'rgba(255,240,215,0.12)');
     grd.addColorStop(1, 'rgba(255,230,200,0)');
     g.fillStyle = grd;
     g.fillRect(0, 0, 128, 128);

@@ -1,23 +1,63 @@
 // All sound is made with the Web Audio API (no files). Starts only after the player clicks Start.
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+export const MIX = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 }; // the channels of the mix, at full
 export class GameAudio {
-  constructor() { this.volume = 1; this.muted = false; }
+  constructor() { this.volume = 1; this.muted = false; this.mix = { ...MIX }; }
 
-  /** The volume (0..1, 1 = as loud as it was made) and mute; applied at once if sound is running. */
-  setVolume(volume, muted) {
-    this.volume = clamp(volume, 0, 1); this.muted = muted;
+  /**
+   * The volume (0..1, 1 = as loud as it was made) and mute, and the mix: each channel's own level
+   * (guns, engines, battle: flak, hits and explosions, crew: voices, heartbeat, the turret's motor).
+   * Applied at once if sound is running.
+   */
+  setVolume(volume, muted, mix = this.mix) {
+    this.volume = clamp(volume, 0, 1); this.muted = muted; this.mix = { ...MIX, ...mix };
     if (this.master) this.master.gain.value = this.level;
+    if (this.bus) for (const k of Object.keys(MIX)) this.bus[k].gain.value = clamp(this.mix[k], 0, 1);
   }
 
   get level() { return this.muted ? 0 : 0.5 * this.volume; }
 
   start() {
-    if (this.ctx) return this.resume();
+    if (this.enginesOn) return this.resume();
+    this.ensure();
+    this.enginesOn = true;
+    this.engines();
+    this.resume();
+  }
+
+  /** The sound system itself, without the engines yet (the menus' clicks, from the first click on). */
+  ensure() {
+    if (this.ctx) return;
     const ctx = (this.ctx = new AudioContext());
     this.master = ctx.createGain();
     this.master.gain.value = this.level;
     this.master.connect(ctx.destination);
-    this.engines();
+    this.bus = {};
+    for (const k of Object.keys(MIX)) { const g = (this.bus[k] = ctx.createGain()); g.gain.value = clamp(this.mix[k], 0, 1); g.connect(this.master); }
+  }
+
+  /** The bail-out bell: the alarm bell's hard metallic ring, struck again and again while she goes down. */
+  bell() {
+    const ctx = this.ctx;
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    for (const [f, v] of [[880, 0.16], [1320, 0.08], [2210, 0.05]]) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+      o.connect(g).connect(this.bus.crew); o.start(t); o.stop(t + 0.55);
+    }
+  }
+
+  /** The menus answering you: a soft tick as the pointer comes onto something you can press, a click as you press it. */
+  uiTick(kind = 'hover') {
+    const ctx = this.ctx;
+    if (!ctx || ctx.state !== 'running') return;
+    const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(), hover = kind === 'hover';
+    o.type = hover ? 'sine' : 'triangle';
+    o.frequency.setValueAtTime(hover ? 2200 : 1100, t); o.frequency.exponentialRampToValueAtTime(hover ? 1800 : 520, t + (hover ? 0.03 : 0.06));
+    g.gain.setValueAtTime(hover ? 0.035 : 0.09, t); g.gain.exponentialRampToValueAtTime(0.0005, t + (hover ? 0.04 : 0.09));
+    o.connect(g).connect(this.bus.ui); o.start(t); o.stop(t + 0.1);
   }
 
   /** Four Wright Cyclones heard through the fuselage: detuned low saws, beating slowly, plus wind. */
@@ -29,7 +69,7 @@ export class GameAudio {
     lp.Q.value = 0.7;
     const gain = (this.bomberGain = ctx.createGain()); // faded out while you fly a fighter
     gain.gain.value = 0.22;
-    lp.connect(gain).connect(this.master);
+    lp.connect(gain).connect(this.bus.engines);
     for (const [i, f] of [38.5, 39.1, 39.8, 40.3].entries()) {
       for (const [mult, type, level] of [[1, 'sawtooth', 0.5], [2, 'square', 0.12], [4.5, 'triangle', 0.05]]) {
         const o = ctx.createOscillator();
@@ -56,7 +96,7 @@ export class GameAudio {
     bp.Q.value = 0.5;
     const ng = (this.windGain = ctx.createGain());
     ng.gain.value = 0.35;
-    noise.connect(bp).connect(ng).connect(this.master);
+    noise.connect(bp).connect(ng).connect(this.bus.engines);
     noise.start();
   }
 
@@ -82,7 +122,7 @@ export class GameAudio {
       lp.type = 'lowpass'; lp.frequency.value = 1400; lp.Q.value = 0.8;
       const gain = ctx.createGain();
       gain.gain.value = 0;
-      lp.connect(gain).connect(this.master);
+      lp.connect(gain).connect(this.bus.engines);
       const voices = [[1, 'sawtooth'], [0.5, 'square'], [2.01, 'triangle'], [0.25, 'sawtooth']].map(([m, type]) => {
         const o = ctx.createOscillator(), g = ctx.createGain();
         o.type = type; g.gain.value = 0;
@@ -123,25 +163,25 @@ export class GameAudio {
       g.gain.setValueAtTime(0, t + at);
       g.gain.linearRampToValueAtTime(kind === 'kill' ? 0.22 : 0.14, t + at + 0.015);
       g.gain.exponentialRampToValueAtTime(0.001, t + at + (kind === 'kill' ? 0.35 : 0.22));
-      o.connect(g).connect(this.master);
+      o.connect(g).connect(this.bus.crew);
       o.start(t + at); o.stop(t + at + 0.4);
     }
   }
 
-  /** A powered turret's motors: an electric whine rising with how fast it's turning (0 = still). */
+  /** A powered turret's motors: a soft electric hum under everything, rising with how fast it's turning (0 = still). */
   turretWhine(speed) {
     const ctx = this.ctx;
     if (!ctx) return;
-    if (!this.whine) {
-      const o = ctx.createOscillator(), o2 = ctx.createOscillator(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
-      o.type = 'sawtooth'; o2.type = 'square'; bp.type = 'bandpass'; bp.Q.value = 3; g.gain.value = 0;
-      o.connect(bp); o2.connect(bp); bp.connect(g).connect(this.master); o.start(); o2.start();
+    if (!this.whine) { // (rounded waves through a low-pass: a hum, not a buzz)
+      const o = ctx.createOscillator(), o2 = ctx.createOscillator(), bp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+      o.type = 'triangle'; o2.type = 'sine'; bp.type = 'bandpass'; bp.Q.value = 1.2; lp.type = 'lowpass'; lp.frequency.value = 700; g.gain.value = 0;
+      o.connect(bp); o2.connect(bp); bp.connect(lp).connect(g).connect(this.bus.crew); o.start(); o2.start();
       this.whine = { o, o2, bp, g };
     }
     const k = Math.min(1, speed / 1.05), t = ctx.currentTime, w = this.whine;
-    w.o.frequency.setTargetAtTime(180 + 420 * k, t, 0.08); w.o2.frequency.setTargetAtTime(362 + 840 * k, t, 0.08);
-    w.bp.frequency.setTargetAtTime(500 + 1300 * k, t, 0.08);
-    w.g.gain.setTargetAtTime(k > 0.02 ? 0.025 + 0.06 * k : 0, t, 0.06);
+    w.o.frequency.setTargetAtTime(120 + 220 * k, t, 0.1); w.o2.frequency.setTargetAtTime(242 + 440 * k, t, 0.1);
+    w.bp.frequency.setTargetAtTime(300 + 500 * k, t, 0.1);
+    w.g.gain.setTargetAtTime(k > 0.02 ? 0.006 + 0.014 * k : 0, t, 0.08); // (about a quarter of what it was)
   }
 
   noise() { // shared 1 s of white noise for gunshots and clanks
@@ -162,7 +202,7 @@ export class GameAudio {
     if (!ctx) return;
     const out = ctx.createGain();
     out.gain.value = vol;
-    out.connect(this.master);
+    out.connect(this.bus.guns);
     const t = ctx.currentTime;
     const crack = this.noise();
     const bp = ctx.createBiquadFilter();
@@ -192,7 +232,7 @@ export class GameAudio {
     if (!ctx) return;
     const out = ctx.createGain();
     out.gain.value = vol;
-    out.connect(this.master);
+    out.connect(this.bus.guns);
     const hits = start ? [0, 0.18, 0.5] : [0, 0.12];
     for (const [i, dt] of hits.entries()) {
       const t = ctx.currentTime + dt;
@@ -222,7 +262,7 @@ export class GameAudio {
       o.frequency.exponentialRampToValueAtTime(35, t + 0.12);
       g.gain.setValueAtTime(0.9 - i * 0.3, t);
       g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
-      o.connect(g).connect(this.master);
+      o.connect(g).connect(this.bus.crew);
       o.start(t);
       o.stop(t + 0.18);
     }
@@ -240,7 +280,7 @@ export class GameAudio {
     const g = ctx.createGain();
     g.gain.setValueAtTime(0.25, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
-    n.connect(hp).connect(g).connect(this.master);
+    n.connect(hp).connect(g).connect(this.bus.guns);
     n.start(t, 0, 0.95);
   }
 
@@ -254,7 +294,7 @@ export class GameAudio {
       lp.frequency.value = 900;
       const g = ctx.createGain();
       g.gain.value = 0;
-      lp.connect(g).connect(this.master);
+      lp.connect(g).connect(this.bus.engines);
       const oscs = [1, 1.5, 2.02].map((m, i) => {
         const o = ctx.createOscillator();
         o.type = i ? 'square' : 'sawtooth';
@@ -285,7 +325,7 @@ export class GameAudio {
     const g = ctx.createGain();
     g.gain.setValueAtTime(Math.min(0.4, 60 / dist), t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
-    n.connect(bp).connect(g).connect(this.master);
+    n.connect(bp).connect(g).connect(this.bus.guns);
     n.start(t, Math.random() * 0.8, 0.13);
   }
 
@@ -303,25 +343,25 @@ export class GameAudio {
     const g = ctx.createGain();
     g.gain.setValueAtTime(0.9 * vol, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
-    n.connect(hp).connect(g).connect(this.master);
+    n.connect(hp).connect(g).connect(this.bus.battle);
     n.start(t, Math.random() * 0.5, 0.06);
     // the skin tearing: a short rasp of torn aluminium (no ring: thin skin punched through doesn't ring)
     const r = this.noise(), bp = ctx.createBiquadFilter(), rg = ctx.createGain();
     bp.type = 'bandpass'; bp.frequency.value = 900 + Math.random() * 900; bp.Q.value = 1.2;
     rg.gain.setValueAtTime(0.55 * vol, t + 0.004); rg.gain.exponentialRampToValueAtTime(0.001, t + 0.07 + Math.random() * 0.04);
-    r.connect(bp).connect(rg).connect(this.master);
+    r.connect(bp).connect(rg).connect(this.bus.battle);
     r.start(t + 0.004, Math.random() * 0.5, 0.12);
     // and the knock of it through the airframe: a dull thud
     const k = this.noise(), lp = ctx.createBiquadFilter(), kg = ctx.createGain();
     lp.type = 'lowpass'; lp.frequency.value = 260;
     kg.gain.setValueAtTime(0.7 * vol, t); kg.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
-    k.connect(lp).connect(kg).connect(this.master);
+    k.connect(lp).connect(kg).connect(this.bus.battle);
     k.start(t, Math.random() * 0.5, 0.1);
     if (cannon) { // the shell bursting: a deep bang
       const m = this.noise(), lp = ctx.createBiquadFilter(), mg = ctx.createGain();
       lp.type = 'lowpass'; lp.frequency.value = 520;
       mg.gain.setValueAtTime(1.3 * vol, t + 0.01); mg.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
-      m.connect(lp).connect(mg).connect(this.master);
+      m.connect(lp).connect(mg).connect(this.bus.battle);
       m.start(t + 0.01, Math.random() * 0.4, 0.5);
     }
   }
@@ -353,7 +393,7 @@ export class GameAudio {
     bf.type = 'bandpass'; bf.frequency.value = 1400; bf.Q.value = 1;
     bgain.gain.value = 0.12;
     br.connect(bf).connect(bgain).connect(out);
-    out.connect(this.master);
+    out.connect(this.bus.crew);
     o.start(t); o.stop(t + len + 0.05);
     br.start(t, Math.random() * 0.5, len + 0.05);
   }
@@ -370,13 +410,13 @@ export class GameAudio {
     const g = ctx.createGain(), v = Math.min(1.6, 180 / Math.max(dist, 30));
     g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.012);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.9 + Math.min(1, dist / 800));
-    n.connect(lp).connect(g).connect(this.master);
+    n.connect(lp).connect(g).connect(this.bus.battle);
     n.start(t, Math.random() * 0.3, 2);
     if (dist < 400) { // close: the crack of the shell itself
       const c = this.noise(), hp = ctx.createBiquadFilter(), cg = ctx.createGain();
       hp.type = 'highpass'; hp.frequency.value = 1500;
       cg.gain.setValueAtTime(Math.min(1.2, 90 / Math.max(dist, 20)), t); cg.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
-      c.connect(hp).connect(cg).connect(this.master);
+      c.connect(hp).connect(cg).connect(this.bus.battle);
       c.start(t, Math.random() * 0.4, 0.09);
     }
   }
@@ -392,13 +432,13 @@ export class GameAudio {
     const o = ctx.createOscillator(), og = ctx.createGain(); // the airframe's thump
     o.type = 'sine'; o.frequency.setValueAtTime(70, t); o.frequency.exponentialRampToValueAtTime(34, t + 0.35);
     og.gain.setValueAtTime(0.0001, t); og.gain.linearRampToValueAtTime(1.1 * k, t + 0.015); og.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
-    o.connect(og).connect(this.master); o.start(t); o.stop(t + 0.5);
+    o.connect(og).connect(this.bus.battle); o.start(t); o.stop(t + 0.5);
     const ticks = Math.round(6 + k * 26);
     for (let i = 0; i < ticks; i++) { // the rattle: fragments arrive a little after the blast, spread out
       const at = t + 0.06 + Math.random() * (0.15 + 0.35 * Math.random()), n = this.noise(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
       bp.type = 'bandpass'; bp.frequency.value = 2500 + Math.random() * 3500; bp.Q.value = 2.5;
       g.gain.setValueAtTime((0.25 + 0.5 * Math.random()) * k, at); g.gain.exponentialRampToValueAtTime(0.001, at + 0.012 + Math.random() * 0.02);
-      n.connect(bp).connect(g).connect(this.master); n.start(at, Math.random() * 0.5, 0.04);
+      n.connect(bp).connect(g).connect(this.bus.battle); n.start(at, Math.random() * 0.5, 0.04);
     }
   }
 
@@ -413,7 +453,7 @@ export class GameAudio {
     const g = ctx.createGain();
     g.gain.setValueAtTime(Math.min(1.2, 400 / Math.max(dist, 50)), t);
     g.gain.exponentialRampToValueAtTime(0.001, t + 1.6);
-    n.connect(lp).connect(g).connect(this.master);
+    n.connect(lp).connect(g).connect(this.bus.battle);
     n.start(t, 0, 1);
   }
 
@@ -435,7 +475,7 @@ export class GameAudio {
     g.gain.setValueAtTime(v * 0.5, t + 0.5);
     g.gain.linearRampToValueAtTime(v * 0.7, t + 1.1); // (the rumble rolls on)
     g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-    n.connect(lp).connect(g).connect(this.master);
+    n.connect(lp).connect(g).connect(this.bus.battle);
     n.start(t);
     n.stop(t + dur + 0.1);
   }

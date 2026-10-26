@@ -221,12 +221,16 @@ export class Effects {
     }
   }
 
-  /** Where a round strikes: a flash, sparks, a puff of smoke and bits of skin flying off. Bigger far away, so you see hits on other planes. */
+  /**
+   * Where a round strikes: a flash, sparks, a puff of smoke and bits of skin flying off. The same for
+   * everyone's rounds; scaled with the distance so it looks the same size on the screen near or far:
+   * you see your bombers being hit across the formation, and the gunners' hits on the fighters.
+   */
   impact(p, big = false) {
-    const far = this.camPos ? Math.min(5, Math.max(1, p.distanceTo(this.camPos) / 250)) : 1;
-    this.fire.emit(p, _v.set(0, 0, 0), { life: 0.07, s0: (big ? 1.6 : 0.8) * far, s1: 0.2 * far, c0: [90, 70, 35], c1: [20, 8, 2], drag: 1 }); // the flash
+    const far = this.camPos ? Math.min(20, Math.max(1, p.distanceTo(this.camPos) / 150)) : 1;
+    this.fire.emit(p, _v.set(0, 0, 0), { life: far > 2 ? 0.11 : 0.07, s0: (big ? 1.6 : 0.8) * far, s1: 0.2 * far, c0: [90, 70, 35], c1: [20, 8, 2], drag: 1 }); // the flash
     for (let i = 0; i < (big ? 10 : 5); i++) {
-      const v = _v.set(Math.random() - 0.5, Math.random() - 0.3, Math.random() - 0.5).multiplyScalar(big ? 30 : 18);
+      const v = _v.set(Math.random() - 0.5, Math.random() - 0.3, Math.random() - 0.5).multiplyScalar((big ? 30 : 18) * Math.sqrt(far)); // (the sparks fly as far on the screen too)
       this.fire.emit(p, v, { life: 0.12 + Math.random() * 0.15, s0: (big ? 0.5 : 0.3) * far, s1: 0.05, c0: [60, 40, 15], c1: [8, 3, 0.5], drag: 3, grav: 9.8 });
     }
     for (let i = 0; i < (big ? 4 : 2); i++) { // fragments of skin and rivets

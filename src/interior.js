@@ -92,9 +92,9 @@ const ROOF = 1.12; // m: just under the top of the fuselage at the cockpit (the 
 // `hatch` / `mouth` = where you start the crawl from (x, z), `path` = the way through for the eye
 export const CRAWLWAY = {
   hatch: { x0: -0.2, x1: 0.2, z0: -7.82, z1: -7.38 }, tunnel: { x: 0.32, y0: -1.02, y1: -0.43, z0: -8.66, z1: -7.36 },
-  down: { from: [0, -7.55], reach: 0.7, floor: -0.40, to: [0, -0.72, -8.95], yaw: 0, time: 3.2, name: 'Crawl down to the nose',
+  down: { from: [0, -7.55], reach: 0.7, floor: -0.40, to: [0, -0.72, -9.2], yaw: 0, time: 3.8, name: 'Crawl down to the nose',
     path: [[0, -0.05, -7.5], [0, -0.55, -7.6], [0, -0.72, -7.95], [0, -0.74, -8.45], [0, -0.55, -8.8]] },
-  up: { from: [0, -8.95], reach: 0.7, floor: -0.72, to: [0, -0.40, -7.18], yaw: Math.PI, time: 3.2, name: 'Crawl up to the flight deck',
+  up: { from: [0, -8.95], reach: 0.7, floor: -0.72, to: [0, -0.40, -7.18], yaw: Math.PI, time: 3.8, name: 'Crawl up to the flight deck',
     path: [[0, -0.42, -8.82], [0, -0.74, -8.45], [0, -0.72, -7.95], [0, -0.55, -7.6], [0, -0.05, -7.5]] },
 };
 
@@ -102,13 +102,17 @@ export const CRAWLWAY = {
 // behind it), and back from there on hands and knees down the narrowing fuselage to the tail gun
 export const TAILWAY = {
   z: 5.15, mouth: { x: 0.26, y0: -1.95, y1: -1.45 },
-  aft: { from: [0, 4.85], floor: -1.95, to: [0, -2.32, 9.6], yaw: Math.PI, time: 4.6, name: 'Crawl back to the tail gun', station: 'tail',
-    path: [[0, -1.55, 4.95], [0, -1.68, 5.35], [0, -1.85, 6.2], [0, -1.88, 7.2], [0, -1.95, 8.2], [0, -2.0, 8.9]] },
-  fwd: { from: [0, 9.1], floor: -2.32, to: [0, -1.95, 4.75], yaw: 0, time: 4.6, name: 'Crawl forward to the waist',
-    path: [[0, -1.95, 8.9], [0, -1.95, 8.2], [0, -1.88, 7.2], [0, -1.85, 6.2], [0, -1.68, 5.35], [0, -1.55, 4.95]] },
+  // (down on your knees before the opening, under it, and on along the narrowing tail into the gunner's
+  // seat: the crawl ends at the gun's eye, player.js startCrawl, so you never stand up under the tail's roof)
+  aft: { from: [0, 4.85], floor: -1.95, to: [0, -2.32, 9.6], yaw: Math.PI, time: 5.6, name: 'Crawl back to the tail gun', station: 'tail',
+    path: [[0, -0.8, 4.88], [0, -1.3, 4.93], [0, -1.6, 5.05], [0, -1.68, 5.35], [0, -1.85, 6.2], [0, -1.88, 7.2], [0, -1.95, 8.2], [0, -2.0, 8.9]] },
+  // (out through the opening low, and up once your head's clear of it, slowing as you straighten: only part
+  // way, the roof's low at the waist's after end; walking on forward you straighten the rest)
+  fwd: { from: [0, 9.1], floor: -2.32, to: [0, -1.95, 4.25], yaw: 0, time: 5.2, name: 'Crawl forward to the waist',
+    path: [[0, -1.95, 8.9], [0, -1.95, 8.2], [0, -1.88, 7.2], [0, -1.85, 6.2], [0, -1.68, 5.35], [0, -1.62, 5.0], [0, -1.38, 4.8], [0, -1.08, 4.55]] },
   // (and from anywhere along the tail, up at the bulkhead: back through its opening to the waist)
-  back: { from: [0, 5.55], reach: 0.6, floor: -2.15, to: [0, -1.95, 4.75], yaw: 0, time: 1.8, name: 'Crawl forward through to the waist',
-    path: [[0, -1.85, 5.45], [0, -1.68, 5.25], [0, -1.55, 4.95]] },
+  back: { from: [0, 5.55], reach: 0.6, floor: -2.15, to: [0, -1.95, 4.25], yaw: 0, time: 3.0, name: 'Crawl forward through to the waist',
+    path: [[0, -1.85, 5.45], [0, -1.7, 5.28], [0, -1.62, 5.0], [0, -1.38, 4.8], [0, -1.08, 4.55]] },
 };
 /** The lowest a turret may aim at yaw (radians off its station's direction): its floor ahead, else its own limit. */
 export function turretFloor(s, yawRel) {
@@ -164,7 +168,7 @@ export const STATIONS = [
   { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.88, -7.72], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
   { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.4, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'], floor: [55, 9], // (forward of the beam its guns can't come down into the cockpit roof: no lower than 9 degrees within 55 of dead ahead)
     entry: { time: 0.8, path: [[0, 0.85, -6.85]], bob: 0.02, bobs: 1 }, // step up onto the platform, head up into the dome
-    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, twin: [0.13, -0.24, 0.56, 1.5, 0.3], // side by side under your line of sight: the receivers inside the dome, the barrels out through it
+    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, twin: [0.27, -0.07, 0.12, 1.1, 0.42], // either side of your head, as in the real one: the receivers by your temples, the barrels out through the dome's slots (topturret.js SLOT_X)
     hide: ['TopTurret'], attach: 'topCockpit' }, // inside, the model's dome is replaced by a glass one (topturret.js)
   { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.42, -0.1], yaw: 0, yawLim: 180, pitch: [-89, 0], guns: ['GunBarrel004', 'GunBarrel14'], // (down from the horizon: up there her belly fills the top of the window)
     entry: { time: 1.2, path: [[0, -1.05, 0.3], [0, -1.75, 0.08], [0, -2.25, -0.02]], bob: 0.015, bobs: 2 }, // kneel at the hatch, down into the ball
@@ -396,8 +400,9 @@ function plexiglasBase(holes, side, base) {
       float sc = smoothstep(0.985, 1.0, gn(vec2(q.x * 0.08, q.y * 3.0))) + smoothstep(0.988, 1.0, gn(vec2(q.x * 2.6 + q.y, q.y * 0.07)));
       // grime towards the window's edges, and a faint mottle all over
       float edge = ${holes ? '0.25' : '1.0 - smoothstep(0.0, 0.22, min(min(vGUv.x, 1.0 - vGUv.x), min(vGUv.y, 1.0 - vGUv.y)))'};
-      float grime = edge * (0.5 + 0.5 * gn(vGP.xy * 18.0)) * 0.22 + gn(vGP.xz * 60.0) * 0.015;
-      float ga = clamp(${base.toFixed(3)} + fres * 0.3 + sc * 0.6 + grime, 0.0, 0.6);
+      float grime = edge * (0.5 + 0.5 * gn(vGP.xy * 18.0)) * 0.12 + gn(vGP.xz * 60.0) * 0.012;
+      // (thin: in a dim light a denser glass drew as dark slabs over the sky)
+      float ga = clamp(${base.toFixed(3)} + fres * 0.16 + sc * 0.5 + grime, 0.0, 0.34);
       outgoingLight = mix(outgoingLight, vec3(0.32, 0.31, 0.27) * (0.4 + outgoingLight), clamp(grime / max(ga, 0.01), 0.0, 1.0));
       #include <opaque_fragment>
       // (the sky's reflection added on top, stronger towards grazing angles, so the glass shows)
@@ -1155,7 +1160,8 @@ varying vec3 vTpP;`)
     grd.addColorStop(0, 'rgba(255,240,210,0.0)'); grd.addColorStop(0.15, 'rgba(255,240,210,1)'); grd.addColorStop(1, 'rgba(255,240,210,0)');
     g.fillStyle = grd; g.fillRect(0, 0, 4, 64);
     const map = new THREE.CanvasTexture(c);
-    this.shafts = [[-1.0, -1.0, 1.78, -1], [1.0, -1.0, 1.82, 1], [-1.0, -1.0, -1.9, -1], [1.0, -1.0, -1.9, 1]].map(([x, y, z, side]) => {
+    // (the waist windows only: the radio room's showed as a pale slab across the floor)
+    this.shafts = [[-1.0, -1.0, 1.78, -1], [1.0, -1.0, 1.82, 1]].map(([x, y, z, side]) => {
       const geo = new THREE.CylinderGeometry(0.28, 0.45, 2.4, 10, 1, true).translate(0, -1.2, 0); // from the window inwards
       const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, fog: false }));
       mesh.position.set(x, y, z);
@@ -1171,7 +1177,7 @@ varying vec3 vTpP;`)
     const down = _sd.copy(sunLocal).negate();
     for (const { mesh, side } of this.shafts) {
       mesh.quaternion.setFromUnitVectors(_up, _sd2.copy(down).negate()); // its axis points back up the sun ray
-      mesh.material.opacity = 0.05 * THREE.MathUtils.clamp(sunLocal.x * side, 0, 1);
+      mesh.material.opacity = 0.03 * THREE.MathUtils.clamp(sunLocal.x * side, 0, 1);
     }
   }
 
@@ -1267,7 +1273,7 @@ varying vec3 vTpP;`)
     };
     const skinOut = std(0x4b5135, 0.75, 0.15), skinIn = Object.assign(std(0x6f7462, 0.75, 0.3), { side: THREE.BackSide });
     skinOut.userData.outside = true;
-    const glass = plexiglas(null, THREE.DoubleSide, 0.11);
+    const glass = plexiglas(null, THREE.DoubleSide, 0.07);
     const metal = [], panes = [];
     // the body, z0 .. the step, and the pod, the step .. its end
     const loft = (z0, z1, n, cy, glassAt) => {
@@ -1398,7 +1404,7 @@ varying vec3 vTpP;`)
     cone.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
     cone.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
     cone.setIndex(idx); cone.computeVertexNormals();
-    const glass = plexiglas(null, THREE.DoubleSide, 0.17); // (a touch more there than the tail's: it's all round you)
+    const glass = plexiglas(null, THREE.DoubleSide, 0.09); // (a touch more there than the tail's: it's all round you)
     const mesh = new THREE.Mesh(cone, glass);
     mesh.renderOrder = 4; mesh.name = 'NoseCone';
     this.group.add(mesh);

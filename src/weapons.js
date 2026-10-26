@@ -14,7 +14,7 @@ const _f = new THREE.Vector3(), _u = new THREE.Vector3(), _s = new THREE.Vector3
 // the parts of the airframe a gun mustn't fire through: wings (from the wing roots), engines, the fin
 // and the tailplanes (bomber space; the fuselage itself is kept out of the guns' arcs by their limits)
 const AIRFRAME = PARTS.filter((p) => p.kind === 'wing' || p.kind === 'engine' || p.kind === 'tail')
-  .map((p) => new THREE.Box3(new THREE.Vector3(p.box[0], p.box[2], p.box[4]), new THREE.Vector3(p.box[1], p.box[3], p.box[5])));
+  .flatMap((p) => p.boxes).map((q) => new THREE.Box3(new THREE.Vector3(q[0], q[2], q[4]), new THREE.Vector3(q[1], q[3], q[5])));
 const _bi = new THREE.Matrix4(), _bo = new THREE.Vector3(), _bd = new THREE.Vector3(), _br = new THREE.Ray();
 const HANDLE_MAT = new THREE.MeshStandardMaterial({ color: 0x1d1b18, roughness: 0.6, metalness: 0.3 }); // black bakelite grips
 const UP = new V(0, 1, 0), FWD = new V(0, 0, -1);
@@ -237,7 +237,7 @@ const FLAME_MAT = new THREE.MeshBasicMaterial({ map: flameTexture(), color: new 
  */
 class Casings {
   constructor(parent, interior) {
-    const MAX = this.MAX = 360;
+    const MAX = this.MAX = 1500; // (after a fight the floor is covered in brass: the oldest go first)
     const brass = new THREE.MeshStandardMaterial({ color: 0xb58a3c, roughness: 0.35, metalness: 0.9, envMapIntensity: 0.6 });
     const link = new THREE.MeshStandardMaterial({ color: 0x2a2a28, roughness: 0.5, metalness: 0.7 });
     this.cases = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.0065, 0.0065, 0.1, 6), brass, MAX);
@@ -246,11 +246,22 @@ class Casings {
     this.items = [];
     this.it = interior;
     this.m = new THREE.Matrix4(); this.q = new THREE.Quaternion(); this.e = new THREE.Euler(); this.one = new V(1, 1, 1);
+    // already some brass and links on the floor round the hand-held guns, from the last fight
+    for (const s of interior?.stations ?? []) {
+      if (s.browning !== 'flex' && !s.socket) continue;
+      for (let k = 0; k < 16; k++) {
+        const at = new V(s.stand.x + (Math.random() - 0.5) * 0.9, s.stand.y, s.stand.z + (Math.random() - 0.5) * 0.9);
+        const floor = interior.floorAt(at.x, at.z, at.y + 0.3);
+        if (!Number.isFinite(floor)) continue;
+        at.y = floor + 0.007;
+        this.items.push({ p: at, v: new V(), r: new V(Math.PI / 2, Math.random() * 6, 0), w: new V(), link: k % 3 === 0, out: false, age: 0, rest: true, floor, old: true });
+      }
+    }
   }
 
   /** at, vel: bomber space. isLink: a link rather than a case. outside: no floor under it. */
   spawn(at, vel, isLink, outside) {
-    if (this.items.length >= this.MAX * 2) this.items.shift();
+    if (this.items.length >= this.MAX * 2) this.items.splice(this.items.findIndex((x) => x.rest) >>> 0, 1); // (the oldest lying there)
     this.items.push({ p: at.clone(), v: vel, r: new V(Math.random() * 6, Math.random() * 6, Math.random() * 6), w: new V((Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 40),
       link: isLink, out: outside, age: 0, rest: false, floor: outside ? -Infinity : (this.it?.floorAt(at.x, at.z, at.y) ?? -Infinity) });
   }
@@ -260,7 +271,7 @@ class Casings {
     for (let i = 0; i < this.items.length; i++) {
       const c = this.items[i];
       c.age += dt;
-      if ((c.out && c.age > 1.5) || c.age > 40) { this.items.splice(i--, 1); continue; }
+      if (c.out && c.age > 1.5) { this.items.splice(i--, 1); continue; } // (out of the window: gone; on the floor they stay)
       if (!c.rest) {
         c.v.y -= 9.8 * dt;
         if (c.out) c.v.z += 40 * dt; // (outside, the slipstream takes it)
@@ -648,7 +659,7 @@ export class Weapons {
         dir.y += (Math.random() - 0.5) * SPREAD * 2;
         dir.z += (Math.random() - 0.5) * SPREAD * 2;
         this.bullets.spawn(muzzle, dir.normalize().multiplyScalar(MUZZLE_SPEED), gp.rounds++ % TRACER_EVERY === 0, 'allied', owner, false, this.bomber);
-        gp.ammo--;
+        if (!this.infinite) gp.ammo--; // (the Options' infinite ammunition: the belt never runs out)
         g.heat += HEAT_PER_SHOT;
         if (g.heat >= 1) { g.jammed = true; if (player) this.audio.overheat(); }
         // the flash: the star end-on, the flame from the side, each round a little different; the

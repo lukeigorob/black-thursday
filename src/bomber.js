@@ -64,24 +64,53 @@ const _vel = new V(), _at = new V(), _w = new V(), _d = new V(), _rock = new THR
 export const ENGINE_X = [-7.16, -3.93, 3.94, 7.15]; // engines 1-4, numbered left to right as the pilot sees them
 export const SECTIONS = [['nose', -11.4, -8.6], ['cockpit', -8.6, -6.35], ['bombbay', -6.35, -2.6], ['radio', -2.6, -1.25], ['waist', -1.25, 5.2], ['tail', 5.2, 11.4]];
 
-// hit boxes in bomber space [x0, x1, y0, y1, z0, z1] (nose -Z), from the model's measurements
+// Hit boxes in bomber space [x0, x1, y0, y1, z0, z1] (nose -Z), measured from the model: each part is a
+// few boxes following its shape (`boxes`: what a round must pass through to hit it), `box` the lot's bounds.
+// The fuselage, station by station [z, half-width, bottom, top]: round the nose, widest at the wing, the
+// spine falling away aft and the tail cone narrowing to the tail gun
+const HULL = [[-11.6, 0.55, -0.8, 0.5], [-10.6, 0.95, -1.1, 0.85], [-10.0, 1.0, -1.8, 0.95], [-8.6, 1.1, -1.85, 1.0], [-8.0, 1.15, -1.9, 1.05],
+  [-6.0, 1.2, -2.0, 1.05], [-4.0, 1.15, -2.2, 0.85], [-2.5, 1.1, -2.3, 0.55], [-1.0, 1.0, -2.45, 0.25], [1.0, 0.95, -2.5, 0.05], [3.0, 0.9, -2.5, -0.2],
+  [6.0, 0.82, -2.55, -0.25], [8.5, 0.62, -2.6, -0.8], [10.0, 0.45, -2.62, -1.15], [11.4, 0.3, -2.62, -1.8]];
+/** The fuselage between z0 and z1: a box for each stretch between stations, as big as its bigger end. */
+function hullBoxes(z0, z1) {
+  const out = [];
+  for (let i = 0; i < HULL.length - 1; i++) {
+    const [za, wa, ba, ta] = HULL[i], [zb, wb, bb, tb] = HULL[i + 1], lo = Math.max(z0, za), hi = Math.min(z1, zb);
+    if (hi - lo < 0.01) continue;
+    const at = (z) => { const t = (z - za) / (zb - za); return [wa + (wb - wa) * t, ba + (bb - ba) * t, ta + (tb - ta) * t]; };
+    const [w1, b1, t1] = at(lo), [w2, b2, t2] = at(hi), w = Math.max(w1, w2);
+    out.push([-w, w, Math.min(b1, b2), Math.max(t1, t2), lo, hi]);
+  }
+  return out;
+}
+// the wing, span-wise in stretches [|x| from, to, leading edge z, trailing edge z, bottom, top]: thick at the
+// root, thin and swept back to the rounded tip
+const WING = [[1.1, 3.0, -6.8, -1.5, -1.65, -0.35], [3.0, 5.5, -6.5, -1.8, -1.55, -0.4], [5.5, 8.0, -6.2, -2.1, -1.45, -0.45],
+  [8.0, 10.5, -5.95, -2.1, -1.3, -0.5], [10.5, 13.0, -5.45, -2.25, -1.15, -0.55], [13.0, 15.0, -5.2, -2.35, -1.05, -0.6], [15.0, 16.4, -4.9, -2.6, -1.0, -0.65]];
+const wingBoxes = (side, from, to) => WING.filter(([a]) => a >= from && a < to).map(([a, b, le, te, y0, y1]) => (side < 0 ? [-b, -a, y0, y1, le, te] : [a, b, y0, y1, le, te]));
+// the tail: the fin (thin, its leading edge swept up from the dorsal fillet) and the two tailplanes
+const FIN = [[4.6, 6.0, -0.6, 0.3], [6.0, 6.8, -0.6, 0.9], [6.8, 7.6, -0.8, 1.7], [7.6, 8.3, -0.9, 2.7], [8.3, 10.0, -1.0, 3.05], [10.0, 10.4, -1.1, 2.6]].map(([z0, z1, y0, y1]) => [-0.28, 0.28, y0, y1, z0, z1]);
+const STAB = [[0.3, 2.2, 5.9, 9.4], [2.2, 4.4, 6.4, 9.4], [4.4, 6.8, 6.9, 9.3]].flatMap(([a, b, z0, z1]) => [[a, b, -2.0, -1.3, z0, z1], [-b, -a, -2.0, -1.3, z0, z1]]);
+const bounds = (boxes) => [0, 1, 2, 3, 4, 5].map((k) => (k % 2 ? Math.max : Math.min)(...boxes.map((q) => q[k])));
 export const PARTS = [
   // a B-17 could take a lot: hit points are rounds of .30/.50 (a 20 mm shell counts 3)
-  ...ENGINE_X.map((x, i) => ({ name: `engine${i + 1}`, kind: 'engine', engine: i, box: [x - 0.85, x + 0.85, -1.45, 0.3, -8.8, -3.3], hp: 32 })),
+  ...ENGINE_X.map((x, i) => ({ name: `engine${i + 1}`, kind: 'engine', engine: i, boxes: [[x - 0.7, x + 0.7, -1.4, 0.0, -9.1, -4.6]], hp: 32 })),
   // the inner wings carry the fuel tanks round the engines; the outer wings, the tips
-  { name: 'wingLi', kind: 'wing', side: -1, inner: true, box: [-8.0, -1.25, -1.5, -0.1, -7.3, -1.3], hp: 70 },
-  { name: 'wingRi', kind: 'wing', side: 1, inner: true, box: [1.25, 8.0, -1.5, -0.1, -7.3, -1.3], hp: 70 },
-  { name: 'wingLo', kind: 'wing', side: -1, box: [-16.3, -8.0, -1.5, -0.1, -7.3, -1.3], hp: 80 },
-  { name: 'wingRo', kind: 'wing', side: 1, box: [8.0, 16.3, -1.5, -0.1, -7.3, -1.3], hp: 80 },
-  { name: 'tailplane', kind: 'tail', box: [-6.5, 6.5, -2.2, 3.2, 6.0, 10.5], hp: 45 },
-  { name: 'ball', kind: 'turret', turret: 'ball', box: [-0.55, 0.55, -2.95, -1.95, -0.75, 0.5], hp: 22 },
-  { name: 'top', kind: 'turret', turret: 'top', box: [-0.62, 0.62, 1.0, 1.75, -7.35, -6.05], hp: 22 },
-  ...SECTIONS.map(([name, z0, z1]) => ({ name, kind: 'section', section: name, box: [-1.25, 1.25, -2.45, 1.8, z0, z1], hp: 60 })),
-];
+  { name: 'wingLi', kind: 'wing', side: -1, inner: true, boxes: wingBoxes(-1, 0, 8), hp: 70 },
+  { name: 'wingRi', kind: 'wing', side: 1, inner: true, boxes: wingBoxes(1, 0, 8), hp: 70 },
+  { name: 'wingLo', kind: 'wing', side: -1, boxes: wingBoxes(-1, 8, 99), hp: 80 },
+  { name: 'wingRo', kind: 'wing', side: 1, boxes: wingBoxes(1, 8, 99), hp: 80 },
+  { name: 'tailplane', kind: 'tail', boxes: [...FIN, ...STAB], hp: 45 },
+  { name: 'ball', kind: 'turret', turret: 'ball', boxes: [[-0.55, 0.55, -2.95, -1.95, -0.75, 0.5]], hp: 22 },
+  { name: 'top', kind: 'turret', turret: 'top', boxes: [[-0.62, 0.62, 1.0, 1.75, -7.35, -6.05]], hp: 22 },
+  // (the cockpit with its canopy over it)
+  ...SECTIONS.map(([name, z0, z1]) => ({ name, kind: 'section', section: name, boxes: [...hullBoxes(z0, z1), ...(name === 'cockpit' ? [[-0.9, 0.9, 1.0, 1.6, -8.4, -6.4]] : [])], hp: 60 })),
+].map((p) => ({ ...p, box: bounds(p.boxes) }));
 
 // everything that makes a bomber "that bomber" (where it flies, its damage), but not how it's drawn
-const STATE = ['base', 'home', 'flight', 'bottles', 'leak', 'fx', 'spiral', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes',
+const STATE = ['base', 'home', 'slot0', 'noTail', 'pilotless', 'pilotlessT', 'flown', 'flight', 'bottles', 'leak', 'fx', 'spiral', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes',
   'lost', 'secFire', 'secFireLimit', 'turretOut', 'dive', 'warned', 'cutBoxes', 'lostParts']; // (the last two: what break-up has cut away, breakup.js)
+const STRAGGLE = 180, STRAG_BACK = 320; // m: a straggler; how far back behind her slot one falls at most // m from her slot in the box: a straggler
 export const PART = Object.fromEntries(PARTS.map((p) => [p.name, p]));
 const FUSELAGE = ['bombbay', 'radio', 'waist', 'tail']; // the sections a fire can take hold in and break her up
 const NAMES = { nose: 'the nose', cockpit: 'the cockpit', bombbay: 'the bomb bay', radio: 'the radio room', waist: 'the waist', tail: 'the tail' };
@@ -111,6 +140,7 @@ export class Bomber {
     this.bombs = 12; // 12 x 500 lb
     this.base = position.clone();
     this.home = position.clone(); // its slot in the formation (base leaves it while the player flies)
+    this.slot0 = position.clone(); // where that slot is in the box (home drifts away from it with a straggler)
     // heading/pitch/bank relative to the formation's course; only the player's own pilot changes them
     this.flight = { heading: 0, pitch: 0, bank: 0, speed: AIRSPEED, throttle: 0.5 };
     this.bottles = 3; // engine fire extinguisher shots
@@ -144,7 +174,7 @@ export class Bomber {
   damage(name) { return this.lost[name] ? 1 : 1 - Math.max(0, this.hp[name]) / PART[name].hp; }
 
   /** Is this gun's turret still working? */
-  turretWorks(stationId) { return !this.turretOut[stationId]; }
+  turretWorks(stationId) { return !this.turretOut[stationId] && !(stationId === 'tail' && this.noTail); } // (the tail gun went with the tail)
 
   /** Give this bomber a model to draw (a mid-detail one from the pool), or take it away (null). */
   setModel(model) {
@@ -282,7 +312,7 @@ export class Bomber {
       if (hp <= 0) {
         this.lost.tailplane = true;
         this.fx.push({ type: 'tail' });
-        this.dive = true;
+        this.dive = true; this.noTail = true; // (with no tail she can't be held: the nose goes straight down)
         this.goDown('The tail\'s been shot off!');
       }
     } else if (part.kind === 'turret') {
@@ -299,7 +329,7 @@ export class Bomber {
         this.secFireLimit = rand(25, 50);
         this.emit(`Fire in ${NAMES[sec]}!`);
       }
-      if (FUSELAGE.includes(sec) && hp <= 0) this.breakUp(sec);
+      if (FUSELAGE.includes(sec) && hp <= 0) { if (sec === 'tail' || sec === 'waist') this.noTail = true; this.breakUp(sec); }
     }
     if (this.deadEngines >= 3) this.goDown('Three engines out, we can\'t hold her!');
     return part;
@@ -422,13 +452,21 @@ export class Bomber {
     // own throttle: see fly.)
     const n = this.deadEngines, short = this.manualFires ? 0 : Math.max(0, 1 - this.power(1)) * SPEED_PER_POWER;
     this.drift.set(0, n >= 2 ? -1.5 : 0, short);
+    if (!this.down && this.drift.z > 0 && this.base.z - this.slot0.z > STRAG_BACK) this.drift.z = 0; // (fallen back behind her group as far as she will: she hangs on there)
+    this.stragT = this.straggling && !this.down ? (this.stragT ?? 0) + dt : 0;
+    if (this.pilotless && !this.flown && !this.down) { // nobody at the controls: a long, slow, wandering glide down and out of the box
+      this.pilotlessT = (this.pilotlessT ?? 0) + dt;
+      this.drift.set(Math.sin(this.pilotlessT * 0.05) * 3, -Math.min(9, 1 + this.pilotlessT * 0.15), Math.min(18, 3 + this.pilotlessT * 0.3));
+      this.roll = Math.sin(this.pilotlessT * 0.12) * 0.25;
+      if (this.pilotlessT > 150) this.goDown('Nobody at the controls: she\'s going in!');
+    }
     if (!this.manualFires) this.flight.throttle = Math.min(1, this.throttleNeeded);
     if (this.down) {
       this.downT += dt;
       // falling in a spiral: round and round as it goes down (tight and fast with a wing gone)
       const sp = (this.spiral ??= { r: rand(15, 40), w: rand(0.2, 0.45), side: Math.random() < 0.5 ? -1 : 1 });
       const a = this.downT * sp.w * sp.side, v = sp.r * sp.w * Math.min(1, this.downT / 4);
-      this.drift.set(Math.cos(a) * v * (this.dive ? 0.4 : 1), -Math.min(this.dive ? 75 : 45, 4 + this.downT * (this.dive ? 5 : 2.5)), 22 + Math.sin(a) * v);
+      this.drift.set(Math.cos(a) * v * (this.dive ? 0.4 : 1), -Math.min(this.dive ? 80 : 45, (this.noTail ? 12 : 4) + this.downT * (this.noTail ? 14 : this.dive ? 5 : 2.5)), 22 + Math.sin(a) * v);
       this.roll += this.rollRate * dt * (1 + this.downT * 0.08);
       if (this.chutes > 0 && this.downT > 3 && Math.random() < dt * 0.8) {
         this.chutes--;
@@ -462,6 +500,12 @@ export class Bomber {
       if (Math.random() < 0.3) effects.smoke.emit(p, _w.set(rand(-0.12, 0.12), rand(0.3, 0.55), rand(-0.12, 0.12)), { life: rand(2, 3.5), s0: 0.3, s1: 1.5, a0: 0.6, c0: [0.05, 0.045, 0.04], c1: [0.16, 0.15, 0.14], drag: 0 });
     }
   }
+
+  /**
+   * Out of the box: flown away from it (the player at the controls), or dropped back and down, crippled.
+   * Alone, without the box's massed guns round her, she's what the fighters look for.
+   */
+  get straggling() { return !this.down && !this.gone && this.base.distanceToSquared(this.slot0) > STRAGGLE * STRAGGLE; }
 
   /** Off its slot or course: the autopilot has work to do. */
   get offStation() { const f = this.flight; return f.heading !== 0 || f.pitch !== 0 || f.bank !== 0 || this.base.distanceToSquared(this.home) > 0.01; }
@@ -505,6 +549,11 @@ export class Bomber {
     const err = wrapA(heading - f.heading);
     const bankT = input?.roll ? input.roll * MAX_BANK : clamp(err * 2.5, -MAX_BANK, MAX_BANK);
     f.bank += (bankT - f.bank) * (1 - Math.exp(-dt * 1.1 * (0.35 + 0.65 * Math.min(1, tail / 0.7))));
+    if (this.knock?.t > 0) { // knocked by another B-17: the nose swung and a wing thrown up, fading as you get her back
+      const kn = this.knock, k = (kn.t -= dt) / kn.T;
+      f.bank += kn.roll * k * Math.sin(kn.t * 5) * dt * 3;
+      f.heading = wrapA(f.heading + kn.yaw * k * dt);
+    }
     f.heading = wrapA(f.heading + (9.81 * Math.tan(f.bank) / Math.max(f.speed, 30)) * dt);
     f.pitch += (clamp(pitch, -0.22, 0.16) - f.pitch) * (1 - Math.exp(-dt * 0.9));
     speed -= Math.sin(f.pitch) * 25; // climbing costs speed, diving gains it
@@ -533,7 +582,7 @@ export class Bomber {
     const turb = Math.sin(s * 2.3) * Math.sin(s * 1.7);
     this.group.position.set(this.base.x + Math.sin(s * 0.21) * 0.4, this.base.y + Math.sin(s * 0.37) * 0.25 + turb * 0.04, this.base.z);
     _rock.set(
-      Math.sin(s * 0.29) * 0.008 + turb * 0.0015 - (this.down ? Math.min(this.dive ? 1.1 : 0.35, this.downT * (this.dive ? 0.09 : 0.02)) : 0),
+      Math.sin(s * 0.29) * 0.008 + turb * 0.0015 - (this.down ? Math.min(this.noTail ? 1.35 : this.dive ? 1.1 : 0.35, this.downT * (this.noTail ? 0.7 : this.dive ? 0.09 : 0.02)) : 0),
       Math.sin(s * 0.13) * 0.004 + (this.down && this.spiral ? this.downT * this.spiral.w * this.spiral.side * Math.min(1, this.downT / 4) : 0),
       Math.sin(s * 0.23) * 0.018 + Math.sin(s * 0.9) * 0.002 + this.roll + (this.deadEngines ? (this.engines[0].state !== 'ok' || this.engines[1].state !== 'ok' ? 0.02 : -0.02) : 0),
     );

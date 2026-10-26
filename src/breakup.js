@@ -168,7 +168,8 @@ export class Breakup {
     if (kind === 'fuselage') b.lostParts.add('tail');
     b.cutBoxes.push(...boxes);
     this.cutBody(b);
-    this.spawnPiece(b, boxes, kind, side, z, vel);
+    const piece = this.spawnPiece(b, boxes, kind, side, z, vel);
+    if (kind === 'tail' || kind === 'fuselage') b.tailPiece = piece;
   }
 
   /** Keep the bomber's own drawing cut, whatever model it has right now. */
@@ -226,6 +227,7 @@ export class Breakup {
     // the moment it goes: a burst of fire and pieces of skin at the tear
     const at = g.localToWorld(tear.clone()), near = this.camPos ? THREE.MathUtils.clamp(at.distanceTo(this.camPos) / 30, 0.2, 1) : 1;
     this.effects.explosion(at, vel.clone(), (kind === 'tail' ? 1.2 : 1.6) * near); // (smaller right by your eye: from inside, a full one whites out the cabin)
+    return piece;
   }
 
   drop(p) {
