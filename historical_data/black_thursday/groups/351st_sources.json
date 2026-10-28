@@ -1,0 +1,56 @@
+[
+ {
+  "id": "351-01",
+  "title": "351st Bomb Group Crew Member (Load List) Database, mission 49, 14 Oct 1943, per-aircraft crew lists",
+  "organisation": "351st Bomb Group Association (351st.org)",
+  "url": "http://www.351st.org/loadlist/search.php?type=m&mission=49&ac=",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Transcribed from group crew loading lists; gives duty, rank, full name, service number, squadron and notes (Aborted Mission / MACR 1036 POW/KIA). HTTPS certificate expired; read over HTTP."
+ },
+ {
+  "id": "351-02",
+  "title": "351st BG Mission 49 page, 14 Oct 1943: briefing outline, operations, navigator, bombardier, group leader and S-2 narratives, combat bombing flight record, statistical report, flak report",
+  "organisation": "351st Bomb Group Association (351st.org)",
+  "url": "http://www.351st.org/351stMissions/Mission049/Mission49.html",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Transcriptions of declassified group mission documents (NND 745005)."
+ },
+ {
+  "id": "351-03",
+  "title": "b17flyingfortress.de aircraft pages for the 18 351st serials, plus 'B-17 losses on Schweinfurt-Mission on October 14th 1943' list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Block, squadron code and nickname per aircraft; Crismon crew and MACR 1036. Individual pages at https://b17flyingfortress.de/en/b17/<serial>/."
+ },
+ {
+  "id": "351-04",
+  "title": "Combat Report Form (Group), 351st, 14 October 43: formation diagram with aircraft numbers",
+  "organisation": "351st Bomb Group Association (NARA copy, NND 745005)",
+  "url": "http://www.351st.org/351stMissions/Mission049/CombatReport.jpg",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Shows 925, 857, 523, 495, 863, 096 (circled), 542, 860, 532, 136. 'This group was high group of the CW'."
+ },
+ {
+  "id": "351-05",
+  "title": "303rd BG(H) Combat Mission No. 78, 14 October 1943 (1st Air Division group table)",
+  "organisation": "303rd Bomb Group Association",
+  "url": "https://www.303rdbg.com/missionreports/078.pdf",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Lists 351BG (16) under the 1st Air Division's 149 dispatched."
+ },
+ {
+  "id": "351-06",
+  "title": "VIII Bomber Command 115 (mission page)",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Lists 351st as 16 aircraft in the first element."
+ }
+]

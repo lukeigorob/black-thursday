@@ -1,0 +1,320 @@
+{
+ "group": "388th",
+ "division": "3rd",
+ "dispatched": null,
+ "lost": 0,
+ "dispatched_confidence": "UNVERIFIED",
+ "dispatched_notes": "Sources disagree. AAM mission page (388-03): 388BG (18). Memoir of S/Sgt Eugene T. Carson, 560th BS (388-02): \"We were scheduled to put up twenty-two aircraft and be the low group\" of the lead combat wing (96th BG furnishing lead and high groups); one take-off crash (42-30193) and five mechanical aborts left 16 aircraft, all of which reached the target; 3 landed at other airfields; no 388th aircraft lost in the air. Lost = 0 in combat (PROBABLE; no 388th entry in the b17flyingfortress.de loss list 388-05 other than 42-30709, which had been transferred to the 96th BG on 21/8/43); 1 written off on take-off.",
+ "formation_notes": "Low group of the lead 3rd BD combat wing, with the 96th BG as lead and high groups (388-02, single source).",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30193",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO",
+   "nickname": "Hard Luck",
+   "nose_art": null,
+   "bomb_squadron": "561st",
+   "squadron_code": null,
+   "aircraft_letter": "R",
+   "pilot": "Paul Swift",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "written_off",
+   "loss_details": "Crashed on take-off for Schweinfurt at Knettishall; No. 3 engine caught fire (388-02); crew escaped uninjured, 11 returned to duty; aircraft salvaged (388-01). The take-off crash delayed the rest of the group while the area was cleared (388-02). AAM mission page (388-03) records one 3rd BD aircraft crashed on take-off, DBR, 11 RTD.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "388-01",
+    "388-02",
+    "388-03"
+   ],
+   "notes": "Assigned 561BS/388BG 15/6/43 (AAM 388-01). Aircraft letter \"R\" from AAM \"Markings & paint scheme: R\"; squadron code letters not given there. Nickname \"Hard Luck\" in AAM and in the 388th memoir (388-02) for this incident. The aircraft's regular crew (Eccleston) is NOT this mission's crew; only Molinari of that crew is in the take-off-crash list. Most of the Swift crew are shown on AAM person pages as 566th BS (as given; not resolved).",
+   "crew": [
+    {
+     "name": "Paul Swift",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "388-01",
+      "388-02"
+     ],
+     "notes": "AAM person record: 1st Lt (highest rank), 566th BS (as given). Memoir 388-02 names \"Lt. Swift\"."
+    },
+    {
+     "name": "Cecil E. Tipper",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "AAM person record: 2nd Lt (highest rank)."
+    },
+    {
+     "name": "Paul Arbon",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ]
+    },
+    {
+     "name": "Otto R. Bowman",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "AAM aircraft text reads \"Bombardier: Otto Bowmaninj\" - possibly \"Bowman (inj)\"; same text says all 11 returned to duty and the memoir says no injuries. Unresolved."
+    },
+    {
+     "name": "Bertil C. Erickson",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ]
+    },
+    {
+     "name": "John W. Taylor",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ]
+    },
+    {
+     "name": "Joseph John Molinari",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "32405196",
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "Service number from AAM person record."
+    },
+    {
+     "name": "Thomas E. Norton",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ]
+    },
+    {
+     "name": "Don Van Cundy",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "Name as in AAM aircraft text only (\"Don Van Cundy\"); no person record found; spelling unverified."
+    },
+    {
+     "name": "Robert J. Ponton",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "AAM text \"Bob bPonton\" (typo)."
+    },
+    {
+     "name": "Colie E. Emlyn",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-01"
+     ],
+     "notes": "Passenger (\"pass\") per AAM aircraft text; AAM person record role \"observer\"."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3555",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL",
+   "nickname": "Tiger Girl",
+   "nose_art": "Flying Tigers motif (per 388-02)",
+   "bomb_squadron": "560th",
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "Otis C. Ingebritsen",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "388-02",
+    "388-04"
+   ],
+   "notes": "Single memoir source for this sortie (Eugene T. Carson, tail gunner, 388-02): flew \"Tiger Girl\", serial given as 42-3555, described as a new B-17G with chin turret. AAM (388-04) gives 42-3555 Tiger Girl as B-17F-75-DL, 560BS/388BG, assigned 9/43, MIA Bremen 26/11/43 (MACR 3116) - type recorded as B-17F per AAM (late Douglas F-models had chin turrets). Memoir states all 16 attacking 388th aircraft reached the target; three landed away from base; Carson's guns were nearly out of ammunition. Damage to this aircraft not described.",
+   "crew": [
+    {
+     "name": "Otis C. Ingebritsen",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "Named as pilot for this mission in 388-02 (\"Dingle\"). Rank on 9 Sep 1943 crew order: 2nd Lt."
+    },
+    {
+     "name": "Edward J. Meginnies",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "Named for this mission in 388-02 (\"Mac\"). Rank on 9 Sep 1943 crew order: 2nd Lt."
+    },
+    {
+     "name": "Chuck Allred",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "Named as flight engineer for this mission in 388-02 (replacement for Sgt. Harold L. Pepper)."
+    },
+    {
+     "name": "Eugene T. Carson",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "Memoir author; promoted to S/Sgt before first combat mission (26 Sep 1943). Flew this mission without his parachute (left on the ground)."
+    },
+    {
+     "name": "Rensler L. Pomeroy",
+     "rank": null,
+     "position": "navigator",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On crew No. 60 roster (Special Orders 205, 9 Sep 1943) - NOT confirmed for 14 Oct 1943."
+    },
+    {
+     "name": "Michael J. Chaklos",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On 9 Sep 1943 crew roster - NOT confirmed for 14 Oct 1943."
+    },
+    {
+     "name": "William D. Pross",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On 9 Sep 1943 crew roster (S/Sgt.) - NOT confirmed for 14 Oct 1943."
+    },
+    {
+     "name": "Stanley F. Gajewski",
+     "rank": null,
+     "position": "ball",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On 9 Sep 1943 crew roster (S/Sgt.) - NOT confirmed for 14 Oct 1943."
+    },
+    {
+     "name": "Hubert H. Windham",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On 9 Sep 1943 crew roster (S/Sgt.) - NOT confirmed for 14 Oct 1943."
+    },
+    {
+     "name": "Charles J. Grannis",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "388-02"
+     ],
+     "notes": "On 9 Sep 1943 crew roster (S/Sgt.) - NOT confirmed for 14 Oct 1943."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Only 2 of the 388th's ~18-22 aircraft identified. The 388th BG database (www.388bg.com, linked from the 388th BG Association site 388thbga.org) has mission, formation (pageType=formation) and crew pages, but every data page requires registration/login with an email address; I did not register (account creation not permitted for me). The user could register and look up the 14 Oct 1943 mission (likely mission id pattern 388-M0xx) and its formation page - that would probably give the full load list and formation.",
+  "388thbg.org / 388bg.org (named in the brief) do not resolve; www.388thbg.org has an expired TLS certificate; www.388bg.info is a parked/redirecting domain (not followed).",
+  "AAM aircraft pages linked to the mission returned only 388th airframes with no 14 Oct 1943 activity except 42-30193; AAM mission connection lists are sparse.",
+  "Tiger Girl crew beyond pilot, co-pilot, engineer and tail gunner not confirmed for this date (rest taken from a 9 Sep 1943 roster, marked UNVERIFIED).",
+  "Which 5 aircraft aborted and which 3 landed away are not identified.",
+  "Ranks and service numbers largely unknown.",
+  "Carson memoir (388-02) parts beyond the Schweinfurt chapter not read in full; it is the only per-mission narrative found."
+ ]
+}

@@ -1,0 +1,759 @@
+{
+  "group": "381st",
+  "division": "1st",
+  "wing": "1st Combat Bombardment Wing (with 91st BG)",
+  "station": "AAF Station 167, Ridgewell",
+  "group_mission_number": 39,
+  "eighth_af_mission_number": 115,
+  "dispatched": 17,
+  "lost": 1,
+  "dispatched_confidence": "PROBABLE",
+  "dispatched_note": "303rd BG Mission 78 report table: 1st CBW = 91BG (11) high, 381BG (17) low (wing led by Col. Milton) - single source, possibly planned figure. No 381st loading list or sortie list for 14 Oct 1943 was found online. Squadron war diaries (381st BGMA transcriptions) give: 532nd - six ships took off (Beckman, Clore, Wood, Moore, Hutchens, Baltrusaitis [early return, oxygen]) plus a mention of Lt Miller returning early; 533rd - six 533rd aircraft took part (pilots Cahow, Crozier named; four flown by other squadrons' crews); 534th - five airborne at 1035 (Ohl, Niederriter, Schomburg, Miller [abort], Yorba [MIA]); 535th - Chapman, Baer, Hopp, Crosson, Ridley. These overlap (533rd aircraft flown by other squadrons' crews), so the total is roughly 17-22 and not established. 242nd Medical Detachment diary: \"three abortions in our group\"; take-off 1035, return 1735. 381st missions list: group mission #39.",
+  "lost_note": "One aircraft lost: 42-29803 (Yorba), MACR 1037 (381st casualty list, 381st MACR list, 535th BS diary \"losing only one aircraft\"). The 1st CBW diary says the wing (91st + 381st) lost three. b17flyingfortress.de lists 42-29784, 42-29867 and 42-29988 under the 381st as well, but its unit column covers each aircraft's whole service: 42-29784 and 42-29867 flew with the 384th BG on 14 Oct 1943 (384th BG loading lists), and 42-29988 (MACR 914) is not in any 381st record for this date - treated as NOT 381st losses on this mission.",
+  "wounded_returned": [
+    {
+      "name": "Ernest E. Smith",
+      "rank": "S/Sgt.",
+      "squadron": "532nd",
+      "wound": "Penetrating wound right thigh, 20mm cannon shell",
+      "aircraft": null,
+      "sources": [
+        "381-08"
+      ]
+    },
+    {
+      "name": "Turner I. Jones",
+      "rank": "2nd Lt.",
+      "squadron": "533rd",
+      "wound": "Severe laceration and compound fracture of nose, contusion (flak)",
+      "aircraft": null,
+      "sources": [
+        "381-08"
+      ],
+      "notes": "Possibly the \"Jones (N) - 532nd\" listed as a spare navigator in the 533rd BS diary."
+    },
+    {
+      "name": "LeRoy C. Weaver",
+      "rank": "S/Sgt.",
+      "squadron": "534th",
+      "wound": "Contusion left leg caught in ball turret (accidental); credited with one e/a damaged",
+      "aircraft": null,
+      "sources": [
+        "381-08",
+        "381-02"
+      ]
+    },
+    {
+      "name": "Carl W. Dittus",
+      "rank": "2nd Lt.",
+      "squadron": "535th",
+      "wound": "Laceration left forearm, 20mm cannon shell",
+      "aircraft": null,
+      "sources": [
+        "381-08"
+      ],
+      "notes": "Conflicts with 535th BS diary \"There were no casualties\"."
+    }
+  ],
+  "other_named_crew_on_mission": [
+    {
+      "name": "Ralph R. Rosato",
+      "rank": "S/Sgt.",
+      "squadron": "532nd",
+      "note": "Credited with 1 e/a destroyed (532nd diary); aircraft not identified"
+    },
+    {
+      "name": "Billy L. Whittington",
+      "rank": "S/Sgt.",
+      "squadron": "532nd",
+      "note": "Credited with 1 e/a destroyed; aircraft not identified"
+    },
+    {
+      "name": "Named M. Howard",
+      "rank": "S/Sgt.",
+      "squadron": "532nd",
+      "note": "As transcribed in 532nd diary (\"Named M. Howard\" - possibly a transcription error); credited with 1 e/a destroyed"
+    },
+    {
+      "name": "Marvin E. Dille",
+      "rank": "2nd Lt.",
+      "squadron": "532nd",
+      "note": "Credited with 1 e/a destroyed; aircraft not identified"
+    },
+    {
+      "name": "Charles R. Raglin",
+      "rank": "S/Sgt.",
+      "squadron": "534th",
+      "note": "Credited with 1 e/a destroyed (534th diary)"
+    },
+    {
+      "name": "Dean F. Sword",
+      "rank": "S/Sgt.",
+      "squadron": "534th",
+      "note": "Credited with 1 e/a destroyed (534th diary)"
+    },
+    {
+      "name": "George D. O'Sullivan",
+      "rank": "2nd Lt.",
+      "squadron": "534th",
+      "note": "Credited with 2 e/a damaged (534th diary)"
+    },
+    {
+      "name": "Purus",
+      "rank": null,
+      "squadron": "532nd",
+      "note": "Flew as spare bombardier (\"Lts Purus (B) - 532nd\") per 533rd diary"
+    },
+    {
+      "name": "Jones",
+      "rank": null,
+      "squadron": "532nd",
+      "note": "Flew as spare navigator (\"Jones (N) - 532nd\") per 533rd diary"
+    },
+    {
+      "name": "Gill",
+      "rank": null,
+      "squadron": "535th",
+      "note": "Flew as spare bombardier (\"Gill (B) - 535th\") per 533rd diary"
+    }
+  ],
+  "aircraft": [
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29803",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-70-BO",
+      "nickname": "Flat Foot Floogie",
+      "nose_art": null,
+      "bomb_squadron": "534th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Bernarde M. Yorba Jr.",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Hit by fighters (No. 3 engine knocked out) and set on fire after crossing the target, about 1/3 of the way back; six parachutes seen (534th BS diary). Aircraft exploded and crashed at Hausen, about 3 miles east of Schweinfurt (b17flyingfortress.de / AAM). 4 KIA, 6 POW.",
+      "macr": "MACR 1037",
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "381-01",
+        "381-02",
+        "381-03",
+        "381-04",
+        "381-05",
+        "381-07"
+      ],
+      "notes": "The only 381st BG aircraft lost on 14 Oct 1943 (381st casualty list, MACR list, 535th BS diary: \"losing only one aircraft\"). CONFLICTS: squadron 534th per 534th BS diary and 381st MACR list, but 533rd/code VP-P per 381st BGMA aircraft roster; b17flyingfortress.de lists code GD-P (534th) among codes and a photo caption of 533rd. The 534th BS diary gives the aircraft number as \"A/C 903\" (likely a typo for 803). A family comment on b17flyingfortress.de says it was a borrowed aircraft as the crew's regular B-17 \"Smilin' Through\" was under repair (unofficial). Block B-17F-70-BO per b17flyingfortress.de serial-range note.",
+      "crew": [
+        {
+          "service_number": null,
+          "name": "Bernarde M. Yorba Jr.",
+          "name_variants": [
+            "Bernardo M. Yorba (534th BS war diary)",
+            "Bernardo Marcos Yorba Jr (American Air Museum)",
+            "Bernarde M. Yorba (b17flyingfortress.de)"
+          ],
+          "rank": "2nd Lt.",
+          "position": "pilot",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04",
+            "381-07"
+          ],
+          "notes": "Rank 2nd Lt. per 381st casualty list and 534th BS diary; b17flyingfortress.de gives 1LT. AAM: held at Stalag Luft III."
+        },
+        {
+          "service_number": null,
+          "name": "Gordon L. Childers",
+          "rank": "2nd Lt.",
+          "position": "copilot",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ]
+        },
+        {
+          "service_number": null,
+          "name": "Martin M. Dall",
+          "rank": "2nd Lt.",
+          "position": "navigator",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ]
+        },
+        {
+          "service_number": null,
+          "name": "Wilbur G. Roberson",
+          "name_variants": [
+            "Robertson, W. G. (534th BS war diary)"
+          ],
+          "rank": "2nd Lt.",
+          "position": "bombardier",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ]
+        },
+        {
+          "service_number": null,
+          "name": "William Gorgone",
+          "rank": "T/Sgt.",
+          "position": "engineer",
+          "fate": "KIA",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04",
+            "381-07"
+          ],
+          "notes": "Recorded as (NMI) in 381st casualty list."
+        },
+        {
+          "service_number": null,
+          "name": "Edgar H. Gracey",
+          "rank": "S/Sgt.",
+          "position": "radio",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ],
+          "notes": "Rank S/Sgt. per casualty list and b17flyingfortress.de; 534th BS diary MIA list gives Sgt."
+        },
+        {
+          "service_number": null,
+          "name": "Robert P. Boylan",
+          "rank": "S/Sgt.",
+          "position": "ball",
+          "fate": "KIA",
+          "confidence": "PROBABLE",
+          "sources": [
+            "381-01",
+            "381-04",
+            "381-07"
+          ],
+          "notes": "CONFLICT: the 534th BS war diary MIA list for 14 Oct 1943 names \"Harkness, Harold, S/Sgt., Ball Turret\" in this position and does not list Boylan. The 381st BGMA casualty list (MACR 1037), b17flyingfortress.de and AAM give Robert P. Boylan (KIA). Both recorded; MACR 1037 itself not seen."
+        },
+        {
+          "service_number": null,
+          "name": "Kenneth O. Huitt",
+          "rank": "S/Sgt.",
+          "position": "waist_left",
+          "fate": "KIA",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ],
+          "notes": "Left waist per casualty list (LW) and 534th diary. Diary gives rank Sgt."
+        },
+        {
+          "service_number": null,
+          "name": "Michael S. Feller",
+          "name_variants": [
+            "Feller, M. F. (534th BS war diary)"
+          ],
+          "rank": "S/Sgt.",
+          "position": "waist_right",
+          "fate": "KIA",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04"
+          ],
+          "notes": "Right waist per casualty list (RW) and 534th diary. Diary gives rank Sgt."
+        },
+        {
+          "service_number": null,
+          "name": "Johnnie N. Johnson",
+          "name_variants": [
+            "Johnie N. Johnson (b17flyingfortress.de)",
+            "Johnson, Johnie L. (534th BS war diary)"
+          ],
+          "rank": "S/Sgt.",
+          "position": "tail",
+          "fate": "POW",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-01",
+            "381-02",
+            "381-04",
+            "381-07"
+          ]
+        },
+        {
+          "service_number": null,
+          "name": "Harold Harkness",
+          "rank": "S/Sgt.",
+          "position": "ball",
+          "fate": "unknown",
+          "confidence": "UNVERIFIED",
+          "sources": [
+            "381-02"
+          ],
+          "notes": "Listed ONLY in the 534th BS war diary MIA list for 14 Oct 1943 as ball turret gunner of the Yorba crew. Not in the 381st casualty list or MACR-based sources (which give Robert P. Boylan, KIA). Probably a diary error (regular crew member listed instead of the man who flew) - unresolved.",
+          "record_type": "conflicting_source_entry"
+        }
+      ],
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name per AAM and b17flyingfortress.de; the 381st BGMA aircraft roster (2002) gives no nickname for this serial. Not confirmed for 14 Oct 1943 specifically."
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29832",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "534th",
+      "squadron_code": "GD",
+      "aircraft_letter": "H",
+      "pilot": "Miller",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02",
+        "381-03"
+      ],
+      "notes": "534th BS diary: \"Lt. Miller of A/C 832 landed at Bradwell Bay, England. The crew was reported as safe\"; listed as abortive. Serial 42-29832 inferred from the diary's last-three-digit aircraft number and the 381st aircraft roster (42-29832, 534th, GD-H) - PROBABLE, not confirmed. Squadron code/letter from roster (general, not date-specific). The 532nd BS diary also says \"Lt Miller returned early from France to land on a coastal base in England\" - probably the same crew; pilot first name not documented. pilot_rank: diary gives only \"Lt.\"",
+      "crew": [],
+      "nickname_note": "381st BGMA aircraft roster lists this serial as \"Our Mom\" (GD-H, 534th); not confirmed for this date."
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-5725",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "This IS IT",
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": "VE",
+      "aircraft_letter": "C",
+      "pilot": "David D. Hutchens",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "returned_damaged",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-06",
+        "381-02",
+        "381-03"
+      ],
+      "notes": "532nd BS diary: Lt Hutchens took part and \"landed at Warmwell, England on his return from the target\", returning to Ridgewell on 15 Oct. Hutchens' memoir (381st BGMA, 2011): No. 1 engine lost oil and the prop would not feather near the target; dropped out of formation, dived into cloud, flew home alone over Paris, landed at an RAF field low on fuel; substitute navigator and bombardier flown that day (not named); waist guns broke loose on take-off. Whether bombs were dropped on the target is not stated. Squadron code VE-C from roster (not date-specific). Pilot rank on date not documented (diary: \"Lt\"; memoir photo caption \"Capt. David Hutchens, 1943\"). Co-pilot is referred to only as \"Tex\" in the memoir (real name not given).",
+      "crew": [
+        {
+          "service_number": null,
+          "name": "David D. Hutchens",
+          "rank": null,
+          "position": "pilot",
+          "fate": "returned",
+          "confidence": "VERIFIED",
+          "sources": [
+            "381-02",
+            "381-06"
+          ],
+          "notes": "Diary says \"Lt Hutchens\"; memoir caption \"Capt. David Hutchens, 1943\". Rank on 14 Oct 1943 unresolved."
+        }
+      ],
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Pilot David Hutchens' own account names his aircraft that day as B-17F #42-5725 \"This IS IT\"; 381st aircraft roster gives names \"This Is It!\" and \"Flapper\" (VE-C, 532nd, Lockheed Vega-built)."
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Beckman",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "532nd BS diary lists Lt Beckman among six 532nd ships that took off. Aircraft serial and crew not documented in sources found. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Cecil M. Clore",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "532nd BS diary lists Lt Clore as taking part; full name \"2nd Lt Cecil M. Clore\" appears in the same diary on 17 Oct 1943 (appointed B Flight Commander). Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Wood",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "532nd BS diary lists Lt Wood. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Moore",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "532nd BS diary lists Lt Moore. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "532nd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Baltrusaitis",
+      "pilot_rank": "Capt.",
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "532nd BS diary: Capt Baltrusaitis \"returned early due to failure of the oxygen system\". Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "533rd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Cahow",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "533rd BS diary: six 533rd aircraft took part; pilots named \"Lts Cahow, Crozier\"; \"the four remaining ships were flown by our other squadrons\". Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "533rd",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Crozier",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "See Cahow entry (533rd BS diary). Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "534th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "C. Ohl",
+      "pilot_rank": "Capt.",
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "534th BS diary: \"Pilots and their crews that took off: Capt. C. Ohl, Lt. Niederriter, Lt. Schomburg, Lt. Miller (abortive) and Lt. Yorba (MIA)\". Five 534th Fortresses airborne 1035; four crossed the target. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "534th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Niederriter",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "534th BS diary. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "534th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Schomburg",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "534th BS diary. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "535th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Chapman",
+      "pilot_rank": "Capt.",
+      "formation_position": "Lead (535th BS diary: \"Capt Chapman and Major Shackley led the 1st Bomb Wing\")",
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "535th BS diary: \"Taking part were: Capt Chapman, Lts Baer, Hopp, Crosson and Ridley\"; squadron had no losses and no casualties. Major George G. Shackley (new 533rd CO) flew as command pilot with Chapman per the diary. CONFLICT: the 1st CBW diary says Lt. Col. Ross Milton (91st BG Air Exec) led \"the whole show\" for the wing. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": [
+        {
+          "service_number": null,
+          "name": "George G. Shackley",
+          "rank": "Maj.",
+          "position": "other",
+          "fate": "returned",
+          "confidence": "PROBABLE",
+          "sources": [
+            "381-02"
+          ],
+          "notes": "Command pilot/leader with Capt Chapman per 535th BS diary (\"Capt Chapman and Major Shackley led the 1st Bomb Wing\"); aircraft not identified. 533rd BS diary: Shackley assumed command of 533rd BS on 14 Oct 1943."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "535th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Baer",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "535th BS diary. A 381st BGMA crew photo caption names \"Carl Baer-P\" (first name PROBABLE, not tied to this date). Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "535th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Hopp",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "535th BS diary. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "535th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Crosson",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "535th BS diary. A 381st BGMA crew photo caption names \"Waldo Crosson-P\" (first name PROBABLE; caption crew not tied to this date). Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": null,
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nose_art": null,
+      "bomb_squadron": "535th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": "Ridley",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "381-02"
+      ],
+      "notes": "535th BS diary. Serial/crew not documented. (Sortie existence VERIFIED by wartime squadron diary; aircraft identity UNKNOWN.)",
+      "crew": []
+    }
+  ],
+  "research_gaps": [
+    "381st.org (381st BG Memorial Association) currently fails TLS / shows a hosting placeholder; all 381st BGMA material was read from Internet Archive snapshots (2002-2012). The 2015-2017 \"Unit-History/Data-Sets/Missions\" database required login and was not archived.",
+    "No loading list, sortie list or formation chart for 381st mission #39 found; the old 381st.org mission database (2000) and mission pages (2002/2008) do not include 14 Oct 1943. The 381st BG group war diary for October 1943 was not archived.",
+    "Aircraft serials are known only for 42-29803 (lost), 42-29832 (PROBABLE, Miller abort) and 42-5725 (Hutchens, from his memoir). All other sorties are known only by pilot surname from squadron diaries.",
+    "Only the Yorba crew (42-29803) has a full crew manifest. Ball turret gunner conflict (Boylan vs Harkness) unresolved without MACR 1037 itself.",
+    "americanairmuseum.com returned HTTP 403; only search-result summaries used.",
+    "Paul Bingley & Mike Peters, \"Bomb Group\" (381st BG history, Casemate) likely contains the sortie list - not accessible online.",
+    "Pilot first names and ranks for most diary-listed pilots not established; crew photo captions on 381st.org are not date-specific and were used only as PROBABLE leads in notes."
+  ],
+  "group_sources": [
+    "381-12",
+    "381-02",
+    "381-08",
+    "381-01"
+  ]
+}

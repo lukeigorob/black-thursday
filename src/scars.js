@@ -87,11 +87,29 @@ export function scarMaterial(mat) {
 }
 
 const _ray = new THREE.Raycaster(), _o = new THREE.Vector3(), _d = new THREE.Vector3();
+const pending = []; // hits waiting to be marked (a flak burst can put thirty-odd through her at once)
+const PER_FRAME = 3; // (each is a ray against the whole model, ~2 ms: a few a frame, the rest the next)
+
 /**
- * A round hit the player's bomber at bomber-space point `local`, travelling `dir` (bomber space):
- * find the skin it went through (a ray against the model) and mark it there.
+ * A round hit the player's bomber at bomber-space point `local`, travelling `dir` (bomber space): the
+ * hole is marked over the next frames (flushScars), only the latest MAX kept, as on her skin.
  */
 export function addScar(bomber, local, dir, cannon) {
+  if (!bomber.model || !SCARS.detail.value) return;
+  pending.push({ bomber, local: local.clone(), dir: dir.clone(), cannon });
+  if (pending.length > MAX) pending.shift();
+}
+
+/** Each frame: mark a few of the waiting hits. */
+export function flushScars() {
+  for (let i = 0; i < PER_FRAME && pending.length; i++) {
+    const s = pending.shift();
+    markScar(s.bomber, s.local, s.dir, s.cannon);
+  }
+}
+
+/** Find the skin a hit went through (a ray against the model) and mark it there. */
+function markScar(bomber, local, dir, cannon) {
   const model = bomber.model;
   if (!model || !SCARS.detail.value) return;
   const meshes = (bomber._scarMeshes ??= collect(model));
@@ -100,20 +118,24 @@ export function addScar(bomber, local, dir, cannon) {
   _o.copy(local).addScaledVector(_d, -1.5).applyMatrix4(m);
   _ray.set(_o, _d.transformDirection(m));
   _ray.far = 4;
-  const hit = _ray.intersectObjects(meshes, false)[0];
+  const hit = _ray.intersectObjects(meshes.filter(shown), false)[0]; // (only what's there now: a part shot away, or hidden then, takes no hole)
   if (!hit) return;
   const p = bomber.group.worldToLocal(hit.point.clone());
   SCARS.hits.value[SCARS.next].set(p.x, p.y, p.z, cannon ? 0.2 + Math.random() * 0.08 : 0.06 + Math.random() * 0.03);
   SCARS.next = (SCARS.next + 1) % MAX;
 }
+// (every skin mesh, hidden or not, so a part hidden at the first hit still gets holes once it shows)
 const collect = (model) => {
   const out = [];
-  model.traverse((o) => { if (o.isMesh && o.visible && !o.name.endsWith('_lining') && !o.isSkinnedMesh && o.geometry.attributes.aBP) out.push(o); });
+  model.traverse((o) => { if (o.isMesh && !o.name.endsWith('_lining') && !o.isSkinnedMesh && o.geometry.attributes.aBP) out.push(o); });
   return out;
 };
 
+const shown = (o) => { for (let x = o; x; x = x.parent) if (!x.visible) return false; return true; };
+
 /** A fresh bomber (or the player moved to another one): no holes. */
 export function clearScars() {
+  pending.length = 0;
   for (const h of SCARS.hits.value) h.set(0, -100, 0, 0);
   SCARS.next = 0;
 }

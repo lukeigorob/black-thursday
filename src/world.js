@@ -19,6 +19,13 @@ export class World {
     this.renderer = renderer;
     this.sunDir = new THREE.Vector3().setFromSphericalCoords(
       1, THREE.MathUtils.degToRad(90 - SUN_ELEVATION), THREE.MathUtils.degToRad(SUN_AZIMUTH));
+    // the formation's turns (the rally): the ground, the clouds and the target under it (drift), the sky and
+    // the sun all swing round the formation together (setHeading); in the formation's frame the ground still
+    // streams straight aft past it (update), only turned
+    this.heading = 0;
+    this.sunBase = this.sunDir.clone();
+    this.drift = new THREE.Group();
+    scene.add(this.drift);
     this.look = { ...TIMES.day, overcast: 0, fog: 1, cover: 1, deck: 0.5 };
     this.buildSky(renderer);
 
@@ -54,6 +61,7 @@ export class World {
     this.env = env;
     this.look = { ...L, overcast: o, fog: W.fog, cover: W.cover, deck: W.deck, rain: W.rain, storm: W.storm, winter };
     this.sunDir.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - L.elev), THREE.MathUtils.degToRad(L.az));
+    this.sunBase.copy(this.sunDir); // (the sky is drawn for the track; the turn swings it: setHeading)
     this.buildSky(this.renderer);
     // the sun (or by night the moon): dimmed and its shadows softened under cloud; colder in winter
     const c = new THREE.Color(...L.sun);
@@ -68,7 +76,7 @@ export class World {
     this.setCloudCount(this.cloudCount, true);
     // snow on the fields and the town
     SNOW.value = winter ? 1 : 0;
-    this.groundMat.map = winter ? this.winterGround() : this.groundTex;
+    this.groundMat.map = winter ? this.winterGround() : env.season === 'autumn' ? this.autumnGround() : this.groundTex;
     this.groundMat.needsUpdate = true;
     return L.exp * (1 + 0.25 * o);
   }
@@ -181,13 +189,19 @@ export class World {
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(400000, 400000), mat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -ALTITUDE;
-    this.scene.add(ground);
+    this.drift.add(ground);
   }
 
   /** The snow-covered countryside's texture (painted once, the first time it's needed or in idle time). */
   winterGround() {
-    if (!this.winterTex) { this.winterTex = this.tile(groundTexture(true)); this.renderer.initTexture(this.winterTex); }
+    if (!this.winterTex) { this.winterTex = this.tile(groundTexture('winter')); this.renderer.initTexture(this.winterTex); }
     return this.winterTex;
+  }
+
+  /** The autumn countryside's (painted once, the first time it's needed). */
+  autumnGround() {
+    if (!this.autumnTex) { this.autumnTex = this.tile(groundTexture('autumn')); this.renderer.initTexture(this.autumnTex); }
+    return this.autumnTex;
   }
 
   /** Draw the other kinds of sky once now (the night sky's shader), so switching to them later doesn't stall. */
@@ -220,12 +234,12 @@ export class World {
     this.cloudCount = base;
     const n = Math.min(520, Math.round(base * (this.look.cover ?? 1)));
     if (again) for (const c of this.clouds) this.placeCloud(c, c.position.z);
-    while (this.clouds.length > n) { const c = this.clouds.pop(); this.scene.remove(c); c.material.dispose(); }
+    while (this.clouds.length > n) { const c = this.clouds.pop(); this.drift.remove(c); c.material.dispose(); }
     while (this.clouds.length < n) {
       const c = new THREE.Sprite(new THREE.SpriteMaterial({
         map: this.cloudTextures[this.clouds.length % 4], depthWrite: false, fog: true }));
       this.placeCloud(c, rand(-CLOUD_SPAN_Z + CLOUD_RECYCLE_Z, CLOUD_RECYCLE_Z));
-      this.scene.add(c);
+      this.drift.add(c);
       this.clouds.push(c);
     }
   }
@@ -277,17 +291,38 @@ export class World {
     for (const c of this.clouds) c.material.color.copy(c.userData.color).addScalar(f * 1.4);
   }
 
+  /**
+   * The formation's heading off the track (rad, + to the right): the ground, clouds and target (drift), the
+   * sky and the sun turn about the formation the other way, as they would below and around a formation
+   * that turned. Called every frame of a turn; cheap (no sky redrawn).
+   */
+  setHeading(psi) {
+    if (psi === this.heading) return;
+    this.heading = psi;
+    this.drift.rotation.y = psi;
+    this.sunDir.copy(this.sunBase).applyAxisAngle(_Y, psi);
+    this.scene.backgroundRotation.y = psi;
+    this.scene.environmentRotation.y = psi;
+    if (this.sunSprite) this.sunSprite.position.copy(this.sunDir).multiplyScalar(90000);
+    if (this.moon) { this.moon.position.copy(this.sunDir).multiplyScalar(90000); this.moonGlow.position.copy(this.sunDir).multiplyScalar(91000); }
+  }
+
+
   update(dt, speed) {
     this.rain.uniforms.uSpeed.value = speed;
-    this.groundTex.offset.y += (speed * dt) / GROUND_TILE;
+    // straight aft in the formation's frame: in drift's turned frame, back along the turn (-heading)
+    const sx = -Math.sin(this.heading) * speed * dt, sz = Math.cos(this.heading) * speed * dt;
+    this.groundTex.offset.y += sz / GROUND_TILE;
+    this.groundTex.offset.x -= sx / GROUND_TILE;
     for (const c of this.clouds) {
-      c.position.z += speed * dt;
+      c.position.x += sx; c.position.z += sz;
       if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);
     }
   }
 }
 
 function rand(a, b) { return a + Math.random() * (b - a); }
+const _Y = new THREE.Vector3(0, 1, 0);
 const WHITE = new THREE.Color(1.55, 1.55, 1.55);
 
 /** Average sky colour a couple of degrees above the horizon, away from the sun (linear HDR). */
@@ -339,7 +374,8 @@ function cloudTexture(seed) {
  * hedgerows, woods, villages along the roads, and a river. Everything is laid out first, then drawn
  * wrapped round the edges, so the tiles join without a seam.
  */
-function groundTexture(winter = false) {
+function groundTexture(season = 'summer') {
+  const winter = season === 'winter', autumn = season === 'autumn';
   const S = 2048, c = document.createElement('canvas');
   c.width = c.height = S;
   const g = c.getContext('2d');
@@ -347,6 +383,7 @@ function groundTexture(winter = false) {
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   const wrap = (draw) => { for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) { g.save(); g.translate(ox, oy); draw(); g.restore(); } };
   const CROPS = winter ? ['#e6eaee', '#dde2e6', '#eef1f3', '#d6dbdf', '#cfd3d4', '#c4c6c2', '#e2e5e7', '#bcbdb6', '#d9dde0', '#e9ecee', '#c9ccc9']
+    : autumn ? ['#8a7a4a', '#a08c56', '#b39c62', '#6e5a38', '#5e4c30', '#7a6a3c', '#5f6a36', '#6b7440', '#94824e', '#4f4330', '#86804c'] // (stubble, ploughed earth, the last green pasture)
     : ['#5f7036', '#6d7b3a', '#7f8a44', '#8c8a4e', '#a39a5c', '#b5a464', '#76653f', '#6a5a3a', '#586a34', '#90955a', '#9a8a52'];
 
   // lay it all out
@@ -384,7 +421,7 @@ function groundTexture(winter = false) {
   }));
 
   // then draw it (the same every time round the wrap)
-  g.fillStyle = winter ? '#d8dcdf' : '#5d6a39';
+  g.fillStyle = winter ? '#d8dcdf' : autumn ? '#6a6238' : '#5d6a39';
   g.fillRect(0, 0, S, S);
   wrap(() => {
     for (const b of blocks) {
@@ -400,13 +437,15 @@ function groundTexture(winter = false) {
           for (let k = 3; k < f.w; k += 5) { g.moveTo(f.x + k, f.y); g.lineTo(f.x + k, f.y + f.h); }
           g.stroke();
         }
-        g.strokeStyle = winter ? 'rgba(70,64,58,0.7)' : 'rgba(38,52,26,0.75)'; g.lineWidth = 2.2; // hedgerow (bare in winter)
+        g.strokeStyle = winter ? 'rgba(70,64,58,0.7)' : autumn ? 'rgba(74,58,30,0.75)' : 'rgba(38,52,26,0.75)'; g.lineWidth = 2.2; // hedgerow (bare in winter, brown in autumn)
         g.strokeRect(f.x, f.y, f.w, f.h);
       }
       g.restore();
     }
     for (const t of crowns) { // woods
-      g.fillStyle = winter ? (t.dark ? 'rgba(52,62,50,0.8)' : 'rgba(104,96,88,0.7)') : t.dark ? 'rgba(34,48,26,0.85)' : 'rgba(44,58,30,0.85)'; // (in winter: bare woods, the odd dark pine)
+      // (in winter: bare woods, the odd dark pine; in autumn: russet and gold, the pines still dark green)
+      g.fillStyle = winter ? (t.dark ? 'rgba(52,62,50,0.8)' : 'rgba(104,96,88,0.7)') : autumn ? (t.dark ? (t.r > 11 ? 'rgba(40,50,28,0.85)' : 'rgba(110,62,28,0.85)') : t.r > 11 ? 'rgba(150,96,36,0.82)' : 'rgba(168,130,48,0.8)')
+        : t.dark ? 'rgba(34,48,26,0.85)' : 'rgba(44,58,30,0.85)';
       g.beginPath(); g.arc(t.x, t.y, t.r, 0, 7); g.fill();
     }
     // a river: a slow meander right across the tile (it joins up with the next tile)

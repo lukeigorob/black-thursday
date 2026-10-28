@@ -18,6 +18,7 @@ const SALVO = 6, QUEUE = 200; // shells a battery fires together; bursts waiting
 const BATTERIES = 3; // batteries firing at once: their salvos overlap
 const FRAGS = 2600; // glowing fragments in the air at once
 const DIRECT = 2.5; // m from her skin: a shell bursting this close is as good as a direct hit
+const ENGINE_FIRE = 0.3; // chance splinters through an engine set it alight
 const FRAG_RANGE = 110; // m: fragments still go through a fuselage this far off (weaker the further)
 const FRAGS_OUT = 3000; // fragments flung out every way from a burst (those whose path crosses a fuselage go through it)
 
@@ -199,7 +200,7 @@ export class Flak {
         }
         return { p, c, d };
       }).filter((x) => x.d < LETHAL).sort((x, y) => x.d - y.d);
-      const bias = b === this.playerBomber ? 1 : (this.lossBias ?? 1) * (this.groupBias?.get(b.squad) ?? 1);
+      const bias = b === this.playerBomber ? 1 : (this.lossBias ?? 1) * (this.groupBias?.get(b.squad) ?? 1) * (b.histK ?? 1);
       if (near[0] && near[0].d < DIRECT && Math.random() < (b === this.playerBomber ? 0.3 : 0.55 * Math.min(1, bias))) { // as good as a direct hit: that part's torn out (a wing tank, an engine: she may go down then and there)
         const { p, c } = near[0];
         for (let i = 0; i < p.hp + 6; i++) b.hit(p, true);
@@ -212,6 +213,8 @@ export class Flak {
           this.onBomberHit?.(b, p, c, pd < 8, new V((p.box[0] + p.box[1]) / 2, (p.box[2] + p.box[3]) / 2, (p.box[4] + p.box[5]) / 2).sub(c)); // (the shrapnel flies in from the burst)
         }
         if (hits && b === this.playerBomber) this.audio.impact(pd < 10);
+        // splinters through an engine: often it catches fire (the way flak brought most of them down)
+        if (hits && p.kind === 'engine' && Math.random() < ENGINE_FIRE * (pd < 10 ? 1.5 : 1) * (b === this.playerBomber ? 0.6 : Math.min(1.5, bias))) b.igniteEngine(p.engine);
       }
     }
   }

@@ -1,0 +1,3279 @@
+{
+ "group": "303rd",
+ "division": "1st",
+ "combat_wing": "41st CBW (flew as High group of the 41st CBW per 303-01)",
+ "group_mission_number": 78,
+ "dispatched": 20,
+ "lost": 1,
+ "dispatched_confidence": "VERIFIED",
+ "dispatched_notes": "303-01 header: 'Crews Dispatched: 20' and 'the 303rd BG(H) dispatched 20 crews and 204 men'; the same document's 1st Air Division table shows 303BG (19). 2 aborted (Campbell 42-29524, Brown 42-5257). Lost = 1 MIA over Germany (Sanders, 42-29477); in addition 42-5482 was abandoned over England and crashed at Risley (crew safe), so 2 aircraft destroyed in total. 303-01 also says one aircraft was written off after landing and fifteen damaged.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5264",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Yankee Doodle Dandy",
+   "nose_art": null,
+   "bomb_squadron": "358th",
+   "squadron_code": "VK",
+   "aircraft_letter": "J",
+   "pilot": "Calder L. Wise",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, second row, left position (with Brinkley and Sanders)",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Ball gunner Sgt Howard H. Zeitner claimed an FW-190 destroyed (303-01). Outcome 'bombed' assumed from absence of abort/loss/diversion listing in 303-01.",
+   "crew": [
+    {
+     "name": "Calder L. Wise",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William C. Fort Jr.",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John P. Nothstein",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "J.B. Lewis Halliburton",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Grover C. Mullins",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James H. Pleasant",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James C. Supple",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Howard H. Zeitner",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Bernard J. Sutton",
+     "rank": "Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John G. Viszneki",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Ralph M. Moffett",
+     "rank": "Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as PHO (photographer) - carried as an extra gunner/photographer",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5360",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Old Faithful",
+   "nose_art": null,
+   "bomb_squadron": "358th",
+   "squadron_code": "VK",
+   "aircraft_letter": "G",
+   "pilot": "John W. Hendry Jr.",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): bottom (trailing) position of left-hand squadron",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Name conflict: 303-01 crew list names it 'Old Faithful'; the 303rd aircraft index (303-03) names 42-5360 'War Bride'. Landed away at Biggin Hill on return (303-01). The 'Schweinfurt veterans' table in 303-01 gives Doherty as RWG, but the mission crew list gives TG; crew list used.",
+   "crew": [
+    {
+     "name": "John W. Hendry Jr.",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William B. Harper",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Bernard T. McNamara",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Richard E. Webster",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Loran C. Biddle",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John J. Doherty",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James J. Brown",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Alfred J. Hargrave",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Wilmer G. Raesley",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John C. Arasin",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29477",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-55-BO",
+   "nickname": "Joan of Arc",
+   "nose_art": null,
+   "bomb_squadron": "358th",
+   "squadron_code": "VK",
+   "aircraft_letter": "B",
+   "pilot": "Roy C. Sanders",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, second row, right position",
+   "mission_outcome": "lost",
+   "loss_details": "Shot down about five minutes after leaving the target; seen hit by a rocket from an Me 210 which knocked off the elevator and rudder; went down on fire between Nos. 3 and 4 engines and crashed near Bamberg, Germany. 2 KIA (Carll, Cockrum), 9 POW (303-01, 303-04, 303-05).",
+   "macr": "907",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03",
+    "303-04",
+    "303-05"
+   ],
+   "notes": "11 men aboard. Crew photo captions name 2Lt F.M. Peacock as navigator, but 303-01/303-04 state Peacock was not aboard and 2Lt Gordon W. Wood flew as navigator. 303-05 lists only 10 (omits Martin) and spells co-pilot 'Henry C. Nogash'. Previously 42-29477 'Little Audrey' with 306th BG 369th BS (WW-H), transferred to 303rd 25 Sep 1943 (303-05). Carll and Cockrum buried Lorraine American Cemetery (303-01). Kremer later repatriated (303-04).",
+   "crew": [
+    {
+     "name": "Roy C. Sanders",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Henry F. Nogash",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Gordon W. Wood",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Philip A. Peed",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Joseph A. Rozek",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Martin V. Carll",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "James G. Trest",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Mathias J. Kremer",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Alfred E. Cockrum",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Riker K. Smith",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04",
+      "303-05"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Wallace G. Martin",
+     "rank": "Sgt.",
+     "position": "other",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01",
+      "303-04"
+     ],
+     "note": "Listed as PHO (photographer) - carried as an extra gunner/photographer",
+     "fate_confidence": "VERIFIED"
+    }
+   ],
+   "block_confidence": "PROBABLE",
+   "block_sources": [
+    "303-05"
+   ],
+   "macr_confidence": "PROBABLE",
+   "macr_note": "MACR 907 from 303-05 only; not cross-checked against NARA/Fold3 index in this pass.",
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29524",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Meat Hound",
+   "nose_art": null,
+   "bomb_squadron": "358th",
+   "squadron_code": "VK",
+   "aircraft_letter": "Q",
+   "pilot": "Paul W. Campbell",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): bottom (trailing) position of right-hand squadron",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Aborted: fuel transfer pump out, turned back at the English coast (303-01).",
+   "crew": [
+    {
+     "name": "Paul W. Campbell",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Martin L. Clark",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William D. McSween",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles W. Spencer",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Stanley J. Backiel",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Alexander Wisniewski",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert J. McGuire",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John W. Brooks",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Edward J. Cassidy",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James F. Hoy",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3029",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Wallaroo",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "N",
+   "pilot": "Thomas J. Quinn",
+   "pilot_rank": "F/O",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, second row, outer left position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Thomas J. Quinn",
+     "rank": "F/O",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William E. Eisenhart",
+     "rank": "F/O",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Oscar D. Howlett",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Roland Van Zandt",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Ralph M. Holper",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Joe J. Kalafut",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Joseph Vieira",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Harvey F. Bergman",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James B. Reynolds",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Elwood R. Pelkey",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Morton Luman",
+     "rank": "T/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as PHO (photographer) - carried as an extra gunner/photographer",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5482",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Cat-O-Nine Tails",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "W",
+   "pilot": "Ambrose G. Grant",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, second row, inner position",
+   "mission_outcome": "written_off",
+   "loss_details": "Not a combat loss over enemy territory: abandoned in mid-air over England on return (fog at Molesworth, almost out of fuel, rudder controls shot away). Crashed at Risley, about ten miles south of Molesworth. All ten crew bailed out safely.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02"
+   ],
+   "notes": "Badly damaged (rudder controls shot away, radio compass and instruments out), nearly out of fuel; base fogged in, crew ordered to bail out over England. All ten bailed out safely (Caterpillar Club); aircraft crashed at Risley in the back yard of 170 High Street (303-01). Kujawa appears as 'Anthony T. Kujawa' in the 303-01 claims list (ME-110 destroyed). Index (303-03) records C/L 14 Oct 43 Risley.",
+   "crew": [
+    {
+     "name": "Ambrose G. Grant",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Franklin C. Hall",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "James F. Berger",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Marion D. Blackburn",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Robert F. Jaouen",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Tony T. Kujawa",
+     "rank": "S/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as TT (top turret operator) in addition to a separate ENG on this crew list",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Edward J. Sexton",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Francis D. Anderson",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Woodrow W. Greenlee",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Chester Petrosky",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "VERIFIED"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "41-24561",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "The Duchess",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "T",
+   "pilot": "Charles F. Hanselman",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, front row, inner position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Charles F. Hanselman",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Lucien B. Calwell",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Elijah W. Ramsey Jr.",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William D. Livermore",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Howard E. Fouss",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert J. Laubert",
+     "rank": "S/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as TT (top turret operator) in addition to a separate ENG on this crew list",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George A. Zitzler",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Walter S. Williams",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Keith N. Armstrong",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Mitchel J. Tybuszewski",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "41-24416",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Black Diamond Express",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "V",
+   "pilot": "Robert L. Phelps Jr.",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, second row, middle position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Landed away at Kimbolton on return (303-01). Ex-95th BG aircraft (303-03).",
+   "crew": [
+    {
+     "name": "Robert L. Phelps Jr.",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Harold S. Bolsover",
+     "rank": "F/O",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Lloyd S. Johnson",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Theodore I. Rothman",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Marvin F. Powell",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles W. Robb",
+     "rank": "Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as TT (top turret operator) in addition to a separate ENG on this crew list",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Raymond K. Roberts",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Francis M. Joubert",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Jack L. Perryman",
+     "rank": "Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Joseph E. Robichaud",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert G. Hunter",
+     "rank": "Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "note": "Listed as PHO (photographer) - carried as an extra gunner/photographer",
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "41-24605",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Knockout Dropper",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "R",
+   "pilot": "John P. Manning",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, front row, middle position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "John P. Manning",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George T. Mackin",
+     "rank": "Capt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Jack Antman",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Winston E. Boutelle",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George R. Keesling",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Harley F. Jennings",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Kenneth P. Fitzsimmons",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Albert C. Santella",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "LeRoy L. Mace",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert I. McKenna",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5257",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Miss Bea Haven",
+   "nose_art": null,
+   "bomb_squadron": "359th",
+   "squadron_code": "BN",
+   "aircraft_letter": "S",
+   "pilot": "Malcolm E. Brown",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): left-hand squadron, front row, outer left position",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Aborted: pilot had ear trouble, turned back just after leaving England (303-01).",
+   "crew": [
+    {
+     "name": "Malcolm E. Brown",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Felix T. Szelwian",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Hillard C. Alloway",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Matthew Schreidell",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Malcolm Wright",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Ralph T. Cirello",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Shuble A. Boling",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John Konecko",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Calvin E. Boggs",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John N. Newman",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29498",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Dark Horse",
+   "nose_art": null,
+   "bomb_squadron": "360th",
+   "squadron_code": "PU",
+   "aircraft_letter": "D",
+   "pilot": "Pharis C. Brinkley",
+   "pilot_rank": "Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, second row, middle position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "303-03 gives alternative name 'Mumsie'.",
+   "crew": [
+    {
+     "name": "Pharis C. Brinkley",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John H. Parrott",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Sylvester J. Becker",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Frank E. Kulesa",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Arthur J. Worthington",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Guy A. Lance",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Richard N. Snyder",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles R. Ferguson",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Harold C. Reid",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William E. Rein",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5854",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Alley Oop",
+   "nose_art": null,
+   "bomb_squadron": "360th",
+   "squadron_code": "PU",
+   "aircraft_letter": "C",
+   "pilot": "Leonard E. Jokerst",
+   "pilot_rank": "Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, front row, middle position; Heller's account calls Jokerst the squadron leader",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Leonard E. Jokerst",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Theodore M. Jackson",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James B. Noland",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Fred T. Clark",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Alphonse B. Serwa",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William H. Stephen",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Leroy Cline",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Arthur B. Ayres",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George W. Wilson",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Vernon R. Appleton",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5393",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Thumper Again",
+   "nose_art": null,
+   "bomb_squadron": "360th",
+   "squadron_code": "PU",
+   "aircraft_letter": "G",
+   "pilot": "William C. Heller",
+   "pilot_rank": "Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, front row, inner position",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Pilot's account in 303-01: bomb-bay tanks would not drop; two engines lost power so bombs were salvoed before the target to stay in formation; left stabiliser badly damaged, windshield shot out, ball turret inoperative; landed at a small RAF field near London (listed as Kenley). Crew positions in Heller's account match the crew list. Aircraft letter G is also given for 42-5360 (358th) in 303-03; different squadrons, so not a conflict.",
+   "crew": [
+    {
+     "name": "William C. Heller",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John F. Coppom",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James P. Zwayer",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John DeSousa Jr.",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William J. Huston",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George S. Payne",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Felix Spoerri",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Leo Lanier Jr.",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Melvin E. Schultz",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Anthony Laurinitis",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29930",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Miss Patricia",
+   "nose_art": null,
+   "bomb_squadron": "360th",
+   "squadron_code": "PU",
+   "aircraft_letter": "I",
+   "pilot": "Willard H. Bergeron",
+   "pilot_rank": "Lt.",
+   "formation_position": "Assembly chart (303-01 p.10): right-hand squadron, front row, outer right position",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Aircraft later crashed on take-off 23 Oct 1943 (Jokerst) per 303-03.",
+   "crew": [
+    {
+     "name": "Willard H. Bergeron",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Hershel R. DeWall",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Darius R. Davis",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert N. DeFeis",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Willard L. Tharp",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Simeon Oxendine",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Gayther B. Crowder",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John P. Deffinger",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William B. Stamper",
+     "rank": "M/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Lawrence C. Pierson",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5081",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Luscious Lady",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "V",
+   "pilot": "Robert J. Hullar",
+   "pilot_rank": "Lt.",
+   "formation_position": "Lead squadron, second element: Klint (co-pilot) says 'number 6 position of the lead squadron', on the right wing of Shelhamer; the assembly chart (303-01 p.10) draws Hullar to the left of Shelhamer",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Klint's account (303-01): broken wing spar, shattered top turret and many holes; sent to repair depot for major overhaul.",
+   "crew": [
+    {
+     "name": "Robert J. Hullar",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Wilbur Klint",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Elmer L. Brown",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Walter E. Witt",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Dale W. Rice",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles H. Marson",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George F. Hoyt",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Norman A. Sampson",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Merlin D. Miller",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles Fullem",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5341",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Vicious Virgin",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "Q",
+   "pilot": "David P. Shelhamer Jr.",
+   "pilot_rank": "Capt.",
+   "formation_position": "Lead squadron, second element lead (303-01 chart and Klint account)",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "303-03 index appears to list 42-5341 twice (427-Q 'Vicious Virgin' and a later name 'Scarlet Harlot (Old Faithful)'); 'Vicious Virgin' is the name given in the 14 Oct 1943 crew list. 303-01 also gives Willett as T/Sgt in the veterans table and claims list, S/Sgt in the crew list.",
+   "crew": [
+    {
+     "name": "David P. Shelhamer Jr.",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Frederick W. Tucker",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Warren C. Kotz",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "William L. Lewis",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John K. Willett",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Warren L. Harvie",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Frank O. Garrett",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert R. Humphreys",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Joe J. Keaton",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert J. Volz",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "41-24587",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Bad Check",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "P",
+   "pilot": "Fred C. Humphreys",
+   "pilot_rank": "Lt.",
+   "formation_position": "Lead squadron, lead element wingman (303-01 chart: left of lead; Klint names Humphreys and Whitcomb as the lead's wingmen)",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Fred C. Humphreys",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James H. Clemons",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John J. Culpin Jr.",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "George T. Orvis Jr.",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Ferdinand J. Janisch",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Russell F. Beach",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Arthur H. Woods",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Madison H. Ross",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Melvin M. Dare",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Austin J. O'Neill",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "41-24619",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "S for Sugar",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "S",
+   "pilot": "Ralph E. Whitcomb",
+   "pilot_rank": "Lt.",
+   "formation_position": "Lead squadron, lead element wingman (303-01 chart: right of lead)",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Flying its 43rd mission. Ball gunner Sgt James Teno wounded (face and head cut by flying glass) when a 20mm shell exploded against his turret during a head-on attack by an Me 109 (303-01).",
+   "crew": [
+    {
+     "name": "Ralph E. Whitcomb",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Elton L. Jenkins",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Edward F. Eccleston",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert W. Meagher",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Vane N.L. Glendening",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Fred T. Kuehl",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James R. Teno",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "wounded",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_confidence": "VERIFIED"
+    },
+    {
+     "name": "Nyle F. Smith",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Earl W. Young",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Owen W. Hadley",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3158",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Max",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "Y",
+   "pilot": "Howard C. Ness",
+   "pilot_rank": "Lt.",
+   "formation_position": "Lead squadron, second element, left wing of Shelhamer (Klint account; 303-01 chart draws Ness to the right of Shelhamer)",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03",
+    "303-06"
+   ],
+   "notes": "Landed away at Northolt (303-01). Flak hole in top turret window (303-06 photo caption, which also gives code GN-Y). Tripp's first name appears as 'Jese' in the crew list and 'Jesse' in the claims list.",
+   "crew": [
+    {
+     "name": "Howard C. Ness",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Silas B. Ashwell",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert V. Doyle",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John J. Reeder",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Charles E. Walsh",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Angelo L. Tambe",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Leonard E. Ratliff",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Jese E. Tripp",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Edward P. Madak",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Jack D. Ferguson",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29955",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Mr. Five by Five",
+   "nose_art": null,
+   "bomb_squadron": "427th",
+   "squadron_code": "GN",
+   "aircraft_letter": "I",
+   "pilot": "Jacob C. James",
+   "pilot_rank": "Capt.",
+   "formation_position": "Group lead (41st CBW High group lead): Capt J.C. James pilot, Maj E.E. Snyder co-pilot/air commander",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "303-01",
+    "303-02",
+    "303-03"
+   ],
+   "notes": "Serial conflict inside 303-01: photo caption reads '#42-29555 (427BS) GN-I' while the crew list reads 42-29955 and the formation chart '955'; 303-03 index lists 42-29955. 42-29955 used. Tail position flown by 1Lt John C. Barker, a pilot, as tail gunner-observer. Hokans rank given as 1Lt in caption.",
+   "crew": [
+    {
+     "name": "Jacob C. James",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Edgar E. Snyder Jr.",
+     "rank": "Maj.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Carl A. Hokans",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "James E. McCormick",
+     "rank": "Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Joseph E. Scheuerer",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Frederick B. Knight",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "A.J. Hamilton",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "John C. Barker",
+     "rank": "Lt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "Robert H. McGrew",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    },
+    {
+     "name": "D.D. Harmes",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "303-01"
+     ],
+     "fate_note": "Aircraft returned to England; individual fate inferred. 303-01 states five arriving crewmen were wounded group-wide without naming all of them.",
+     "fate_confidence": "PROBABLE"
+    }
+   ],
+   "nickname_confidence": "VERIFIED",
+   "nickname_note": "Name as given in the 303rd BG association's mission 078 crew list for this date (303-01) and aircraft index (303-03).",
+   "squadron_code_note": "Squadron codes VK=358th, BN=359th, PU=360th, GN=427th (standard 303rd BG codes); aircraft letters from 303-03 index (e.g. '358-B'). Codes explicitly given as VK-B (42-29477, 303-04), GN-Y (42-3158, 303-06), GN-I (42-29955, 303-01)."
+  }
+ ],
+ "research_gaps": [
+  "Service numbers: none recorded; 303-01 does not give them. MACR 907 (Sanders) would list them for the lost crew - not retrieved (americanairmuseum.com returned HTTP 403 to the fetch tool; NARA/Fold3 MACR not accessed).",
+  "MACR number 907 for 42-29477 is from one secondary source (303-05) only; needs checking against the MACR index.",
+  "Block numbers for 19 of 20 aircraft not researched/recorded (only 42-29477 = B-17F-55-BO, PROBABLE). Could be filled from Joe Baugher's serial lists.",
+  "Individual wounded: 303-01 says five arriving crewmen were wounded; only Sgt James R. Teno (41-24619) is named. Other returning crew are marked 'returned' with fate_confidence PROBABLE.",
+  "Which aircraft was 'written off after landing' (303-01) is not stated; 42-5482 (crashed at Risley after bail-out) is recorded as written_off. 15 aircraft damaged, but only 42-5393, 42-5081, 41-24619, 42-3158 have documented damage.",
+  "Whether each non-aborting aircraft actually bombed the primary is assumed from 303-01 (no other early returns listed); 42-5393 salvoed its bombs before the target per pilot Heller.",
+  "Formation: the 303-01 assembly chart labels no squadrons (lead/high/low); positions are recorded as drawn. Klint's account mirrors left/right versus the chart for Hullar and Ness.",
+  "Aircraft letters come from the 303-03 index read through a summarising fetch; not individually confirmed on aircraft pages except VK-B, GN-Y, GN-I.",
+  "Nose art descriptions not researched."
+ ]
+}

@@ -10,7 +10,7 @@ const loader = new THREE.TextureLoader();
 const cache = new Map();
 function tex(name, srgb) {
   if (!cache.has(name)) {
-    const t = loader.load(`/textures/${name}.jpg`);
+    const t = loader.load(`textures/${name}.jpg`);
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.anisotropy = 8;
     if (srgb) t.colorSpace = THREE.SRGBColorSpace;

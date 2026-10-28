@@ -14,10 +14,22 @@ function puffTexture(soft) {
     const x = 32 + (soft ? (Math.random() - 0.5) * 22 : 0), y = 32 + (soft ? (Math.random() - 0.5) * 22 : 0), r = soft ? 14 + Math.random() * 12 : 30;
     const grd = g.createRadialGradient(x, y, 0, x, y, r);
     grd.addColorStop(0, `rgba(255,255,255,${soft ? 0.45 : 1})`);
+    if (!soft) { grd.addColorStop(0.35, 'rgba(255,255,255,0.5)'); grd.addColorStop(0.7, 'rgba(255,255,255,0.13)'); } // (a bright core falling off fast: HDR fire on a linear ramp read as a flat hard-edged disc)
     grd.addColorStop(1, 'rgba(255,255,255,0)');
     g.fillStyle = grd;
     g.fillRect(0, 0, 64, 64);
   }
+  return new THREE.CanvasTexture(c);
+}
+
+/** A smooth glow with no core or edge: close-up flames, many overlapping into one flame. */
+function glowTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d'), grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  for (let i = 0; i <= 8; i++) grd.addColorStop(i / 8, `rgba(255,255,255,${(Math.exp(-((i / 8) ** 2) * 4.5) - Math.exp(-4.5)).toFixed(3)})`); // (a gaussian, down to 0 at the rim)
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 64, 64);
   return new THREE.CanvasTexture(c);
 }
 
@@ -31,7 +43,11 @@ const vertexShader = `
   void main() {
     vAlpha = alpha; vTint = tint;
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = size * scale / -mvPosition.z;
+    float dist = -mvPosition.z;
+    // a puff right at the eye (your own bomber burning round you, smoke streaming past the turret glass)
+    // fades out before it fills the view: a flat sheet of smoke, or a fire sprite blown up to a hard disc
+    vAlpha *= smoothstep(0.25 * size, 0.8 * size, dist) * smoothstep(0.3, 1.2, dist);
+    gl_PointSize = size * scale / dist;
     gl_Position = projectionMatrix * mvPosition;
     #include <logdepthbuf_vertex>
     #include <fog_vertex>
@@ -45,13 +61,14 @@ const fragmentShader = `
   void main() {
     #include <logdepthbuf_fragment>
     vec4 t = texture2D(map, gl_PointCoord);
+    t.a *= 1.0 - smoothstep(0.38, 0.5, length(gl_PointCoord - 0.5)); // (round: a smoke puff's blobs reach the texture's edge, which showed as a square)
     gl_FragColor = vec4(vTint * t.rgb, t.a * vAlpha);
     #include <fog_fragment>
   }`;
 
 /** One pool of point sprites (smoke or fire). */
 export class ParticlePool {
-  constructor(scene, max, { additive, soft }) {
+  constructor(scene, max, { additive, soft, glow = false }) {
     this.max = max;
     this.n = 0;
     this.pos = new Float32Array(max * 3);
@@ -76,7 +93,7 @@ export class ParticlePool {
       vertexShader, fragmentShader, transparent: true, depthWrite: false, fog: true,
       blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
-    this.mat.uniforms.map.value = puffTexture(soft);
+    this.mat.uniforms.map.value = glow ? glowTexture() : puffTexture(soft);
     this.points = new THREE.Points(geo, this.mat);
     this.points.frustumCulled = false;
     scene.add(this.points);
@@ -170,13 +187,16 @@ class Wreckage {
 }
 const SMOKE_GREY = [0.32, 0.32, 0.32], SMOKE_BLACK = [0.05, 0.05, 0.05], SMOKE_WHITE = [0.85, 0.86, 0.88];
 const FIRE_HOT = [40, 22, 6], FIRE_DIM = [6, 1.2, 0.2];
+const _hot = [0, 0, 0], _dim = [0, 0, 0], _fHot = [0, 0, 0], _fDim = [0, 0, 0], _ws = new V(); // (a trail's flame colours, dimmed up close)
 
 
 export class Effects {
   constructor(scene) {
     this.scene = scene;
+    this.groundVel = new V(0, 0, AIRSPEED); // (how the ground moves past: swung round in a turn, main.js)
     this.smoke = new ParticlePool(scene, 12000, { additive: false, soft: true });
     this.fire = new ParticlePool(scene, 6000, { additive: true, soft: false });
+    this.flame = new ParticlePool(scene, 4000, { additive: true, glow: true }); // (a trail's flames close to the eye: soft, overlapping into one)
     this.camPos = null; // set each frame: far trails use fewer, bigger puffs so burning planes show from km away
     this.wreckage = new Wreckage(scene);
     this.parachutes = new Parachutes(scene); // everyone who bails out
@@ -188,7 +208,7 @@ export class Effects {
 
   setPixelScale(heightPx, fovDeg) { // point size in world metres -> pixels
     const s = heightPx / (2 * Math.tan(THREE.MathUtils.degToRad(fovDeg) / 2));
-    for (const p of [this.smoke, this.fire, ...this.extraPools]) p.mat.uniforms.scale.value = s;
+    for (const p of [this.smoke, this.fire, this.flame, ...this.extraPools]) p.mat.uniforms.scale.value = s;
   }
 
   /** Continuous trail behind a damaged plane: kind = 'smoke' | 'black' | 'fire' | 'glycol'. */
@@ -198,25 +218,37 @@ export class Effects {
     const far = Math.min(6, Math.max(1, dist / 500)); // fewer, bigger puffs far away: same look, less work
     // when the smoke pool fills up (a big battle), trails thin out instead of crowding out hits and explosions
     const load = this.smoke.n / this.smoke.max, thin = load > 0.7 ? Math.max(0.1, (1 - load) / 0.3) : 1;
+    const c = this.camPos ? Math.min(1, Math.max(0, (dist - 15) / 45)) : 1; // 0 close to the eye .. 1 from 60 m
+    const dense = kind === 'fire' ? 1 + 2 * (1 - c) : 1; // (up close, smaller flames and more of them: one flame, not a row of bright discs)
     // spread puffs evenly along the path flown this frame so the trail is continuous;
     // round at random so the rate doesn't depend on the frame rate
-    const rate = kind === 'fire' ? 160 : kind === 'ember' ? 30 : 110;
+    const rate = (kind === 'fire' ? 160 : kind === 'ember' ? 30 : 110) * dense;
     const n = Math.floor((dt * rate * thin) / far + Math.random());
+    // close to the eye (your own engine burning outside the cockpit glass): the flames at their real size
+    // and brightness, not blown up to be seen from kilometres off (up close they were a white glare), and
+    // the smoke leaves small and is torn straight back by the slipstream instead of hanging by the window
+    // in puffs that fill it
+    const fs = 0.22 + 0.78 * c, fb = 0.18 + 0.82 * c, ss0 = 0.25 + 0.75 * c, ss1 = 0.55 + 0.45 * c, sa = 0.65 + 0.35 * c;
+    const hot = _hot, dim = _dim;
+    for (let k = 0; k < 3; k++) { hot[k] = FIRE_HOT[k] * fb; dim[k] = FIRE_DIM[k] * fb; _fHot[k] = FIRE_HOT[k] * 0.05; _fDim[k] = FIRE_DIM[k] * 0.05; }
     for (let i = 0; i < n; i++) {
       const q = _q.copy(p).addScaledVector(v, -((i + Math.random()) / n) * dt);
       const w = _w.copy(v).multiplyScalar(0.3);
       w.x += (Math.random() - 0.5) * 2; w.y += (Math.random() - 0.5) * 2; w.z += (Math.random() - 0.5) * 2;
+      const ws = _ws.copy(w); ws.z += (1 - c) * (AIRSPEED * 0.8 - ws.z); // (smoke up close: already moving with the air, streaming back; the flames cling to her)
       if (kind === 'ember') { // a burning piece of wreckage: flames and a short wisp of smoke
-        this.fire.emit(q, w, { life: 0.4 + Math.random() * 0.3, s0: 1.6 * far, s1: 0.5 * far, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
-        this.smoke.emit(q, w, { life: 2.5 + Math.random() * 1.5, s0: 1.5 * far, s1: 7 * far, a0: 0.6, c0: SMOKE_BLACK, drag: 1.2 });
+        this.fire.emit(q, w, { life: 0.4 + Math.random() * 0.3, s0: 1.6 * far * fs, s1: 0.5 * far * fs, c0: hot, c1: dim, drag: 2 });
+        this.smoke.emit(q, ws, { life: 2.5 + Math.random() * 1.5, s0: 1.5 * far * ss0, s1: 7 * far * ss1, a0: 0.6 * sa, c0: SMOKE_BLACK, drag: 1.2 });
       } else if (kind === 'fire') {
-        this.fire.emit(q, w, { life: (0.3 + Math.random() * 0.3) * Math.sqrt(far), s0: 3.6 * far, s1: 1.2 * far, c0: FIRE_HOT, c1: FIRE_DIM, drag: 2 });
-        this.smoke.emit(q, w, { life: 7 + Math.random() * 5, s0: 4 * far, s1: 26 * far, a0: 0.85, c0: SMOKE_BLACK, drag: 1.2 });
+        if (Math.random() > c) this.flame.emit(q, w, { life: 0.25 + Math.random() * 0.25, s0: 1.1, s1: 0.4, c0: _fHot, c1: _fDim, drag: 2 }); // (close: soft and overlapping, each dim: together one flame)
+        else this.fire.emit(q, w, { life: (0.3 + Math.random() * 0.3) * Math.sqrt(far), s0: 3.6 * far * fs, s1: 1.2 * far * fs, c0: hot, c1: dim, drag: 2 });
+        if (dense > 1 && Math.random() * dense > 1) continue; // (the smoke at its usual rate)
+        this.smoke.emit(q, ws, { life: 7 + Math.random() * 5, s0: 4 * far * ss0, s1: 26 * far * ss1, a0: 0.85 * sa, c0: SMOKE_BLACK, drag: 1.2 });
       } else if (kind === 'fuel') { // fuel streaming from a holed tank: a thin white vapour that hangs a long way back
-        this.smoke.emit(q, w, { life: 5 + Math.random() * 3, s0: 0.9 * far, s1: 7 * far, a0: 0.35, c0: SMOKE_WHITE, drag: 1.5 });
+        this.smoke.emit(q, ws, { life: 5 + Math.random() * 3, s0: 0.9 * far * ss0, s1: 7 * far * ss1, a0: 0.35 * sa, c0: SMOKE_WHITE, drag: 1.5 });
       } else {
-        const c = kind === 'black' ? SMOKE_BLACK : kind === 'glycol' ? SMOKE_WHITE : SMOKE_GREY;
-        this.smoke.emit(q, w, { life: 4 + Math.random() * 2, s0: 2.5 * far, s1: (kind === 'glycol' ? 12 : 16) * far, a0: kind === 'glycol' ? 0.5 : 0.7, c0: c, drag: 1.2 });
+        const col = kind === 'black' ? SMOKE_BLACK : kind === 'glycol' ? SMOKE_WHITE : SMOKE_GREY;
+        this.smoke.emit(q, ws, { life: 4 + Math.random() * 2, s0: 2.5 * far * ss0, s1: (kind === 'glycol' ? 12 : 16) * far * ss1, a0: (kind === 'glycol' ? 0.5 : 0.7) * sa, c0: col, drag: 1.2 });
       }
     }
   }
@@ -276,16 +308,16 @@ export class Effects {
     this.fire.emit(p.clone().setY(p.y + 10), new V(), { life: 0.35, s0: 70, s1: 30, c0: [70, 40, 14], c1: [8, 3, 0.6], drag: 1 });
     for (let i = 0; i < 3; i++) {
       const d = new V(Math.random() - 0.5, Math.random() * 0.6 + 0.3, Math.random() - 0.5).multiplyScalar(25);
-      this.smoke.emit(p.clone().add(d), d.clone().multiplyScalar(0.8).add(new V(0, 0, AIRSPEED)),
+      this.smoke.emit(p.clone().add(d), d.clone().multiplyScalar(0.8).add(this.groundVel),
         { life: 28 + Math.random() * 12, s0: 40, s1: 170, a0: 0.85, c0: [0.32, 0.28, 0.22], c1: [0.45, 0.43, 0.4], drag: 0.6 });
     }
   }
 
   /** Smoke rising from a burning building. */
   groundSmoke(p) {
-    this.smoke.emit(p, new V(Math.random() - 0.5, 6, Math.random() - 0.5).add(new V(0, 0, AIRSPEED)),
+    this.smoke.emit(p, new V(Math.random() - 0.5, 6, Math.random() - 0.5).add(this.groundVel),
       { life: 25, s0: 25, s1: 120, a0: 0.75, c0: [0.08, 0.07, 0.06], c1: [0.25, 0.24, 0.23], drag: 0.3 });
-    if (Math.random() < 0.5) this.fire.emit(p, new V(0, 3, AIRSPEED), { life: 0.6, s0: 18, s1: 6, c0: [30, 12, 3], c1: [4, 1, 0.2], drag: 1 });
+    if (Math.random() < 0.5) this.fire.emit(p, new V(0, 3, 0).add(this.groundVel), { life: 0.6, s0: 18, s1: 6, c0: [30, 12, 3], c1: [4, 1, 0.2], drag: 1 });
   }
 
   /** An 88 mm burst: a bright flash and a lingering ball of black smoke. */
@@ -304,6 +336,7 @@ export class Effects {
   update(dt) {
     this.smoke.update(dt);
     this.fire.update(dt);
+    this.flame.update(dt);
     this.wreckage.update(dt, this);
     this.parachutes.update(dt);
   }

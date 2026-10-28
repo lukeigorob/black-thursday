@@ -1,0 +1,47 @@
+[
+ {
+  "id": "91-01",
+  "title": "B-17 database entries 42-5714 'Old Faithful II' (ID 3035) and 42-29741 'Corn State Terror' (ID 5332), plus REST query of aircraft tagged with the 14/10/43 status date (status-date=152)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/wp-json/wp/v2/b17database/3035",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Also https://b17flyingfortress.de/en/wp-json/wp/v2/b17database/5332 and https://b17flyingfortress.de/en/wp-json/wp/v2/b17database?status-date=152&per_page=100. Enthusiast database citing MACRs; crew names often informal."
+ },
+ {
+  "id": "91-02",
+  "title": "Aircraft records 42-5714 and 42-29741",
+  "organisation": "IWM American Air Museum archive (americanarchive.iwm.org.uk)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-5714",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Also https://americanarchive.iwm.org.uk/archive/aircraft/42-29741. Cites MACR 899, Bishop & Hey."
+ },
+ {
+  "id": "91-03",
+  "title": "Person records: Louis L Brown, Charles J Croth, Arthur G Foster, Joseph A Johnson, Victor H Kuhlmann, Harold Robert Christensen, Stuart Bernard Mendelsohn, Homer Edwin Chatfield, Kenneth C Homuth",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/person/harold-robert-christensen",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Pattern https://americanarchive.iwm.org.uk/archive/person/<slug> (joseph-johnson-0, louis-l-brown, charles-j-croth, arthur-g-foster, victor-h-kuhlmann, stuart-bernard-mendelsohn, homer-edwin-chatfield, kenneth-c-homuth). Read via a summarising fetch tool."
+ },
+ {
+  "id": "91-04",
+  "title": "303rd BG (H) Combat Mission No. 78 report - 1st Air Division table of groups and aircraft",
+  "organisation": "303rd Bomb Group (H) Association",
+  "url": "https://www.303rdbg.com/missionreports/078.pdf",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Gives 91BG (11) in the 1st CBW."
+ },
+ {
+  "id": "91-05",
+  "title": "POW record: Robert M. Slane (91st Bombardment Group, Stalag Luft 3)",
+  "organisation": "Sons of Liberty Museum (NARA WWII POW data)",
+  "url": "https://www.sonsoflibertymuseum.org/pows/slane-robert-s497351340.cfm",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Seen via search snippet only."
+ }
+]

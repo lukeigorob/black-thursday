@@ -202,7 +202,7 @@ export class City {
   /** A bomb burst at p: wreck what's close. Returns how many buildings it took. */
   blast(p) {
     let n = 0;
-    const lx = p.x - this.center.x, lz = p.z - this.center.z;
+    const l = this.group.worldToLocal(p.clone()), lx = l.x, lz = l.z; // (in the town's own frame: turned with the ground)
     this.buildings.forEach((b, i) => {
       if (!b.alive) return;
       const dx = Math.max(Math.abs(lx - b.x) - b.w / 2, 0), dz = Math.max(Math.abs(lz - b.z) - b.d / 2, 0);
@@ -217,7 +217,9 @@ export class City {
 
   update(dt, effects) {
     this.center.z += AIRSPEED * dt;
-    this.group.position.copy(this.center);
+    // (the centre is where the town is from the formation; the town hangs in the turned ground, drift)
+    if (this.group.parent?.isScene) this.group.position.copy(this.center);
+    else { this.group.parent.worldToLocal(this.group.position.copy(this.center)); this.group.rotation.y = 0; }
     // wrecked buildings burn and smoke for a while (a few dozen fires at a time, spread through the list)
     const step = Math.max(1, Math.ceil(this.burning.length / 50));
     for (let k = this.burning.length - 1; k >= 0; k--) {
@@ -226,7 +228,7 @@ export class City {
       if (k % step || (f.e -= dt * step) > 0) continue;
       f.e = rand(0.4, 0.9);
       const b = this.buildings[f.i];
-      effects.groundSmoke(_p.copy(this.center).add(_s.set(b.x, b.h * 0.15, b.z)).clone());
+      effects.groundSmoke(this.group.localToWorld(_s.set(b.x, b.h * 0.15 - this.group.position.y + this.center.y, b.z)).clone()); // (where the building is, the ground turned or not)
     }
   }
 

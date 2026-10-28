@@ -1,0 +1,3462 @@
+{
+ "group": "385th",
+ "division": "3rd",
+ "dispatched": 22,
+ "lost": 0,
+ "dispatched_confidence": "PROBABLE",
+ "dispatched_notes": "385th BGA mission summaries (385-02): \"Mission No. 28 - 14 October - Target Schweinfurt - 22 a/c flown.\" AAM mission page (385-10) lists 385BG (21). The 385th BGA Airman DB (385-01) lists 213 airman-sorties in 23 serials, one of which (42-5985) is a single-entry anomaly, giving 22 aircraft. A further 385th airframe, 42-3347 Charlene, was flown by a 96th BG crew (AAM: 96th furnished one crew to the 385th); it was written off on return (crash-landed, out of fuel). Lost = 0 aircraft MIA for 385th crews (no 385th loss on 14 Oct 1943 in 385-03..09; 42-3338 \"Sleepy Time Gal\", ex-385th, was lost with the 94th BG, MACR 791).",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3292",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-DL",
+   "nickname": "Mary Pat",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "O",
+   "pilot": "Ruel G. Weikert",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Weikert. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-O from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown).",
+   "crew": [
+    {
+     "name": "Frederick D. Albert",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Thomas H. Betow",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Stewart H. Day",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Leo N. DeGraw",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Theodore J. Kleuser",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Darwin L. Mushrush",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Walter V. Olowniuk",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Ruel G. Weikert",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Stanley Wysokinski",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30662",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO",
+   "nickname": "Clarissa Jean",
+   "nose_art": null,
+   "bomb_squadron": "550th",
+   "squadron_code": "SG",
+   "aircraft_letter": "K",
+   "pilot": "Taylor (surname only, from crew field)",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-06",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Taylor. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 550th and code SG-K from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-06). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Pilot from crew field \"Taylor\" only - no pilot entry in the DB for this sortie (9 names).",
+   "crew": [
+    {
+     "name": "Robert A. Allen",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Walter J. Faber",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Billy G. Foster",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John Lapczynsky",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Jean A. Mahoney",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGR",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "J. D. Marshall",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Joel D. Punches",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Donald G. Rigg",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "BTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Clarence E. Soucek",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30171",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Stud Hoss",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "GX",
+   "aircraft_letter": "A",
+   "pilot": "Chester L. Doron",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Doron. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code GX-A from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). CONFLICT - aircraft attribution doubtful: AAM (385-03) says 42-30171 skidded off the runway at RAF Docking after an abandoned mission on 3/10/43 (b17flyingfortress.de 385-04: \"landing accident, 3 October 1943\"; 385th BGA B-17 list 385-08: name \"Stud Hoss\", SAL 24 Aug 43; b17flyingfortress.de name \"War Cry\"). It is unlikely this airframe flew on 14 Oct 1943; the Doron crew probably flew another aircraft (the 385th BGA DB may carry the crew's usual aircraft). Serial UNVERIFIED for this sortie.",
+   "crew": [
+    {
+     "name": "Merrill A. Andrews",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edward F. Berowski",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Sidney E. Colthrope",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Hugh A. Cuttell",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Chester L. Doron",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Kenneth R. Fernlund",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harold B. Gilbert",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Raymond W. Gould",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert Q. McGuire",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William E. Wheeler",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30795",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "The Wild Hare",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "XA",
+   "aircraft_letter": "J",
+   "pilot": "John P. McGowan",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): McGowan. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code XA-J from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). AAM gives \"548BS/385BG [XA-J]\" - XA is normally the 549th code; recorded as given.",
+   "crew": [
+    {
+     "name": "Tom B. Applewhite",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "W.J. Bloeser",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "J.C. Bufkin",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "J.J. French",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert R. Johnson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Nelle A. Malavasi",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John P. McGowan",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "W.A. McMahon",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Vernon L. Mulvaney",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Ellis (Sherr) Shorb",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Name as written in 385-01: \"Shorb, Ellis  (Sherr)\" (alternate spelling in parentheses). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30819",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Shack Bunny",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "U",
+   "pilot": "Vincent W. Masters",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Masters. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-U from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Second \"Shack Bunny\" (42-3551, Poore crew) also flew this mission.",
+   "crew": [
+    {
+     "name": "William Armes",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Marvin M. Benesh",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGL",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Cyrus P. Bennett",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Luther M. Daniels",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Louis A. Dentoni",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William J. Hurley",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGR",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles E. Irving",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Vincent W. Masters",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Reid C. Plummer",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "BTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30822",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Dorsal Queen",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "R",
+   "pilot": "Donald E. Jones",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Jones, Jones, D.E.. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-R from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). 385th BGA B-17 list (385-08) has two date ranges (from 12 Sep 43, and 26 Oct 43-21 Jan 44); names \"Foolish Virgin / Dorsal Queen\"; another Dorsal Queen was 42-30264. DB lists Donald E. Jones as pilot (crew field \"Jones, D.E.\").",
+   "crew": [
+    {
+     "name": "Elmer S. Baird",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Lewis A. DeCinque",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Arthur M. Fernland",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Donald E. Jones",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Crew field in 385-01 is \"Jones, D.E.\" (differs from the aircraft's main crew). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Bernard S. Kananowicz",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Elward J. O'Neil",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Arthur Schair",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Thomas Urmson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Wilber F. Weaver",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3337",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-DL",
+   "nickname": "Thoroughbred",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "GX",
+   "aircraft_letter": "C",
+   "pilot": "Norman L. Weider",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Weider. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code GX-C from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown).",
+   "crew": [
+    {
+     "name": "Douglas H. Baker",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert E. Bennett",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Elmer F. Congdon",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Anthony J. Guinta",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William J. Moore",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "R.C.H. Prolow",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Earl R. Robinson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Stanley Robinson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "R.E. Street",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Norman L. Weider",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3547",
+   "aircraft_type": "B-17G",
+   "block": "B-17G-5-DL",
+   "nickname": "Latest Rumor",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "XA",
+   "aircraft_letter": "Q",
+   "pilot": "Robert S. Vandiver",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Vandiver. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code XA-Q from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Block per AAM: B-17G-5-DL (so aircraft_type B-17G per AAM; DB does not give type).",
+   "crew": [
+    {
+     "name": "Joseph E. Balcerzak",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James W. Davis",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Louis N. DesCognets III",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert C. Hack",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGL",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Winston C. Holmes",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James H. Leary",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "BTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Allen R. Millican",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Earl J. Sumners Jr.",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert S. Vandiver",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Phillip J. Vockerath",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30197",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO",
+   "nickname": "Mission Belle",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "SG",
+   "aircraft_letter": "M",
+   "pilot": "Wayne H. Horr",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Horr. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code SG-M from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). AAM gives \"549BS/385BG [SG-M]\" - SG is normally the 550th code; recorded as given.",
+   "crew": [
+    {
+     "name": "Daniel H. Banks Jr.",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Wayne H. Horr",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Melvin V. Kauffman",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Matthew S. Leo",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Arthur G. Neal",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Leslie S. Norgard",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "J. W. Thaxton",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Donald E. Tuck",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John J. Vanek",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "W. J. Zabower",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3544",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL",
+   "nickname": "Stars and Stripes",
+   "nose_art": null,
+   "bomb_squadron": "550th",
+   "squadron_code": "SG",
+   "aircraft_letter": "B",
+   "pilot": "Clarence S. McIlveen",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-06",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): McIlveen. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 550th and code SG-B from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-06). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Two radio operators listed (Harrison, Rotunda).",
+   "crew": [
+    {
+     "name": "Edward A. Barrett",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Michael Cygan",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "S. F. Harrison",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "H. F. Malmfelt",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGL",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Clarence S. McIlveen",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles E. Rotunda",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Eugene Shober",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Daniel J. Sullivan",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGR",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William D. Williams",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3422",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-55-DL",
+   "nickname": "Winnie The Pooh",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "Y",
+   "pilot": "Irving H. Frank",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Frank. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-Y from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown).",
+   "crew": [
+    {
+     "name": "Aubrey R. Bartholmew",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "A. M. Boter",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Martin T. Farrell",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Irving H. Frank",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Lewell Moomaw",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Alfred A. Oldfather",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harvey O. Snider",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James L. Watson",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Frank P. Westerman",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Delmar R. Whitney",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30250",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-95-BO",
+   "nickname": "Lady Ann/Yank",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "GX",
+   "aircraft_letter": "F",
+   "pilot": "Ivan F. Klohe",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 11 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Klohe. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code GX-F from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). CONFLICT: 385th BGA B-17 list (385-08) gives \"GA SAL\" in June/July 1943 for 42-30250, but AAM (385-03) records it still active (force landed RAF Docking with Bob Smith 30/10/43; salvaged 30/1/44). Serial for this sortie PROBABLE only. Names: \"Lady Ann/Yank\" (DB), \"Yank\" (AAM, b17flyingfortress.de). Crew has 11 names incl. Walter F. Peters listed as \"O\" (probably observer) and two radio operators (Cavanaugh, Lucey).",
+   "crew": [
+    {
+     "name": "Ralph W. Baxter",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Roy H. Blansit",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edward F. Cavanaugh",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Herbert W. Heuser",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles H. Hill",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Ivan F. Klohe",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John R. Lucey",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Walter F. Peters",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "O",
+     "notes": "Position \"O\" in 385-01 (probably observer). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Richard J. Roth",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William D. Sweeney",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "TG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Howard J. Zorn",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30827",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Roundtrip Ticket III",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "XA",
+   "aircraft_letter": "O",
+   "pilot": "Jerome H. Mudge",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Mudge. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code XA-O from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). CONFLICT: 385th BGA B-17 list (385-08) gives \"from 26 Oct 43\" (after this mission) but AAM (385-03) gives assigned 549BS/385BG 25/8/43. Serial PROBABLE.",
+   "crew": [
+    {
+     "name": "Barney M. Blackwell",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William B. Clark",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP/P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Malcolm Hess",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "TG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Richard J. Lewis",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Richard L. McDaniel",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John Moniz Jr.",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGL",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Jerome H. Mudge",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Verne D. J. Philips",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Frank W. Powell",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGR",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James R. Watzke",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30168",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO",
+   "nickname": "Slo-Jo",
+   "nose_art": null,
+   "bomb_squadron": "550th",
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "Warren E. Cerrone",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-06",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Cerrone. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 550th and code n/a from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-06). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). AAM history text for this airframe not captured (code letters not obtained).",
+   "crew": [
+    {
+     "name": "Peter Bobulski Jr.",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Warren E. Cerrone",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harry R. Edgins",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William F. Flagler",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John H. Kelley",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William R. McDaniel",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John A. Nejedlik",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James M. Reed",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "David E. Rooney",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert E. Selby",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30251",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-95-BO",
+   "nickname": "Picadilly Queen",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "XA",
+   "aircraft_letter": "T",
+   "pilot": "Harold E. Jordan",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 12 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Jordan, Smith. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code XA-T from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Two pilots listed (Harold E. Jordan and Elliot Vandevanter Jr.) and two navigators (Grabowski, Robbins): consistent with a command/lead aircraft (Vandevanter is generally recorded as the 385th BG commanding officer in 1943 - not verified from a 14 Oct document). Formation position not documented. Also lists Troy M. Roberts (G) with crew field \"Smith\" - possible data-entry anomaly. Name spelled \"Picadilly Queen\" in DB, \"Piccadilly Queen\" in AAM/385-08.",
+   "crew": [
+    {
+     "name": "Clyde Brown Jr.",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "George B. Brown",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Alphonse C. Corriveau",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edward F. Grabowski",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harold E. Jordan",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Frank A. Novak",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harry J. Poplawski",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "TTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Norton A. Robbins",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Troy M. Roberts",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Crew field in 385-01 is \"Smith\" (differs from the aircraft's main crew). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Egbert R. Rude",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Stephen J. Suspanski",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Elliot Vandevanter Jr.",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked. Probably flying as command pilot (two pilots listed)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30816",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Mary Ellen III",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "SG",
+   "aircraft_letter": "J",
+   "pilot": "Lyle V. Fryer",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Fryer. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code SG-J from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). AAM code SG-J conflicts with 551st BS (HR); recorded as AAM gives it.",
+   "crew": [
+    {
+     "name": "Fred Browning",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "David D. Carr",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William C. Cokins",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John S. Durakov",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Lyle V. Fryer",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Chester Lisiewski",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Clifford G. McIlveen",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Joseph P. Pittman",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edwin L. Rinkenberger",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3397",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-55-DL",
+   "nickname": "Fighting Cock",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "H",
+   "pilot": "Albert R. Rummans",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Rummans. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-H from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Two radio operators listed (McCarty, McMann).",
+   "crew": [
+    {
+     "name": "Harry S. Brumley",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "James A. Downard",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "M. J. Eichwald",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John R. Green",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William W. Lemon",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles F. McCarty",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Jack D. McMann",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John S. Rose",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Albert R. Rummans",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "George E. Webb",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3551",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL",
+   "nickname": "Shack Bunny",
+   "nose_art": null,
+   "bomb_squadron": "551st",
+   "squadron_code": "HR",
+   "aircraft_letter": "Q/S",
+   "pilot": "Forrest V. Poore",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-07",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Poore. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 551st and code HR-Q/S from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-07). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown).",
+   "crew": [
+    {
+     "name": "James Capillos",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William A. Kelly",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Harold L. Morris",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "William A Nicholls",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John D. O'Connell",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "BTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Forrest V. Poore",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Linn C. Struckenbruck",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John R. Ward",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Alvan M. Woodall",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3356",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-50-DL",
+   "nickname": "Mayfly",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "GX",
+   "aircraft_letter": "U",
+   "pilot": "John N. Hutchison",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Hutchison, Masters. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code GX-U from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). No co-pilot listed for the Hutchison crew in this aircraft; Charles G. Curtis (CP) is listed with crew \"Huchison\" in 42-5985 \"Mr. Smith\" - probably the same crew (data-entry anomaly). Thomas A. L. Morgan III (TG) is listed in this aircraft but with crew field \"Masters\".",
+   "crew": [
+    {
+     "name": "Joseph J. Carpinetti",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "M Filip Corgnatti",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John E. Epps",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John J. Fulgieri",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edmond J. Gamble",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John N. Hutchison",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edward (Erwin) R. Johnson",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Name as written in 385-01: \"Johnson, Edward (Erwin) R.\" (alternate spelling in parentheses). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Roy C. Kitner",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "TTG",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Thomas A. L. Morgan III",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "TG",
+     "notes": "Crew field in 385-01 is \"Masters\" (differs from the aircraft's main crew). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "John E. O'Malley",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "WGR",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5985",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-40-VE",
+   "nickname": "Mr. Smith",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "XA",
+   "aircraft_letter": "R",
+   "pilot": "Huchison (surname only, from crew field)",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 1 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Huchison. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code XA-R from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). UNVERIFIED as a separate sortie: the only DB entry is co-pilot Charles G. Curtis with crew field \"Huchison\" (sic). The Hutchison crew is otherwise listed in 42-3356 Mayfly without a co-pilot, so this is probably a data-entry anomaly and not a 23rd aircraft (385th BGA mission summary 385-02 says 22 a/c flown).",
+   "crew": [
+    {
+     "name": "Charles G. Curtis",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30717",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO",
+   "nickname": "Man O' War",
+   "nose_art": null,
+   "bomb_squadron": "548th",
+   "squadron_code": "GX",
+   "aircraft_letter": "D",
+   "pilot": "Carl W. W. Dawurske",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-04",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 10 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Dawurske. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 548th and code GX-D from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-04). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). Two co-pilots listed (Jesse G. Kirby \"CP/P\", Juan J. Provencio \"CP\").",
+   "crew": [
+    {
+     "name": "Carl W. W. Dawurske",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Earnest H. Hibbard",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "R.C. Howard",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Jesse G. Kirby",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP/P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Lester E. Knudson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Anthony M. Marinaro",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Donald L. Marks",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Leo J.(Meyer) Moyer",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Name as written in 385-01: \"Moyer, Leo J.(Meyer)\" (alternate spelling in parentheses). Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Franklin E. Northey",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Juan J. Provencio",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30737",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Ohio Air Force",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "XA",
+   "aircraft_letter": "S",
+   "pilot": "Richey (surname only, from crew field)",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 7 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Richey. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code XA-S from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). No pilot listed for the \"Richey\" crew in the DB (7 names). Pilot name Richey is from the crew field only (first name unknown).",
+   "crew": [
+    {
+     "name": "Thomas A. Helman",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Milton V. Lane",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Frank M. McKibbin",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles E. Schaeffer",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Maurice B. Simpson",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Michael J. Siwek",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert H. Winnerman",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3335",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-DL",
+   "nickname": "Fickle Finger of ?",
+   "nose_art": null,
+   "bomb_squadron": "549th",
+   "squadron_code": "GX",
+   "aircraft_letter": "Y",
+   "pilot": "Robert C. Smith",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "385-01",
+    "385-03",
+    "385-05",
+    "385-08"
+   ],
+   "notes": "385th BGA Airman Database (385-01) lists 9 airmen on mission 28 (14-Oct-43, Schweinfurt) in this aircraft, crew field(s): Smith. Nickname is the aircraft name in the DB, not confirmed as painted on this date. Squadron 549th and code GX-Y from AAM airframe history (385-03); squadron also per b17flyingfortress.de (385-05). Airframe assignment, not a 14 Oct 1943 loading list - PROBABLE. Outcome: no 385th aircraft is recorded lost on 14 Oct 1943 in 385-03/385-04..08/385-09, so the aircraft returned; whether it bombed or aborted is not documented per aircraft (AAM 385-10 credits 385BG with 21 aircraft; 385th BGA summary 385-02 says 22 a/c flown). AAM gives \"549BS/385BG [GX-Y]\" - GX is normally the 548th code; recorded as given. AAM name \"Fickle Finger of Fate\".",
+   "crew": [
+    {
+     "name": "George M. Lilburn",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Paul F. Lindsay",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "CP",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Samuel S. Litt",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Henry C. Lohff",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Louis J. Lonsway",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "G",
+     "notes": "Position \"G\" = gunner, station not specified in 385-01. Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Edwin F. Randig",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "RO",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Robert C. Smith",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "P",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Charles A. Stevens",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "B",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    },
+    {
+     "name": "Nathan Ungar",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "385-01"
+     ],
+     "position_in_source": "N",
+     "notes": "Fate \"returned\" inferred: no 385th aircraft lost on this mission; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3347",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-50-DL",
+   "nickname": "Charlene",
+   "nose_art": null,
+   "bomb_squadron": "550th",
+   "squadron_code": "SG",
+   "aircraft_letter": "C",
+   "pilot": "Emery R. Chesmore",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "written_off",
+   "loss_details": "Battle damaged at Schweinfurt; on return, out of fuel, crash-landed at Bovingdon and salvaged 14/10/43 (AAM 385-03; b17flyingfortress.de 385-11). DISPUTED: a commenter on 385-11 (citing waist gunner Nicolas Popadya, second-hand) says the crew bailed out and the aircraft came down at Rowington, Warwickshire; unconfirmed.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "385-03",
+    "385-09",
+    "385-11",
+    "385-10"
+   ],
+   "notes": "385th BG / 550th BS airframe (code SG-C per 385-11 and AAM) flown by Emery R. Chesmore and a 96th BG crew \"+ pass (11 Returned to Duty)\" per AAM. AAM mission page (385-10) says the 96th BG furnished one crew to the 385th BG on this mission - very probably this crew. Crew is NOT in the 385th BGA DB (385-01). The 96th BG researcher may also record this sortie; avoid double counting. Only the pilot is named in the aircraft record; AAM also links S/Sgt Clyde Wood Wilkinson (385th/550th waist gunner) to this airframe without a date - not placed on this crew.",
+   "crew": [
+    {
+     "name": "Emery R. Chesmore",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-740745",
+     "confidence": "VERIFIED",
+     "sources": [
+      "385-03",
+      "385-11"
+     ],
+     "notes": "Service number and units (96th BG 338th BS; also 388th BG 563rd BS) from AAM person record; highest rank there Second Lieutenant (not necessarily rank on this date). 11 crew + passenger returned to duty per AAM."
+    },
+    {
+     "name": "Nicolas Popadya",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "385-11"
+     ],
+     "notes": "Named only in a reader comment on 385-11 as a waist gunner interviewed about this flight; spelling unverified."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Per-aircraft outcome (bombed vs aborted) not documented: 385th mission report for mission 28 not found online (385-02 gives only \"22 a/c flown\"). 385th BGA mission-report PDFs were not located for this mission.",
+  "Ranks not recorded: 385-01 gives name, position, crew and aircraft but no rank; individual person pages were not consulted.",
+  "Position detail incomplete: 385-01 often gives only \"G\" (gunner) without station; engineers are mostly not distinguished from gunners.",
+  "Squadron/code letters are airframe assignments (AAM/Osborne, b17flyingfortress.de), not mission-day records; several AAM codes conflict with the standard squadron codes (548 GX, 549 XA, 550 SG, 551 HR) and are recorded as given.",
+  "Aircraft attribution conflicts: 42-30171 (landing accident 3 Oct 1943 per AAM/b17flyingfortress.de), 42-30250 and 42-30827 (385th BGA B-17 list dates conflict with AAM).",
+  "Charlene (42-3347) crew names other than the pilot not found; landing place disputed (Bovingdon vs Rowington).",
+  "Formation position: 385th position in the 3rd BD formation not documented in sources seen.",
+  "No service numbers recorded except Chesmore (AAM)."
+ ]
+}

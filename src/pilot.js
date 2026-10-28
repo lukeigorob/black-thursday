@@ -1,4 +1,4 @@
-// Flying a fighter yourself, a Bf 109, an Fw 190 or a P-51: from the cockpit (cockpit.js), your view
+// Flying a fighter yourself, a Bf 109, an Fw 190 or a P-47: from the cockpit (cockpit.js), your view
 // fixed to the aircraft as in a real one, so when it banks and rolls the horizon tilts and the world
 // turns round you. The mouse moves an aim mark across the screen and the plane flies to it, banking into
 // the turn; the reflector gunsight's ring and dot stay on the guns' line. Throttle, the type's real
@@ -12,11 +12,11 @@ const V = THREE.Vector3;
 const LOOK = 0.0022; // rad per pixel of mouse movement
 const SPREAD = 0.003; // rad: your own guns are better harmonised than the AI's
 const HEAT_TIME = 9, COOL = 0.12, UNJAM = 0.45; // s of non-stop fire to overheat; heat lost per s
-// rounds per gun: Bf 109 F: 2 x MG 17 (1,000 each), MG 151/20 (200); P-51D: 6 x .50 (inner 400, others 270)
+// rounds per gun: Bf 109 F: 2 x MG 17 (1,000 each), MG 151/20 (200); P-47D: 8 x .50 (425 each)
 // Fw 190 A-8: 2 x MG 131 (475 each), 4 x MG 151/20 (inner 250, outer 140)
-const AMMO = { bf109: [1000, 1000, 200], p51: [400, 400, 270, 270, 270, 270], fw190: [475, 475, 250, 250, 140, 140] };
-const EYE = { bf109: [0, 0.75, -0.8], p51: [0, 0.85, -0.1], fw190: [0, 0.86, -0.22] }; // pilot's eye in the model (as in cockpit.js)
-const PLAYER_TURN = 0.5; // rad/s: the nose follows your aim this fast, in whichever fighter (the P-51's combat turn)
+const AMMO = { bf109: [1000, 1000, 200], p47: [425, 425, 425, 425, 425, 425, 425, 425], fw190: [475, 475, 250, 250, 140, 140] };
+const EYE = { bf109: [0, 0.75, -0.8], p47: [0, 1.05, -0.2], fw190: [0, 0.86, -0.22] }; // pilot's eye in the model (as in cockpit.js)
+const PLAYER_TURN = 0.5; // rad/s: the nose follows your aim this fast, in whichever fighter (an escort's combat turn)
 const CHASE_BACK = 20, CHASE_UP = 4.5; // m behind and above: watching your plane go down
 const THIRD_BACK = 14, THIRD_UP = 3.2; // m behind and above: the third-person view (V)
 const HEAD_YAW = THREE.MathUtils.degToRad(150), HEAD_UP = 1.2, HEAD_DOWN = -0.5; // free look (C) limits, rad
@@ -97,7 +97,7 @@ export class Pilot {
   /** Every type's cockpit and sight, built now and handed over to be compiled (the loading screen's warm-up). */
   warmParts() {
     const parts = [];
-    for (const kind of ['bf109', 'fw190', 'p51']) {
+    for (const kind of ['bf109', 'fw190', 'p47']) {
       const c = (this.cockpits[kind] ??= buildCockpit(kind)), r = (this.reticles[kind] ??= buildReticle(kind));
       c.userData.update?.({ speed: 120, alt: 7600, climb: 0, heading: 0, bank: 0, pitch: 0, throttle: 0.8, heat: 0, damage: false, time: 0, stickX: 0, stickY: 0 }, 1);
       parts.push(c, r);
@@ -136,7 +136,7 @@ export class Pilot {
     // the instructor: turn the nose towards the aim at the type's combat turn rate; the wings bank by themselves
     // (eased in the last few degrees so the nose settles on the aim without a wobble; a tiny dead zone)
     const off = f.dir.angleTo(this.aimDir());
-    // (every type answers the stick as the P-51 does: the same turn rate, the same easing)
+    // (every type answers the stick as the escort does: the same turn rate, the same easing)
     f.steer(_aim, PLAYER_TURN * Math.min(1, 0.25 + off / SETTLE), dt, true); // (always: with the aim ahead it rolls the wings level)
     // A / D roll on top of that (a barrel roll, or rolling to look), easing back level when let go
     const roll = (keys.KeyA ? 1 : 0) - (keys.KeyD ? 1 : 0);

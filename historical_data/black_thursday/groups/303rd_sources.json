@@ -1,0 +1,56 @@
+[
+ {
+  "id": "303-01",
+  "title": "303rd BG (H) Combat Mission No. 78, 14 October 1943 (mission report PDF, 14 pp., incl. crew lists by squadron, assembly formation chart, aborts, claims and personal accounts by Lt Wilbur Klint and Lt William C. Heller)",
+  "organisation": "303rd Bomb Group (H) Association (303rdbg.com)",
+  "url": "https://www.303rdbg.com/missionreports/078.pdf",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Compiled by the group association from group records (loading lists, sortie/claims reports). Primary-derived; treated as the main source. Contains a few internal inconsistencies noted per record."
+ },
+ {
+  "id": "303-02",
+  "title": "303rd BG mission index (missions list linking mission 078 report and lead crew page)",
+  "organisation": "303rd Bomb Group (H) Association",
+  "url": "https://www.303rdbg.com/missions.html",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Index only."
+ },
+ {
+  "id": "303-03",
+  "title": "303rd BG aircraft index (serial, squadron-letter, name, fate, missions)",
+  "organisation": "303rd Bomb Group (H) Association",
+  "url": "https://www.303rdbg.com/aircraft.html",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Used for aircraft letters. Read via a summarising fetch tool; letters should be spot-checked. Names some aircraft differently from 303-01 (42-5360 'War Bride')."
+ },
+ {
+  "id": "303-04",
+  "title": "Roy C. Sanders crew page, 358th BS",
+  "organisation": "303rd Bomb Group (H) Association",
+  "url": "https://www.303rdbg.com/358sanders.html",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Crew photo, crew notes, VK-B code, Peacock/Wood navigator note."
+ },
+ {
+  "id": "303-05",
+  "title": "B-17 42-29477 'Little Audrey' / 'Joan of Arc' (MACR 907)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/?p=2969",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Independent enthusiast database (cites AAM and MACR). Gives block B-17F-55-BO and MACR 907; lists 10 crew (omits photographer Martin)."
+ },
+ {
+  "id": "303-06",
+  "title": "Photo page: B-17F 'Max' #42-3158 (427BS) GN-Y, 14 October 1943",
+  "organisation": "303rd Bomb Group (H) Association",
+  "url": "https://www.303rdbg.com/pp-42-3158.html",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Flak hole in top turret window; Lt Howard C. Ness pilot, T/Sgt Charles E. Walsh engineer (via search snippet)."
+ }
+]

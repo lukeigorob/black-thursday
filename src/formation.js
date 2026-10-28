@@ -7,20 +7,38 @@
 // Only the player's bomber uses the full model, its close neighbours a mid-detail one; everything
 // else is drawn as instanced low-detail copies (one draw call per part) to keep the frame rate up.
 import * as THREE from 'three';
-import { BATTLE } from './battle.js';
+import { BATTLE, battleName } from './battle.js';
+import { forceSlots } from './oob.js';
 
 const ELEMENT = [[0, 0, 0], [-29, -5, 18], [29, 5, 18]];
 const SQUADRON = [[0, 0, 0], [0, -16, 50]];
 const GROUP = [[0, 0, 0, 'Lead'], [92, 36, 58, 'High'], [-92, -36, 58, 'Low']];
 const WING = [[0, 0, 0, 'Lead'], [250, 120, 180, 'High'], [-250, -120, 180, 'Low']];
-// ours, one ahead, one behind, and a wing either side: 5 combat wings, 270 bombers
-// packed close, the way the bombers flew for mutual protection: wings a few hundred metres apart
+// ours, one ahead, one behind, and a wing either side, and one more behind those: up to 6 combat wings
+// (324 bombers; BATTLE.bombers cuts the last one short), packed close, the way the bombers flew for mutual
+// protection: wings a few hundred metres apart
 const STREAM = [[0, 0, 0, ''], [-90, 70, -780, 'Leading wing, '], [110, -70, 760, 'Trailing wing, '],
-  [-720, 160, -260, 'Left wing, '], [740, -150, 240, 'Right wing, ']];
+  [-720, 160, -260, 'Left wing, '], [740, -150, 240, 'Right wing, '], [-60, -110, 1520, 'Last wing, ']];
 const NEAR = 150; // m from the player's bomber: closer than this gets the full model
+
+/**
+ * Every slot of the Schweinfurt force as it flew (oob.js), shifted so the player's bomber sits at the
+ * origin: you fly left wing on the force's lead ship, the 92nd's (Col. Peaslee, the mission's air commander).
+ */
+function historicalSlots() {
+  const slots = forceSlots().map((s) => ({
+    pos: new THREE.Vector3(...s.pos), group: s.squad, lead: s.lead, unit: s,
+    label: `${s.attachedTo ? `100th BG flight with the ${s.attachedTo}` : `${s.group}${s.part ? `-${s.part}` : ''} Bomb Group`}, ${s.squadron === 'attached' ? '' : `${s.squadron} squadron, `}${s.wing} Combat Wing`,
+    player: s.group === '92nd' && s.squadron === 'lead' && s.element === 0 && s.wingman === 1,
+  }));
+  const origin = slots.find((s) => s.player).pos.clone();
+  for (const s of slots) { s.pos.sub(origin); s.near = s.pos.length() < NEAR; }
+  return slots;
+}
 
 /** Every slot in the stream, shifted so the player's bomber sits at the origin. */
 export function formationSlots() {
+  if (battleName === 'large') return historicalSlots(); // (the game: Schweinfurt; the smaller battles are for testing)
   const slots = [];
   for (const [wi, w] of STREAM.slice(0, BATTLE.wings).entries()) for (const g of WING) for (const s of GROUP) for (const [ei, e] of SQUADRON.entries()) for (const [pi, p] of ELEMENT.entries()) {
     slots.push({
@@ -31,6 +49,7 @@ export function formationSlots() {
       player: wi === 0 && g[3] === 'Lead' && s[3] === 'Lead' && ei === 0 && pi === 1, // left wingman of the lead
     });
   }
+  if (BATTLE.bombers) slots.length = Math.min(slots.length, BATTLE.bombers);
   const origin = slots.find((s) => s.player).pos.clone();
   for (const s of slots) {
     s.pos.sub(origin);

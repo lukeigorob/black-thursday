@@ -1,0 +1,31 @@
+VOICE SAMPLES: 17 voices x 3 emotion levels x 2 lines = 102 clips, all through the game's radio sound
+
+File names: <voice>__<emotion level>__<line>.wav
+  Lines:    bandits = "Bandits, three o'clock high! There's so many of them!"
+            flak    = "Pilot to crew, flak ahead, brace yourselves!"
+  Emotion:  1-strong   (exaggeration 0.9: tense but steady)
+            2-stronger (exaggeration 1.3: shouting, urgent)
+            3-max      (exaggeration 1.8: the most emotion the model can give; can wobble or slur)
+
+VOICES (all American unless marked British)
+  chatterbox_default    Chatterbox's own built-in voice
+  am_adam               plain, mid
+  am_echo               lighter, younger
+  am_eric               clear, mid-high
+  am_fenrir             gruff, rough edge
+  am_liam               young, bright
+  am_michael            deep, steady
+  am_onyx               deepest, slow
+  am_puck               fast, energetic, high
+  am_santa              old, warm, deep
+  am_puck+am_echo       blend (was the ball turret)
+  am_fenrir+am_eric     blend (was the right waist gunner)
+  am_michael+am_onyx    blend (was the lead ship)
+  bm_daniel             British, calm
+  bm_fable              British, lively
+  bm_george             British, older, deep
+  bm_lewis              British, mid
+
+Crew to pick for: pilot, co-pilot, navigator, bombardier, top turret, ball turret,
+left waist, right waist, tail gunner, lead ship.
+The same voice can go to more than one man, and each man can have his own emotion level.

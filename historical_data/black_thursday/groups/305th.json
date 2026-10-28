@@ -1,0 +1,2107 @@
+{
+ "group": "305th",
+ "division": "1st",
+ "combat_wing": "40th CBW (92nd, 305th, 306th). Per 305-01 the 305th flew 'in the low group'; 306th records say only the 92nd and 306th made the wing rendezvous.",
+ "base": "Chelveston (Station 105)",
+ "dispatched": 18,
+ "lost": 13,
+ "aborted": 3,
+ "bombed": 3,
+ "dispatched_confidence": "PROBABLE",
+ "dispatched_notes": "305th mission report as quoted on 305-01: 18 started, 3 aborted, 11 lost en route, 3 reached/bombed Schweinfurt, 0 lost on return, 2 came home (the 13 losses = 11 en route plus Kincaid and Bullock at the target). The same 18/3 figures are given by the 305-07 comment (citing Kuhl). CONFLICT: the 303rd BG summary (305-05) and the IWM first-element list give 305BG as 16. Lost = 13 (Kuhl timeline lists 13 named aircraft); 'lost 13 of its 16' in the task brief matches the 16 figure.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29952",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-80-BO (range per 305-04)",
+   "nickname": null,
+   "nickname_unverified": "Sizzle",
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "J",
+   "pilot": "Doug Murdock",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl timeline (305-01): 13:40, Murdock, 364th, crashed Limmel (NL). 305-02: downed by enemy aircraft, crashed Bosseveldt near Maastricht. Group totals: 5 KIA, 5 POW.",
+   "macr": "917",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Pilot's full name and rank not found; a 2nd Lt pilot with service numbers 14079018 / O-793820 is linked from crew pages on 305-03 but not named in the text seen. Nickname 'Sizzle' per 305-02/305-04 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Doug Murdock",
+     "rank": null,
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Edwin Smith",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "John Charles Manahan",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-734952",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "John Miller",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Russell Joseph Kiggins",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": "32383681",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Thelma Wiggins",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually. Name exactly as listed by 305-02."
+    },
+    {
+     "name": "John W. Lloyd",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "35380603",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Tony E. Dienes",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "35407658",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "305-03: wounded by a 20mm shell before the bale-out order."
+    },
+    {
+     "name": "Lester Julian Levy",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "38313927",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Bill Menzies",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3436",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-60-DL (per 305-02)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "R",
+   "pilot": "Dennis McDarby",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:45, McDarby, crashed Eygelshoven (NL) and Finkenrath (DE). 305-02: No. 2 engine damaged by rocket or gunfire, credited to Obfw. Anton-Rudolf Piffer, 2./JG 1; tail and left wing at Eygelshoven, nose at Finkenrath near Aachen. Tail gunner Lepore credited with an Me 109 (Fw. Brinkmann).",
+   "macr": "1034",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Ex-96th BG, to 364th BS 18 Sep 1943 (305-02). One linked document gives the serial as 42-34336.",
+   "crew": [
+    {
+     "name": "Dennis McDarby",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Donald Paul Breeden",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "MIA",
+     "service_number": "O-745041",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Declared MIA; commemorated on the Wall of the Missing, Netherlands American Cemetery (305-03)."
+    },
+    {
+     "name": "Bill Martin",
+     "rank": null,
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Eyewitness text on 305-02 calls him William Martin."
+    },
+    {
+     "name": "Harvey Manley",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Arthur E. Linrud",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "37314603",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Hosea Faine Crawford",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "35715111",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Stalag 17B per NARA POW records (305-03)."
+    },
+    {
+     "name": "Ben Roberts",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Leonard Roy Henlin",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "KIA",
+     "service_number": "31179950",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Listed as 'Leon Henlin' in the crew text."
+    },
+    {
+     "name": "Bob Wells",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Dominic Charles Lepore",
+     "rank": "Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "32558440",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30807",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 305-04)",
+   "nickname": null,
+   "nickname_unverified": "Katy",
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "K",
+   "pilot": "Gerald B. Eakle",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:45, Eakle, Eisden (BE). 305-02: enemy aircraft, crashed Dilsen-Stokkem 5 miles SW of Maaseik, Belgium; 305-04 gives Bilsen. Totals: 8 POW, 1 KIA, 1 evaded.",
+   "macr": "912",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Nickname 'Katy' per 305-02 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Gerald B. Eakle",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Retired as USAF Lt. Col. (305-03)."
+    },
+    {
+     "name": "Walter H. Boggs",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03",
+      "305-04"
+     ]
+    },
+    {
+     "name": "Charles B. Jones",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Herman E. Molen",
+     "rank": "S/Sgt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Enlisted bombardier/togglier."
+    },
+    {
+     "name": "Barden Smith",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals (8 POW/1 KIA/1 EVD with Boggs KIA and Wilson EVD named); not stated individually."
+    },
+    {
+     "name": "Don Norris",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals; not stated individually."
+    },
+    {
+     "name": "Bob Sanchez",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals; not stated individually."
+    },
+    {
+     "name": "Alfredo Spadafora",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals; not stated individually."
+    },
+    {
+     "name": "Lloyd F. Knapp",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "32572452",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Stalag 17B per NARA POW records (305-03)."
+    },
+    {
+     "name": "Lloyd Wilson",
+     "rank": null,
+     "position": "tail",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-04"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3549",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (range per 305-04)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "366th",
+   "squadron_code": "KY",
+   "aircraft_letter": "H",
+   "pilot": "Chas Willis",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:45, Willis, Horn (NL). 305-02: shot down by enemy aircraft, crashed at Hoorn near Roermond; a parachute caught fire (garbled text). Totals: 4 KIA, 6 POW.",
+   "macr": "918",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Chas Willis",
+     "rank": null,
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "John Emperor",
+     "rank": null,
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Christian W. Cramar",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Willard E. Dixon",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Floyd Karns",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Alan B. Citron",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Bernie Snow",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Ed Sedinger",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "John Gudaitis",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Nick Stanchak",
+     "rank": null,
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30831",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 305-04)",
+   "nickname": null,
+   "nickname_unverified": "Lazy Baby",
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "H",
+   "pilot": "Edward W. Dienhart",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:49 turned south; crash-landed wheels up at Reinach/Aesch near Basel, Switzerland, at 15:40. Crew: 7 interned, 2 POW (Bolin and Blalock bailed out over German-held territory before the Swiss landing), 1 KIA (navigator Rowley).",
+   "macr": "913",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Pilot rank: 305-04 crew table gives 1LT; 305-03 person page gives highest rank Second Lieutenant (conflict). Nickname 'Lazy Baby' per 305-02/305-04 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Edward W. Dienhart",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "interned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ],
+     "notes": "Interned in Switzerland."
+    },
+    {
+     "name": "Brunson W. Bolin",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-681319",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ],
+     "notes": "Ordered to bail out; helped the top turret gunner out, captured (shot at in his parachute by a civilian); Stalag III (305-03)."
+    },
+    {
+     "name": "Donald T. Rowley",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-02"
+     ]
+    },
+    {
+     "name": "Carl A. Johnson",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "interned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04"
+     ]
+    },
+    {
+     "name": "George H. Blalock Jr.",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "34037102",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ],
+     "notes": "Spelled 'Blaylock' in some texts."
+    },
+    {
+     "name": "Hurley D. Smith",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "interned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ],
+     "notes": "Wounded on the mission (305-03)."
+    },
+    {
+     "name": "Raymond C. Baus",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "interned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Robert Cinibulk",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "interned",
+     "service_number": "33292048",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Christy Zullo",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "interned",
+     "service_number": "33349468",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Bernard Segal",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "interned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-04",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29988",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-80-BO (per 305-02/305-04)",
+   "nickname": null,
+   "nickname_unverified": "The Uncouth Bastard (earlier 'Lucifer Jr.')",
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "A",
+   "pilot": "Bob Holt",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:50, Holt, Immendorf (DE). 305-02: shot down by enemy aircraft, crashed Immendorf/Floeverich near Puffendorf, 12 miles N of Aachen. Totals: 6 KIA, 4 POW.",
+   "macr": "914",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Transferred from 535th BS/381st BG (MS-S) 22 Aug 1943. Nickname 'The Uncouth Bastard (earlier 'Lucifer Jr.')' per 305-02/305-04 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Bob Holt",
+     "rank": null,
+     "position": "pilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Aubrey Young",
+     "rank": null,
+     "position": "copilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Edward O. Ball",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-669951",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Bryce Barrett",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": "O-738530",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Charles E. Blackwell",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "39678333",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Doris O. Bowman",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": "18125177",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "His 5th mission (305-03)."
+    },
+    {
+     "name": "Bill Frieson",
+     "rank": null,
+     "position": "ball",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Frank Rollow",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Floyd Lenning",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Mike Letanosky",
+     "rank": null,
+     "position": "tail",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3195",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "366th",
+   "squadron_code": "KY",
+   "aircraft_letter": "O",
+   "pilot": "Neal Fisher",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:50, Fisher, Waldenrath (DE). 305-02: enemy aircraft, crashed Waldenrath near Geilenkirchen, 17 miles N of Aachen. Totals: 6 POW, 4 KIA.",
+   "macr": "916",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "IWM story 'Black Thursday' names waist gunner Thomas Therrien in Neal Fisher's crew.",
+   "crew": [
+    {
+     "name": "Neal Fisher",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Clinton A. Bush",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Carl H. Booth",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Body never recovered (305-02)."
+    },
+    {
+     "name": "Don Hissom",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Clinton L. Bitton",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Harvey Bennett",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Harry Insdorf",
+     "rank": null,
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Loren Fink",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "Tom Therrien",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    },
+    {
+     "name": "George LeFebre",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Fate assigned from the position of the group-total note in the crew list ('(n KIA)' / '(n POW)'), not stated individually."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-37750",
+   "aircraft_type": "B-17G (per 305-02)",
+   "block": null,
+   "nickname": null,
+   "nickname_unverified": "Mary T",
+   "nose_art": null,
+   "bomb_squadron": "366th",
+   "squadron_code": "KY",
+   "aircraft_letter": "M",
+   "pilot": "Bob Lang",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:52, Lang, Puffendorf (DE). 305-02: enemy aircraft, crashed near Beek, about 20 km N of Maastricht (conflicts with Kuhl's location). Pilot KIA in crash; notes '(7 POW)' and '(2 evaded)'.",
+   "macr": "915 (305-02) / 779 (305-04 loss list) - conflict",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Nickname 'Mary T' per 305-02/305-04 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Bob Lang",
+     "rank": null,
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Stanley Alukonis",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "evaded",
+     "service_number": "O-679013",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "305-03 records 'Evaded (EVD)', 14 Oct 1943 - 14 Jan 1944."
+    },
+    {
+     "name": "John Tew",
+     "rank": null,
+     "position": "navigator",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "James G. Adcox",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-676528",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Reuben Bernard Almquist",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "37093543",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Warren McConnell",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Ken Maynard",
+     "rank": null,
+     "position": "ball",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Charles J. Groeninger",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": "16000781",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Howard Jerome Keenan",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "33324056",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Position conflict: crew text waist gunner, person page ball turret. Initially evaded, captured (POW period from 10 Jan 1944 per 305-03)."
+    },
+    {
+     "name": "Steve Krawszynski",
+     "rank": null,
+     "position": "tail",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Note '(2 evaded capture)' follows his name; ambiguous."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30242",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-95-BO (per 305-04)",
+   "nickname": null,
+   "nickname_unverified": "Lallah-V III (aka Pappy's Hellions)",
+   "nose_art": null,
+   "bomb_squadron": "364th",
+   "squadron_code": "WF",
+   "aircraft_letter": "N",
+   "pilot": "Ellsworth H. Kenyon",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 13:53, Kenyon, crashed 4 miles W of Duren (DE). 305-02: hit by enemy aircraft. Radio operator killed when his parachute caught fire; note '(9 POW)'.",
+   "macr": "911",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Nickname 'Lallah-V III (aka Pappy's Hellions)' per 305-02/305-04 only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Ellsworth H. Kenyon",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Thomas H. Davis",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-799347",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "John A. Cole",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from '(9 POW)' + one KIA; not stated individually."
+    },
+    {
+     "name": "Joseph F. Collins",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-676920",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Finley Mercer",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals."
+    },
+    {
+     "name": "Russ Algren",
+     "rank": null,
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-04"
+     ],
+     "notes": "Parachute caught fire."
+    },
+    {
+     "name": "Arthur William Englehardt",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "33873993",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Dick Lewis",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals."
+    },
+    {
+     "name": "Chas Green",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Deduced from totals."
+    },
+    {
+     "name": "Walt Gottshall",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-04"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30814",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "366th",
+   "squadron_code": "KY",
+   "aircraft_letter": "F",
+   "pilot": "Robert Skerry",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 14:02, Skerry, Adendorf near Bonn. 305-02: enemy aircraft and flak, crashed Adendorf near Meckenheim, 10 miles SW of Bonn. Totals: 8 POW, 2 KIA.",
+   "macr": "919",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Transferred from 96th BG 21 Sep 1943; tail still carried the 96th's Triangle G (305-02).",
+   "crew": [
+    {
+     "name": "Robert Skerry",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "John Lindquist",
+     "rank": null,
+     "position": "copilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Robert Guarini",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Cecil S. Key",
+     "rank": "Sgt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Togglier."
+    },
+    {
+     "name": "Bob Middleby",
+     "rank": null,
+     "position": "engineer",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Stan Larrick",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Wayne Rowlett",
+     "rank": null,
+     "position": "ball",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Gus Doumis",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Jack Garrard Johnson",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "18005133",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Edwin E. DeVaul",
+     "rank": "T/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30804",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 305-02)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "365th",
+   "squadron_code": "XK",
+   "aircraft_letter": "G",
+   "pilot": "Vic Maxwell",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): 14:29, Maxwell, exploded in mid-air, crashed near Glashofen near Marktheidenfeld. 305-02: enemy aircraft, crashed Glashofen ~15 miles NW of Wurzburg. Totals: 7 KIA, 3 POW.",
+   "macr": "922",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Vic Maxwell",
+     "rank": null,
+     "position": "pilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Willis Rowen",
+     "rank": null,
+     "position": "copilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Urban H. Klister",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Andy Zavar",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Silas W. Adamson",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Jerome Pumo",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Craig T. Conley",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Herb Whitehead",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Chas Crane",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "305-02 separately lists a 'Charles Howlingcrane' (Sgt, waist gunner, same unit), not linked to this crew."
+    },
+    {
+     "name": "William H. Connelley",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "unknown",
+     "service_number": "37055778",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3550",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (per 305-02)",
+   "nickname": null,
+   "nickname_unverified": "La Paloma",
+   "nose_art": null,
+   "bomb_squadron": "365th",
+   "squadron_code": "XK",
+   "aircraft_letter": "H",
+   "pilot": "Alden Kincaid",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): began bomb run 14:32 with Kane/Normand, Bullock and Farrell; crashed 14:39 near Werneck, 7 miles SW of Schweinfurt, before bombing. Totals: 7 POW, 3 KIA.",
+   "macr": "921",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Nickname 'La Paloma' per 305-04 loss list only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Alden Kincaid",
+     "rank": null,
+     "position": "pilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Norman Smith",
+     "rank": null,
+     "position": "copilot",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Bob Metcalf",
+     "rank": null,
+     "position": "navigator",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Phillip A. Blasig",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "John Raines",
+     "rank": null,
+     "position": "engineer",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Bernie Martin",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ]
+    },
+    {
+     "name": "Kenneth R. Fenn",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Louis Bridda",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "39111048",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Stalag Luft IV (305-03)."
+    },
+    {
+     "name": "Alfred C. Chalker",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "William C. Heritage",
+     "rank": "Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-37740",
+   "aircraft_type": "B-17G (per 305-02: B-17G-10-DL)",
+   "block": null,
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "365th",
+   "squadron_code": "XK",
+   "aircraft_letter": "E",
+   "pilot": "Raymond P. Bullock",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Kuhl (305-01): bombs away 14:40; down 14:41 NE of Schweinfurt after bombing. 305-02: hit by enemy aircraft, crashed Schweinfurt. All 10 POW.",
+   "macr": "920",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-03",
+    "305-04"
+   ],
+   "notes": "Bullock (305-03): his 24th mission; POW at Stalag Luft III until April 1945. A crew-listing website calls the aircraft 'Sundown Sal' (not corroborated; not recorded).",
+   "crew": [
+    {
+     "name": "Raymond P. Bullock",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-524980",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Homer L. Hocker",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-729855",
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Manning Lawrence",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "All-10-POW total."
+    },
+    {
+     "name": "Walt Kaeli",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "Listed as 'togg-Walt Kaeli' (togglier); text garbled."
+    },
+    {
+     "name": "Carl J. Brunswick",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    },
+    {
+     "name": "Harry Jackson",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "All-10-POW total."
+    },
+    {
+     "name": "Joe Kocher",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "All-10-POW total."
+    },
+    {
+     "name": "Harold E. Coyne",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ],
+     "notes": "Crew text 'Harry Coyne'."
+    },
+    {
+     "name": "Stan Jarosynski",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02"
+     ],
+     "notes": "All-10-POW total."
+    },
+    {
+     "name": "Alden B. Curtis",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "305-02",
+      "305-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3412",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-55-DL (per 305-02/305-04)",
+   "nickname": null,
+   "nickname_unverified": "Faultless II",
+   "nose_art": null,
+   "bomb_squadron": "365th",
+   "squadron_code": "XK",
+   "aircraft_letter": "M",
+   "pilot": "Joseph W. Kane",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02",
+    "305-04",
+    "305-07"
+   ],
+   "notes": "Lead aircraft per Kuhl (305-01): Kane/Normand began the bomb run 14:32, bombs away 14:40, landed Chelveston 18:07; one of two 305th aircraft to return. Group leader G.Y. Normand flew as co-pilot/commander per 305-07. Crew list below comes only from a reader comment (Charlie Boruta, citing Kuhl's book) on 305-04 and is UNVERIFIED. Damage state not documented. IWM photo caption names the aircraft 'Faultless II'. Nickname 'Faultless II' per 305-02 (handwritten photo caption) only; not confirmed for 14 Oct 1943 by a primary record.",
+   "crew": [
+    {
+     "name": "Joseph W. Kane",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "G. Y. Normand",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07",
+      "305-01"
+     ],
+     "notes": "Co-pilot and group commander per 305-07; Kuhl (305-01) names Normand as group leader."
+    },
+    {
+     "name": "Jack J. Edwards",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "Joseph Pellegrini",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "Leroy Pikelis",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "Owen Hanson",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "B. B. T. Davis",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ],
+     "notes": "As written by 305-07. 305-02 lists a Billy T. Davis, S/Sgt, ball turret gunner, 365th BS (39179671); not confirmed as the same man."
+    },
+    {
+     "name": "Charles B. Lozenski",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "G. M. Roe",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    },
+    {
+     "name": "H. W. Luke",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "305-07"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30678",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 305-02)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "366th",
+   "squadron_code": "KY",
+   "aircraft_letter": "B",
+   "pilot": "Farrell",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "305-01",
+    "305-02"
+   ],
+   "notes": "Kuhl timeline (305-01): Farrell (366th, 42-30678) bombed at 14:40 and landed at Chelveston 18:09. Pilot's first name, rank and crew not found. 305-02 aircraft page does not mention this date.",
+   "crew": []
+  }
+ ],
+ "research_gaps": [
+  "The three aborted aircraft (serials, pilots, crews) were not identified in any source found.",
+  "No primary 305th records (loading lists, interrogation forms, MACR images) were found online; no 305th association website responded (305thbombgroup.com/.org, 305thbg.org do not resolve). Crew data come from the IWM American Air Museum archive (Dave Osborne B-17 master-log text plus volunteer person records) and b17flyingfortress.de, which share upstream sources, so most crew records are PROBABLE at best.",
+  "Many crew names are short forms (Bob, Chas, Vic, etc.) as given by the master-log text; full names found only where IWM person pages exist.",
+  "Where only group totals are given, individual fates are 'unknown' or, if assigned from list order or deduced from totals, marked UNVERIFIED with a note.",
+  "Farrell crew (42-30678) and the 3 aborts: no crew data. Kane/Normand crew (42-3412) from a single reader comment.",
+  "Ranks are missing for most crew; IWM 'Highest Rank' may postdate 14 Oct 1943.",
+  "Fate value 'interned' (Switzerland, Lazy Baby crew) is outside the schema's enumeration and is used deliberately.",
+  "MACR for 42-37750 conflicts (915 on IWM, 779 on the b17flyingfortress.de loss list). Crash locations sometimes differ between Kuhl and the master log (e.g. Lang: Puffendorf vs Beek).",
+  "americanairmuseum.com blocked automated fetch (403); IWM americanarchive pages used instead and rate-limited part-way (HTTP 429).",
+  "Searched: web search for 305th association/loading lists, IWM mission page VIII BC 115, IWM aircraft pages for all 15 known serials, ~50 IWM person pages, b17flyingfortress.de pages and loss list, 303rd mission 78 PDF."
+ ]
+}

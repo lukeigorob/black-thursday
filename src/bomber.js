@@ -6,8 +6,10 @@
 // Everything inside (interior, player) is a child of `group`, so it moves and rocks with the plane.
 import * as THREE from 'three';
 import { Interior } from './interior.js';
+import { applyMarkings } from './markings.js';
 
 export const AIRSPEED = 75; // m/s: 270 km/h (~170 mph), a loaded B-17's cruise at altitude
+export const FORMATION = { bank: 0 }; // (the whole formation banked in a turn: rad, + right wing down; main.js)
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const MAX_BANK = 0.6; // rad (~35 degrees): a loaded B-17 turns gently
@@ -109,7 +111,7 @@ export const PARTS = [
 
 // everything that makes a bomber "that bomber" (where it flies, its damage), but not how it's drawn
 const STATE = ['base', 'home', 'slot0', 'noTail', 'pilotless', 'pilotlessT', 'flown', 'flight', 'bottles', 'leak', 'fx', 'spiral', 'phase', 'label', 'squad', 'lead', 'bombs', 'dropping', 'hp', 'engines', 'tankFire', 'down', 'gone', 'drift', 'roll', 'rollRate', 'downT', 'chutes',
-  'lost', 'secFire', 'secFireLimit', 'turretOut', 'dive', 'warned', 'cutBoxes', 'lostParts']; // (the last two: what break-up has cut away, breakup.js)
+  'lost', 'secFire', 'secFireLimit', 'turretOut', 'dive', 'warned', 'lastHitBy', 'lastHitT', 'playerHitT', 'crashed', 'unit', 'ident', 'histRecord', 'histCrew', 'cutBoxes', 'lostParts']; // (the last two: what break-up has cut away, breakup.js)
 const STRAGGLE = 180, STRAG_BACK = 320; // m: a straggler; how far back behind her slot one falls at most // m from her slot in the box: a straggler
 export const PART = Object.fromEntries(PARTS.map((p) => [p.name, p]));
 const FUSELAGE = ['bombbay', 'radio', 'waist', 'tail']; // the sections a fire can take hold in and break her up
@@ -125,6 +127,7 @@ export function swapBombers(a, b) {
     x.group.visible = !x.gone;
     x.group.position.copy(x.base);
     for (const p of x.props) if (p) p.userData.spin = null;
+    if (x.model) applyMarkings(x.model, x.ident); // (the identity moved: so do her markings)
   }
 }
 
@@ -183,6 +186,7 @@ export class Bomber {
     if (model) this.group.add(model);
     this.props = model ? [1, 2, 3, 4].map((i) => model.getObjectByName(`Prop_${i}`)) : [];
     if (model && !this.interior) model.userData.turrets ??= rigTurrets(model);
+    if (model) applyMarkings(model, this.ident); // (her own codes and numbers: markings.js)
   }
 
   /**
@@ -277,6 +281,25 @@ export class Bomber {
 
   get deadEngines() { return this.engines.filter((e) => e.state === 'dead' || e.state === 'fire').length; }
   get burning() { return this.engines.some((e) => e.state === 'fire') || this.tankFire[-1] > 0 || this.tankFire[1] > 0; }
+  /** How likely she is to go down from the damage she already has (0 sound .. 0.9): a burning wing tank
+   *  or fuselage, an engine fire, two engines out, falling out of the formation, nobody at the controls. */
+  get peril() {
+    if (this.down || this.gone) return 0;
+    const tank = this.tankFire[-1] > 0 || this.tankFire[1] > 0 || Object.values(this.secFire).some((t) => t > 0);
+    return Math.min(0.9, (tank ? 0.7 : 0) + (this.engines.some((e) => e.state === 'fire') ? 0.3 : 0) + (this.deadEngines >= 2 ? 0.4 : 0) + (this.straggling ? 0.3 : 0) + (this.pilotless && !this.flown ? 0.9 : 0));
+  }
+
+  /** Flak splinters through engine `i`'s cowling: a cut fuel or oil line, and it's alight then and there. */
+  igniteEngine(i) {
+    const e = this.engines[i];
+    if (this.down || !e || e.state === 'fire' || e.state === 'dead') return false;
+    e.state = 'fire';
+    e.fireT = 0;
+    e.feathered = !this.manualFires;
+    e.fireLimit = rand(6, 12);
+    this.emit(`Engine ${i + 1} on fire!`);
+    return true;
+  }
 
   /** A round hit `part` (from PARTS). Returns the part so the crew can work out who was hurt. */
   hit(part, cannon) {
@@ -452,7 +475,8 @@ export class Bomber {
     // own throttle: see fly.)
     const n = this.deadEngines, short = this.manualFires ? 0 : Math.max(0, 1 - this.power(1)) * SPEED_PER_POWER;
     this.drift.set(0, n >= 2 ? -1.5 : 0, short);
-    if (!this.down && this.drift.z > 0 && this.base.z - this.slot0.z > STRAG_BACK) this.drift.z = 0; // (fallen back behind her group as far as she will: she hangs on there)
+    if (this.aborting) this.drift.copy(this.aborting); // (turned back: out of the box, down and away home: main.js)
+    if (!this.down && !this.aborting && this.drift.z > 0 && this.base.z - this.slot0.z > STRAG_BACK) this.drift.z = 0; // (an abort goes on back: main.js) // (fallen back behind her group as far as she will: she hangs on there)
     this.stragT = this.straggling && !this.down ? (this.stragT ?? 0) + dt : 0;
     if (this.pilotless && !this.flown && !this.down) { // nobody at the controls: a long, slow, wandering glide down and out of the box
       this.pilotlessT = (this.pilotlessT ?? 0) + dt;
@@ -580,11 +604,17 @@ export class Bomber {
     const s = t + this.phase;
     // slow swells plus a little turbulence; small enough to walk around comfortably
     const turb = Math.sin(s * 2.3) * Math.sin(s * 1.7);
-    this.group.position.set(this.base.x + Math.sin(s * 0.21) * 0.4, this.base.y + Math.sin(s * 0.37) * 0.25 + turb * 0.04, this.base.z);
+    // and each pilot keeping station by hand: never exactly in his slot, always correcting, a few metres
+    // out and back over half a minute or a minute, each in his own time (in your own bomber only a hint
+    // of it: the formation is seen from her). His corrections across show as a little bank.
+    const keep = this.interior ? 0.1 : 1, w = this.keepW ??= [0.09 + 0.07 * Math.random(), 0.11 + 0.08 * Math.random(), 0.07 + 0.06 * Math.random()];
+    const sx = Math.sin(s * w[0]) * 4 + Math.sin(s * w[0] * 2.7) * 1.2, sy = Math.sin(s * w[1] + 1.3) * 2.5, sz = Math.sin(s * w[2] + 2.1) * 6;
+    this.group.position.set(this.base.x + Math.sin(s * 0.21) * 0.4 + sx * keep, this.base.y + Math.sin(s * 0.37) * 0.25 + turb * 0.04 + sy * keep, this.base.z + sz * keep);
+    const slip = (Math.cos(s * w[0]) * 4 * w[0] + Math.cos(s * w[0] * 2.7) * 1.2 * w[0] * 2.7) * keep; // (m/s across: banked into it)
     _rock.set(
       Math.sin(s * 0.29) * 0.008 + turb * 0.0015 - (this.down ? Math.min(this.noTail ? 1.35 : this.dive ? 1.1 : 0.35, this.downT * (this.noTail ? 0.7 : this.dive ? 0.09 : 0.02)) : 0),
       Math.sin(s * 0.13) * 0.004 + (this.down && this.spiral ? this.downT * this.spiral.w * this.spiral.side * Math.min(1, this.downT / 4) : 0),
-      Math.sin(s * 0.23) * 0.018 + Math.sin(s * 0.9) * 0.002 + this.roll + (this.deadEngines ? (this.engines[0].state !== 'ok' || this.engines[1].state !== 'ok' ? 0.02 : -0.02) : 0),
+      Math.sin(s * 0.23) * 0.018 + Math.sin(s * 0.9) * 0.002 - slip * 0.05 - (this.down ? 0 : FORMATION.bank) + this.roll + (this.deadEngines ? (this.engines[0].state !== 'ok' || this.engines[1].state !== 'ok' ? 0.02 : -0.02) : 0),
     );
     const f = this.flight;
     if (f.heading || f.pitch || f.bank) { // flown off the formation's course: heading, then pitch, then bank

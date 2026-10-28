@@ -1,0 +1,110 @@
+[
+  {
+    "id": "381-01",
+    "title": "381st BG casualties sorted by year - 1943 (Killed/MIA/POW list with aircraft serial and MACR)",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20030628182417/http://www.381st.org:80/cas_sort_year-1943.html",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Rows for 10/14/1943: the ten Yorba crew men, positions incl. LW/RW, ranks, fates, 42-29803, MACR 1037. Only 381st losses listed for that date."
+  },
+  {
+    "id": "381-02",
+    "title": "381st BG squadron war diaries, October 1943 (532nd, 533rd, 534th, 535th BS)",
+    "organisation": "381st Bomb Group (H) Memorial Association (transcriptions of wartime squadron diaries, via Internet Archive)",
+    "url": "https://web.archive.org/web/20081121032325/http://www.381st.org/Portals/4/old381st/histories/534th_10-1943.html",
+    "type": "primary",
+    "accessed": "2026-10-28",
+    "notes": "URL shown is the 534th. Others: .../histories/532nd_10-1943.html (snapshot 20090106201811), .../533rd_10-1943.html (20090106180008), and http://www.381st.org:80/History/WarDiaries/535thBS/535thBSOctober1943.aspx (20100224190916). Entries for 14 Oct list participating pilots, aborts, claims, and (534th) the Yorba MIA crew list."
+  },
+  {
+    "id": "381-03",
+    "title": "381st BG aircraft roster (serial, squadron code/letter, nickname, squadron, fate, MACR)",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20020419133250/http://www.381st.org:80/aircraft-roster.html",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Not date-specific. 42-29803: VP-P, 533, Lost 10/14/43, MACR 1037. 42-29832: GD-H \"Our Mom\", 534. 42-5725: VE-C \"This Is It!, Flapper\", 532."
+  },
+  {
+    "id": "381-04",
+    "title": "42-29803 Flat Foot Floogie (aircraft page)",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/?p=1071",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "B-17F-70-BO; crash at Hausen ~3 mi E of Schweinfurt; MACR 1037; crew table with ranks/fates; reader comment that it was a borrowed aircraft."
+  },
+  {
+    "id": "381-05",
+    "title": "381st BG Missing Air Crew Report list",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20070701085503/http://www.381st.org:80/aircraft-macr.html",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Row: 534 / 42-29803 / 10/14/1943 / MACR 1037. No other 381st MACR for that date."
+  },
+  {
+    "id": "381-06",
+    "title": "Schweinfurt and the Hutchens Crew (memoir by David Hutchens)",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20120302044837/http://www.381st.org/UnitHistory/Stories/StoriesEH/SchweinfurtHutchensCrew.aspx",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "First-hand pilot memoir (written c. 2000). Identifies his aircraft as B-17F 42-5725 \"This IS IT\"."
+  },
+  {
+    "id": "381-07",
+    "title": "42-29803 Flat Foot Floogie / Bernardo Marcos Yorba Jr (AAM pages)",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://www.americanairmuseum.com/aircraft/3737",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Known from search-result summaries only (direct fetch HTTP 403): 534th BS, MACR 1037, 6 POW / 4 KIA, Yorba 2nd Lt, mission #39, Stalag Luft III."
+  },
+  {
+    "id": "381-08",
+    "title": "242nd Medical Detachment war diary, October 1943",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20090106134422/http://www.381st.org/Portals/4/old381st/histories/medical_10-1943.html",
+    "type": "primary",
+    "accessed": "2026-10-28",
+    "notes": "14 Oct entry: briefing 0700, take-off 1035, return 1735, \"three abortions in our group\", wounded list."
+  },
+  {
+    "id": "381-09",
+    "title": "First Combat Bomb Wing war diary, October 1943",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20101006052513/http://www.381st.org:80/History/WarDiaries/1stCBW/1stCBWOctober1943.aspx",
+    "type": "primary",
+    "accessed": "2026-10-28",
+    "notes": "Wing led by Lt Col Ross Milton (91st); 305th BG flew low box with the wing; wing lost three."
+  },
+  {
+    "id": "381-10",
+    "title": "381st BG missions list",
+    "organisation": "381st Bomb Group (H) Memorial Association (via Internet Archive)",
+    "url": "https://web.archive.org/web/20120302044837/http://www.381st.org:80/UnitHistory/Data/381stMissions.aspx",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Mission 39 = 14-Oct-1943 Schweinfurt."
+  },
+  {
+    "id": "381-11",
+    "title": "B-17 losses on Schweinfurt mission on October 14th 1943",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Unit column lists every group an aircraft served with, so it is not a reliable guide to which group flew it on 14 Oct."
+  },
+  {
+    "id": "381-12",
+    "title": "303rd BG (H) Combat Mission No. 78, 14 October 1943",
+    "organisation": "303rd Bomb Group (H) Association (303rdbg.com)",
+    "url": "https://www.303rdbg.com/missionreports/078.pdf",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "1st AD composition table lists 381BG (17) as low group of the 1st CW; leaders Col. Peaslee (lead wing), Col. Milton (1st CW), Col. Rohr (41st CBW)."
+  }
+]

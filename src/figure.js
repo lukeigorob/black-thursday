@@ -178,7 +178,7 @@ const std = (c, r = 0.7, m = 0) => new THREE.MeshStandardMaterial({ color: c, ro
 /** Load the crewman and dress him (once, before any figure is made). */
 export async function loadCrewModel() {
   if (BASE) return;
-  const gltf = await new GLTFLoader().loadAsync('/models/crew/crewman.glb');
+  const gltf = await new GLTFLoader().loadAsync('models/crew/crewman.glb');
   const scene = gltf.scene;
   scene.updateMatrixWorld(true);
   let body = null, extras = [];
@@ -207,7 +207,7 @@ export async function loadCrewModel() {
     body.geometry = body.geometry.clone(); body.geometry.setIndex(keep); }
   // the cloth: the garment colours, with the leather's grain and its light-and-dark wear on top
   // (the leather texture's brightness only: its own colour is a tan)
-  const tl = new THREE.TextureLoader(), leatherN = tl.load('/textures/leather_normal.jpg'), leatherC = tl.load('/textures/leather_color.jpg');
+  const tl = new THREE.TextureLoader(), leatherN = tl.load('textures/leather_normal.jpg'), leatherC = tl.load('textures/leather_color.jpg');
   for (const t of [leatherN, leatherC]) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(4, 4); }
   leatherC.colorSpace = THREE.SRGBColorSpace;
   const gearMat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, vertexColors: true, roughness: 0.78, metalness: 0, envMapIntensity: 0.18, map: leatherC, normalMap: leatherN, normalScale: new THREE.Vector2(0.9, 0.9) });

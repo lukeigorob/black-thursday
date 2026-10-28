@@ -1,0 +1,101 @@
+[
+  {
+    "id": "379-01",
+    "title": "B-17 losses on Schweinfurt-Mission on October 14th 1943",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Loss table with serial, name, fate, units (career list, not date-specific), MACR."
+  },
+  {
+    "id": "379-02",
+    "title": "B-17 42-29511 / The Iron Maiden",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-29511-the-iron-maiden/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history (Freeman-derived) and crew table with ranks."
+  },
+  {
+    "id": "379-03",
+    "title": "B-17 42-29653 / Bad News",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-29653-bad-news/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history with crew names and fates; family comments."
+  },
+  {
+    "id": "379-04",
+    "title": "B-17 42-29776",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-29776/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history with crew names and fates; family comments."
+  },
+  {
+    "id": "379-05",
+    "title": "B-17 42-3056",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-3056/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history with crew names and fates (text says \"Anklam 14/10/43\")."
+  },
+  {
+    "id": "379-06",
+    "title": "B-17 42-3176 / Spook II aka Lady Astrid",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-3176-spook-ii-aka-lady-astrid/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history, crew table with ranks, co-pilot Holtsberg statement, German observer report, MACR 954 / KU 367 crash-site analysis."
+  },
+  {
+    "id": "379-07",
+    "title": "B-17 42-3269 / Piccadilly Willy",
+    "organisation": "b17flyingfortress.de",
+    "url": "https://b17flyingfortress.de/en/b17/42-3269-piccadilly-willy/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Aircraft history with crew names and fates; reader comment on German claimant."
+  },
+  {
+    "id": "379-08",
+    "title": "42-3269 Picadilly Willy",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://www.americanairmuseum.com/aircraft/6339",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Search-result summary only (HTTP 403 on fetch): same crew roster and fate as 379-07."
+  },
+  {
+    "id": "379-09",
+    "title": "379th Bombardment Group (H) Historical Marker",
+    "organisation": "Historical Marker Database (hmdb.org)",
+    "url": "https://www.hmdb.org/m.asp?m=62774",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Search-result summary only (HTTP 403 on fetch). Lead for Paddy Gremlin / 2nd Schweinfurt association."
+  },
+  {
+    "id": "379-10",
+    "title": "303rd BG (H) Combat Mission No. 78, 14 October 1943",
+    "organisation": "303rd Bomb Group (H) Association (303rdbg.com)",
+    "url": "https://www.303rdbg.com/missionreports/078.pdf",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Compiled from 303rd BG mission records; gives 1st AD wing/group composition: 41st CBW lead 379BG (17), high 303BG (19), low 384BG (16); 1st CW 91BG (11) high, 381BG (17) low."
+  },
+  {
+    "id": "379-11",
+    "title": "379th Bomb Group Association website (plain http) and archived pages",
+    "organisation": "379th Bomb Group Association",
+    "url": "http://www.379thbga.org/",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Searched: no mission/sortie data for 14 Oct 1943. HTTPS certificate expired."
+  }
+]

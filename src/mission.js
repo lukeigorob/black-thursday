@@ -61,8 +61,8 @@ class Bombs {
     this.m = new THREE.Matrix4();
   }
 
-  spawn(p, squad) { // each bomb tumbles off the rack a little differently: ~100 m of scatter on the ground
-    if (this.list.length < this.max) this.list.push({ p: p.clone(), v: new V(rand(-2, 2), 0, rand(-2, 2)), squad });
+  spawn(p, squad, unseen = false) { // each bomb tumbles off the rack a little differently: ~100 m of scatter on the ground
+    if (this.list.length < this.max) this.list.push({ p: p.clone(), v: new V(rand(-2, 2), 0, rand(-2, 2)), squad, unseen });
   }
 
   update(dt, impact) {
@@ -75,9 +75,10 @@ class Bombs {
       b.p.addScaledVector(b.v, dt);
       if (b.p.y <= GROUND) { impact(b.p.setY(GROUND), b.squad); this.list.splice(i, 1); }
     }
+    const none = new V(0, 0, 0);
     this.list.forEach((b, i) => {
       q.setFromUnitVectors(down, rel.copy(b.v).sub(WIND).normalize()); // nose into the airflow
-      this.mesh.setMatrixAt(i, this.m.compose(b.p, q, one));
+      this.mesh.setMatrixAt(i, this.m.compose(b.p, q, b.unseen ? none : one)); // (a far group's, its fall moved onto the target: not drawn)
     });
     this.mesh.count = this.list.length;
     this.mesh.instanceMatrix.needsUpdate = true;
@@ -156,15 +157,17 @@ export class Mission {
     this.flakWas = flak.on;
     // (no end to the attacks while any of the Luftwaffe's fighters are still to come: they all come, before the clear air)
     const spent = fighters.reserve.axis <= 0;
-    // (and once they're all up and only a handful are still fighting, that's the end of it: no long wait in an empty sky)
-    const thin = spent && this.homeT > 45 && fighters.axis.filter((f) => f.state !== 'rtb').length <= 3;
+    // (and once they're all up and only a handful are still fighting (not counting yours, flying one of theirs), that's the end of it: no long wait in an empty sky)
+    const thin = spent && this.homeT > 45 && fighters.axis.filter((f) => f.state !== 'rtb' && !f.player).length <= 3;
     if (this.phase === 'homeward' && ((this.homeT > 230 && spent) || thin || this.homeT > 300) && !fighters.noWaves) { fighters.noWaves = true; }
     if (this.phase === 'homeward' && ((this.homeT > 265 && spent) || thin || this.homeT > 318) && !fighters.leaving) { fighters.leaving = true; this.ui.log('The fighters are turning back. Out of ammo, out of fuel. Clear air from here.'); }
 
     // releases: every group on its lead bombardier; yours on you if you're at the sight
     const releasePressed = player.releasePressed;
     player.releasePressed = false; // a Space press only counts on the frame it happens
-    if (this.phase === 'bombrun') {
+    // (every group on its own lead bombardier as it reaches the target: the wings behind yours, and the 3rd
+    // Division, still bombing after your wing has rallied; the rally waits only for your own wing)
+    if (this.phase === 'bombrun' || this.phase === 'rally' || this.phase === 'homeward') {
       for (const [squad, g] of this.groups) {
         if (g.released) continue;
         const lead = this.groupLead(g);
@@ -178,13 +181,14 @@ export class Mission {
           this.release(squad, across);
         }
       }
-      if ([...this.groups.values()].every((g) => g.released)) {
+      const wing = this.playerBomber.squad.split('-')[0];
+      if (this.phase === 'bombrun' && [...this.groups].filter(([sq]) => sq.split('-')[0] === wing).every(([, g]) => g.released)) {
         this.phase = 'rally';
-        this.ui.log('All groups away. Rally right, and keep it tight!');
+        this.ui.log("The wing's bombs are away. Rally right, and keep it tight!");
       }
     }
     if (this.phase === 'rally' && -toGo > 4000) { this.phase = 'homeward'; this.ui.log('Through the target. Heading for home.'); }
-    if (this.phase === 'homeward' && fighters.leaving && !fighters.axis.some((f) => f.state !== 'rtb')) this.quietT = (this.quietT ?? 0) + dt; // (all quiet: the last of them turned for home)
+    if (this.phase === 'homeward' && fighters.leaving && !fighters.axis.some((f) => f.state !== 'rtb' && !f.player)) this.quietT = (this.quietT ?? 0) + dt; // (all quiet: the last of them turned for home)
     if (this.phase === 'homeward' && ((this.homeT += dt) > TIMES.home || this.quietT > 15)) {
       this.phase = 'done';
       for (const fn of this.listeners) fn(this.debrief());
@@ -197,7 +201,9 @@ export class Mission {
       b.dropping.t += TRAIN;
       b.bombs--;
       const p = new V(b.dropping.dx, -1.8, -4.5).applyMatrix4(b.group.matrixWorld);
-      this.bombs.spawn(p, b === this.playerBomber ? 'player' : b.squad);
+      // (a group far off to the side, the 3rd Division thirty miles away: its bombs are scored where its
+      // lead aimed them, but not drawn falling out of the sky over yours)
+      this.bombs.spawn(p, b === this.playerBomber ? 'player' : b.squad, Math.abs(b.dropping.dx) > 3000);
       if (b.bombs <= 0) b.dropping = null;
     }
     this.bombs.update(dt, (p, who) => this.impact(p, who));

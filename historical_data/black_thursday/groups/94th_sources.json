@@ -1,0 +1,74 @@
+[
+ {
+  "id": "94-01",
+  "title": "VIII Bomber Command 115 (14 October 1943)",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/mission/viii-bomber-command-115",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Mission summary: 3rd BD 142 B-17s incl. 94BG (21), 95BG (18), 96BG (41), 100BG (8), 385BG (21), 388BG (18), 390BG (15); 15 FTR, 2 DBR, 1 crashed on takeoff."
+ },
+ {
+  "id": "94-02",
+  "title": "42-30149 Spare Parts",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30149",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "History (Osborne master log / MACR 790) and linked person records (names, service numbers, highest rank)."
+ },
+ {
+  "id": "94-03",
+  "title": "42-30383 Brennan's Circus",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30383",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Ditching in North Sea 14/10/43; partial crew."
+ },
+ {
+  "id": "94-04",
+  "title": "42-30453 Thunderbird",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30453",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Davison/Davidson crew; revised to MACR 788 per Fold3 image 28606545."
+ },
+ {
+  "id": "94-05",
+  "title": "42-30457 Jimmy Boy II",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30457",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Beal crew, MACR 792."
+ },
+ {
+  "id": "94-06",
+  "title": "42-3338 Sleepy Time Gal",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3338",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Dodge crew, MACR 791."
+ },
+ {
+  "id": "94-07",
+  "title": "42-5901 Superstitious Aloysius",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-5901",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Reed crew, MACR 789."
+ },
+ {
+  "id": "94-08",
+  "title": "B-17 losses on Schweinfurt mission on October 14th 1943 (list and per-aircraft pages)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Private research site; per-aircraft histories based on Freeman 'The B-17 Flying Fortress Story'/Osborne; production blocks taken from these pages. Largely the same underlying data as AAM, so not fully independent."
+ }
+]

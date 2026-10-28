@@ -1,0 +1,437 @@
+{
+ "note": "Charted formation places of 14 Oct 1943, read from the group records (formation_position). squadron lead/high/low (high = right-hand, low = left-hand); element 0 lead, 1 second, 2 trailing; wingman 0 lead, 1 left, 2 right. The game puts these aircraft in exactly these slots.",
+ "slots": [
+  {
+   "group": "303rd",
+   "serial_number": "42-29955",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): group lead (Capt J.C. James, Maj E.E. Snyder air commander)",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "41-24587",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 1,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): lead element, left of lead; Klint account",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "41-24619",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 2,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): lead element, right of lead; Klint account",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5341",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10) and Klint account: second element lead",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-3158",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 1,
+   "basis": "Klint account: left wing of Shelhamer (the chart draws Ness to the right: sources disagree)",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5081",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 2,
+   "basis": "Klint account: 'number 6 position', right wing of Shelhamer (the chart draws Hullar to the left: sources disagree)",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5257",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 1,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, front row, outer left",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "41-24605",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, front row, middle",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "41-24561",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 2,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, front row, inner",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-3029",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 1,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, second row, outer left",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "41-24416",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, second row, middle",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5482",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 2,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, second row, inner",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5360",
+   "squadron": "low",
+   "element": 2,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): left-hand squadron, bottom (trailing) position",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5393",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 1,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, front row, inner",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5854",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, front row, middle; Heller's account: squadron leader",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-29930",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 2,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, front row, outer right",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-5264",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 1,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, second row, left",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-29498",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 0,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, second row, middle",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "303rd",
+   "serial_number": "42-29477",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 2,
+   "basis": "303rd BG Mission 078 report assembly chart (303-01 p.10): right-hand squadron, second row, right",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30782",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6) and interrogation form: group lead (Schoolfield)",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30811",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 369th lead element, left wing of Schoolfield",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-3169",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 369th lead element, right wing of Schoolfield",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30199",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 369th low element lead",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30779",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 369th low element, left wing",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30707",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 369th low element, right wing",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30603",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 423rd element lead (which of its two elements led: ESTIMATE)",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30714",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): right wing of Jeffries",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30812",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 423rd element (place in it not stated: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30710",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 423rd element lead",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30813",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 423rd element, low left",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-29971",
+   "squadron": "high",
+   "element": 1,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 423rd element, low (bottom) right",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30767",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 367th element lead",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-3301",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): right wing of Tackmier",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30175",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 367th element, far left",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-37720",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 0,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 367th low element lead",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30727",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 1,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 367th low element (side not stated: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "306th",
+   "serial_number": "42-30728",
+   "squadron": "low",
+   "element": 1,
+   "wingman": 2,
+   "basis": "306th BG chart 'Formation for October 14, 1943' (306-01 p.6): 367th low element (side not stated: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-29925",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 0,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): group lead (Maj. J.R. Blaylock)",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-30857",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 1,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): left wing of lead",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-3523",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 2,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): right wing of lead",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-3495",
+   "squadron": "lead",
+   "element": 1,
+   "wingman": 0,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): below lead (second element)",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-29860",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 0,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): right-hand element (place in it: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-3532",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 1,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): right-hand element (place in it: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-3136",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 2,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): right-hand element (place in it: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-3542",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 0,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): left-hand element (place in it: ESTIMATE)",
+   "confidence": "UNVERIFIED"
+  },
+  {
+   "group": "351st",
+   "serial_number": "42-6096",
+   "squadron": "low",
+   "element": 0,
+   "wingman": 1,
+   "basis": "351st BG Combat Report Form diagram (351st.org Mission 49): far left, circled as shot down",
+   "confidence": "PROBABLE"
+  },
+  {
+   "group": "384th",
+   "serial_number": "42-30026",
+   "squadron": "lead",
+   "element": 0,
+   "wingman": 0,
+   "basis": "384th BG sortie records: group lead (Capt. George W. Harris)",
+   "confidence": "VERIFIED"
+  },
+  {
+   "group": "384th",
+   "serial_number": "42-3429",
+   "squadron": "high",
+   "element": 0,
+   "wingman": 0,
+   "basis": "384th BG sortie records: high squadron lead (aborted)",
+   "confidence": "VERIFIED"
+  }
+ ]
+}

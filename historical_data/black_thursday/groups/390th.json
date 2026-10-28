@@ -1,0 +1,2595 @@
+{
+ "group": "390th",
+ "division": "3rd",
+ "combat_wing": "13th CBW",
+ "dispatched": null,
+ "lost": 1,
+ "dispatched_confidence": "UNVERIFIED",
+ "dispatched_notes": "AAM mission page (390-10) gives 390BG (15). 390th Memorial Museum mission 023 synopsis (390-02): group \"ordered to furnish eighteen bombers\", flying with three 100th BG bombers in the same combat box (those are in 100th.json); \"two hours after takeoff, the Group lost four planes\" to aborts (not named). The museum personnel/mission DB (390-01) lists 16 390th aircraft / 164 crew-sorties for mission 023. Whether the 4 aborts are among the 16 (=> 12 attacking + lost) or additional to them is unresolved, so dispatched left null (16 aircraft in the museum DB vs 15 in AAM vs 18 ordered). 100th BG Foundation (390-11) says FOUR 100th crews flew with the 390th (museum: three) - those are in 100th.json. Lost = 1 (42-29991, MACR 858).",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3312",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Sequatchiee",
+   "nose_art": null,
+   "bomb_squadron": "570th",
+   "squadron_code": "DI",
+   "aircraft_letter": "K",
+   "pilot": "Charles P. Swafford",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-06"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Sequatchiee', crew number 35. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 570th per b17flyingfortress.de squadron list (390-06) and American Air Museum assignment record (390-08, codes DI-K); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed. Museum DB name \"Sequatchiee\" (sic); b17flyingfortress.de 570th list shows no name for 42-3312.",
+   "crew": [
+    {
+     "name": "Charles P. Swafford",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Austin E. Long",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Clarence C. Cobb",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Eugene W. Corbin",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Chester S. Crans",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Nels A. Johnson",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Lambert J. Geerlings",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Frank D. Greenlaw",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harry Daniels Jr.",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert C. Maryanski",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3327",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Tet-T'Mote",
+   "nose_art": null,
+   "bomb_squadron": "569th",
+   "squadron_code": "CC",
+   "aircraft_letter": "T",
+   "pilot": "John Ellsworth Asmussen",
+   "pilot_rank": "Capt.",
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-05",
+    "390-03"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Tet-T'Mote', crew number 20. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 569th per b17flyingfortress.de squadron list (390-05) and American Air Museum assignment record (390-08, codes CC-T); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome \"bombed\" is PROBABLE: pilot/crew members gave MACR 858 eyewitness statements describing 42-29991 over/after the target (390-03), so this aircraft was with the formation at the target. Damage state not documented. Museum DB lists TWO ball turret gunners (Zdunczyk, Walker) and no radio operator for this crew - probably a data-entry issue (one of them likely flew radio), recorded exactly as listed. Robert M. Tuttle listed as \"Command Pilot\" (rank not in source). AAM (390-08): landing accident at base 21/10/43 with Royal crew, salvaged 27/10/43 (after this mission).",
+   "crew": [
+    {
+     "name": "John Ellsworth Asmussen",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "Richard R. Moll",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Owen John",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Anthony Moyto",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Carl A. Sears",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Anthony N. Zdunczyk",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "James L. Walker",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Stephen Barone",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Andrew Avon",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert E. Fry",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert M. Tuttle",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Command Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Role: Command Pilot."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3526",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "568th",
+   "squadron_code": "BI",
+   "aircraft_letter": "N",
+   "pilot": "Robert R. Rowland",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-04",
+    "390-09"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Unknown', crew number 29. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 568th per b17flyingfortress.de squadron list (390-04) and American Air Museum assignment record (390-08, codes BI-N); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed. CONFLICT: 390-01 (museum mission DB) places the Rowland crew in 42-3526 on 14 Oct 1943. AAM (390-08) says 42-3526 was \"abandoned during assembly for Schweinfurt 14/10/43 with Bob Sabel (inj), Co-pilot: John Wenzel (inj)\" and crashed at Knockbridge Farm, Icklesham, near Hastings, salvaged 20/10/43 (b17flyingfortress.de loss list 390-09 also has \"Crashed on take off\" on 14 Oct 1943). But 390-01 has John E. Wenzel flying as co-pilot to Geary in 42-30325 to the target that day, and other AAM person pages give the bail-out as 18 Oct 1943 (recalled mission, engine fire). The Sabel incident is therefore probably 18 Oct 1943, not this mission (unresolved). Outcome for the Rowland sortie left unknown. AAM notes Rowland was a 570th BS pilot.",
+   "crew": [
+    {
+     "name": "Robert R. Rowland",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Wendell L. McMahan",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Frederick C. White",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harry I. Sharp",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Doming A. Walguarnery",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert W. Knapp",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Milton J. Richey",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Albert W. Weymouth",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William H. Leonard",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Charles C. Muhlke",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3557",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Esquire",
+   "nose_art": null,
+   "bomb_squadron": "570th",
+   "squadron_code": "DI",
+   "aircraft_letter": "C",
+   "pilot": "William M. Cabral",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-06"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Esquire', crew number 27. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 570th per b17flyingfortress.de squadron list (390-06) and American Air Museum assignment record (390-08, codes DI-C); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "William M. Cabral",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Richard H. Perry",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Gordon H. Wharton",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Dean C. Ferris",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Lloyd J. Wamble",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William G. Kubitski",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Joseph G. Poulin",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Reuben Widetsky",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Earl R. Heitlage",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "James E. Dolan",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29991",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-80-BO",
+   "nickname": "We'll Never Know/Patches",
+   "nose_art": null,
+   "bomb_squadron": "571st",
+   "squadron_code": "FC",
+   "aircraft_letter": "T",
+   "pilot": "Fernie F. McEwin",
+   "pilot_rank": "F/O",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Hit by flak over the target (No. 3 engine, also reports of Nos. 1 and 2 hit), then 20mm fire from a single fighter split a wing fuel tank; left formation near the rally point (~1500-1523 hrs) with two/three engines feathered, ~23,000 ft; witnesses saw 8-10 parachutes. Crashed at Lohrweg near Gondelsheim, ~9 miles E of Karlsruhe (eyewitnesses place the action ~20 miles NE of Karlsruhe). Claimed by Uffz. Hermann Bolten (unit given in source as \"KG 2./11\", sic), flying an Me 410A-1. All 10 crew POW.",
+   "macr": "858",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "390-01",
+    "390-02",
+    "390-03",
+    "390-08",
+    "390-09",
+    "390-07"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'We'll Never Know/Patches', crew number 44. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 571st per b17flyingfortress.de squadron list (390-07) and American Air Museum assignment record (390-08, codes FC-T); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date.",
+   "crew": [
+    {
+     "name": "Fernie F. McEwin",
+     "rank": "F/O",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Robert W. Withrow",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Victor P. Baker",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Lawrence A. Bennett",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Spelling in 390-03 crew table: \"Lawrence Bennett\" (390-01 has \"Bennett, Lawrence A\"). 390-03 history text also uses \"Harry Powers\", \"George Jahnke\", and calls the bombardier \"Larry Baker\" (conflict). Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Harry D. Powers",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Spelling in 390-03 crew table: \"Harry D. Power, Jr.\" (390-01 has \"Powers, Harry D\"). 390-03 history text also uses \"Harry Powers\", \"George Jahnke\", and calls the bombardier \"Larry Baker\" (conflict). Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Albert C. Widman",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Cecil S. Holliday",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Edwin A. Pearce",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "George P. Jahnke",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Spelling in 390-03 crew table: \"George P. Jehnke\" (390-01 has \"Jahnke, George P\"). 390-03 history text also uses \"Harry Powers\", \"George Jahnke\", and calls the bombardier \"Larry Baker\" (conflict). Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    },
+    {
+     "name": "Fred B. Smart",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Spelling in 390-03 crew table: \"Fred H. Smart\" (390-01 has \"Smart, Fred B\"). 390-03 history text also uses \"Harry Powers\", \"George Jahnke\", and calls the bombardier \"Larry Baker\" (conflict). Rank as listed in 390-03 (rank on 14 Oct 1943 per that page; not cross-checked)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30223",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Rick-O-Shay/Norma J",
+   "nose_art": null,
+   "bomb_squadron": "571st",
+   "squadron_code": "FC",
+   "aircraft_letter": "S",
+   "pilot": "Bruce R. Riley",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-07",
+    "390-03"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Rick-O-Shay/Norma J', crew number 43. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 571st per b17flyingfortress.de squadron list (390-07) and American Air Museum assignment record (390-08, codes FC-S); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome \"bombed\" is PROBABLE: pilot/crew members gave MACR 858 eyewitness statements describing 42-29991 over/after the target (390-03), so this aircraft was with the formation at the target. Damage state not documented. Carried an 11th man, Jack E. Williams, listed as Photographer.",
+   "crew": [
+    {
+     "name": "Bruce R. Riley",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "Henry M. Huffman",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "David W. Pinkham",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Earl E. Evans",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Joe S. Henyecz",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Edward Sparks",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert B. Oremus",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Peter Kopernik",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Alton G. Gumpert",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "John F. Lester",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Jack E. Williams",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Photographer",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Role: Photographer."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30289",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "The Dull Tool/The Douche Bag",
+   "nose_art": null,
+   "bomb_squadron": "568th",
+   "squadron_code": "BI",
+   "aircraft_letter": "H",
+   "pilot": "David F. Parry",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-04"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'The Dull Tool/The Douche Bag', crew number 08. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 568th per b17flyingfortress.de squadron list (390-04) and American Air Museum assignment record (390-08, codes BI-H); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "David F. Parry",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert N. Brown",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Philip D. Holman",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "John E. Knight",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Dean Swank",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Millard W. Reynolds",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Frederick H. Oppelt",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "James Purnell",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William L. Mays",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Orville O. Fulkerson",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30325",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Miss Carry",
+   "nose_art": null,
+   "bomb_squadron": "570th",
+   "squadron_code": "DI",
+   "aircraft_letter": "D",
+   "pilot": "James R. Geary Jr.",
+   "pilot_rank": "Capt.",
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-06",
+    "390-03"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Miss Carry', crew number 26. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 570th per b17flyingfortress.de squadron list (390-06) and American Air Museum assignment record (390-08, codes DI-D); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome \"bombed\" is PROBABLE: pilot/crew members gave MACR 858 eyewitness statements describing 42-29991 over/after the target (390-03), so this aircraft was with the formation at the target. Damage state not documented.",
+   "crew": [
+    {
+     "name": "James R. Geary Jr.",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "John E. Wenzel",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Nathaniel Mencow",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Hugh J. McCarthy",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Shirl J. Hoffman",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Clarence W. Medeck",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Clifford Puckett",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Ernest Rogers",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Paul B. Morris",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Donald F. May",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30338",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Cabin in the Sky/Rough Group/Dorothy Dee",
+   "nose_art": null,
+   "bomb_squadron": "571st",
+   "squadron_code": "FC",
+   "aircraft_letter": "P",
+   "pilot": "Robert D. Brown",
+   "pilot_rank": "Capt.",
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-07",
+    "390-03"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Cabin in the Sky/Rough Group/Dorothy Dee', crew number 39. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 571st per b17flyingfortress.de squadron list (390-07) and American Air Museum assignment record (390-08, codes FC-P); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome \"bombed\" is PROBABLE: pilot/crew members gave MACR 858 eyewitness statements describing 42-29991 over/after the target (390-03), so this aircraft was with the formation at the target. Damage state not documented. Carried Thomas S. Jeffrey (Command Pilot) and John J. Clark (Command Navigator) per 390-01; MACR 858 eyewitness list in 390-03 gives \"Lt. Col. Thomas S. Jeffrey Jr.\" and \"Capt. John J. Clark\". Command crew suggests a lead position, but formation position is not documented in the sources seen.",
+   "crew": [
+    {
+     "name": "Robert D. Brown",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "Louis W. Dolan",
+     "rank": "Capt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "Robert E. Brumfiel",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Douglas I. Gordon-Forbes",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "John P. Tate",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Millard E. Everts",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Louis Davidoff",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harold E. Johnson",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Melvin R. Blanchard",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Thomas J. Hart",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Thomas S. Jeffrey Jr.",
+     "rank": "Lt. Col.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Command Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Role: Command Pilot. Rank/\"Jr.\" from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "John J. Clark",
+     "rank": "Capt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Command Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Role: Command Navigator. Rank from MACR 858 eyewitness list as reported by 390-03."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30348",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Royal Flush",
+   "nose_art": null,
+   "bomb_squadron": "569th",
+   "squadron_code": "CC",
+   "aircraft_letter": "N",
+   "pilot": "William A. Royal",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-05"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Royal Flush', crew number 13. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 569th per b17flyingfortress.de squadron list (390-05) and American Air Museum assignment record (390-08, codes CC-N); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "William A. Royal",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "James E. Oyer",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert W. Saunders",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert E. Waites",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Mearl L. Houck",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "David Hogan",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Enrique Perez",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Henry E. Wooley",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "David L. Howland",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Samuel E. Buckalew",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30455",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Schifless Skonk",
+   "nose_art": null,
+   "bomb_squadron": "569th",
+   "squadron_code": "CC",
+   "aircraft_letter": "R",
+   "pilot": "Robert G. Stutzman",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-05"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Schifless Skonk', crew number 06. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 569th per b17flyingfortress.de squadron list (390-05) and American Air Museum assignment record (390-08, codes CC-R); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed. b17flyingfortress.de 568th list also gives \"Schifless Skonk\" for a different airframe, 42-31339 (later aircraft of same name).",
+   "crew": [
+    {
+     "name": "Robert G. Stutzman",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Ivor O. Tande",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Wade L. Birmingham",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Herbert H. Alexander",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Ernest H. Barnes",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William Harriman",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Edward W. Miller",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Silvio J. Coniglio",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Richard J. Borutta",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William H. Jeffries",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30610",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Red Ass",
+   "nose_art": null,
+   "bomb_squadron": "568th",
+   "squadron_code": "BI",
+   "aircraft_letter": "M",
+   "pilot": "Clarence A. Strawn",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-04"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Red Ass', crew number 04. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 568th per b17flyingfortress.de squadron list (390-04) and American Air Museum assignment record (390-08, codes BI-M); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "Clarence A. Strawn",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Warren V. Smith",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "John H. Alvey",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "John R. Pardridge",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Kenneth L. Hagan",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Thomas J. Hennessey",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harry J. Gay",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Norman A. Salo",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William S. Kozma",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "George H. Nesbit",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30642",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Geronimo",
+   "nose_art": null,
+   "bomb_squadron": "568th",
+   "squadron_code": "BI",
+   "aircraft_letter": "O",
+   "pilot": "Robert G. Schneider",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-04"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Geronimo', crew number 18. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Listed under BOTH 568th (390-04) and 569th (390-05) on b17flyingfortress.de; squadron on 14 Oct 1943 unresolved. Squadron 568th per b17flyingfortress.de squadron list (390-04) and American Air Museum assignment record (390-08, codes BI-O); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "Robert G. Schneider",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Howard J. Hupp",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Woodrow C. Teays",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Perry S. McTee",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Thomas E. Stamps",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Wayne R. Neiss",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Doyle C. Volner",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Norman C. Mackrell",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Joe E. Gilmore",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Henry A. Cooper",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30713",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Phyllis Marie",
+   "nose_art": null,
+   "bomb_squadron": "568th",
+   "squadron_code": "BI",
+   "aircraft_letter": "E",
+   "pilot": "Perry V. Row",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-04"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Phyllis Marie', crew number 07. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 568th per b17flyingfortress.de squadron list (390-04) and American Air Museum assignment record (390-08, codes BI-E); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "Perry V. Row",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Whitney F. Poythress",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Lester E. Boettcher",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "James P. Fitzsimmons",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Erice E. Bennett",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Mathias Biehl",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Arthur H. Dix",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert J. McCormick",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Walter C. Byrne",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Louis Kiss",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30715",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Cincinnati Queen/Blues in the Night",
+   "nose_art": null,
+   "bomb_squadron": "569th",
+   "squadron_code": "CC",
+   "aircraft_letter": "Y",
+   "pilot": "George W. Harmon",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-05"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Cincinnati Queen/Blues in the Night', crew number 30. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 569th per b17flyingfortress.de squadron list (390-05) and American Air Museum assignment record (390-08, codes CC-Y); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome unknown: the museum narrative (390-02) says four 390th aircraft aborted about two hours after take-off for mechanical problems or crew illness, but does not name them; this sortie may be one of them, or may have bombed.",
+   "crew": [
+    {
+     "name": "George W. Harmon",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Eugene L. Kramer",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Joseph F. Doyle",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Kenneth J. Brown",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Ralph L. Garner",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harry E. Cooper",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Paul C. Schierloh",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Frank M. Valle",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Clarence C. Lonsway",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "William L. Simpson",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30719",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Shatzi",
+   "nose_art": null,
+   "bomb_squadron": "569th",
+   "squadron_code": "CC",
+   "aircraft_letter": "P",
+   "pilot": "Roger A. Cartwright",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "390-01",
+    "390-08",
+    "390-05",
+    "390-03"
+   ],
+   "notes": "390th Museum DB (390-01) lists this aircraft as 'Shatzi', crew number 15. Nickname = aircraft name(s) in the museum DB across the airframe's career ('/' separates successive/alternate names); not confirmed as painted on 14 Oct 1943. Squadron 569th per b17flyingfortress.de squadron list (390-05) and American Air Museum assignment record (390-08, codes CC-P); these are the airframe's assignment, not a 14 Oct 1943 document - code letters PROBABLE for this date. Outcome \"bombed\" is PROBABLE: pilot/crew members gave MACR 858 eyewitness statements describing 42-29991 over/after the target (390-03), so this aircraft was with the formation at the target. Damage state not documented.",
+   "crew": [
+    {
+     "name": "Roger A. Cartwright",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01",
+      "390-03"
+     ],
+     "position_in_source": "Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked. Rank from MACR 858 eyewitness list as reported by 390-03."
+    },
+    {
+     "name": "John E. Johannessen",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Co-Pilot",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Harry Mikuliak",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Navigator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Emery J. Porter",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Bombardier/Togglier",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Robert Carroll",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Engineer/Top Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Samuel B. Rhea",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Radio Operator",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Chester L. Gable",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Ball Turret",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Edward J. McQuade",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Edward W. Graham",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Waist Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    },
+    {
+     "name": "Raymond J. Boyd",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "390-01"
+     ],
+     "position_in_source": "Tail Gunner",
+     "notes": "Fate \"returned\" inferred: aircraft not lost and no casualty status recorded in 390-01; wounds not checked."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Which four 390th aircraft aborted is not identified; outcome left \"unknown\" for 11 aircraft whose crews do not appear in the MACR 858 eyewitness list. Next step: 390th mission report file no. 987-988 (Mission Reports Part I, 390th Memorial Museum Joseph A. Moller Library) or the 390th loading list.",
+  "Ranks on 14 Oct 1943 not found for most crew; the 390th DB mission listing gives no ranks. Individual personnel records (390-01, Personnel Search) were not opened one-by-one. Ranks recorded only for the McEwin crew (390-03) and MACR 858 eyewitnesses.",
+  "Squadron and code letters per aircraft are the airframe assignment from b17flyingfortress.de and AAM/Osborne (390-04..08), not from a 14 Oct 1943 loading list; 42-30642 moved 568th (BI-O) to 569th (CC-O) at an undocumented date.",
+  "Formation positions not documented in sources seen (Jeffrey/Clark command crew in 42-30338 and Tuttle as command pilot in 42-3327 indicate lead/deputy-lead roles, unconfirmed).",
+  "Battle damage/wounded on returning aircraft not documented in sources seen (museum synopsis notes many damaged by flak and one with friendly .50 cal hits, unnamed).",
+  "No service numbers recorded (not seen in the sources used).",
+  "Block numbers not checked except 42-29991."
+ ]
+}

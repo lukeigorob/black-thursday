@@ -15,8 +15,10 @@ import { PARTS } from './bomber.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const REAL = 1500; // m from your bomber: inside this the fight is the real one
-const PASS_RATE = 0.05; // fighter passes a second at a group, at full pressure
-const FLAK_RATE = 0.06; // flak hits a second at a group, at the heaviest
+// (the fighters and the flak both: the flak mostly by an engine set alight, the fire into the wing)
+const PASS_RATE = 0.04; // fighter passes a second at a group, at full pressure
+const FLAK_RATE = 0.15; // flak hits a second at a group, at the heaviest
+const ENGINES = PARTS.filter((p) => p.kind === 'engine');
 const HOT_EVERY = 40; // s: the fighters shift their attention to other groups
 
 export class StreamBattle {
@@ -34,7 +36,7 @@ export class StreamBattle {
   }
 
   /**
-   * dt: s. ctx: { center (your bomber's position), progress 0..1 of the mission, goal (the loss target),
+   * dt: s. ctx: { center (your bomber's position), want (the share of the bombers lost by now, main.js),
    * fighters (their state: how many up, suppressed, leaving), flak ({ on, heavy }), lossBias }.
    */
   update(dt, ctx) {
@@ -57,16 +59,16 @@ export class StreamBattle {
     const f = ctx.fighters, up = f.axis?.length ?? 0;
     // how hard the Luftwaffe is pressing: how many it has up, against the stage of the day
     const pressure = f.leaving ? 0 : Math.min(1.3, up / 120) * (f.suppressed ? 0.25 : 1) * ((f.surgeT ?? 0) > 0 ? 1.2 : 1);
-    const want = ctx.goal * Math.min(1, ctx.progress) ** 1.3; // the share each group should have lost by now
+    const want = ctx.want; // the share each group should have lost by now (main.js)
     for (const [g, list] of this.groups) {
       const alive = list.filter((b) => !b.down);
       if (!alive.length) continue;
-      const lost = (list.length - alive.length) / list.length;
+      const lost = (list.length - alive.length + alive.reduce((n, b) => n + b.peril, 0)) / list.length; // (the crippled ones partly)
       // each group's own governor (the real fight round you uses it too: fighters.js, flak.js)
-      this.groupBias.set(g, THREE.MathUtils.clamp(1 + (want - lost) * 12, 0.05, 2.2));
+      this.groupBias.set(g, THREE.MathUtils.clamp(1 + (want - lost) * 25, 0.02, 2.2));
       const centre = alive[0].group.position;
       if (centre.distanceTo(ctx.center) < REAL) continue; // (the real fight's here)
-      const bias = this.groupBias.get(g) * THREE.MathUtils.clamp(ctx.lossBias ?? 1, 0.3, 1.8);
+      const bias = this.groupBias.get(g) * THREE.MathUtils.clamp(ctx.lossBias ?? 1, 0.1, 1.8);
       // the group's own guns keep them off: fewer passes the more of it is left
       const guns = alive.length / list.length;
       const passes = PASS_RATE * pressure * (this.hot.has(g) ? 2.2 : 0.6) * this.exposure(g) * bias * (1.25 - 0.5 * guns);
@@ -77,7 +79,7 @@ export class StreamBattle {
 
   /** A fighter pass at one bomber of the group: a burst into one or two of its parts, the crew near them hurt. */
   pass(alive) {
-    const w = alive.map((b) => (b.straggling ? 5 : 1) * (b.deadEngines ? 2 : 1) * (b.burning ? 1.5 : 1));
+    const w = alive.map((b) => (b.straggling ? 5 : 1) * (b.deadEngines ? 2 : 1) * (b.burning ? 1.5 : 1) * (b.histK ?? 1)); // (histK: the records' fates, main.js)
     let r = Math.random() * w.reduce((a, b) => a + b, 0), i = 0;
     while (r > w[i] && i < w.length - 1) r -= w[i++];
     const b = alive[i], cannon = Math.random() < 0.45;
@@ -92,8 +94,9 @@ export class StreamBattle {
   /** Flak: a burst near one bomber of the group. */
   flakHit(alive) {
     const b = alive[Math.floor(Math.random() * alive.length)];
-    const part = PARTS[Math.floor(Math.random() * PARTS.length)];
+    const part = Math.random() < 0.5 ? ENGINES[Math.floor(Math.random() * ENGINES.length)] : PARTS[Math.floor(Math.random() * PARTS.length)];
     for (let n = Math.round(rand(4, 14)); n > 0; n--) b.hit(part, Math.random() < 0.6);
+    if (part.kind === 'engine' && Math.random() < 0.45) b.igniteEngine(part.engine); // (alight from the splinters)
     this.wound(b, part, true);
   }
 

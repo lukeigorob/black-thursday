@@ -1,0 +1,110 @@
+[
+  {
+    "id": "384-01",
+    "title": "384th BG Mission #32, 14 October 1943, Schweinfurt (\"Second Schweinfurt\" aka \"Black Thursday\") - mission page with sortie/aircraft summary",
+    "organisation": "384th Bomb Group Heritage Association (384thbombgroup.com)",
+    "url": "https://384thbombgroup.com/_content/_pages/One384thMission.php?MissionKey=32",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Lists all 21 assigned aircraft, pilots, sortie results, comments and MACR numbers. Compiled from NARA mission/sortie records, MACRs and E&E reports."
+  },
+  {
+    "id": "384-02",
+    "title": "Loading Lists for Mission #32 on 14 October 1943",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_pages/MsnPersnlList-LL.php?mission_key=32",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Per-aircraft crew manifests (position, name, end-of-mission status), aircraft type, serial, squadron code letters, aircraft name. Transcribed from the group's wartime loading lists."
+  },
+  {
+    "id": "384-03",
+    "title": "Personnel Roster for Mission #32 on 14 October 1943",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_pages/MsnPersnlList-AlphaSort.php?mission_key=32",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Alphabetical roster: 21 aircraft assigned, 190 combat personnel; used to cross-check loading lists (identical content)."
+  },
+  {
+    "id": "384-04",
+    "title": "384th BG Sortie Reports, Mission #32 (SortieKey 807-827)",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_pages/SortieReport.php?SortieKey=826",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "One report per sortie (keys 807-812, 814-816, 818-827); gives squadron, squadron code, aircraft name, crew with unit/status, comments, and linked MACR / E&E report numbers. URL shown is one example (42-29867)."
+  },
+  {
+    "id": "384-05",
+    "title": "384th BG Individual Personnel Data pages (person.php) for each crewman on Mission #32",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_pages/person.php?PersonKey=4976",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Rank (lowest/highest while with 384th), Army serial number (some marked as confirmed in official/POW records), promotions from Morning Reports, last duty date, results. Person key for each man stored in crew records as ref_384th_person_key. URL shown is one example (Carl W. Abele)."
+  },
+  {
+    "id": "384-06",
+    "title": "384th Bomb Group Newsletter, September 2020 (Black Thursday feature)",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_membership/newsletters/2020-09_Newsletter.pdf",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "Known only from search-result summary (not opened): 384th mission 32 / 8th AF mission 115; 21 B-17s took off from Grafton Underwood, 6 lost to enemy action, 3 crews bailed out over England, 5 aborted; Col. Budd Peaslee led as 40th CBW commander. Counts differ slightly from the sortie table."
+  },
+  {
+    "id": "384-07",
+    "title": "42-3216 The Joker",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://www.americanairmuseum.com/aircraft/6286",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Search result summary: Missing in Action Schweinfurt 14/10/43, MACR 841. Direct fetch of americanairmuseum.com returned HTTP 403."
+  },
+  {
+    "id": "384-08",
+    "title": "42-30196 Sad Sack",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://americanairmuseum.com/archive/aircraft/42-30196",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Search-result title only (name cross-check); page not readable (HTTP 403)."
+  },
+  {
+    "id": "384-09",
+    "title": "42-3037 Windy City Avenger (sic)",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://www.americanairmuseum.com/aircraft/4359",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Search-result title only (name cross-check); page not readable (HTTP 403)."
+  },
+  {
+    "id": "384-10",
+    "title": "42-31059",
+    "organisation": "American Air Museum in Britain (IWM)",
+    "url": "https://americanairmuseum.com/archive/aircraft/42-31059",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Search-result listing only; page not readable (HTTP 403)."
+  },
+  {
+    "id": "384-11",
+    "title": "303rd BG (H) Combat Mission No. 78, 14 October 1943",
+    "organisation": "303rd Bomb Group (H) Association (303rdbg.com)",
+    "url": "https://www.303rdbg.com/missionreports/078.pdf",
+    "type": "secondary",
+    "accessed": "2026-10-28",
+    "notes": "1st AD composition table: 41st CBW lead 379BG (17), high 303BG (19), low 384BG (16)."
+  },
+  {
+    "id": "384-12",
+    "title": "384th BG aircraft record 42-30040 (PICCADILLY COMMANDO)",
+    "organisation": "384th Bomb Group Heritage Association",
+    "url": "https://384thbombgroup.com/_content/_pages/One384thAircraft.php?AircraftKey=42-30040",
+    "type": "database",
+    "accessed": "2026-10-28",
+    "notes": "Shows transfer to 96th BG 6 Jul 1943; lost with 96th BG 14 Oct 1943, MACR 837."
+  }
+]

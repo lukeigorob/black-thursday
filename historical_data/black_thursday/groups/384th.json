@@ -1,0 +1,4311 @@
+{
+  "group": "384th",
+  "division": "1st",
+  "wing": "41st Combat Bombardment Wing (low group, per 303rd BG mission report table)",
+  "station": "AAF Station 106, Grafton Underwood",
+  "group_mission_number": 32,
+  "eighth_af_mission_number": 115,
+  "dispatched": 19,
+  "assigned_including_spares": 21,
+  "lost": 6,
+  "written_off_in_england": 3,
+  "dispatched_confidence": "VERIFIED",
+  "dispatched_note": "384th BG mission #32 record: 21 aircraft assigned (Personnel Roster: 21 aircraft, 190 combat personnel); 2 were ground spares that did not fly, so 19 sorties flown. Sortie summary: 5 completed, 1 returned early (combat credit), 4 aborted after takeoff, 3 crashed in Allied territory (crews bailed out over England on return; bombed target), 6 failed to return (MACRs 838, 839, 840, 841, 842, 1038). The mission narrative says \"six aircraft aborted\" (likely counts the 4 aborts + early return + another) and the group's Sept 2020 newsletter says 21 took off, 6 lost, 3 bailed out over England, 5 aborted - these counts conflict slightly with the sortie table; the sortie-level table is used here. The 303rd BG Mission 78 report table lists the 384BG as low group of the 41st CBW with 16 aircraft (lead 379BG 17, high 303BG 19; wing leader Col. Rohr) - likely the planned/formed figure, versus 19 sorties in the 384th records.",
+  "lost_note": "lost = 6 Failed To Return (enemy action). A further 3 aircraft (42-3037, 42-5852, 42-29784) were abandoned over England on return = 9 aircraft lost to the group in total.",
+  "aircraft": [
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "41-24525",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "WHAT'S COOKIN' DOC?",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "547th",
+      "squadron_code": "SO",
+      "aircraft_letter": "Y",
+      "pilot": "T. L. Carter",
+      "pilot_rank": "F/O",
+      "formation_position": null,
+      "mission_outcome": "bombed",
+      "sortie_result_as_recorded": "Completed Mission",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Landed away at Little Staughton.",
+      "crew": [
+        {
+          "name": "T. L. Carter",
+          "rank": "F/O",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "T-120976",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Flight Officer / First Lieutenant). Database records initials only.",
+          "ref_384th_person_key": 4733
+        },
+        {
+          "name": "Francis John Witt Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-665749",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 4742
+        },
+        {
+          "name": "Keith M Garrison",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-749675",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / Captain.",
+          "ref_384th_person_key": 1316
+        },
+        {
+          "name": "Harvey Daniel Smith",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-673825",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 7528
+        },
+        {
+          "name": "Thomas Joseph Benson",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "33353812",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 293
+        },
+        {
+          "name": "Royal DeWitt Treat",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "19084186",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4031
+        },
+        {
+          "name": "Gordon Raker Connelly",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "20327185",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Technical Sergeant.",
+          "ref_384th_person_key": 7530
+        },
+        {
+          "name": "John Paul Pastorella",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "11101117",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 3077
+        },
+        {
+          "name": "Louis Joseph Barto",
+          "rank": "Pfc.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "13089928",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Private / Staff Sergeant). Derived rank is below Sergeant for an aircrew gunner, so an intermediate promotion is probably missing from the record. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 5059
+        },
+        {
+          "name": "Warren Emmett Hubbard",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32494296",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1825
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "41-24560",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "LITTLE AUDREY",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "A",
+      "pilot": "Joseph Anthony Hurley",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "sortie_result_as_recorded": "Aborted after Takeoff",
+      "combat_credit": "NO",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Turned back. Landed away at Ridgewell.",
+      "crew": [
+        {
+          "name": "Joseph Anthony Hurley",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-797130",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 1867
+        },
+        {
+          "name": "William J. Mills Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-678299",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Database records initials only.",
+          "ref_384th_person_key": 2747
+        },
+        {
+          "name": "Arthur Joseph Drogue Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-682310",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 1013
+        },
+        {
+          "name": "Peter Victor Henningsen",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-676950",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 1692
+        },
+        {
+          "name": "Lawrence Clarence Schwandt",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "35364687",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3578
+        },
+        {
+          "name": "Jack Russell Fair",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "13108690",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Technical Sergeant.",
+          "ref_384th_person_key": 1127
+        },
+        {
+          "name": "William Bothwell",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "33467285",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5140
+        },
+        {
+          "name": "Raymond Floyd Pardee",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "35030839",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Staff Sergeant.",
+          "ref_384th_person_key": 3057
+        },
+        {
+          "name": "Frank Joseph Fitzpatrick",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32382780",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1200
+        },
+        {
+          "name": "Stanley Anthony Chmielecki",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "31145006",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 698
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3037",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "WINDY CITY AVENGER",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943. American Air Museum titles the aircraft \"Windy City Avenger (sic)\".",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "Z",
+      "pilot": "William Merriman Price III",
+      "pilot_rank": "1st Lt.",
+      "formation_position": null,
+      "mission_outcome": "written_off",
+      "sortie_result_as_recorded": "Crashed",
+      "combat_credit": "YES",
+      "loss_details": "Crew bailed out near Deenethorpe on return; the aircraft crash-landed near Corby, UK.",
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04",
+        "384-09"
+      ],
+      "notes": "Crew bailed out near Deenethorpe on return; the aircraft crash-landed near Corby, UK. Aircraft bombed the target (combat credit, \"Crashed In Allied Territory\"): crew bailed out over England in bad weather on return and the aircraft was lost.",
+      "crew": [
+        {
+          "name": "William Merriman Price III",
+          "rank": "1st Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-798672",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 7533
+        },
+        {
+          "name": "Lee Browning Coleman",
+          "rank": "2nd Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-802726",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 5314
+        },
+        {
+          "name": "Harry Blakely Harvey Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-734908",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1621
+        },
+        {
+          "name": "Leroy Arthur Arquette",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-728439",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 132
+        },
+        {
+          "name": "Robert Eugene Smith",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "15332458",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 3757
+        },
+        {
+          "name": "Earl Richard Beaty",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "14134547",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 248
+        },
+        {
+          "name": "Daniel Griffin",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "32417510",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant.",
+          "ref_384th_person_key": 7536
+        },
+        {
+          "name": "Ralph Gilbert Grant",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "11029725",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant.",
+          "ref_384th_person_key": 7537
+        },
+        {
+          "name": "Earl James Nelson",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "16043344",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2893
+        },
+        {
+          "name": "Donald William Dailey",
+          "rank": "Sgt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "15323977",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Private / Staff Sergeant). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 879
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3216",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "THE JOKER",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "545th",
+      "squadron_code": "JD",
+      "aircraft_letter": "S",
+      "pilot": "William Everett Kopf",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Damaged by enemy aircraft; exploded and crashed near Dilsen, Belgium; MACR 841.",
+      "macr": "MACR 841",
+      "escape_evasion_reports": [
+        "E&E 1527",
+        "E&E 2212",
+        "E&E 2214"
+      ],
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04",
+        "384-07"
+      ],
+      "notes": "Damaged by enemy aircraft; exploded and crashed near Dilsen, Belgium; MACR 841.",
+      "crew": [
+        {
+          "name": "William Everett Kopf",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-800900",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2160
+        },
+        {
+          "name": "Alfred William Scott Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-744770",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3586
+        },
+        {
+          "name": "Toscha Melody Massey",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-683280",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 6103
+        },
+        {
+          "name": "Eugene Warren Connor",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded",
+          "service_number": "O-741306",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 7491
+        },
+        {
+          "name": "Herbert Eugene Yeryar",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "35362644",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 4383
+        },
+        {
+          "name": "Hugh Mauritho",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded",
+          "service_number": "6271871",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private First Class / Sergeant.",
+          "ref_384th_person_key": 2527
+        },
+        {
+          "name": "Clyde Smith",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "19026443",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 7496
+        },
+        {
+          "name": "Elton William Buddemeyer",
+          "rank": "Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "37394101",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 535
+        },
+        {
+          "name": "Lee Roy Bernard",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "38223138",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 5097
+        },
+        {
+          "name": "Anthony Pasquale Perroni",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "31149607",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 7493
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3429",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "FLAK HOUSE",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "F",
+      "pilot": "Alfred Lee Sprague",
+      "pilot_rank": null,
+      "formation_position": "High Squadron lead (384th BG)",
+      "mission_outcome": "aborted",
+      "sortie_result_as_recorded": "Aborted after Takeoff",
+      "combat_credit": "NO",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "High Squadron lead. Landed away at Alconbury.",
+      "crew": [
+        {
+          "name": "Alfred Lee Sprague",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-670653",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / Captain.",
+          "ref_384th_person_key": 4434
+        },
+        {
+          "name": "Albert Hugh Doman",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-675567",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 983
+        },
+        {
+          "name": "Pendleton Gaines Baldwin",
+          "rank": "1st Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-674101",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 4430
+        },
+        {
+          "name": "Kermit Aubrey Pierce",
+          "rank": "1st Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-739052",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 4432
+        },
+        {
+          "name": "Clarence Denton Anderson",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "39528610",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4428
+        },
+        {
+          "name": "Dean William Marshall",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "33274841",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4431
+        },
+        {
+          "name": "George Thomas Redding",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32382011",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4433
+        },
+        {
+          "name": "Rudolph Aune",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "39453663",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4429
+        },
+        {
+          "name": "Abraham Bernhard Abramowitz",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "12145126",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4427
+        },
+        {
+          "name": "Frederick Scott Bumpers",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "38319836",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 548
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-5852",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "THE NATURAL",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "547th",
+      "squadron_code": "SO",
+      "aircraft_letter": "T",
+      "pilot": "Edmund Samuel Goulder",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "written_off",
+      "sortie_result_as_recorded": "Crashed",
+      "combat_credit": "YES",
+      "loss_details": "Crew bailed out over England; aircraft crashed near Chetwode, UK on return.",
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Crew bailed out over England; aircraft crashed near Chetwode, UK on return. Aircraft bombed the target (combat credit, \"Crashed In Allied Territory\"): crew bailed out over England in bad weather on return and the aircraft was lost.",
+      "crew": [
+        {
+          "name": "Edmund Samuel Goulder",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-736509",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 1407
+        },
+        {
+          "name": "Ernest Marshall Boyce Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-740042",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 415
+        },
+        {
+          "name": "Julius Sol Schwartz",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-739119",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 3580
+        },
+        {
+          "name": "Michael Joseph Vodilko",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Togglier",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "35380958",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page). Recorded position: Togglier (enlisted bomb toggler in bombardier position).",
+          "ref_384th_person_key": 4741
+        },
+        {
+          "name": "William Francis Sears",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "17041787",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 4739
+        },
+        {
+          "name": "Edward Arthmur Thomasson",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "34121576",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 3985
+        },
+        {
+          "name": "Claude Robert Leslie",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "35507564",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 4737
+        },
+        {
+          "name": "Francis Marvin Seager",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "37221170",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4738
+        },
+        {
+          "name": "Stanley Sylvester Wilson",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "36527527",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4310
+        },
+        {
+          "name": "Paul Ralph Saunders",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "17128063",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3519
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29651",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "STELLA",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "G",
+      "pilot": "Randolph George Edward Jacobs",
+      "pilot_rank": "F/O",
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "sortie_result_as_recorded": "Returned to Base After Attacking an Enemy Target",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Turned back early after #2 supercharger ran away off the coast of Belgium. Bombs were jettisoned in the Channel and they landed away at Great Ashfield. Individual Sortie Reports and Completion of Tour documents indicate that combat credit was granted. David H. Davis received the DFC for Extraordinary Achievement. Recorded as \"Returned Early\" with combat credit; did not bomb (bombs jettisoned in Channel).",
+      "crew": [
+        {
+          "name": "Randolph George Edward Jacobs",
+          "rank": "F/O",
+          "rank_confidence": "UNVERIFIED",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-2044844",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Flight Officer / Captain).",
+          "ref_384th_person_key": 5942
+        },
+        {
+          "name": "Eugene Arthur Boger",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-742667",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 376
+        },
+        {
+          "name": "John Quinn Curtin",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-800687",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 5372
+        },
+        {
+          "name": "David Harold Davis",
+          "rank": "1st Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-734436",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 4811
+        },
+        {
+          "name": "Doy Jennings Cloud",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "19106482",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5300
+        },
+        {
+          "name": "Jack Keith Goetz",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "13074210",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 1375
+        },
+        {
+          "name": "Donald Frederick Gorham",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "11094250",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 1401
+        },
+        {
+          "name": "Robert Lewis Compton",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "15336690",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 769
+        },
+        {
+          "name": "Lawrence Holmes Wager",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "37220006",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 6775
+        },
+        {
+          "name": "Aldo Joseph Gregori",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "33192689",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1454
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29703",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "KATHY JANE TALLYWACKER",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "E",
+      "pilot": "Robert Lawrence Robinson",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "bombed",
+      "sortie_result_as_recorded": "Completed Mission",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Landed away at Molesworth.",
+      "crew": [
+        {
+          "name": "Robert Lawrence Robinson",
+          "rank": "2nd Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-740929",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 3413
+        },
+        {
+          "name": "Robert Bledsoe Baylor",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-745588",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 238
+        },
+        {
+          "name": "Frederick Morris Holzbaur",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-355094",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 1778
+        },
+        {
+          "name": "Herman Drummond Kramer",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-676297",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 2180
+        },
+        {
+          "name": "Howard Martin Stumpf",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "17108374",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3893
+        },
+        {
+          "name": "William Wilds Hutchison",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32187855",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant.",
+          "ref_384th_person_key": 1871
+        },
+        {
+          "name": "Stanley Walter Maziarka",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "36268422",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2540
+        },
+        {
+          "name": "Carlyle David Ripley",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "12131559",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3389
+        },
+        {
+          "name": "Edward Eugene Porter",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "15320399",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3216
+        },
+        {
+          "name": "Thomas Theadora Johnston Jr.",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "34345367",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1978
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29717",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "MR. FIVE BY FIVE",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "H,M",
+      "pilot": "Walter Richard Carpenter",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "bombed",
+      "sortie_result_as_recorded": "Completed Mission",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Tail gunners heated suit failed after crossing coast and inside enemy territory. Individual Sortie Reports and Squadron Commander's notes on the Abortive Report submitted by the pilot indicate that combat credit was granted. Squadron code recorded as \"SU*H,M\" (aircraft letter H and/or M; database gives both, date-specific letter unresolved).",
+      "crew": [
+        {
+          "name": "Walter Richard Carpenter",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-533026",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Flight Officer / First Lieutenant.",
+          "ref_384th_person_key": 638
+        },
+        {
+          "name": "John Benton Kennedy Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-802413",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2081
+        },
+        {
+          "name": "Carl Anton Hedin",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-734912",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 1658
+        },
+        {
+          "name": "Murray David Altman",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-676530",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 91
+        },
+        {
+          "name": "Wayne Peter Fallesen",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "37451120",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 1132
+        },
+        {
+          "name": "Dwight Howard McCracken",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "06996101",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2570
+        },
+        {
+          "name": "Edward Joseph O'Leary",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32385133",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2987
+        },
+        {
+          "name": "Clarence Paul Leibring",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "35495324",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 2283
+        },
+        {
+          "name": "Bernard Frank Zyglowicz",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "35374670",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4424
+        },
+        {
+          "name": "Donald Robert Girard",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "11073385",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 5634
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29768",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "WINSOME WINN II",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "547th",
+      "squadron_code": "SO",
+      "aircraft_letter": "X",
+      "pilot": "Mark Skinner Willing Jr.",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "sortie_result_as_recorded": "Aborted after Takeoff",
+      "combat_credit": "NO",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Turned back. Landed away at Ridgewell.",
+      "crew": [
+        {
+          "name": "Mark Skinner Willing Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-755111",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 4288
+        },
+        {
+          "name": "Rudolph Alfred Martin",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-675361",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 2483
+        },
+        {
+          "name": "Bruce Thomas Haley",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-674185",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 1532
+        },
+        {
+          "name": "Robert E Brown",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-669979",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 4908
+        },
+        {
+          "name": "Roman Serrano Soto",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "39848953",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 3788
+        },
+        {
+          "name": "Durwood Harmon Holloway",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "17076171",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1774
+        },
+        {
+          "name": "Robert Edward Ott",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "15330931",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3024
+        },
+        {
+          "name": "Keating Sams Pharr",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "14139089",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3161
+        },
+        {
+          "name": "Walter Blaine Smith",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "18050847",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3762
+        },
+        {
+          "name": "Seth Thomas Ripley",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32587366",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3390
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29784",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "SMILIN-THRU",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "545th",
+      "squadron_code": "JD",
+      "aircraft_letter": "V",
+      "pilot": "Erwin Crawford Johnson",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "written_off",
+      "sortie_result_as_recorded": "Crashed",
+      "combat_credit": "YES",
+      "loss_details": "Crew bailed out over England; their battle-damaged aircraft crash-landed near Baydon, Wiltshire. Erwin C. Johnson and Elliott L. Gadd were injured as a result of bailing out. Johnson did not fly again. Gadd remained off flight status until 5 December 1943.",
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Crew bailed out over England; their battle-damaged aircraft crash-landed near Baydon, Wiltshire. Erwin C. Johnson and Elliott L. Gadd were injured as a result of bailing out. Johnson did not fly again. Gadd remained off flight status until 5 December 1943. Aircraft bombed the target (combat credit, \"Crashed In Allied Territory\"): crew bailed out over England in bad weather on return and the aircraft was lost.",
+      "crew": [
+        {
+          "name": "Erwin Crawford Johnson",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "wounded",
+          "status_as_recorded": "Seriously Wounded",
+          "service_number": "O-797135",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Seriously wounded (384th BG loading list status \"Seriously Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1956
+        },
+        {
+          "name": "Elliott Leroy Gadd",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "wounded",
+          "status_as_recorded": "Wounded",
+          "service_number": "O-747390",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded (384th BG loading list status \"Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1287
+        },
+        {
+          "name": "William Eugene Bailey",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-682131",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 167
+        },
+        {
+          "name": "George James Littleton",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "O-676965",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2341
+        },
+        {
+          "name": "Sam David Ranallo",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "35320429",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3297
+        },
+        {
+          "name": "Leo Albert Hunt",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "11054923",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1859
+        },
+        {
+          "name": "Clement Adrian Couture",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "31152635",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 830
+        },
+        {
+          "name": "Lawrence Lincoln Parsons",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "18184820",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3074
+        },
+        {
+          "name": "Earl Shelton Baker",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "13065833",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 176
+        },
+        {
+          "name": "Gustave Fless",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "Bailed Out Over England",
+          "service_number": "32431836",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Bailed out over England on return (aircraft abandoned); not injured per 384th BG record Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1209
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29800",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "ME AN' MY GAL",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "546th",
+      "squadron_code": "BK",
+      "aircraft_letter": "H",
+      "pilot": "William Russell Harry",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Knocked down by enemy aircraft; crashed near Simmershofen, Germany; MACR 840.",
+      "macr": "MACR 840",
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Knocked down by enemy aircraft; crashed near Simmershofen, Germany; MACR 840.",
+      "crew": [
+        {
+          "name": "William Russell Harry",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-515826",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 4898
+        },
+        {
+          "name": "Ivan Luther Rice",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-738249",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3362
+        },
+        {
+          "name": "David Hall Black",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-673460",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 345
+        },
+        {
+          "name": "Charles Pershing Mannka",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-738710",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 6076
+        },
+        {
+          "name": "Edward Francis Simpson",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "12081987",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3695
+        },
+        {
+          "name": "Tom Brooks Wheeler",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW/Wounded",
+          "service_number": "38082954",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; POW (384th BG loading list status \"POW/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4228
+        },
+        {
+          "name": "John Conat McKenna",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "32140430",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2608
+        },
+        {
+          "name": "Leroy Parent",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "12048890",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3059
+        },
+        {
+          "name": "Julius Martin Markus",
+          "rank": "Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "12180110",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Private / Sergeant). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2459
+        },
+        {
+          "name": "Howard David Parks",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "39311920",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4660
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29809",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "QUEEN JEANIE / DAMN YANKEE II",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943. Database gives two names; which (if either) was carried on 14 Oct 1943 is not established.",
+      "nose_art": null,
+      "bomb_squadron": "545th",
+      "squadron_code": "JD",
+      "aircraft_letter": "X",
+      "pilot": "Joseph Linyer Bedsole Jr.",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "bombed",
+      "sortie_result_as_recorded": "Completed Mission",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Landed away at Molesworth.",
+      "crew": [
+        {
+          "name": "Joseph Linyer Bedsole Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "wounded",
+          "status_as_recorded": "Wounded",
+          "service_number": "O-797956",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded (384th BG loading list status \"Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 4598
+        },
+        {
+          "name": "George Cosentino",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-802728",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 30
+        },
+        {
+          "name": "Harold Chester Groh",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-735176",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 1468
+        },
+        {
+          "name": "William Charles Wismann",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-673758",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 4324
+        },
+        {
+          "name": "Joseph Francis Madden",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "12181352",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2404
+        },
+        {
+          "name": "Karol Leonard Maruszak",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "06148685",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Technical Sergeant.",
+          "ref_384th_person_key": 2494
+        },
+        {
+          "name": "Leo Constantine Hotis",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32427753",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1806
+        },
+        {
+          "name": "Marion Louis McMichael",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "16149834",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2637
+        },
+        {
+          "name": "Michael Henry Mazewski Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "13100342",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 7526
+        },
+        {
+          "name": "Arthur James Woodall Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "33306844",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4347
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29867",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "Lucifer II",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "544th",
+      "squadron_code": "SU",
+      "aircraft_letter": "C",
+      "pilot": "Walter Gordon Williams",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Knocked down by enemy aircraft; crashed near Metz, France; MACR 838.",
+      "macr": "MACR 838",
+      "escape_evasion_reports": [
+        "E&E 2770"
+      ],
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Knocked down by enemy aircraft; crashed near Metz, France; MACR 838.",
+      "crew": [
+        {
+          "name": "Walter Gordon Williams",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-795863",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4285
+        },
+        {
+          "name": "Belford Bruce Candler",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-798966",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 614
+        },
+        {
+          "name": "Carl William Abele",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-735151",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4976
+        },
+        {
+          "name": "Thomas Carroll Breen Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-676345",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5153
+        },
+        {
+          "name": "Thomas Patrick Hanrahan",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "32383136",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 1571
+        },
+        {
+          "name": "Clyde Thomas Bush",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "37128669",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 7523
+        },
+        {
+          "name": "William Raymond Genette",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "16014308",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Corporal / Sergeant.",
+          "ref_384th_person_key": 5617
+        },
+        {
+          "name": "Albert John Wickline",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded",
+          "service_number": "15322854",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 7525
+        },
+        {
+          "name": "Michael Raymond Henneberry",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "32405532",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 1690
+        },
+        {
+          "name": "James William Deese",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "14139217",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 930
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29870",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "TS / BIG MOOSE",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943. Database gives two names; which (if either) was carried on 14 Oct 1943 is not established.",
+      "nose_art": null,
+      "bomb_squadron": "545th",
+      "squadron_code": "JD",
+      "aircraft_letter": "U",
+      "pilot": "Giles Felker Kauffman Jr.",
+      "pilot_rank": "1st Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Crashed near Bad Brückenau, Germany; MACR 1038.",
+      "macr": "MACR 1038",
+      "escape_evasion_reports": [
+        "E&E 239"
+      ],
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Crashed near Bad Brückenau, Germany; MACR 1038.",
+      "crew": [
+        {
+          "name": "Giles Felker Kauffman Jr.",
+          "rank": "1st Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-798518",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2043
+        },
+        {
+          "name": "George Molnar",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-578301",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4963
+        },
+        {
+          "name": "Frank Pogorzelski",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-805199",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4962
+        },
+        {
+          "name": "David Daniel Danneman",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "bombardier",
+          "position_as_recorded": "Togglier",
+          "fate": "POW",
+          "status_as_recorded": "POW/Wounded",
+          "service_number": "34261537",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; POW (384th BG loading list status \"POW/Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Corporal / Sergeant. Recorded position: Togglier (enlisted bomb toggler in bombardier position).",
+          "ref_384th_person_key": 5381
+        },
+        {
+          "name": "Jules Theodore Beck",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "32414218",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5072
+        },
+        {
+          "name": "William Jarrell",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "32359719",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5946
+        },
+        {
+          "name": "Jacob Mendoza Martinez",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "38214909",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4958
+        },
+        {
+          "name": "Stanley Thomas Reuben",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW/Wounded",
+          "service_number": "18051500",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; POW (384th BG loading list status \"POW/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4960
+        },
+        {
+          "name": "Paul Spodar",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "35518619",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3803
+        },
+        {
+          "name": "Peter Seniawsky",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "12060630",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 6529
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-30026",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "BATTLEWAGON",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "546th",
+      "squadron_code": "BK",
+      "aircraft_letter": "J",
+      "pilot": "Philip Morris Algar",
+      "pilot_rank": "Capt.",
+      "formation_position": "Group lead (384th BG)",
+      "mission_outcome": "bombed",
+      "sortie_result_as_recorded": "Completed Mission",
+      "combat_credit": "YES",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Group lead. Only plane to return to Grafton Underwood.",
+      "crew": [
+        {
+          "name": "George Warren Harris Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "other",
+          "position_as_recorded": "Commander",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-399610",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Captain / Major. Recorded position: Commander (air commander aboard group lead aircraft).",
+          "ref_384th_person_key": 4909
+        },
+        {
+          "name": "Philip Morris Algar",
+          "rank": "Capt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-728536",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 75
+        },
+        {
+          "name": "Frank A Celentano",
+          "rank": "1st Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-728340",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 4947
+        },
+        {
+          "name": "James Clifton McClanahan",
+          "rank": "1st Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-727647",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 2553
+        },
+        {
+          "name": "Francis Gerow",
+          "rank": "S/Sgt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "16024140",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Sergeant / Technical Sergeant).",
+          "ref_384th_person_key": 1336
+        },
+        {
+          "name": "Roland Bernard Laviolette",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "11015940",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 2258
+        },
+        {
+          "name": "Kenneth Mitchel McKay Jr.",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "19080984",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Staff Sergeant.",
+          "ref_384th_person_key": 2605
+        },
+        {
+          "name": "Richard Vance Wolf",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "T-251",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Flight Officer / First Lieutenant.",
+          "ref_384th_person_key": 4336
+        },
+        {
+          "name": "Casmer Robert Majewski",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "36346741",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2423
+        },
+        {
+          "name": "John Francis Schimenek",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "16022229",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Sergeant / Staff Sergeant). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3543
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-30033",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "LITTLE AMERICA",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "546th",
+      "squadron_code": "BK",
+      "aircraft_letter": "G",
+      "pilot": "Lloyd Rowland Armstrong",
+      "pilot_rank": "1st Lt.",
+      "formation_position": null,
+      "mission_outcome": "aborted",
+      "sortie_result_as_recorded": "Aborted after Takeoff",
+      "combat_credit": "NO",
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04"
+      ],
+      "notes": "Turned back. Landed away at Metfield.",
+      "crew": [
+        {
+          "name": "Lloyd Rowland Armstrong",
+          "rank": "1st Lt.",
+          "rank_confidence": "UNVERIFIED",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-665266",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from dated promotions on 384th person page; promotion chain incomplete (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 4631
+        },
+        {
+          "name": "Donald Wilson Furber",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-677703",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / First Lieutenant).",
+          "ref_384th_person_key": 1279
+        },
+        {
+          "name": "Eugene Theodore Wilson",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-795327",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 4296
+        },
+        {
+          "name": "William Brownie Kinney",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "O-734471",
+          "service_number_note": "384th BG site lists this ASN (not marked as confirmed in official records).",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Second Lieutenant / Captain).",
+          "ref_384th_person_key": 2115
+        },
+        {
+          "name": "George Henry Carroll",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "12053073",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 641
+        },
+        {
+          "name": "Lloyd Stack Estes",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "39092810",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Staff Sergeant / Technical Sergeant).",
+          "ref_384th_person_key": 1109
+        },
+        {
+          "name": "Fillman Clifton Thurman",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "18077086",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4000
+        },
+        {
+          "name": "Alvin Everette Renfro",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "34136691",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 3350
+        },
+        {
+          "name": "Michael John Polito",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "32782979",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Corporal / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3203
+        },
+        {
+          "name": "Ralph Warner Voorhees",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "returned",
+          "status_as_recorded": "returned (no status = returned without injury)",
+          "service_number": "17155146",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 4111
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-30196",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "SAD SACK",
+      "nickname_confidence": "PROBABLE",
+      "nickname_note": "Name as recorded in the 384th BG aircraft database/sortie report; the database records the aircraft's name(s) generally, not specifically for 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "546th",
+      "squadron_code": "BK",
+      "aircraft_letter": "Y",
+      "pilot": "Lawrence Larry Keller Jr.",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Knocked down by enemy aircraft; crashed at Bischbrunn, Germany, 21 miles WNW of Würzburg, Germany; MACR 839.",
+      "macr": "MACR 839",
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04",
+        "384-08"
+      ],
+      "notes": "Knocked down by enemy aircraft; crashed at Bischbrunn, Germany, 21 miles WNW of Würzburg, Germany; MACR 839.",
+      "crew": [
+        {
+          "name": "Lawrence Larry Keller Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-671955",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2058
+        },
+        {
+          "name": "Marion Dale Odell",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-742010",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 2970
+        },
+        {
+          "name": "Jerome Fraser Hart",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-736595",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1605
+        },
+        {
+          "name": "Kenneth Elbert Gross",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-676475",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 5682
+        },
+        {
+          "name": "Wallie Havis Vansandt Jr.",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "POW",
+          "status_as_recorded": "POW/Wounded",
+          "service_number": "18137093",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; POW (384th BG loading list status \"POW/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 4087
+        },
+        {
+          "name": "Virgilio Jacoby",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "32075520",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1908
+        },
+        {
+          "name": "Harold Keith McClean",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "33288805",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 6127
+        },
+        {
+          "name": "Charles Albert Jellings",
+          "rank": "Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW/Wounded",
+          "service_number": "16144458",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; POW (384th BG loading list status \"POW/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 1926
+        },
+        {
+          "name": "John Edward Maloney",
+          "rank": "Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "31128473",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page). Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2434
+        },
+        {
+          "name": "Peter Charles Motiaytis",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "31206909",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private / Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2834
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-31059",
+      "aircraft_type": "B-17G",
+      "block": null,
+      "nickname": null,
+      "nickname_confidence": null,
+      "nickname_note": "384th BG database: name \"[not known]\".",
+      "nose_art": null,
+      "bomb_squadron": "547th",
+      "squadron_code": "SO",
+      "aircraft_letter": "N",
+      "pilot": "Donald Potter Ogilvie",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "sortie_result_as_recorded": "Failed to Return",
+      "combat_credit": "YES",
+      "loss_details": "Knocked down by enemy aircraft; crashed near Soissons, France; MACR 842.",
+      "macr": "MACR 842",
+      "escape_evasion_reports": [
+        "E&E 1122",
+        "E&E 1661",
+        "E&E 1951",
+        "E&E 2090",
+        "E&E 2213",
+        "E&E 2413",
+        "E&E 2425"
+      ],
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01",
+        "384-02",
+        "384-04",
+        "384-10"
+      ],
+      "notes": "Knocked down by enemy aircraft; crashed near Soissons, France; MACR 842. Recorded as B-17G (early G) in the 384th BG database.",
+      "crew": [
+        {
+          "name": "Donald Potter Ogilvie",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "pilot",
+          "position_as_recorded": "Pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-665330",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 31
+        },
+        {
+          "name": "Robert Bruce Kilmer Jr.",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "copilot",
+          "position_as_recorded": "Co-pilot",
+          "fate": "POW",
+          "status_as_recorded": "POW",
+          "service_number": "O-671962",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 6011
+        },
+        {
+          "name": "Everett Lynn Childs",
+          "rank": "2nd Lt.",
+          "rank_confidence": "PROBABLE",
+          "position": "navigator",
+          "position_as_recorded": "Navigator",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "O-800168",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 696
+        },
+        {
+          "name": "William Hollis Wilson",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "bombardier",
+          "position_as_recorded": "Bombardier",
+          "fate": "KIA",
+          "status_as_recorded": "KIA",
+          "service_number": "O-2043778",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Second Lieutenant / First Lieutenant.",
+          "ref_384th_person_key": 4312
+        },
+        {
+          "name": "James Raymond Murray",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "radio",
+          "position_as_recorded": "Radio Operator",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded",
+          "service_number": "32393817",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Sergeant / Technical Sergeant).",
+          "ref_384th_person_key": 2858
+        },
+        {
+          "name": "Emmett Alexander Hood",
+          "rank": "T/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "engineer",
+          "position_as_recorded": "Engineer/Top Turret",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "38104051",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Derived from lowest rank + dated promotion entries on 384th person page (range recorded: Staff Sergeant / Technical Sergeant).",
+          "ref_384th_person_key": 1786
+        },
+        {
+          "name": "James William McKeon",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "ball",
+          "position_as_recorded": "Ball Turret",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded",
+          "service_number": "31202048",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant.",
+          "ref_384th_person_key": 2610
+        },
+        {
+          "name": "Louis Lawrence Ratkiewicz",
+          "rank": "S/Sgt.",
+          "rank_confidence": "PROBABLE",
+          "position": "tail",
+          "position_as_recorded": "Tail Gunner",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "10601012",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Only rank recorded for this man during 384th BG service (person page).",
+          "ref_384th_person_key": 3305
+        },
+        {
+          "name": "William Enoch Martin",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "39680339",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Staff Sergeant / Technical Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 2487
+        },
+        {
+          "name": "Francis Robert Sylvia",
+          "rank": null,
+          "rank_confidence": "UNKNOWN",
+          "position": "waist",
+          "position_as_recorded": "Waist (Flexible) Gunner",
+          "fate": "evaded",
+          "status_as_recorded": "Evaded/Wounded",
+          "service_number": "31289498",
+          "service_number_note": "384th BG site marks this ASN as confirmed in official records.",
+          "confidence": "VERIFIED",
+          "sources": [
+            "384-02",
+            "384-04",
+            "384-05"
+          ],
+          "notes": "Wounded; evaded (384th BG loading list status \"Evaded/Wounded\") Rank on 14 Oct 1943 not determinable from the person page; ranks recorded while with the 384th (lowest / highest): Private First Class / Staff Sergeant. Waist side (left/right) not recorded.",
+          "ref_384th_person_key": 3941
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3218",
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nickname_confidence": null,
+      "nickname_note": "Not researched (aircraft did not fly this mission).",
+      "nose_art": null,
+      "bomb_squadron": null,
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": null,
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "sortie_result_as_recorded": "Ground Spare, Unused",
+      "combat_credit": null,
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01"
+      ],
+      "notes": "Ground Spare, Unused - assigned to the mission but did not fly; no crew recorded.",
+      "did_not_fly": true,
+      "crew": []
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-5444",
+      "aircraft_type": null,
+      "block": null,
+      "nickname": null,
+      "nickname_confidence": null,
+      "nickname_note": "Not researched (aircraft did not fly this mission).",
+      "nose_art": null,
+      "bomb_squadron": null,
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": null,
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "sortie_result_as_recorded": "Lead Ground Spare, Unused",
+      "combat_credit": null,
+      "loss_details": null,
+      "macr": null,
+      "escape_evasion_reports": null,
+      "historical_confidence": "VERIFIED",
+      "sources": [
+        "384-01"
+      ],
+      "notes": "Lead Ground Spare, Unused - assigned to the mission but did not fly; no crew recorded.",
+      "did_not_fly": true,
+      "crew": []
+    }
+  ],
+  "research_gaps": [
+    "Ranks: 384th BG person pages record lowest/highest rank while with the group plus some dated promotion entries; rank on 14 Oct 1943 is set only where a single rank was recorded or dated promotions allow derivation. Others left null with the recorded range in notes.",
+    "Waist gunner side (left/right) is not recorded in the loading lists; recorded as \"waist\".",
+    "Nicknames come from the 384th BG aircraft database (not date-specific); no photographic evidence for nose art on 14 Oct 1943 was checked. nose_art left null throughout.",
+    "Formation positions: only group lead (42-30026, with Capt. George W. Harris as Commander) and High Squadron lead (42-3429, aborted) are recorded in sortie comments. Full formation chart not located; the 384th site photo gallery category \"Combat Mission Records and Plans\" (photos.384thbombgroup.com/index.php?/category/4718) may contain the formation diagram but was not parsed.",
+    "Block numbers not recorded in sources consulted (384th aircraft pages may carry them; not checked per aircraft).",
+    "americanairmuseum.com returned HTTP 403 to direct fetch; only search-result titles were used as cross-checks for aircraft names/MACR of 42-3216, 42-30196, 42-3037, 42-31059.",
+    "Wounded crewmen who returned (e.g. 1st/2nd Lt. Joseph L. Bedsole, 42-29809) are recorded with fate \"wounded\"; nature of wounds not researched.",
+    "b17flyingfortress.de lists 42-30040 (Piccadilly Commando, MACR 837) under the 384th for this mission; the 384th BG aircraft page shows it was transferred to the 96th BG (337BS, AW-A) on 6 Jul 1943 and was lost with the 96th on 14 Oct 1943 (crashed Avincourt, France) - NOT a 384th sortie. Likewise b17flyingfortress.de attributes 42-29784 and 42-29867 to the 381st as well; 384th loading lists show both flew with the 384th.",
+    "Earlier draft placed the 384th in the 40th CBW from a newsletter summary mentioning Col. Peaslee; the 303rd BG report table places it in the 41st CBW. Peaslee (former 384th CO) led the 1st Air Division / 40th CBW flying with the 92nd BG."
+  ],
+  "group_sources": [
+    "384-01",
+    "384-03",
+    "384-06",
+    "384-11"
+  ]
+}

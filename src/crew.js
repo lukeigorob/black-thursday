@@ -23,6 +23,7 @@ function slab(o, d) {
 }
 import { SECTIONS } from './bomber.js';
 import { makeFigure, reachFor } from './figure.js';
+import { SURNAMES } from './lines.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
@@ -40,7 +41,7 @@ export const ROLES = [
   { id: 'pilot', title: 'Pilot', rank: 'Lt.', station: 'pilot' },
   { id: 'copilot', title: 'Co-pilot', rank: 'Lt.', station: 'copilot' },
   { id: 'bombardier', title: 'Bombardier', rank: 'Lt.', station: 'noseR' },
-  { id: 'navigator', title: 'Navigator', rank: 'Lt.', station: null }, // (the bombardier has the nose to himself: the navigator rides aft)
+  { id: 'navigator', title: 'Navigator', rank: 'Lt.', station: 'cheekL' }, // (on the B-17F he manned the left cheek gun, beside his table)
   { id: 'engineer', title: 'Engineer', rank: 'T/Sgt.', station: 'top' },
   { id: 'radio', title: 'Radio operator', rank: 'T/Sgt.', station: 'radio' },
   { id: 'ball', title: 'Ball gunner', rank: 'S/Sgt.', station: 'ball' },
@@ -48,8 +49,8 @@ export const ROLES = [
   { id: 'waistR', title: 'Right waist', rank: 'S/Sgt.', station: 'waistR' },
   { id: 'tail', title: 'Tail gunner', rank: 'S/Sgt.', station: 'tail' },
 ];
-const SURNAMES = ['Miller', 'Kowalski', 'Brennan', 'Haskell', 'DeLuca', 'Ostrowski', 'Reyes', 'Lindqvist', 'Murphy', 'Abbott', 'Fischer',
-  'Grady', 'Novak', 'Turner', 'Callahan', 'Whitfield', 'Romano', 'Sorensen', 'Jablonski', 'Barlow', 'Dunn', 'Kessler', 'McKay', 'Stroud'];
+// (the surnames: lines.js, where their calls are recorded)
+const WHERE = { head: 'the head', torso: 'the chest', armL: 'the left arm', armR: 'the right arm', legL: 'the left leg', legR: 'the right leg' }; // (the parts of you, player.js)
 
 // where each man is in the player's bomber: spot = feet, pose, yaw (0 = facing the nose); lie = where he falls
 // (his feet: lying, he stretches 1.8 m forward of them, so the men in the nose lie well back in it)
@@ -57,8 +58,7 @@ const SPOTS = {
   pilot: { at: [-0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [-0.55, 0.05, -7.6], liePose: 'slump', help: [-0.18, -0.40, -7.2] },
   copilot: { at: [0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [0.55, 0.05, -7.6], liePose: 'slump', help: [0.18, -0.40, -7.2] },
   bombardier: { at: [0.26, -0.72, -9.9], pose: 'kneel', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (kneeling upright behind the right nose gun: standing, the low nose bent him double)
-  navigator: { at: [0.5, -1.36, -1.62], pose: 'hidden', yaw: 90 * D, // (the bombardier has the nose to himself: the navigator isn't shown)
-    lie: [0.2, -1.80, -1.4], liePose: 'lie' },
+  navigator: { at: [-0.38, -0.72, -9.45], pose: 'kneel', yaw: 70 * D, lie: [-0.26, -0.72, -8.7], liePose: 'lie' }, // (kneeling at the left cheek gun, as the bombardier does behind his)
   engineer: { at: [0, -0.28, -6.78], pose: 'stand', yaw: 0, lie: [0.1, -0.40, -7.05], liePose: 'lie' },
   radio: { at: [0.1, -1.8, -2.25], pose: 'gun', yaw: Math.PI, lie: [-0.1, -1.80, -1.8], liePose: 'lie' }, // at his gun under the roof hatch, facing aft
   ball: { at: [0, -2.2, -0.13], pose: 'hidden', yaw: 0, lie: [0.05, -1.95, 0.95], liePose: 'lie' }, // pulled out of the turret
@@ -214,11 +214,17 @@ export class Crew {
     this.bomber = bomber;
     this.visible = visible;
     this.interior = interior;
-    const names = [...SURNAMES].sort(() => Math.random() - 0.5);
-    this.members = ROLES.map((role, i) => ({
-      role, name: `${role.rank} ${names[i]}`, state: role.id === playerRole ? 'player' : 'ok',
-      woundLeft: 0, task: 'station', spot: SPOTS[role.id],
-    }));
+    // the men: the real crew where the records have them (history.js: bomber.histCrew, their names and ranks
+    // as recorded: no rank where none is), and for a man not on record a placeholder name, marked as one
+    const names = [...SURNAMES].sort(() => Math.random() - 0.5), real = bomber.histCrew ?? {};
+    this.members = ROLES.map((role, i) => {
+      const h = real[role.id];
+      return {
+        role, name: h ? (h.rank ? `${h.rank} ${h.name}` : h.name) : `${role.rank} ${names[i]}`, state: role.id === playerRole ? 'player' : 'ok',
+        historical: h ? { confidence: h.confidence, fate: h.fate } : null, placeholder: !h,
+        woundLeft: 0, task: 'station', spot: SPOTS[role.id],
+      };
+    });
     this.gunners = new Map(); // station id -> aim state
     this.listeners = [];
     if (visible) {
@@ -265,9 +271,10 @@ export class Crew {
     }
     if (player && !player.wounded && !player.dead) {
       const p = player.feet.clone().add(new V(0, 0.9, 0));
-      const how = player.hurt(harm(Math.max(0, 1 - p.distanceTo(local) / 2.0)));
+      const how = player.hurt(harm(Math.max(0, 1 - p.distanceTo(local) / 2.0)), player.zoneAt(local, 0.6));
       if (how) this.onSound?.(how === 'down' ? 'down' : 'hurt', null);
-      if (how === 'down') { this.emit("You're hit!"); this.findHelper({ player }); }
+      if (how === 'hurt') this.emit(`You're hit in ${WHERE[player.lastZone]}!`);
+      if (how === 'down') { this.emit(`You're hit in ${WHERE[player.lastZone]}! You're down!`); this.findHelper({ player }); }
       if (how === 'dead') this.emit("You're hit again. You didn't make it.");
     }
   }
@@ -311,9 +318,10 @@ export class Crew {
       const harm = rand(0.3, 0.95) * force;
       tally.fragments = (tally.fragments ?? 0) + 1;
       if (hit.player) {
-        const how = hit.player.hurt(harm);
+        const how = hit.player.hurt(harm, hit.player.zoneAt(_fp.copy(from).addScaledVector(dir, ht), 0.3)); // (about where its path crosses you)
         if (how) this.onSound?.(how === 'hurt' ? 'hurt' : 'down', null);
-        if (how === 'down') { this.emit("You're hit! Flak!"); this.findHelper({ player: hit.player }); }
+        if (how === 'hurt') this.emit(`Flak! You're hit in ${WHERE[hit.player.lastZone]}!`);
+        if (how === 'down') { this.emit(`Flak! You're hit in ${WHERE[hit.player.lastZone]}! You're down!`); this.findHelper({ player: hit.player }); }
         if (how === 'dead') this.emit("You're hit again. You didn't make it.");
         if (how && how !== 'hurt') men.splice(men.indexOf(hit), 1);
       } else {
@@ -349,10 +357,19 @@ export class Crew {
     }
   }
 
-  /** Both pilots dead: nobody flies her (unless you take the controls): she glides down out of the box. */
+  /**
+   * Both pilots dead: in a bomber you're not in, the engineer (or the bombardier, or the navigator) takes the
+   * controls, as they did, and flies her on; with none of them left, or in yours (unless you take the
+   * controls), nobody flies her: she glides down out of the box.
+   */
   checkPilots() {
     const gone = (id) => { const p = this.members.find((x) => x.role.id === id); return !p || p.state === 'dead' || p.state === 'bailed'; };
-    if (gone('pilot') && gone('copilot') && !this.bomber.pilotless) { this.bomber.pilotless = true; this.emit('Both pilots are dead! Somebody get on the controls!'); }
+    if (!gone('pilot') || !gone('copilot') || this.bomber.pilotless) return;
+    if (!this.visible && this.relief?.state !== 'ok') {
+      this.relief = ['engineer', 'bombardier', 'navigator'].map((id) => this.members.find((x) => x.role.id === id)).find((x) => x?.state === 'ok');
+      if (this.relief) this.emit(`Both pilots are dead! ${this.relief.role.title} ${this.relief.name} is on the controls!`);
+    }
+    if (this.visible || this.relief?.state !== 'ok') { this.bomber.pilotless = true; this.emit('Both pilots are dead! Somebody get on the controls!'); }
   }
 
   wound(m, quiet = false) {
@@ -366,6 +383,7 @@ export class Crew {
     if (this.visible) this.place(m);
     this.emit(`${m.role.title}'s hit!`);
     this.findHelper({ member: m });
+    if (m === this.relief) this.checkPilots(); // (the man flying her in the pilots' place)
   }
 
   /**
@@ -448,7 +466,7 @@ export class Crew {
         this.checkPilots();
       }
       if (m.task === 'bailing' && m.state === 'ok') { // making for his hatch, then out
-        const out = () => { m.state = 'bailed'; m.task = 'down'; if (this.visible) this.place(m); this.bailFx?.parachute(m.hatch.pos.clone().applyMatrix4(this.bomber.group.matrixWorld)); };
+        const out = () => { m.state = 'bailed'; m.task = 'down'; this.checkPilots(); if (this.visible) this.place(m); this.bailFx?.parachute(m.hatch.pos.clone().applyMatrix4(this.bomber.group.matrixWorld)); };
         if (!this.visible) { if ((m.walkT -= dt) <= 0) out(); } else if (m.path?.length) this.walk(m, dt, time); else out();
         continue;
       }
@@ -694,15 +712,20 @@ export class Crew {
 
   /** The player has moved to `other`'s bomber: hand over the visible figures (and the interior). */
   handFiguresTo(other) {
-    this.members.forEach((m, i) => { other.members[i].fig = m.fig; m.fig = null; });
+    this.members.forEach((m, i) => {
+      if (m.fig && m.fig.parent !== this.interior.group) this.interior.group.add(m.fig); // (a figure that went down with the tail comes back aboard: it's now another man)
+      other.members[i].fig = m.fig; m.fig = null;
+    });
     Object.assign(other, { visible: true, interior: this.interior });
     Object.assign(this, { visible: false, interior: null });
     for (const m of this.members) { // the crew left behind carries on unseen
       if (m.task === 'helping') m.walkT = rand(4, 12);
+      if (m.task === 'bailing') m.walkT = rand(2, 8); // (his walk to the hatch, unseen)
       if (m.task === 'returning') m.task = 'station';
     }
     for (const m of other.members) { // the crew we join: at their posts, or where they fell
       if (m.task === 'helping' || m.task === 'returning') { m.task = 'station'; m.patient = null; }
+      if (m.task === 'bailing' && m.state === 'ok') m.path = walkPath(m.pos, m.hatch.pos.clone()); // (on his way out: seen walking there now)
       if (m.state === 'wounded' || m.state === 'dead') { m.task = 'down'; m.pos = new V(...m.spot.lie); }
       other.place(m);
     }

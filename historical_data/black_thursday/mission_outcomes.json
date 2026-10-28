@@ -1,0 +1,3394 @@
+[
+ {
+  "aircraft": "100th:Robert L. Hughes:0",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Robert L. Hughes",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "100-01",
+   "100-02",
+   "100-03",
+   "100-04",
+   "100-05"
+  ]
+ },
+ {
+  "aircraft": "42-5997",
+  "bomb_group": "100th",
+  "serial_number": "42-5997",
+  "nickname": "Heaven Can Wait",
+  "pilot": "Howard E. Keel",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "100-01",
+   "100-06",
+   "100-03"
+  ]
+ },
+ {
+  "aircraft": "100th:Frank G. Lauro:2",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Frank G. Lauro",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "100-01",
+   "100-04",
+   "100-07"
+  ]
+ },
+ {
+  "aircraft": "100th:John J. Flanigan:3",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "John J. Flanigan",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "100-01",
+   "100-04",
+   "100-08"
+  ]
+ },
+ {
+  "aircraft": "100th:Owen D. Roane:4",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Owen D. Roane",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "100-01",
+   "100-02",
+   "100-03",
+   "100-04",
+   "100-09"
+  ]
+ },
+ {
+  "aircraft": "100th:Robert H. Lohof:5",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Robert H. Lohof",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "100-01",
+   "100-04"
+  ]
+ },
+ {
+  "aircraft": "100th:William G. Lakin:6",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "William G. Lakin",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "100-01",
+   "100-04"
+  ]
+ },
+ {
+  "aircraft": "100th:Donald M. Mitchell:7",
+  "bomb_group": "100th",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Donald M. Mitchell",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "100-01",
+   "100-04"
+  ]
+ },
+ {
+  "aircraft": "42-5264",
+  "bomb_group": "303rd",
+  "serial_number": "42-5264",
+  "nickname": "Yankee Doodle Dandy",
+  "pilot": "Calder L. Wise",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5360",
+  "bomb_group": "303rd",
+  "serial_number": "42-5360",
+  "nickname": "Old Faithful",
+  "pilot": "John W. Hendry Jr.",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-29477",
+  "bomb_group": "303rd",
+  "serial_number": "42-29477",
+  "nickname": "Joan of Arc",
+  "pilot": "Roy C. Sanders",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down about five minutes after leaving the target; seen hit by a rocket from an Me 210 which knocked off the elevator and rudder; went down on fire between Nos. 3 and 4 engines and crashed near Bamberg, Germany. 2 KIA (Carll, Cockrum), 9 POW (303-01, 303-04, 303-05).",
+  "macr": "907",
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03",
+   "303-04",
+   "303-05"
+  ]
+ },
+ {
+  "aircraft": "42-29524",
+  "bomb_group": "303rd",
+  "serial_number": "42-29524",
+  "nickname": "Meat Hound",
+  "pilot": "Paul W. Campbell",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-3029",
+  "bomb_group": "303rd",
+  "serial_number": "42-3029",
+  "nickname": "Wallaroo",
+  "pilot": "Thomas J. Quinn",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5482",
+  "bomb_group": "303rd",
+  "serial_number": "42-5482",
+  "nickname": "Cat-O-Nine Tails",
+  "pilot": "Ambrose G. Grant",
+  "mission_outcome": "written_off",
+  "loss_details": "Not a combat loss over enemy territory: abandoned in mid-air over England on return (fog at Molesworth, almost out of fuel, rudder controls shot away). Crashed at Risley, about ten miles south of Molesworth. All ten crew bailed out safely.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02"
+  ]
+ },
+ {
+  "aircraft": "41-24561",
+  "bomb_group": "303rd",
+  "serial_number": "41-24561",
+  "nickname": "The Duchess",
+  "pilot": "Charles F. Hanselman",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "41-24416",
+  "bomb_group": "303rd",
+  "serial_number": "41-24416",
+  "nickname": "Black Diamond Express",
+  "pilot": "Robert L. Phelps Jr.",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "41-24605",
+  "bomb_group": "303rd",
+  "serial_number": "41-24605",
+  "nickname": "Knockout Dropper",
+  "pilot": "John P. Manning",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5257",
+  "bomb_group": "303rd",
+  "serial_number": "42-5257",
+  "nickname": "Miss Bea Haven",
+  "pilot": "Malcolm E. Brown",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-29498",
+  "bomb_group": "303rd",
+  "serial_number": "42-29498",
+  "nickname": "Dark Horse",
+  "pilot": "Pharis C. Brinkley",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5854",
+  "bomb_group": "303rd",
+  "serial_number": "42-5854",
+  "nickname": "Alley Oop",
+  "pilot": "Leonard E. Jokerst",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5393",
+  "bomb_group": "303rd",
+  "serial_number": "42-5393",
+  "nickname": "Thumper Again",
+  "pilot": "William C. Heller",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-29930",
+  "bomb_group": "303rd",
+  "serial_number": "42-29930",
+  "nickname": "Miss Patricia",
+  "pilot": "Willard H. Bergeron",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5081",
+  "bomb_group": "303rd",
+  "serial_number": "42-5081",
+  "nickname": "Luscious Lady",
+  "pilot": "Robert J. Hullar",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-5341",
+  "bomb_group": "303rd",
+  "serial_number": "42-5341",
+  "nickname": "Vicious Virgin",
+  "pilot": "David P. Shelhamer Jr.",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "41-24587",
+  "bomb_group": "303rd",
+  "serial_number": "41-24587",
+  "nickname": "Bad Check",
+  "pilot": "Fred C. Humphreys",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "41-24619",
+  "bomb_group": "303rd",
+  "serial_number": "41-24619",
+  "nickname": "S for Sugar",
+  "pilot": "Ralph E. Whitcomb",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-3158",
+  "bomb_group": "303rd",
+  "serial_number": "42-3158",
+  "nickname": "Max",
+  "pilot": "Howard C. Ness",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03",
+   "303-06"
+  ]
+ },
+ {
+  "aircraft": "42-29955",
+  "bomb_group": "303rd",
+  "serial_number": "42-29955",
+  "nickname": "Mr. Five by Five",
+  "pilot": "Jacob C. James",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "303-01",
+   "303-02",
+   "303-03"
+  ]
+ },
+ {
+  "aircraft": "42-29952",
+  "bomb_group": "305th",
+  "serial_number": "42-29952",
+  "nickname": null,
+  "pilot": "Doug Murdock",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl timeline (305-01): 13:40, Murdock, 364th, crashed Limmel (NL). 305-02: downed by enemy aircraft, crashed Bosseveldt near Maastricht. Group totals: 5 KIA, 5 POW.",
+  "macr": "917",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-3436",
+  "bomb_group": "305th",
+  "serial_number": "42-3436",
+  "nickname": null,
+  "pilot": "Dennis McDarby",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:45, McDarby, crashed Eygelshoven (NL) and Finkenrath (DE). 305-02: No. 2 engine damaged by rocket or gunfire, credited to Obfw. Anton-Rudolf Piffer, 2./JG 1; tail and left wing at Eygelshoven, nose at Finkenrath near Aachen. Tail gunner Lepore credited with an Me 109 (Fw. Brinkmann).",
+  "macr": "1034",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-30807",
+  "bomb_group": "305th",
+  "serial_number": "42-30807",
+  "nickname": null,
+  "pilot": "Gerald B. Eakle",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:45, Eakle, Eisden (BE). 305-02: enemy aircraft, crashed Dilsen-Stokkem 5 miles SW of Maaseik, Belgium; 305-04 gives Bilsen. Totals: 8 POW, 1 KIA, 1 evaded.",
+  "macr": "912",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-3549",
+  "bomb_group": "305th",
+  "serial_number": "42-3549",
+  "nickname": null,
+  "pilot": "Chas Willis",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:45, Willis, Horn (NL). 305-02: shot down by enemy aircraft, crashed at Hoorn near Roermond; a parachute caught fire (garbled text). Totals: 4 KIA, 6 POW.",
+  "macr": "918",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-30831",
+  "bomb_group": "305th",
+  "serial_number": "42-30831",
+  "nickname": null,
+  "pilot": "Edward W. Dienhart",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:49 turned south; crash-landed wheels up at Reinach/Aesch near Basel, Switzerland, at 15:40. Crew: 7 interned, 2 POW (Bolin and Blalock bailed out over German-held territory before the Swiss landing), 1 KIA (navigator Rowley).",
+  "macr": "913",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-29988",
+  "bomb_group": "305th",
+  "serial_number": "42-29988",
+  "nickname": null,
+  "pilot": "Bob Holt",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:50, Holt, Immendorf (DE). 305-02: shot down by enemy aircraft, crashed Immendorf/Floeverich near Puffendorf, 12 miles N of Aachen. Totals: 6 KIA, 4 POW.",
+  "macr": "914",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-3195",
+  "bomb_group": "305th",
+  "serial_number": "42-3195",
+  "nickname": null,
+  "pilot": "Neal Fisher",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:50, Fisher, Waldenrath (DE). 305-02: enemy aircraft, crashed Waldenrath near Geilenkirchen, 17 miles N of Aachen. Totals: 6 POW, 4 KIA.",
+  "macr": "916",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-37750",
+  "bomb_group": "305th",
+  "serial_number": "42-37750",
+  "nickname": null,
+  "pilot": "Bob Lang",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:52, Lang, Puffendorf (DE). 305-02: enemy aircraft, crashed near Beek, about 20 km N of Maastricht (conflicts with Kuhl's location). Pilot KIA in crash; notes '(7 POW)' and '(2 evaded)'.",
+  "macr": "915 (305-02) / 779 (305-04 loss list) - conflict",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-30242",
+  "bomb_group": "305th",
+  "serial_number": "42-30242",
+  "nickname": null,
+  "pilot": "Ellsworth H. Kenyon",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 13:53, Kenyon, crashed 4 miles W of Duren (DE). 305-02: hit by enemy aircraft. Radio operator killed when his parachute caught fire; note '(9 POW)'.",
+  "macr": "911",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-30814",
+  "bomb_group": "305th",
+  "serial_number": "42-30814",
+  "nickname": null,
+  "pilot": "Robert Skerry",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 14:02, Skerry, Adendorf near Bonn. 305-02: enemy aircraft and flak, crashed Adendorf near Meckenheim, 10 miles SW of Bonn. Totals: 8 POW, 2 KIA.",
+  "macr": "919",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-30804",
+  "bomb_group": "305th",
+  "serial_number": "42-30804",
+  "nickname": null,
+  "pilot": "Vic Maxwell",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): 14:29, Maxwell, exploded in mid-air, crashed near Glashofen near Marktheidenfeld. 305-02: enemy aircraft, crashed Glashofen ~15 miles NW of Wurzburg. Totals: 7 KIA, 3 POW.",
+  "macr": "922",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-3550",
+  "bomb_group": "305th",
+  "serial_number": "42-3550",
+  "nickname": null,
+  "pilot": "Alden Kincaid",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): began bomb run 14:32 with Kane/Normand, Bullock and Farrell; crashed 14:39 near Werneck, 7 miles SW of Schweinfurt, before bombing. Totals: 7 POW, 3 KIA.",
+  "macr": "921",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-37740",
+  "bomb_group": "305th",
+  "serial_number": "42-37740",
+  "nickname": null,
+  "pilot": "Raymond P. Bullock",
+  "mission_outcome": "lost",
+  "loss_details": "Kuhl (305-01): bombs away 14:40; down 14:41 NE of Schweinfurt after bombing. 305-02: hit by enemy aircraft, crashed Schweinfurt. All 10 POW.",
+  "macr": "920",
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-03",
+   "305-04"
+  ]
+ },
+ {
+  "aircraft": "42-3412",
+  "bomb_group": "305th",
+  "serial_number": "42-3412",
+  "nickname": null,
+  "pilot": "Joseph W. Kane",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02",
+   "305-04",
+   "305-07"
+  ]
+ },
+ {
+  "aircraft": "42-30678",
+  "bomb_group": "305th",
+  "serial_number": "42-30678",
+  "nickname": null,
+  "pilot": "Farrell",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "305-01",
+   "305-02"
+  ]
+ },
+ {
+  "aircraft": "42-29971",
+  "bomb_group": "306th",
+  "serial_number": "42-29971",
+  "nickname": null,
+  "pilot": "Vernon K. Cole",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01 intelligence narrative): two B-17s 'peeled off few minutes before target', reported as A/C 971 and 813; Cole, A/C 971, 'reported smoking but headed in direction of Switzerland'. Secondary (306-06): hit by a rocket from a Ju 88, exploded, crashed at Beek near Maastricht, Netherlands. These locations conflict and are recorded as found; 306-07 (Gottgens, 'Thunder in Heaven') is a detailed study of this crew and the Beek crash.",
+  "macr": "819 (per 306-06; 306bg.us files it as '14oct43macr1')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06",
+   "306-07"
+  ]
+ },
+ {
+  "aircraft": "42-30710",
+  "bomb_group": "306th",
+  "serial_number": "42-30710",
+  "nickname": null,
+  "pilot": "John D. Jackson",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): 'B17 at 1415 hrs. #2 engine on fire. Big flames; 4 chutes. A/C #710. Pilot: Lt. J. D. Jackson.' Secondary (306-06): lost to flak, crashed at Friedburg near Nieder-Florstadt, about 15 miles N of Frankfurt.",
+  "macr": "818 (per 306-06; 306bg.us '14oct43macr3')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30813",
+  "bomb_group": "306th",
+  "serial_number": "42-30813",
+  "nickname": null,
+  "pilot": "Robert McCallum",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): peeled off a few minutes before target, A/C 813, 'Lt. R. (NMI) McCallum'. Secondary (306-06): attacked by fighters, broke in half, crashed near Dorne, Belgium.",
+  "macr": "820 (per 306-06; 306bg.us '14oct43macr4')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30175",
+  "bomb_group": "306th",
+  "serial_number": "42-30175",
+  "nickname": null,
+  "pilot": "Richard Butler",
+  "mission_outcome": "lost",
+  "loss_details": "Secondary (306-06): enemy aircraft knocked out three engines; crashed in the Schweinfurt area. No primary loss description for this aircraft found in 306-01 'Hot News'.",
+  "macr": "822 (per 306-06; 306bg.us '14oct43macr8')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30727",
+  "bomb_group": "306th",
+  "serial_number": "42-30727",
+  "nickname": null,
+  "pilot": "William C. Bisson",
+  "mission_outcome": "lost",
+  "loss_details": "Secondary (306-06): flak knocked out two engines, fighters riddled the tail; crashed at Hoehefeld about 15 miles W of Wurzburg.",
+  "macr": "817 (per 306-06; 306bg.us '14oct43macr6')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-37720",
+  "bomb_group": "306th",
+  "serial_number": "42-37720",
+  "nickname": null,
+  "pilot": "Douglas H. White",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): 'B17 at 1400 hrs, horizontal stabilizer shot up. No more information. A/C #420 [sic]. Pilot: Lt. D. H. White.' Secondary (306-06): hit by enemy aircraft, exploded, broke in half at radio room, crashed Schweinfurt area.",
+  "macr": "823 (per 306-06; 306bg.us '14oct43macr9')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30811",
+  "bomb_group": "306th",
+  "serial_number": "42-30811",
+  "nickname": null,
+  "pilot": "Ralph T. Peters",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): 'B17 at approximately 1500 hrs. peeled off under control; 7 chutes. No fighters around. This A/C # 811. Pilot: Lt. R.T. Peters.' Secondary (306-06): enemy aircraft knocked out #2 engine; crashed at Bellheim (306-06 says 'near Schweinfurt'; location unconfirmed).",
+  "macr": "814 (per 306-06; 306bg.us '14oct43macr10')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30199",
+  "bomb_group": "306th",
+  "serial_number": "42-30199",
+  "nickname": null,
+  "pilot": "George C. Bettinger",
+  "mission_outcome": "lost",
+  "loss_details": "Secondary (306-06): fighters knocked out an engine, interphone and tail guns failed, both wings on fire; 306-06 gives crash at Ginnick near Wettweiss SE of Duren but notes the tail gunner's statement places the attack near Frankfurt (location unresolved).",
+  "macr": "821 (per 306-06; 306bg.us '14oct43macr5')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30707",
+  "bomb_group": "306th",
+  "serial_number": "42-30707",
+  "nickname": null,
+  "pilot": "Gustave S. Holmstrom",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): 'B17 at 1430 hrs. On fire and disintegrated; 4-5 chutes. Believed to be A/C # 707. Pilot: Lt. G. S. Holmstrom.' Secondary (306-06): enemy aircraft knocked out #4 engine; crashed SE of Hanau.",
+  "macr": "816 (per 306-06; 306bg.us '14oct43macr7')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30779",
+  "bomb_group": "306th",
+  "serial_number": "42-30779",
+  "nickname": null,
+  "pilot": "Willard H. Lockyear",
+  "mission_outcome": "lost",
+  "loss_details": "Primary (306-01): 'B17 at 1400 hrs. left formation with #4 engine on fire. 4 chutes. Ship blew up. Another chute opened from middle of flames and got out OK. A/C #779. Pilot: Lt. W. H. Lockyear.' Secondary (306-06): enemy aircraft set three engines on fire; crashed at Hammerstein, 7 miles NW of Koblenz.",
+  "macr": "815 (per 306-06; 306bg.us '14oct43macr2')",
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-04",
+   "306-02",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30782",
+  "bomb_group": "306th",
+  "serial_number": "42-30782",
+  "nickname": null,
+  "pilot": "Charles T. Schoolfield",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-3169",
+  "bomb_group": "306th",
+  "serial_number": "42-3169",
+  "nickname": null,
+  "pilot": "John P. Noack",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30603",
+  "bomb_group": "306th",
+  "serial_number": "42-30603",
+  "nickname": null,
+  "pilot": "Virgil H. Jeffries",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30714",
+  "bomb_group": "306th",
+  "serial_number": "42-30714",
+  "nickname": null,
+  "pilot": "Kenneth R. Bickett",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30812",
+  "bomb_group": "306th",
+  "serial_number": "42-30812",
+  "nickname": null,
+  "pilot": "Charles E. Munger",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30767",
+  "bomb_group": "306th",
+  "serial_number": "42-30767",
+  "nickname": null,
+  "pilot": "William J. Tackmier",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-3301",
+  "bomb_group": "306th",
+  "serial_number": "42-3301",
+  "nickname": null,
+  "pilot": "William S. Kirk",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-30728",
+  "bomb_group": "306th",
+  "serial_number": "42-30728",
+  "nickname": null,
+  "pilot": "Zias D. Davis",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "306-01",
+   "306-03",
+   "306-06"
+  ]
+ },
+ {
+  "aircraft": "42-29925",
+  "bomb_group": "351st",
+  "serial_number": "42-29925",
+  "nickname": null,
+  "pilot": "John R. Blaylock",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-30857",
+  "bomb_group": "351st",
+  "serial_number": "42-30857",
+  "nickname": null,
+  "pilot": "Jose A. Garcia",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3523",
+  "bomb_group": "351st",
+  "serial_number": "42-3523",
+  "nickname": null,
+  "pilot": "Harry B. Holsapple",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3495",
+  "bomb_group": "351st",
+  "serial_number": "42-3495",
+  "nickname": null,
+  "pilot": "Andrew J. Koszarek",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-29860",
+  "bomb_group": "351st",
+  "serial_number": "42-29860",
+  "nickname": null,
+  "pilot": "Joseph S. Peck",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3532",
+  "bomb_group": "351st",
+  "serial_number": "42-3532",
+  "nickname": null,
+  "pilot": "Charles T. Hull",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3136",
+  "bomb_group": "351st",
+  "serial_number": "42-3136",
+  "nickname": null,
+  "pilot": "Leslie S. Cruthirds",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3542",
+  "bomb_group": "351st",
+  "serial_number": "42-3542",
+  "nickname": null,
+  "pilot": "Robert M. Spika",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-6096",
+  "bomb_group": "351st",
+  "serial_number": "42-6096",
+  "nickname": null,
+  "pilot": "Oliver W. Crismon",
+  "mission_outcome": "lost",
+  "loss_details": "351-02 S-2 narrative: lost just after the target; #2 engine already feathered when #4 was knocked out by a rocket shell and caught fire; pilot fell out of formation; the ship caught fire and two parachutes were seen before it blew up. Operations narrative: 'seen to blow up over the target'. 351-03: crashed at Schweinfurt. Load list: 9 POW, 1 KIA (S/Sgt Granville R. Brown).",
+  "macr": "1036",
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-3509",
+  "bomb_group": "351st",
+  "serial_number": "42-3509",
+  "nickname": null,
+  "pilot": "Theodore Argiropolus",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29863",
+  "bomb_group": "351st",
+  "serial_number": "42-29863",
+  "nickname": null,
+  "pilot": "Richard E. Hathaway",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03",
+   "351-04"
+  ]
+ },
+ {
+  "aircraft": "42-5756",
+  "bomb_group": "351st",
+  "serial_number": "42-5756",
+  "nickname": null,
+  "pilot": "Charles A. Fuller",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29749",
+  "bomb_group": "351st",
+  "serial_number": "42-29749",
+  "nickname": null,
+  "pilot": "James W. Strouse",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29812",
+  "bomb_group": "351st",
+  "serial_number": "42-29812",
+  "nickname": null,
+  "pilot": "James J. Maginnis",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-3120",
+  "bomb_group": "351st",
+  "serial_number": "42-3120",
+  "nickname": null,
+  "pilot": "Eugene P. Harris",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-3141",
+  "bomb_group": "351st",
+  "serial_number": "42-3141",
+  "nickname": null,
+  "pilot": "John H. Wrisberg Jr.",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29849",
+  "bomb_group": "351st",
+  "serial_number": "42-29849",
+  "nickname": null,
+  "pilot": "Donald M. Norris",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29835",
+  "bomb_group": "351st",
+  "serial_number": "42-29835",
+  "nickname": null,
+  "pilot": "Carl W. Wilson",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "351-01",
+   "351-02",
+   "351-03"
+  ]
+ },
+ {
+  "aircraft": "42-29511",
+  "bomb_group": "379th",
+  "serial_number": "42-29511",
+  "nickname": "The Iron Maiden",
+  "pilot": "Roland H. Martin Jr.",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crash-landed south of Würzburg, Germany. All 10 POW.",
+  "macr": "MACR 957",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-02",
+   "379-01"
+  ]
+ },
+ {
+  "aircraft": "42-29653",
+  "bomb_group": "379th",
+  "serial_number": "42-29653",
+  "nickname": "Bad News",
+  "pilot": "Dick Jones",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed near Schrozberg, 31 miles S of Würzburg. 6 POW, 4 KIA.",
+  "macr": "MACR 956",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-03",
+   "379-01"
+  ]
+ },
+ {
+  "aircraft": "42-29776",
+  "bomb_group": "379th",
+  "serial_number": "42-29776",
+  "nickname": null,
+  "pilot": "Sam Gaffield",
+  "mission_outcome": "lost",
+  "loss_details": "Mid-air collision with an enemy aircraft; crashed at Grettstadt, SE of Gochsheim, SE of Schweinfurt. 9 KIA, 1 POW (waist gunner Ramey Gray, sole survivor).",
+  "macr": "MACR 1353",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-04",
+   "379-01"
+  ]
+ },
+ {
+  "aircraft": "42-3056",
+  "bomb_group": "379th",
+  "serial_number": "42-3056",
+  "nickname": null,
+  "pilot": "Matt Zack",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed near Singhofen, 12 miles SW of Limburg, Germany (i.e. on the route, before the target). All 10 KIA.",
+  "macr": "MACR 955",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-05",
+   "379-01"
+  ]
+ },
+ {
+  "aircraft": "42-3176",
+  "bomb_group": "379th",
+  "serial_number": "42-3176",
+  "nickname": "Lady Astrid",
+  "pilot": "Alden C. Johnson",
+  "mission_outcome": "lost",
+  "loss_details": "Attacked by fighter, bail-out ordered; flak burst destroyed the waist; aircraft exploded after four men bailed out (co-pilot Holtsberg statement). Fell out of formation at 14:55 after leaving Schweinfurt and crashed in a forest near Dornheim (near Iphofen, about 45 km S of Schweinfurt) per German observer and MACR 954 / KU 367 coordinates as analysed by b17flyingfortress.de; Freeman history says \"Limburger Forest, near Dornheim, W of Darmstadt\". 6 KIA, 4 POW.",
+  "macr": "MACR 954",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-06",
+   "379-01"
+  ]
+ },
+ {
+  "aircraft": "42-3269",
+  "bomb_group": "379th",
+  "serial_number": "42-3269",
+  "nickname": "Piccadilly Willy",
+  "pilot": "Walt Carnal",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed at Machtilshausen, about 10 miles W of Schweinfurt. 8 POW, 2 KIA. Reader comment (unverified): shot down by Hptm. Karl-Heinz Langer, 7./JG 3, whose Bf 109G-6 was hit by debris; parachutes seen between Trimberg and Machtilshausen; 3 bombs still aboard.",
+  "macr": "MACR 958",
+  "confidence": "PROBABLE",
+  "sources": [
+   "379-07",
+   "379-01",
+   "379-08"
+  ]
+ },
+ {
+  "aircraft": "42-3325",
+  "bomb_group": "379th",
+  "serial_number": "42-3325",
+  "nickname": "Paddy Gremlin",
+  "pilot": null,
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "379-09"
+  ]
+ },
+ {
+  "aircraft": "42-29803",
+  "bomb_group": "381st",
+  "serial_number": "42-29803",
+  "nickname": "Flat Foot Floogie",
+  "pilot": "Bernarde M. Yorba Jr.",
+  "mission_outcome": "lost",
+  "loss_details": "Hit by fighters (No. 3 engine knocked out) and set on fire after crossing the target, about 1/3 of the way back; six parachutes seen (534th BS diary). Aircraft exploded and crashed at Hausen, about 3 miles east of Schweinfurt (b17flyingfortress.de / AAM). 4 KIA, 6 POW.",
+  "macr": "MACR 1037",
+  "confidence": "VERIFIED",
+  "sources": [
+   "381-01",
+   "381-02",
+   "381-03",
+   "381-04",
+   "381-05",
+   "381-07"
+  ]
+ },
+ {
+  "aircraft": "42-29832",
+  "bomb_group": "381st",
+  "serial_number": "42-29832",
+  "nickname": null,
+  "pilot": "Miller",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02",
+   "381-03"
+  ]
+ },
+ {
+  "aircraft": "42-5725",
+  "bomb_group": "381st",
+  "serial_number": "42-5725",
+  "nickname": "This IS IT",
+  "pilot": "David D. Hutchens",
+  "mission_outcome": "returned_damaged",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-06",
+   "381-02",
+   "381-03"
+  ]
+ },
+ {
+  "aircraft": "381st:Beckman:89",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Beckman",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Cecil M. Clore:90",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Cecil M. Clore",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Wood:91",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Wood",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Moore:92",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Moore",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Baltrusaitis:93",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Baltrusaitis",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Cahow:94",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Cahow",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Crozier:95",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Crozier",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:C. Ohl:96",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "C. Ohl",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Niederriter:97",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Niederriter",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Schomburg:98",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Schomburg",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Chapman:99",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Chapman",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Baer:100",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Baer",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Hopp:101",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Hopp",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Crosson:102",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Crosson",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "381st:Ridley:103",
+  "bomb_group": "381st",
+  "serial_number": null,
+  "nickname": null,
+  "pilot": "Ridley",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "381-02"
+  ]
+ },
+ {
+  "aircraft": "41-24525",
+  "bomb_group": "384th",
+  "serial_number": "41-24525",
+  "nickname": "WHAT'S COOKIN' DOC?",
+  "pilot": "T. L. Carter",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "41-24560",
+  "bomb_group": "384th",
+  "serial_number": "41-24560",
+  "nickname": "LITTLE AUDREY",
+  "pilot": "Joseph Anthony Hurley",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-3037",
+  "bomb_group": "384th",
+  "serial_number": "42-3037",
+  "nickname": "WINDY CITY AVENGER",
+  "pilot": "William Merriman Price III",
+  "mission_outcome": "written_off",
+  "loss_details": "Crew bailed out near Deenethorpe on return; the aircraft crash-landed near Corby, UK.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04",
+   "384-09"
+  ]
+ },
+ {
+  "aircraft": "42-3216",
+  "bomb_group": "384th",
+  "serial_number": "42-3216",
+  "nickname": "THE JOKER",
+  "pilot": "William Everett Kopf",
+  "mission_outcome": "lost",
+  "loss_details": "Damaged by enemy aircraft; exploded and crashed near Dilsen, Belgium; MACR 841.",
+  "macr": "MACR 841",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04",
+   "384-07"
+  ]
+ },
+ {
+  "aircraft": "42-3429",
+  "bomb_group": "384th",
+  "serial_number": "42-3429",
+  "nickname": "FLAK HOUSE",
+  "pilot": "Alfred Lee Sprague",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-5852",
+  "bomb_group": "384th",
+  "serial_number": "42-5852",
+  "nickname": "THE NATURAL",
+  "pilot": "Edmund Samuel Goulder",
+  "mission_outcome": "written_off",
+  "loss_details": "Crew bailed out over England; aircraft crashed near Chetwode, UK on return.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29651",
+  "bomb_group": "384th",
+  "serial_number": "42-29651",
+  "nickname": "STELLA",
+  "pilot": "Randolph George Edward Jacobs",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29703",
+  "bomb_group": "384th",
+  "serial_number": "42-29703",
+  "nickname": "KATHY JANE TALLYWACKER",
+  "pilot": "Robert Lawrence Robinson",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29717",
+  "bomb_group": "384th",
+  "serial_number": "42-29717",
+  "nickname": "MR. FIVE BY FIVE",
+  "pilot": "Walter Richard Carpenter",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29768",
+  "bomb_group": "384th",
+  "serial_number": "42-29768",
+  "nickname": "WINSOME WINN II",
+  "pilot": "Mark Skinner Willing Jr.",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29784",
+  "bomb_group": "384th",
+  "serial_number": "42-29784",
+  "nickname": "SMILIN-THRU",
+  "pilot": "Erwin Crawford Johnson",
+  "mission_outcome": "written_off",
+  "loss_details": "Crew bailed out over England; their battle-damaged aircraft crash-landed near Baydon, Wiltshire. Erwin C. Johnson and Elliott L. Gadd were injured as a result of bailing out. Johnson did not fly again. Gadd remained off flight status until 5 December 1943.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29800",
+  "bomb_group": "384th",
+  "serial_number": "42-29800",
+  "nickname": "ME AN' MY GAL",
+  "pilot": "William Russell Harry",
+  "mission_outcome": "lost",
+  "loss_details": "Knocked down by enemy aircraft; crashed near Simmershofen, Germany; MACR 840.",
+  "macr": "MACR 840",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29809",
+  "bomb_group": "384th",
+  "serial_number": "42-29809",
+  "nickname": "QUEEN JEANIE / DAMN YANKEE II",
+  "pilot": "Joseph Linyer Bedsole Jr.",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29867",
+  "bomb_group": "384th",
+  "serial_number": "42-29867",
+  "nickname": "Lucifer II",
+  "pilot": "Walter Gordon Williams",
+  "mission_outcome": "lost",
+  "loss_details": "Knocked down by enemy aircraft; crashed near Metz, France; MACR 838.",
+  "macr": "MACR 838",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-29870",
+  "bomb_group": "384th",
+  "serial_number": "42-29870",
+  "nickname": "TS / BIG MOOSE",
+  "pilot": "Giles Felker Kauffman Jr.",
+  "mission_outcome": "lost",
+  "loss_details": "Crashed near Bad Brückenau, Germany; MACR 1038.",
+  "macr": "MACR 1038",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-30026",
+  "bomb_group": "384th",
+  "serial_number": "42-30026",
+  "nickname": "BATTLEWAGON",
+  "pilot": "Philip Morris Algar",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-30033",
+  "bomb_group": "384th",
+  "serial_number": "42-30033",
+  "nickname": "LITTLE AMERICA",
+  "pilot": "Lloyd Rowland Armstrong",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04"
+  ]
+ },
+ {
+  "aircraft": "42-30196",
+  "bomb_group": "384th",
+  "serial_number": "42-30196",
+  "nickname": "SAD SACK",
+  "pilot": "Lawrence Larry Keller Jr.",
+  "mission_outcome": "lost",
+  "loss_details": "Knocked down by enemy aircraft; crashed at Bischbrunn, Germany, 21 miles WNW of Würzburg, Germany; MACR 839.",
+  "macr": "MACR 839",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04",
+   "384-08"
+  ]
+ },
+ {
+  "aircraft": "42-31059",
+  "bomb_group": "384th",
+  "serial_number": "42-31059",
+  "nickname": null,
+  "pilot": "Donald Potter Ogilvie",
+  "mission_outcome": "lost",
+  "loss_details": "Knocked down by enemy aircraft; crashed near Soissons, France; MACR 842.",
+  "macr": "MACR 842",
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01",
+   "384-02",
+   "384-04",
+   "384-10"
+  ]
+ },
+ {
+  "aircraft": "42-3218",
+  "bomb_group": "384th",
+  "serial_number": "42-3218",
+  "nickname": null,
+  "pilot": null,
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01"
+  ]
+ },
+ {
+  "aircraft": "42-5444",
+  "bomb_group": "384th",
+  "serial_number": "42-5444",
+  "nickname": null,
+  "pilot": null,
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "384-01"
+  ]
+ },
+ {
+  "aircraft": "42-3292",
+  "bomb_group": "385th",
+  "serial_number": "42-3292",
+  "nickname": "Mary Pat",
+  "pilot": "Ruel G. Weikert",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30662",
+  "bomb_group": "385th",
+  "serial_number": "42-30662",
+  "nickname": "Clarissa Jean",
+  "pilot": "Taylor (surname only, from crew field)",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-06",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30171",
+  "bomb_group": "385th",
+  "serial_number": "42-30171",
+  "nickname": "Stud Hoss",
+  "pilot": "Chester L. Doron",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30795",
+  "bomb_group": "385th",
+  "serial_number": "42-30795",
+  "nickname": "The Wild Hare",
+  "pilot": "John P. McGowan",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30819",
+  "bomb_group": "385th",
+  "serial_number": "42-30819",
+  "nickname": "Shack Bunny",
+  "pilot": "Vincent W. Masters",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30822",
+  "bomb_group": "385th",
+  "serial_number": "42-30822",
+  "nickname": "Dorsal Queen",
+  "pilot": "Donald E. Jones",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3337",
+  "bomb_group": "385th",
+  "serial_number": "42-3337",
+  "nickname": "Thoroughbred",
+  "pilot": "Norman L. Weider",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3547",
+  "bomb_group": "385th",
+  "serial_number": "42-3547",
+  "nickname": "Latest Rumor",
+  "pilot": "Robert S. Vandiver",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30197",
+  "bomb_group": "385th",
+  "serial_number": "42-30197",
+  "nickname": "Mission Belle",
+  "pilot": "Wayne H. Horr",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3544",
+  "bomb_group": "385th",
+  "serial_number": "42-3544",
+  "nickname": "Stars and Stripes",
+  "pilot": "Clarence S. McIlveen",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-06",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3422",
+  "bomb_group": "385th",
+  "serial_number": "42-3422",
+  "nickname": "Winnie The Pooh",
+  "pilot": "Irving H. Frank",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30250",
+  "bomb_group": "385th",
+  "serial_number": "42-30250",
+  "nickname": "Lady Ann/Yank",
+  "pilot": "Ivan F. Klohe",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30827",
+  "bomb_group": "385th",
+  "serial_number": "42-30827",
+  "nickname": "Roundtrip Ticket III",
+  "pilot": "Jerome H. Mudge",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30168",
+  "bomb_group": "385th",
+  "serial_number": "42-30168",
+  "nickname": "Slo-Jo",
+  "pilot": "Warren E. Cerrone",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-06",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30251",
+  "bomb_group": "385th",
+  "serial_number": "42-30251",
+  "nickname": "Picadilly Queen",
+  "pilot": "Harold E. Jordan",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30816",
+  "bomb_group": "385th",
+  "serial_number": "42-30816",
+  "nickname": "Mary Ellen III",
+  "pilot": "Lyle V. Fryer",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3397",
+  "bomb_group": "385th",
+  "serial_number": "42-3397",
+  "nickname": "Fighting Cock",
+  "pilot": "Albert R. Rummans",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3551",
+  "bomb_group": "385th",
+  "serial_number": "42-3551",
+  "nickname": "Shack Bunny",
+  "pilot": "Forrest V. Poore",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-07",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3356",
+  "bomb_group": "385th",
+  "serial_number": "42-3356",
+  "nickname": "Mayfly",
+  "pilot": "John N. Hutchison",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-5985",
+  "bomb_group": "385th",
+  "serial_number": "42-5985",
+  "nickname": "Mr. Smith",
+  "pilot": "Huchison (surname only, from crew field)",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30717",
+  "bomb_group": "385th",
+  "serial_number": "42-30717",
+  "nickname": "Man O' War",
+  "pilot": "Carl W. W. Dawurske",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-04",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-30737",
+  "bomb_group": "385th",
+  "serial_number": "42-30737",
+  "nickname": "Ohio Air Force",
+  "pilot": "Richey (surname only, from crew field)",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3335",
+  "bomb_group": "385th",
+  "serial_number": "42-3335",
+  "nickname": "Fickle Finger of ?",
+  "pilot": "Robert C. Smith",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "385-01",
+   "385-03",
+   "385-05",
+   "385-08"
+  ]
+ },
+ {
+  "aircraft": "42-3347",
+  "bomb_group": "385th",
+  "serial_number": "42-3347",
+  "nickname": "Charlene",
+  "pilot": "Emery R. Chesmore",
+  "mission_outcome": "written_off",
+  "loss_details": "Battle damaged at Schweinfurt; on return, out of fuel, crash-landed at Bovingdon and salvaged 14/10/43 (AAM 385-03; b17flyingfortress.de 385-11). DISPUTED: a commenter on 385-11 (citing waist gunner Nicolas Popadya, second-hand) says the crew bailed out and the aircraft came down at Rowington, Warwickshire; unconfirmed.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "385-03",
+   "385-09",
+   "385-11",
+   "385-10"
+  ]
+ },
+ {
+  "aircraft": "42-30193",
+  "bomb_group": "388th",
+  "serial_number": "42-30193",
+  "nickname": "Hard Luck",
+  "pilot": "Paul Swift",
+  "mission_outcome": "written_off",
+  "loss_details": "Crashed on take-off for Schweinfurt at Knettishall; No. 3 engine caught fire (388-02); crew escaped uninjured, 11 returned to duty; aircraft salvaged (388-01). The take-off crash delayed the rest of the group while the area was cleared (388-02). AAM mission page (388-03) records one 3rd BD aircraft crashed on take-off, DBR, 11 RTD.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "388-01",
+   "388-02",
+   "388-03"
+  ]
+ },
+ {
+  "aircraft": "42-3555",
+  "bomb_group": "388th",
+  "serial_number": "42-3555",
+  "nickname": "Tiger Girl",
+  "pilot": "Otis C. Ingebritsen",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "388-02",
+   "388-04"
+  ]
+ },
+ {
+  "aircraft": "42-3312",
+  "bomb_group": "390th",
+  "serial_number": "42-3312",
+  "nickname": "Sequatchiee",
+  "pilot": "Charles P. Swafford",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-06"
+  ]
+ },
+ {
+  "aircraft": "42-3327",
+  "bomb_group": "390th",
+  "serial_number": "42-3327",
+  "nickname": "Tet-T'Mote",
+  "pilot": "John Ellsworth Asmussen",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-05",
+   "390-03"
+  ]
+ },
+ {
+  "aircraft": "42-3526",
+  "bomb_group": "390th",
+  "serial_number": "42-3526",
+  "nickname": null,
+  "pilot": "Robert R. Rowland",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-04",
+   "390-09"
+  ]
+ },
+ {
+  "aircraft": "42-3557",
+  "bomb_group": "390th",
+  "serial_number": "42-3557",
+  "nickname": "Esquire",
+  "pilot": "William M. Cabral",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-06"
+  ]
+ },
+ {
+  "aircraft": "42-29991",
+  "bomb_group": "390th",
+  "serial_number": "42-29991",
+  "nickname": "We'll Never Know/Patches",
+  "pilot": "Fernie F. McEwin",
+  "mission_outcome": "lost",
+  "loss_details": "Hit by flak over the target (No. 3 engine, also reports of Nos. 1 and 2 hit), then 20mm fire from a single fighter split a wing fuel tank; left formation near the rally point (~1500-1523 hrs) with two/three engines feathered, ~23,000 ft; witnesses saw 8-10 parachutes. Crashed at Lohrweg near Gondelsheim, ~9 miles E of Karlsruhe (eyewitnesses place the action ~20 miles NE of Karlsruhe). Claimed by Uffz. Hermann Bolten (unit given in source as \"KG 2./11\", sic), flying an Me 410A-1. All 10 crew POW.",
+  "macr": "858",
+  "confidence": "VERIFIED",
+  "sources": [
+   "390-01",
+   "390-02",
+   "390-03",
+   "390-08",
+   "390-09",
+   "390-07"
+  ]
+ },
+ {
+  "aircraft": "42-30223",
+  "bomb_group": "390th",
+  "serial_number": "42-30223",
+  "nickname": "Rick-O-Shay/Norma J",
+  "pilot": "Bruce R. Riley",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-07",
+   "390-03"
+  ]
+ },
+ {
+  "aircraft": "42-30289",
+  "bomb_group": "390th",
+  "serial_number": "42-30289",
+  "nickname": "The Dull Tool/The Douche Bag",
+  "pilot": "David F. Parry",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-04"
+  ]
+ },
+ {
+  "aircraft": "42-30325",
+  "bomb_group": "390th",
+  "serial_number": "42-30325",
+  "nickname": "Miss Carry",
+  "pilot": "James R. Geary Jr.",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-06",
+   "390-03"
+  ]
+ },
+ {
+  "aircraft": "42-30338",
+  "bomb_group": "390th",
+  "serial_number": "42-30338",
+  "nickname": "Cabin in the Sky/Rough Group/Dorothy Dee",
+  "pilot": "Robert D. Brown",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-07",
+   "390-03"
+  ]
+ },
+ {
+  "aircraft": "42-30348",
+  "bomb_group": "390th",
+  "serial_number": "42-30348",
+  "nickname": "Royal Flush",
+  "pilot": "William A. Royal",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-05"
+  ]
+ },
+ {
+  "aircraft": "42-30455",
+  "bomb_group": "390th",
+  "serial_number": "42-30455",
+  "nickname": "Schifless Skonk",
+  "pilot": "Robert G. Stutzman",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-05"
+  ]
+ },
+ {
+  "aircraft": "42-30610",
+  "bomb_group": "390th",
+  "serial_number": "42-30610",
+  "nickname": "Red Ass",
+  "pilot": "Clarence A. Strawn",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-04"
+  ]
+ },
+ {
+  "aircraft": "42-30642",
+  "bomb_group": "390th",
+  "serial_number": "42-30642",
+  "nickname": "Geronimo",
+  "pilot": "Robert G. Schneider",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-04"
+  ]
+ },
+ {
+  "aircraft": "42-30713",
+  "bomb_group": "390th",
+  "serial_number": "42-30713",
+  "nickname": "Phyllis Marie",
+  "pilot": "Perry V. Row",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-04"
+  ]
+ },
+ {
+  "aircraft": "42-30715",
+  "bomb_group": "390th",
+  "serial_number": "42-30715",
+  "nickname": "Cincinnati Queen/Blues in the Night",
+  "pilot": "George W. Harmon",
+  "mission_outcome": "unknown",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-05"
+  ]
+ },
+ {
+  "aircraft": "42-30719",
+  "bomb_group": "390th",
+  "serial_number": "42-30719",
+  "nickname": "Shatzi",
+  "pilot": "Roger A. Cartwright",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "390-01",
+   "390-08",
+   "390-05",
+   "390-03"
+  ]
+ },
+ {
+  "aircraft": "42-5714",
+  "bomb_group": "91st",
+  "serial_number": "42-5714",
+  "nickname": "Old Faithful",
+  "pilot": "Robert M. Slane",
+  "mission_outcome": "lost",
+  "loss_details": "Enemy fighters knocked out engines #3 and #4 (91-01; the MACR text quoted there also says No. 4 feathered and No. 1 smoking). Seen at 1530 hrs from 20,000 ft at 48°40'N 06°40'E descending under control, four parachutes seen (observer 2nd Lt. Joseph A. Sulli). Crash-landed on a rail line south of Metz, France; salvaged by the Luftwaffe and used by KG 200 for spares.",
+  "macr": "899",
+  "confidence": "PROBABLE",
+  "sources": [
+   "91-01",
+   "91-02"
+  ]
+ },
+ {
+  "aircraft": "42-29741",
+  "bomb_group": "91st",
+  "serial_number": "42-29741",
+  "nickname": "Corn State Terror",
+  "pilot": "Harold Robert Christensen",
+  "mission_outcome": "returned_damaged",
+  "loss_details": "Battle damaged over Schweinfurt; pilot Lt Christensen wounded and died the next day. Co-pilot Lt Mendelsohn flew it back and crash-landed at RAF Tangmere, striking a tree. Not struck off: after a long repair it returned to service with the 401st BS (LL-D) (91-01, 91-02).",
+  "macr": null,
+  "confidence": "PROBABLE",
+  "sources": [
+   "91-01",
+   "91-02",
+   "91-03"
+  ]
+ },
+ {
+  "aircraft": "42-30231",
+  "bomb_group": "92nd",
+  "serial_number": "42-30231",
+  "nickname": null,
+  "pilot": "Ray Ellison Clough",
+  "mission_outcome": "lost",
+  "loss_details": "Brought down by enemy aircraft; crashed at St Goar, 11 miles SE of Boppard, Germany. All 10 crew POW.",
+  "macr": "844",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-30708",
+  "bomb_group": "92nd",
+  "serial_number": "42-30708",
+  "nickname": null,
+  "pilot": "William J. Byrne",
+  "mission_outcome": "lost",
+  "loss_details": "Missing in action; downed by enemy aircraft and crashed near Würzburg, Germany. 3 KIA (bodies never recovered), 7 POW.",
+  "macr": "845",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-30726",
+  "bomb_group": "92nd",
+  "serial_number": "42-30726",
+  "nickname": null,
+  "pilot": "Stafford Wilbur Webb",
+  "mission_outcome": "lost",
+  "loss_details": "Attacked by enemy fighters after leaving the target (92-01 says 'Fw110'); last seen at 13:40 (location given as near Düren), exploded and crashed near Kembach, about 15 miles W of Würzburg. Credited to Fw. Joachim Gutmann, 8./ZG 26. 6 KIA, 4 POW.",
+  "macr": "846",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-30824",
+  "bomb_group": "92nd",
+  "serial_number": "42-30824",
+  "nickname": "Bobby Joe",
+  "pilot": "Frank M. Talbot",
+  "mission_outcome": "lost",
+  "loss_details": "Missing in action, attributed to enemy aircraft; crashed at Sickershausen, SE of Kitzingen, about 12 miles SE of Würzburg. 5 KIA, 5 POW. Tail gunner Nelson W. Smith reportedly did not bail out and was killed in the radio room (92-04).",
+  "macr": "847",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03",
+   "92-04"
+  ]
+ },
+ {
+  "aircraft": "42-30654",
+  "bomb_group": "92nd",
+  "serial_number": "42-30654",
+  "nickname": null,
+  "pilot": "Julian T. Brown",
+  "mission_outcome": "lost",
+  "loss_details": "Hit by rocket projectiles from an enemy aircraft; crashed at Bischbrunn near Markt Heidenfeld, about 20 miles W of Würzburg. 7 KIA, 3 POW.",
+  "macr": "848",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-30387",
+  "bomb_group": "92nd",
+  "serial_number": "42-30387",
+  "nickname": null,
+  "pilot": "George L. Ott",
+  "mission_outcome": "lost",
+  "loss_details": "Missing in action, enemy aircraft; crashed at Flurabteilung Kastellerweg near Markt Bibart, about 22 miles SE of Würzburg. 1 KIA, 9 POW (one, Proakis, killed 3 Dec 1943 in captivity).",
+  "macr": "849",
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-3351",
+  "bomb_group": "92nd",
+  "serial_number": "42-3351",
+  "nickname": null,
+  "pilot": "Richard W. Lyng",
+  "mission_outcome": "written_off",
+  "loss_details": "Ran out of fuel on return; crash-landed on a small strip at Winkfield, Berkshire, ground-looped and burned out; salvaged. All 10 crew returned to duty, none injured.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-3171",
+  "bomb_group": "92nd",
+  "serial_number": "42-3171",
+  "nickname": "The Blivit",
+  "pilot": "Frank W. Wolf",
+  "mission_outcome": "written_off",
+  "loss_details": "Ran out of fuel on return from Schweinfurt and crash-landed/crashed at Shiplake (Oxfordshire per IWM; 'Berks' per 92-01); crew unhurt, all 10 returned to duty; aircraft salvaged.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "92-01",
+   "92-02",
+   "92-03"
+  ]
+ },
+ {
+  "aircraft": "42-30580",
+  "bomb_group": "92nd",
+  "serial_number": "42-30580",
+  "nickname": "Equipoise",
+  "pilot": "James Kemp McLaughlin",
+  "mission_outcome": "returned_damaged",
+  "loss_details": "Not lost. 92-06 says McLaughlin's lead bomber returned with an engine on fire after pursuit by fighters.",
+  "macr": null,
+  "confidence": "UNVERIFIED",
+  "sources": [
+   "92-05",
+   "92-06",
+   "92-02"
+  ]
+ },
+ {
+  "aircraft": "42-30149",
+  "bomb_group": "94th",
+  "serial_number": "42-30149",
+  "nickname": "Spare Parts",
+  "pilot": "James A. Mullinax",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed at Bamberg, near Wurzburg, Germany. All 10 POW.",
+  "macr": "790",
+  "confidence": "VERIFIED",
+  "sources": [
+   "94-02",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-30383",
+  "bomb_group": "94th",
+  "serial_number": "42-30383",
+  "nickname": "Brennan's Circus",
+  "pilot": "Joseph X. Brennan",
+  "mission_outcome": "lost",
+  "loss_details": "Enemy aircraft knocked out one engine, a second attack damaged another; bombs jettisoned; tracers knocked out a third engine; ditched in the North Sea about five miles from the UK; crew rescued within an hour (10 RTD). Matches AAM mission summary '10RTD (rescued by ASR)'.",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "94-03",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-30453",
+  "bomb_group": "94th",
+  "serial_number": "42-30453",
+  "nickname": "Thunderbird",
+  "pilot": "Roy G. Davidson",
+  "mission_outcome": "lost",
+  "loss_details": "Flak knocked out No.3 engine; crashed at Saverne, France. All 10 POW.",
+  "macr": "788",
+  "confidence": "PROBABLE",
+  "sources": [
+   "94-04",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-30457",
+  "bomb_group": "94th",
+  "serial_number": "42-30457",
+  "nickname": "Jimmy Boy II",
+  "pilot": "Thomas W. Beal",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft. CONFLICT on crash site: AAM 'crashed near Metz, Fr.'; b17flyingfortress.de 'crashed near Boissy-Fresnoy/Peroy-les-Gomberies, 50 km north-east of Paris'.",
+  "macr": "792",
+  "confidence": "VERIFIED",
+  "sources": [
+   "94-05",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-3338",
+  "bomb_group": "94th",
+  "serial_number": "42-3338",
+  "nickname": "Sleepy Time Gal",
+  "pilot": "Sherman Metcalf Dodge",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed Essey-et-Maizeras, 17 miles N of Toul, France. 5 KIA, 5 POW.",
+  "macr": "791",
+  "confidence": "VERIFIED",
+  "sources": [
+   "94-06",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-5901",
+  "bomb_group": "94th",
+  "serial_number": "42-5901",
+  "nickname": "Superstitious Aloysius",
+  "pilot": "Edward S. Reed",
+  "mission_outcome": "lost",
+  "loss_details": "Enemy aircraft set wing on fire; crashed near Landa, between Wurzburg and Mannheim, Germany. 9 POW, 1 KIA.",
+  "macr": "789",
+  "confidence": "VERIFIED",
+  "sources": [
+   "94-07",
+   "94-08"
+  ]
+ },
+ {
+  "aircraft": "42-30182",
+  "bomb_group": "95th",
+  "serial_number": "42-30182",
+  "nickname": "Blondie II",
+  "pilot": "Alden R. Witt",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-37756",
+  "bomb_group": "95th",
+  "serial_number": "42-37756",
+  "nickname": "Roarin' Bill",
+  "pilot": "Charles E. Tucker",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30226",
+  "bomb_group": "95th",
+  "serial_number": "42-30226",
+  "nickname": "Spook V",
+  "pilot": "Donald H. Merten",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3273",
+  "bomb_group": "95th",
+  "serial_number": "42-3273",
+  "nickname": "Impatient Virgin",
+  "pilot": "Edmund L. Barraclough",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3263",
+  "bomb_group": "95th",
+  "serial_number": "42-3263",
+  "nickname": "Slightly Dangerous",
+  "pilot": "Glenn B. Infield",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30353",
+  "bomb_group": "95th",
+  "serial_number": "42-30353",
+  "nickname": "Ten Knights in a Bar Room",
+  "pilot": "Harry L. O'Neal",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30342",
+  "bomb_group": "95th",
+  "serial_number": "42-30342",
+  "nickname": "T'aint A Bird II",
+  "pilot": "John A. Storie",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30634",
+  "bomb_group": "95th",
+  "serial_number": "42-30634",
+  "nickname": "Liberty Belle",
+  "pilot": "John P. Caspers",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3317",
+  "bomb_group": "95th",
+  "serial_number": "42-3317",
+  "nickname": "The Spirit of '76",
+  "pilot": "John R. Miller",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3465",
+  "bomb_group": "95th",
+  "serial_number": "42-3465",
+  "nickname": "Wee Bonnie II",
+  "pilot": "L.E. Kring",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-37734",
+  "bomb_group": "95th",
+  "serial_number": "42-37734",
+  "nickname": "Cuddle Cat",
+  "pilot": "Louis G. Reno",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3462",
+  "bomb_group": "95th",
+  "serial_number": "42-3462",
+  "nickname": "San Antonio Rose",
+  "pilot": "Larry L. Kerr",
+  "mission_outcome": "returned_damaged",
+  "loss_details": "Aircraft returned. Both waist gunners and the tail gunner became POW after rocket damage to the oxygen system aft of the radio room; MACR 856 (95-02, 95-05).",
+  "macr": "856",
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06",
+   "95-05"
+  ]
+ },
+ {
+  "aircraft": "42-5918",
+  "bomb_group": "95th",
+  "serial_number": "42-5918",
+  "nickname": "Heavenly Daze",
+  "pilot": "Robert E. Fischer",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-6098",
+  "bomb_group": "95th",
+  "serial_number": "42-6098",
+  "nickname": "Superstitious Al-o-ysius",
+  "pilot": "Robert L. Carson",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3095",
+  "bomb_group": "95th",
+  "serial_number": "42-3095",
+  "nickname": "Peggy Ann",
+  "pilot": "Robert L. Yuenger",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30167",
+  "bomb_group": "95th",
+  "serial_number": "42-30167",
+  "nickname": "Destiny's Tot",
+  "pilot": "R.M. Smith",
+  "mission_outcome": "aborted",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-30135",
+  "bomb_group": "95th",
+  "serial_number": "42-30135",
+  "nickname": "Trouble Shooter",
+  "pilot": "William R. McPherson",
+  "mission_outcome": "lost",
+  "loss_details": "Left formation shortly after target with No.3 engine feathered and gear down (95-02); crashed between Reims and Sedan, France (95-04). MACR 855.",
+  "macr": "855",
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06",
+   "95-04"
+  ]
+ },
+ {
+  "aircraft": "42-30255",
+  "bomb_group": "95th",
+  "serial_number": "42-30255",
+  "nickname": "Lonesome Polecat II",
+  "pilot": "William V. Owen",
+  "mission_outcome": "bombed",
+  "loss_details": null,
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "95-01",
+   "95-02",
+   "95-06"
+  ]
+ },
+ {
+  "aircraft": "42-3453",
+  "bomb_group": "96th",
+  "serial_number": "42-3453",
+  "nickname": null,
+  "pilot": "Silas Simmons Nettles",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed near Wurzburg, Germany. All 10 POW.",
+  "macr": "831",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-02",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-30040",
+  "bomb_group": "96th",
+  "serial_number": "42-30040",
+  "nickname": "Wabbit-Twacks III",
+  "pilot": "Robert H. Harmeson",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed Avincourt, 12 miles N of St Dizier, France. 6 POW, 3 evaded, 1 KIA.",
+  "macr": "837",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-03",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-30709",
+  "bomb_group": "96th",
+  "serial_number": "42-30709",
+  "nickname": null,
+  "pilot": "Coles Goodner",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crash-landed at Ingwiller, 22 miles NW of Strasbourg, France. All 10 POW.",
+  "macr": "836",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-04",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-30806",
+  "bomb_group": "96th",
+  "serial_number": "42-30806",
+  "nickname": "V-Packet",
+  "pilot": "John J. Scarborough",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed at Reims (Rheims), France. All 10 POW.",
+  "macr": "832",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-05",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-3348",
+  "bomb_group": "96th",
+  "serial_number": "42-3348",
+  "nickname": "Dottie J III",
+  "pilot": "Raymond F. Bye",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft on the return; crash-landed Thiaucourt-Regnieville, 17 miles SW of Metz, France. 4 evaded, 6 POW.",
+  "macr": "833",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-06",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-3430",
+  "bomb_group": "96th",
+  "serial_number": "42-3430",
+  "nickname": "Carolina Boomerang",
+  "pilot": "Jack Oquin Horton",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft; crashed at Puisieux, three miles N of Laon, France. 8 POW, 2 evaded.",
+  "macr": "835",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-07",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-3528",
+  "bomb_group": "96th",
+  "serial_number": "42-3528",
+  "nickname": null,
+  "pilot": "Marion F. Barnhill",
+  "mission_outcome": "lost",
+  "loss_details": "Shot down by enemy aircraft while heading for Switzerland; crashed in Lake Barmsee near Mittenwald, Germany. 9 POW, co-pilot KIA.",
+  "macr": "834",
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-08",
+   "96-10"
+  ]
+ },
+ {
+  "aircraft": "42-30736",
+  "bomb_group": "96th",
+  "serial_number": "42-30736",
+  "nickname": "Paper Doll",
+  "pilot": "Robert Hunter Bolick",
+  "mission_outcome": "written_off",
+  "loss_details": "Battle damage; pilot killed by a shell in the cockpit, co-pilot wounded; flown back by the navigator and bombardier and landed at RAF Ford, Sussex; salvaged 20/10/43. (Source also says 'Returned to the USA 121 BU Bradley 31/7/44' - contradictory.)",
+  "macr": null,
+  "confidence": "VERIFIED",
+  "sources": [
+   "96-09",
+   "96-10"
+  ]
+ }
+]

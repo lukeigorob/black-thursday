@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "mission": "USAAF Eighth Air Force Mission 115, Schweinfurt, 14 October 1943",
+    "coordinate_system": "metres; x = right (starboard of formation lead), y = up, z = back (behind lead). Offsets are relative to the parent formation's lead aircraft.",
+    "confidence_scale": "VERIFIED = mission-specific primary record or several agreeing credible sources; PROBABLE = single credible source or doctrine of the period; ESTIMATE = derived/assumed for the game, no direct source; UNKNOWN = searched, not found.",
+    "aircraft_reference": { "b17f_span_m": 31.6, "b17f_length_m": 22.8, "note": "B-17F span 103 ft 9 in, length 74 ft 9 in (standard published figures), used only to derive clearances." },
+    "accessed": "2026-10-28",
+    "all_values_configurable": true
+  },
+  "element": {
+    "aircraft_per_element": { "value": 3, "unit": "aircraft", "confidence": "VERIFIED", "source_ids": ["S1", "S4", "S18"], "note": "Three-ship Vee (lead, left wing, right wing). 303rd assembly chart shows three-ship rows." },
+    "lead": { "value": [0, 0, 0], "unit": "m", "confidence": "VERIFIED", "source_ids": ["S1"], "note": "Origin." },
+    "left_wing": { "value": [-47, 0, 38], "unit": "m", "confidence": "PROBABLE", "source_ids": ["S17", "S20"], "note": "Derived from training-manual minimums: 50 ft wingtip clearance (span 31.6 m + 15.2 m = 47 m lateral) and 50 ft nose-to-tail (length 22.8 m + 15.2 m = 38 m back). Combat crews often flew tighter. Vertical offset not documented: 0 by default." },
+    "right_wing": { "value": [47, 0, 38], "unit": "m", "confidence": "PROBABLE", "source_ids": ["S17", "S20"], "note": "Mirror of left wing." },
+    "wingman_vertical_step": { "value": 0, "unit": "m", "confidence": "ESTIMATE", "source_ids": [], "note": "No 1943 combat figure found for wingman step-up/down within an element. Configurable; 0-15 m reasonable." }
+  },
+  "squadron": {
+    "aircraft_per_squadron": { "value": [6, 7], "unit": "aircraft", "confidence": "VERIFIED", "source_ids": ["S1", "S4", "S18"], "note": "Two elements (6) plus, in the 21-plane box, a seventh 'tail-end' aircraft. 303rd on 14 Oct: lead squadron 6, the other two 7 each (3-3-1 rows)." },
+    "lead_element": { "value": [0, 0, 0], "unit": "m", "confidence": "VERIFIED", "source_ids": ["S1"], "note": "" },
+    "second_element_lead": { "value": [0, -30, 76], "unit": "m", "confidence": "ESTIMATE", "source_ids": ["S1", "S17", "S18"], "note": "303rd chart shows second element directly behind the first. Training manual: >=50 ft (15 m) vertical between elements and >=50 ft horizontal clearance from first-element wingmen (z = 38 + 22.8 + 15 = 76 m). Early-1943 squadrons ~150 ft (46 m) top-to-bottom (S18), so -30 m used." },
+    "seventh_aircraft": { "value": [0, -55, 114], "unit": "m", "confidence": "ESTIMATE", "source_ids": ["S1"], "note": "303rd chart places the 7th aircraft centred behind the second element. Offsets assumed." }
+  },
+  "group": {
+    "aircraft_per_group_documented": { "value": [11, 20], "unit": "aircraft", "confidence": "VERIFIED", "source_ids": ["S1", "S2"], "note": "Dispatch sizes on 14 Oct ranged 11 (91st) to 20 (303rd); after aborts groups over the target were often 10-18. The 36-plane group box introduced in Oct 1943 (S18) was NOT used this day." },
+    "nominal_group_size": { "value": 18, "unit": "aircraft", "confidence": "PROBABLE", "source_ids": ["S4", "S18"], "note": "18-21 plane box doctrine (summer 1943); 21-plane box standard Jan-Sept 1943 (Bowman via S18)." },
+    "lead_squadron": { "value": [0, 0, 0], "unit": "m", "confidence": "VERIFIED", "source_ids": ["S4"], "note": "" },
+    "high_squadron": { "value": [100, 30, 120], "unit": "m", "confidence": "ESTIMATE", "source_ids": ["S4", "S17"], "note": "Vertical +100 ft (30 m) from Craven & Cate summer-1943 diagram (lead 25,000 / high 25,100 ft) - PROBABLE. Training manual instead gives 150 ft above, 100 ft behind (S17). Lateral side and distances are estimates read from the plan-view diagram (high and low squadrons trail on opposite sides); side varied with sun/stacking." },
+    "low_squadron": { "value": [-100, -76, 120], "unit": "m", "confidence": "ESTIMATE", "source_ids": ["S4", "S17"], "note": "Vertical -250 ft (76 m) from Craven & Cate diagram (24,750 ft) - PROBABLE. Lateral/longitudinal estimates." },
+    "group_box_total_depth": { "value": 229, "unit": "m", "confidence": "PROBABLE", "source_ids": ["S4"], "note": "750 ft top-to-bottom aircraft in summer-1943 combat box diagram." }
+  },
+  "combat_wing": {
+    "groups_per_wing": { "value": 3, "unit": "groups", "confidence": "VERIFIED", "source_ids": ["S1", "S2", "S4"], "note": "Lead, high, low. On 14 Oct the 40th CW effectively flew with two groups after the 305th joined the 1st CW (S7, S15)." },
+    "lead_group": { "value": [0, 0, 0], "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "" },
+    "high_group": { "value": [250, 305, 400], "unit": "m", "confidence": "PROBABLE (vertical) / ESTIMATE (x, z)", "source_ids": ["S2", "S4", "S18"], "note": "Vertical +1,000 ft (305 m): documented for this mission (351st briefing: lead 91st 23,000 ft, high 351st 24,000 ft) and in the doctrine diagram. Lateral and trail estimated to fit Freeman's wing box (~2,000 ft / 610 m across, ~7,000 ft / 2,130 m deep, S18)." },
+    "low_group": { "value": [-250, -305, 800], "unit": "m", "confidence": "PROBABLE (vertical) / ESTIMATE (x, z)", "source_ids": ["S4", "S18"], "note": "Vertical -1,000 ft from doctrine diagram (lead box 25,000, low box 24,000). Low group altitude for 14 Oct not stated in S2 (implied ~22,000 ft). x, z estimates." },
+    "wing_box_envelope": { "value": { "vertical_m": 914, "depth_m": 2134, "width_m": 610 }, "unit": "m", "confidence": "PROBABLE", "source_ids": ["S18", "S4"], "note": "Freeman (Mighty Eighth War Manual) via Wikipedia: ~3,000 x 7,000 x 2,000 ft. Craven & Cate diagram: 3,000 ft overall vertical. S19 (unsourced) gives 1.3 mi wide x 0.3 mi deep for a Feb-1943 wedge - disagreement on depth." }
+  },
+  "stream": {
+    "first_division_wing_order": { "value": ["40th", "1st", "41st"], "unit": "order", "confidence": "VERIFIED (briefed)", "source_ids": ["S1", "S2", "S3"], "note": "351st briefing: '1st C.W. - Second, 40th CBW Lead, 41st CBW Third'. As flown: 305th joined the 1st CW, the 40th (92nd+306th) 'tagged along with the 41st' (S7) and the 351st leader credited the 1st CW leader with leading the Air Division (S2). Craven & Cate still call the 40th the leading wing. Offer an 'as_flown' variant: ['1st (+305th)', '41st', '40th (92nd, 306th)'] - PROBABLE at best." },
+    "third_division_wing_order": { "value": ["45th", "4th", "13th"], "unit": "order", "confidence": "UNVERIFIED", "source_ids": ["S16", "S22", "S23"], "note": "Only the lead is supported (96th/45th CBW led the 3rd Division: S22 [citation needed], S16, S23). Order of the 4th and 13th behind it NOT FOUND; one search excerpt (source not identified) instead had the 13th CW forming first with the 4th and 45th trailing. Treat as configurable." },
+    "interval_between_wings": { "value": 2.0, "unit": "minutes", "confidence": "ESTIMATE", "source_ids": ["S2", "S9"], "note": "No planned figure found. Derived: 1st AD bombed 1439-1445 (S9) with the second wing's 351st at 1441 (S2), i.e. roughly 2-3 min between wings over the target. At 222 mph TAS (99 m/s) 2 min = ~11.9 km. Range 1-3 min." },
+    "interval_between_groups_on_bomb_run": { "value": 1.0, "unit": "minutes", "confidence": "ESTIMATE", "source_ids": ["S2"], "note": "On the bomb run groups went into trail: the 351st 'took the normal trail behind the 91st and 381st Groups' (S2), turning on the IP at 1438 and bombing at 1441. Interval not stated; ~1 min assumed." },
+    "groups_into_trail_from_IP": { "value": true, "unit": "bool", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "Group-level bombing ('Method of Attack - Group'); leader sighted range and deflection, deputy range; others dropped on leader." }
+  },
+  "divisions": {
+    "lead_division": { "value": "1st", "unit": "", "confidence": "VERIFIED", "source_ids": ["S2", "S9", "S12"], "note": "1st Division led; 3rd trailed." },
+    "lateral_separation_penetration": { "value": 48300, "unit": "m", "confidence": "PROBABLE", "source_ids": ["S3", "S5"], "note": "'cross enemy defenses abreast, some 30 miles apart' (Craven & Cate); map shows 3rd Division track south of the 1st. Treat as plan; actual separation varied." },
+    "time_separation_briefed": { "value": 30, "unit": "minutes", "confidence": "VERIFIED (as briefed to 351st)", "source_ids": ["S2"], "note": "'3rd ATF same target 30 minutes behind us'. Conflicts with Craven & Cate 'abreast'." },
+    "time_separation_at_target_actual": { "value": 12, "unit": "minutes", "confidence": "PROBABLE", "source_ids": ["S2", "S8", "S9"], "note": "Bombing 1439-1445 (1st) vs 1451-1457 (3rd) (S9); corroborated by 351st 1441 and 100th 1454. 1st AD itself was ~13 min late (S2)." },
+    "third_division_route_dogleg": { "value": "after escort left near Eupen: south toward Trier/Mosel, then east to the IP, converging on Schweinfurt", "unit": "", "confidence": "PROBABLE", "source_ids": ["S5", "S16"], "note": "Dog-leg visible on Craven & Cate map (S5); waypoint names only from low-reliability S16." },
+    "english_coast_out": { "value": { "1st": "Orfordness 12:33 at 21,000 ft (351st)", "3rd": "~12:18-12:25 (100th: 12:18; S16: 12:25, 10 mi S of Harwich)" }, "unit": "", "confidence": "PROBABLE", "source_ids": ["S2", "S8", "S16"], "note": "Times from individual group records; do not imply the 3rd crossed earlier overall." }
+  },
+  "altitude": {
+    "briefed_altitude": { "value": 7315, "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "24,000 ft ('Altitude and time on Oxygen: 24,000 - 5 1/2 hours')." },
+    "first_cw_lead_group": { "value": 7010, "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "91st @ 23,000 ft (briefed)." },
+    "first_cw_high_group": { "value": 7315, "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "351st @ 24,000 ft (briefed)." },
+    "bombing_altitude_true": { "value": [7178, 7330], "unit": "m", "confidence": "VERIFIED", "source_ids": ["S1", "S2"], "note": "351st 23,550 ft true above target; 303rd 24,050 ft. 100th reset bombsight 1,000 ft lower on the run (S8)." },
+    "coast_out_altitude": { "value": 6401, "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "21,000 ft at Orfordness 12:33, still climbing." },
+    "post_target_altitude": { "value": 6401, "unit": "m", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "'Descend after target to 21,000''; enemy coast out at Ault 16:43 at 21,000 ft." }
+  },
+  "airspeed": {
+    "bomb_run_ias": { "value": 67.1, "unit": "m/s", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "Calculated indicated airspeed 150 mph at release (351st lead)." },
+    "bomb_run_tas": { "value": 99.2, "unit": "m/s", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "222 mph true airspeed at 23,550 ft." },
+    "cruise_ias": { "value": 67.1, "unit": "m/s", "confidence": "ESTIMATE", "source_ids": ["S2"], "note": "No en-route figure found; use 150 mph IAS. Wind at altitude 220 deg / 30 mph (S2)." }
+  },
+  "target_run": {
+    "ip": { "value": "Wurzburg (1st Division, 351st record); 3rd Division IP described as near Darmstadt (S16, low reliability)", "unit": "", "confidence": "VERIFIED (1st) / UNVERIFIED (3rd)", "source_ids": ["S2", "S16"], "note": "351st turned on IP 14:38." },
+    "axis_of_attack_true": { "value": 58, "unit": "deg", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "True heading 64, drift, true track 61 at release." },
+    "straight_and_level_before_release": { "value": [40, 60], "unit": "s", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "Flak report 40 s; bombing flight record 60 s. 5-degree S-turns on the run-in before that." },
+    "rally": { "value": "right turn to 130 deg true after release, descend to 21,000 ft", "unit": "", "confidence": "VERIFIED", "source_ids": ["S2"], "note": "" },
+    "time_over_target": { "value": { "1st": "14:39-14:45", "3rd": "14:51-14:57" }, "unit": "local (BST)", "confidence": "PROBABLE", "source_ids": ["S2", "S8", "S9"], "note": "" }
+  },
+  "route_1st_division": {
+    "waypoints": { "value": ["Base/assembly over East Anglia (1st CW rendezvous Cambridge)", "Orfordness (coast out 12:33)", "West Schouwen (enemy coast in)", "Turnhout", "Duren", "Aachen area (escort turned back ~13:30-13:33)", "Bad Nauheim (right turn)", "Lohr (S-turn begins)", "Karlstadt", "Wurzburg (IP)", "Schweinfurt (axis 58 T)", "Ebrach (rally, right to 130)", "Bitche", "Bourg d'Ault (enemy coast out 16:43)", "Beachy Head/Eastbourne (English coast 17:03)"], "unit": "", "confidence": "VERIFIED (351st flak report and briefing; partly illegible in source)", "source_ids": ["S2", "S3", "S24"], "note": "Some intermediate names unreadable in the transcription." }
+  },
+  "escort": {
+    "penetration_p47": { "value": "1 P-47 group (~50) per task force from 51°30'N 04°15'E to limit of range; 56th and 353rd FG made contact; 4th FG failed to find bombers", "unit": "", "confidence": "PROBABLE", "source_ids": ["S2", "S3", "S7", "S25"], "note": "Turn-back near Aachen, ~240 mi from British coast (S3), ~13:30-13:33 (S2, S24)." },
+    "withdrawal": { "value": "1 P-47 group per force planned from ~60 mi inland to mid-Channel, 4 sqn Spitfire IX to mid-Channel, 2 sqn Spitfire IX straggler sweep; largely prevented by weather", "unit": "", "confidence": "VERIFIED (plan) / PROBABLE (not flown)", "source_ids": ["S2", "S3", "S1"], "note": "351st navigator: 'We had no fighter escort home'." },
+    "p38_sweep": { "value": "planned P-38 group sweep of Flushing area; not operational until next day", "unit": "", "confidence": "VERIFIED", "source_ids": ["S2", "S3"], "note": "" }
+  }
+}

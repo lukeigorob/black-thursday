@@ -1,0 +1,465 @@
+[
+ {
+  "bomb_group": "100th",
+  "bomb_squadron": "351st",
+  "codes": [
+   "EP"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "100th",
+  "bomb_squadron": "418th",
+  "codes": [
+   "LD"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "100th",
+  "bomb_squadron": "349th",
+  "codes": [],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "100th",
+  "bomb_squadron": "350th",
+  "codes": [],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "303rd",
+  "bomb_squadron": "358th",
+  "codes": [
+   "VK"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "303rd",
+  "bomb_squadron": "359th",
+  "codes": [
+   "BN"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "303rd",
+  "bomb_squadron": "360th",
+  "codes": [
+   "PU"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "303rd",
+  "bomb_squadron": "427th",
+  "codes": [
+   "GN"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "305th",
+  "bomb_squadron": "364th",
+  "codes": [
+   "WF"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "305th",
+  "bomb_squadron": "366th",
+  "codes": [
+   "KY"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "305th",
+  "bomb_squadron": "365th",
+  "codes": [
+   "XK"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "306th",
+  "bomb_squadron": "423rd",
+  "codes": [
+   "RD"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "306th",
+  "bomb_squadron": "367th",
+  "codes": [
+   "GY"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "306th",
+  "bomb_squadron": "369th",
+  "codes": [
+   "WW"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "306th",
+  "bomb_squadron": "368th (flown by 369th crew)",
+  "codes": [
+   "BO (per 306-06)"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "351st",
+  "bomb_squadron": "510th",
+  "codes": [
+   "TU-L",
+   "TU-J",
+   "TU-M",
+   "TU-C",
+   "YB-A"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "351st",
+  "bomb_squadron": "508th",
+  "codes": [
+   "RQ-W",
+   "DS-O",
+   "DS-P",
+   "DS-Z",
+   "RQ-R"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "351st",
+  "bomb_squadron": "509th",
+  "codes": [
+   "RQ-V",
+   "RQ-Y",
+   "RQ-Z",
+   "RQ-U",
+   "RQ-O"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "351st",
+  "bomb_squadron": "511th",
+  "codes": [
+   "DS-W",
+   "DS-U",
+   "DS-Y"
+  ],
+  "aircraft": 3
+ },
+ {
+  "bomb_group": "379th",
+  "bomb_squadron": "525th",
+  "codes": [
+   "FR"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "379th",
+  "bomb_squadron": "524th",
+  "codes": [
+   "WA"
+  ],
+  "aircraft": 3
+ },
+ {
+  "bomb_group": "379th",
+  "bomb_squadron": "527th",
+  "codes": [
+   "FO"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "381st",
+  "bomb_squadron": "534th",
+  "codes": [
+   "GD"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "381st",
+  "bomb_squadron": "532nd",
+  "codes": [
+   "VE"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "381st",
+  "bomb_squadron": "533rd",
+  "codes": [],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "381st",
+  "bomb_squadron": "535th",
+  "codes": [],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "384th",
+  "bomb_squadron": "547th",
+  "codes": [
+   "SO"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "384th",
+  "bomb_squadron": "544th",
+  "codes": [
+   "SU"
+  ],
+  "aircraft": 7
+ },
+ {
+  "bomb_group": "384th",
+  "bomb_squadron": "545th",
+  "codes": [
+   "JD"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "384th",
+  "bomb_squadron": "546th",
+  "codes": [
+   "BK"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "385th",
+  "bomb_squadron": "551st",
+  "codes": [
+   "HR",
+   "SG"
+  ],
+  "aircraft": 7
+ },
+ {
+  "bomb_group": "385th",
+  "bomb_squadron": "550th",
+  "codes": [
+   "SG"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "385th",
+  "bomb_squadron": "548th",
+  "codes": [
+   "GX",
+   "XA"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "385th",
+  "bomb_squadron": "549th",
+  "codes": [
+   "XA",
+   "SG",
+   "GX"
+  ],
+  "aircraft": 7
+ },
+ {
+  "bomb_group": "388th",
+  "bomb_squadron": "561st",
+  "codes": [],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "388th",
+  "bomb_squadron": "560th",
+  "codes": [],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "390th",
+  "bomb_squadron": "570th",
+  "codes": [
+   "DI"
+  ],
+  "aircraft": 3
+ },
+ {
+  "bomb_group": "390th",
+  "bomb_squadron": "569th",
+  "codes": [
+   "CC"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "390th",
+  "bomb_squadron": "568th",
+  "codes": [
+   "BI"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "390th",
+  "bomb_squadron": "571st",
+  "codes": [
+   "FC"
+  ],
+  "aircraft": 3
+ },
+ {
+  "bomb_group": "91st",
+  "bomb_squadron": "323rd",
+  "codes": [
+   "OR"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "91st",
+  "bomb_squadron": "324th",
+  "codes": [
+   "DF"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "92nd",
+  "bomb_squadron": "326th",
+  "codes": [
+   "JW"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "92nd",
+  "bomb_squadron": "407th",
+  "codes": [
+   "PY"
+  ],
+  "aircraft": 3
+ },
+ {
+  "bomb_group": "92nd",
+  "bomb_squadron": "327th",
+  "codes": [
+   "UX"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "94th",
+  "bomb_squadron": "332nd",
+  "codes": [
+   "XM"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "94th",
+  "bomb_squadron": "333rd",
+  "codes": [
+   "TS"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "94th",
+  "bomb_squadron": "331st",
+  "codes": [
+   "QE"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "94th",
+  "bomb_squadron": "410th",
+  "codes": [
+   "GL"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "95th",
+  "bomb_squadron": "334th",
+  "codes": [
+   "BG"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "95th",
+  "bomb_squadron": "335th",
+  "codes": [
+   "OE"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "95th",
+  "bomb_squadron": "336th",
+  "codes": [
+   "ET"
+  ],
+  "aircraft": 6
+ },
+ {
+  "bomb_group": "95th",
+  "bomb_squadron": "412th",
+  "codes": [
+   "QW"
+  ],
+  "aircraft": 5
+ },
+ {
+  "bomb_group": "96th",
+  "bomb_squadron": "339th",
+  "codes": [
+   "TS",
+   "QJ"
+  ],
+  "aircraft": 4
+ },
+ {
+  "bomb_group": "96th",
+  "bomb_squadron": "337th",
+  "codes": [
+   "AW"
+  ],
+  "aircraft": 2
+ },
+ {
+  "bomb_group": "96th",
+  "bomb_squadron": "338th",
+  "codes": [
+   "BX"
+  ],
+  "aircraft": 1
+ },
+ {
+  "bomb_group": "96th",
+  "bomb_squadron": "413th",
+  "codes": [
+   "MZ"
+  ],
+  "aircraft": 1
+ }
+]

@@ -4,12 +4,13 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { buildFw190 } from './fw190.js';
+import { buildP47 } from './p47.js';
 
 // real-world sizes in metres (the conversion script already scales the GLBs to these)
 export const MODELS = {
-  b17: { url: '/models/b17.glb', label: 'B-17 Flying Fortress', length: 22.7, span: 32.6, color: 0x6b6f48 },
-  bf109: { url: '/models/bf109.glb', label: 'Bf 109 F-2', length: 8.94, span: 10.4, color: 0x7a8288 },
-  p51: { url: '/models/p51.glb', label: 'P-51 Mustang', length: 9.83, span: 11.2, color: 0xb8bcc0 },
+  b17: { url: 'models/b17.glb', label: 'B-17 Flying Fortress', length: 22.7, span: 32.6, color: 0x6b6f48 },
+  bf109: { url: 'models/bf109.glb', label: 'Bf 109 F-2', length: 8.94, span: 10.4, color: 0x7a8288 },
+  p47: { build: buildP47, label: 'P-47 Thunderbolt', length: 11.0, span: 12.4, color: 0x5d5f3e },
   fw190: { build: buildFw190, label: 'Fw 190 A-8', length: 9.0, span: 10.5, color: 0x5a5a68 }, // (built in code: fw190.js)
 };
 

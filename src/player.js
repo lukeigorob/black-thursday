@@ -7,6 +7,11 @@ import { turretPoint, PASSAGES, TAILWAY, turretFloor } from './interior.js';
 
 const R = 0.2; // body radius
 const STAND_EYE = 1.58, MIN_EYE = 0.42, MIN_HEADROOM = 0.55;
+// where on you a hit lands, and how much worse (or less bad) than one in the body it is: the head is the
+// worst, the chest and belly as they were, an arm or a leg much less
+export const ZONES = ['head', 'torso', 'armL', 'armR', 'legL', 'legR'];
+const ZONE_HARM = { head: 2.2, torso: 1, armL: 0.45, armR: 0.45, legL: 0.45, legR: 0.45 };
+const noWounds = () => Object.fromEntries(ZONES.map((z) => [z, 0]));
 const STEP = 0.42, WALK = 1.7, GRAVITY = 9.8, LOOK = 0.0022;
 const _sh = new THREE.Vector3(), _sh2 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
 const OUT_BY = { tail: TAILWAY.fwd }; // positions you leave by crawling straight out (E at the tail gun: back to the waist)
@@ -56,6 +61,7 @@ export class Player {
     this.throttle = 0.5;
     this.wounded = false; // down on the floor, waiting for first aid
     this.health = 1; // 0..1: hits take it down; at nothing you're down (wounded)
+    this.wounds = noWounds(); // how hurt each part of you is, 0..1 (ZONES): what the figure on the HUD shows
     this.woundLeft = 0;
     this.dead = false;
     // your own body: look down and you see your chest, arms and boots (the head is left off)
@@ -174,14 +180,31 @@ export class Player {
    * Hit near you: `amount` of your health gone (and the pain of it). At nothing you're down. Returns how
    * bad it was: 'hurt' or 'down' (or null if nothing happened).
    */
-  hurt(amount) {
+  hurt(amount, zone = 'torso') {
     if (this.wounded || this.dead || amount <= 0) return null;
+    amount *= ZONE_HARM[zone] ?? 1;
+    this.wounds[zone] = Math.min(1, (this.wounds[zone] ?? 0) + amount * 1.6);
+    this.lastZone = zone;
     this.health = Math.max(0, this.health - amount);
     this.hurtAt = performance.now();
     if (this.health > 0) return 'hurt';
     if (this.patched) { this.wound(); return 'dead'; } // (patched up once already: this one kills you)
     this.wound();
     return 'down';
+  }
+
+  /**
+   * The part of you a hit at `at` (bomber space) lands on: by its height up your body as you stand, sit or
+   * crouch (your eye's height: head above the chin, legs below the hips), and the side it's on; in the
+   * chest's height a third of them take an arm instead. doubt: 0..1, how little `at` says about the height
+   * (a round striking the skin near you rather than you: anywhere up you, leaning to its height).
+   */
+  zoneAt(at, doubt = 0) {
+    const tall = Math.max(0.5, this.eye + 0.12), h0 = THREE.MathUtils.clamp((at.y - this.feet.y) / tall, 0, 1), h = h0 * (1 - doubt) + Math.random() * doubt;
+    const side = at.x < this.feet.x ? 'L' : 'R';
+    if (h > 0.88) return 'head';
+    if (h > 0.5) return Math.random() < 0.33 ? `arm${side}` : 'torso';
+    return `leg${side}`;
   }
 
   /** Hit by enemy fire: you go down where you are and have 30 s unless someone patches you up. */
@@ -209,7 +232,7 @@ export class Player {
     this.wounded = false;
     // a man who died at a gun can't leave it himself (interact() ignores the dead): start clean
     this.station = null; this.lastStation = null; this.blend = 0; this.crawl = null;
-    this.firing = false; this.vy = 0; this.woundLeft = 0; this.health = 1;
+    this.firing = false; this.vy = 0; this.woundLeft = 0; this.health = 1; this.wounds = noWounds(); this.lastZone = null;
     this.reloadPressed = this.releasePressed = false;
     this.eye = STAND_EYE; this.camY = stand.y + STAND_EYE;
     this.feet.copy(stand);

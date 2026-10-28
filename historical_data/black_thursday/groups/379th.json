@@ -1,0 +1,945 @@
+{
+  "group": "379th",
+  "division": "1st",
+  "wing": "41st Combat Bombardment Wing (lead group, per 303rd BG mission report table)",
+  "station": "AAF Station 117, Kimbolton",
+  "group_mission_number": null,
+  "eighth_af_mission_number": 115,
+  "dispatched": 17,
+  "lost": 6,
+  "dispatched_confidence": "PROBABLE",
+  "dispatched_note": "303rd BG Combat Mission No. 78 report (14 Oct 1943) gives the 1st Air Division composition: 41st CBW lead 379BG (17), high 303BG (19), low 384BG (16); wing led by Col. Rohr. The figure is a single source and may be planned rather than actual; aborts not established.",
+  "lost_note": "Six 379th aircraft with MACRs 954, 955, 956, 957, 958 and 1353 per the b17flyingfortress.de Schweinfurt loss table and aircraft histories (Freeman-derived). No 379th BG primary list was found to confirm the total; 42-3056's history text also says \"Anklam\" (see that record). 42-29870 (MACR 1038) appears under the 379th in the loss table but flew with the 384th BG on 14 Oct 1943 per 384th BG loading lists - excluded.",
+  "aircraft": [
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29511",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-55-BO",
+      "nickname": "The Iron Maiden",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "Name per b17flyingfortress.de (photo source cited: 379th BG nose-art site); not confirmed as carried on 14 Oct 1943.",
+      "nose_art": null,
+      "bomb_squadron": "525th",
+      "squadron_code": "FR",
+      "aircraft_letter": "W",
+      "pilot": "Roland H. Martin Jr.",
+      "pilot_rank": "2nd Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Shot down by enemy aircraft; crash-landed south of Würzburg, Germany. All 10 POW.",
+      "macr": "MACR 957",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-02",
+        "379-01"
+      ],
+      "notes": "Ex-92nd BG (407BS PY-W); transferred to 525BS/379BG [FR-W] Kimbolton 4 Sep 1943 (aircraft history on b17flyingfortress.de). Squadron code is the aircraft's 379th code, not independently confirmed for this date.",
+      "crew": [
+        {
+          "name": "Roland H. Martin Jr.",
+          "rank": "2nd Lt.",
+          "position": "pilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Linden H. Price Jr.",
+          "rank": "2nd Lt.",
+          "position": "copilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Daniel J. Maher",
+          "rank": "2nd Lt.",
+          "position": "navigator",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Irving M. Rittenberg",
+          "rank": "2nd Lt.",
+          "position": "bombardier",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "History text spells \"Rittenburg\". Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Nicholas J. Macri",
+          "rank": "T/Sgt.",
+          "position": "engineer",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "CONFLICT: crew table gives Macri as engineer/top turret and Mattern as radio; the aircraft history text gives Mattern as engineer and Macri (\"Nick Macri\") as radio operator. Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Edwin L. Mattern",
+          "rank": "T/Sgt.",
+          "position": "radio",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "See Macri note (positions swapped between sources). Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Elihu Peacock",
+          "rank": "S/Sgt.",
+          "position": "ball",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Daniel A. Sirianni",
+          "rank": "T/Sgt.",
+          "position": "waist",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "John L. Cihonski",
+          "rank": "T/Sgt.",
+          "position": "waist",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        },
+        {
+          "name": "Adam A. Janik",
+          "rank": "S/Sgt.",
+          "position": "tail",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-02"
+          ],
+          "notes": "Waist side not recorded. Single secondary source (MACR-derived crew table); MACR 957 itself not seen."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29653",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-65-BO",
+      "nickname": "Bad News",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "Name per b17flyingfortress.de / Freeman history (\"BAD NEWS\"); not confirmed for this date.",
+      "nose_art": null,
+      "bomb_squadron": "525th",
+      "squadron_code": "FR",
+      "aircraft_letter": "D",
+      "pilot": "Dick Jones",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Shot down by enemy aircraft; crashed near Schrozberg, 31 miles S of Würzburg. 6 POW, 4 KIA.",
+      "macr": "MACR 956",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-03",
+        "379-01"
+      ],
+      "notes": "Ex-96th BG and 92nd BG (327BS); to 525BS/379BG [FR-D] Kimbolton 4 Sep 1943. A family comment on b17flyingfortress.de mentions a crew photo in front of the plane before the mission (not seen).",
+      "crew": [
+        {
+          "name": "Dick Jones",
+          "rank": null,
+          "position": "pilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Tom Lair",
+          "rank": null,
+          "position": "copilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Family comments on b17flyingfortress.de confirm Tom Lair as co-pilot, bailed out, POW (unofficial). Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Bob Anderson",
+          "rank": null,
+          "position": "navigator",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Perry Fischer",
+          "rank": null,
+          "position": "bombardier",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Bob Wills",
+          "rank": null,
+          "position": "ball",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Family comment confirms \"Bob Wills\" as turret gunner and POW (unofficial). Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Alby Roberts",
+          "rank": null,
+          "position": "waist",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Clarry Jacobsen",
+          "rank": null,
+          "position": "engineer",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "George Sandner",
+          "rank": null,
+          "position": "radio",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Walt Hoffman",
+          "rank": null,
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        },
+        {
+          "name": "Gerald Hansen",
+          "rank": null,
+          "position": "tail",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-03"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given. Waist side not recorded."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-29776",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-70-BO",
+      "nickname": null,
+      "nickname_confidence": null,
+      "nickname_note": null,
+      "nose_art": null,
+      "bomb_squadron": "524th",
+      "squadron_code": "WA",
+      "aircraft_letter": "F",
+      "pilot": "Sam Gaffield",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Mid-air collision with an enemy aircraft; crashed at Grettstadt, SE of Gochsheim, SE of Schweinfurt. 9 KIA, 1 POW (waist gunner Ramey Gray, sole survivor).",
+      "macr": "MACR 1353",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-04",
+        "379-01"
+      ],
+      "notes": "Ex-305th BG and 92nd BG (326BS JW-F); to 524BS/379BG [WA-F] Kimbolton 4 Sep 1943 per aircraft history. b17flyingfortress.de loss table lists it under 305th, 379th and 92nd BGs (career list); the history places it with the 379th on 14 Oct 1943. Late MACR number (1353) noted.",
+      "crew": [
+        {
+          "name": "Sam Gaffield",
+          "rank": null,
+          "position": "pilot",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Thoralf Carlson",
+          "rank": null,
+          "position": "copilot",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Steve Namjestink",
+          "rank": null,
+          "position": "navigator",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Hector De Vargas",
+          "rank": null,
+          "position": "bombardier",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Family comment says he was navigator and gives \"Hector E. de Vargas\" (Find a Grave memorial 56654331 cited in a comment); history text lists him as bombardier. Position conflict unresolved. Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Edwin Grossman",
+          "rank": null,
+          "position": "engineer",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "John Ehrenzeller",
+          "rank": null,
+          "position": "radio",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Fred Landis",
+          "rank": null,
+          "position": "ball",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Art Skelton",
+          "rank": null,
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Bill Forsythe",
+          "rank": null,
+          "position": "tail",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Ramey Gray",
+          "rank": null,
+          "position": "waist",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-04"
+          ],
+          "notes": "Sole survivor. Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3056",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-20-DL",
+      "nickname": null,
+      "nickname_confidence": null,
+      "nickname_note": null,
+      "nose_art": null,
+      "bomb_squadron": "527th",
+      "squadron_code": "FO",
+      "aircraft_letter": "R",
+      "pilot": "Matt Zack",
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Shot down by enemy aircraft; crashed near Singhofen, 12 miles SW of Limburg, Germany (i.e. on the route, before the target). All 10 KIA.",
+      "macr": "MACR 955",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-05",
+        "379-01"
+      ],
+      "notes": "Aircraft 527BS [FO-R]; history notes the crew was a 524BS crew (\"Matt Zack {+ 524BS crew}\"). CONFLICT: the source history text reads \"Missing in Action Anklam 14/10/43\" - Anklam was attacked on 9 Oct 1943; the date 14/10/43, the b17flyingfortress.de Schweinfurt loss table, and the MACR number (955, in the 954-958 run for the 379th on 14 Oct) indicate Schweinfurt. Recorded as a 14 Oct loss with this caveat.",
+      "crew": [
+        {
+          "name": "Matt Zack",
+          "rank": null,
+          "position": "pilot",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Fritz Minder",
+          "rank": null,
+          "position": "copilot",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "George Lemen",
+          "rank": null,
+          "position": "navigator",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "John Vournakis",
+          "rank": null,
+          "position": "bombardier",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Berge Hekimian",
+          "rank": null,
+          "position": "engineer",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Joyce Ouellet",
+          "rank": null,
+          "position": "radio",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Edwin Kiddle",
+          "rank": null,
+          "position": "ball",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "George Baskovic",
+          "rank": null,
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Clint Segraves",
+          "rank": null,
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        },
+        {
+          "name": "Harry Turner",
+          "rank": null,
+          "position": "tail",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-05"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3176",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-30-DL",
+      "nickname": "Lady Astrid",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "Freeman history ends \"LADY ASTRID\"; with the 95th BG it was \"SPOOK II\" [ET-K]. Which name it carried on 14 Oct 1943 is not established.",
+      "nose_art": null,
+      "bomb_squadron": "524th",
+      "squadron_code": "WA",
+      "aircraft_letter": "E",
+      "pilot": "Alden C. Johnson",
+      "pilot_rank": "1st Lt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Attacked by fighter, bail-out ordered; flak burst destroyed the waist; aircraft exploded after four men bailed out (co-pilot Holtsberg statement). Fell out of formation at 14:55 after leaving Schweinfurt and crashed in a forest near Dornheim (near Iphofen, about 45 km S of Schweinfurt) per German observer and MACR 954 / KU 367 coordinates as analysed by b17flyingfortress.de; Freeman history says \"Limburger Forest, near Dornheim, W of Darmstadt\". 6 KIA, 4 POW.",
+      "macr": "MACR 954",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-06",
+        "379-01"
+      ],
+      "notes": "Ex-95th BG (336BS ET-K \"SPOOK II\"); to 527BS/379BG [FO-E] 22 Jun 1943, then 524BS [WA-E]. German loss document KU 367. b17flyingfortress.de says a crew photo was taken 11 Oct 1943.",
+      "crew": [
+        {
+          "name": "Alden C. Johnson",
+          "rank": "1st Lt.",
+          "position": "pilot",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Warren E. Holtsberg",
+          "rank": "2nd Lt.",
+          "position": "copilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Wounded (own statement). Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Vincent E. Tapping",
+          "rank": "2nd Lt.",
+          "position": "navigator",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Louis E. Dubois",
+          "rank": "2nd Lt.",
+          "position": "bombardier",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Holtsberg believed the bombardier was wounded. Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Benjamin B. Brittain",
+          "rank": "Sgt.",
+          "position": "engineer",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Antonio A. Velasquez",
+          "rank": "S/Sgt.",
+          "position": "radio",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Raoul A. Rousseau",
+          "rank": "S/Sgt.",
+          "position": "ball",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "History text spells \"Rosseau\". Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "James R. Locke",
+          "rank": "S/Sgt.",
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Ralph K. Scripter",
+          "rank": "S/Sgt.",
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        },
+        {
+          "name": "Eugene T. Johnson",
+          "rank": "S/Sgt.",
+          "position": "tail",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-06"
+          ],
+          "notes": "Waist side not recorded. Single secondary source citing MACR 954 (via Fold3)."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3269",
+      "aircraft_type": "B-17F",
+      "block": "B-17F-40-DL",
+      "nickname": "Piccadilly Willy",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": "b17flyingfortress.de: \"Piccadilly Willy\"; Freeman history and AAM spell \"PICADILLY WILLY\". Not confirmed for this date.",
+      "nose_art": null,
+      "bomb_squadron": "527th",
+      "squadron_code": "FO",
+      "aircraft_letter": "U",
+      "pilot": "Walt Carnal",
+      "pilot_rank": "Capt.",
+      "formation_position": null,
+      "mission_outcome": "lost",
+      "loss_details": "Shot down by enemy aircraft; crashed at Machtilshausen, about 10 miles W of Schweinfurt. 8 POW, 2 KIA. Reader comment (unverified): shot down by Hptm. Karl-Heinz Langer, 7./JG 3, whose Bf 109G-6 was hit by debris; parachutes seen between Trimberg and Machtilshausen; 3 bombs still aboard.",
+      "macr": "MACR 958",
+      "historical_confidence": "PROBABLE",
+      "sources": [
+        "379-07",
+        "379-01",
+        "379-08"
+      ],
+      "notes": "Assigned 527BS/379BG [FO-U] Kimbolton 6 Jun 1943. AAM lists the same crew and fate (search summary only).",
+      "crew": [
+        {
+          "name": "Walt Carnal",
+          "rank": "Capt.",
+          "position": "pilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Bill Davidson",
+          "rank": null,
+          "position": "copilot",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Family comment confirms Davidson as co-pilot, POW (unofficial). Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Albt Chudoba",
+          "rank": null,
+          "position": "navigator",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Source abbreviates first name as \"Albt\" (Albert?) - not expanded. Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Dean Wyland",
+          "rank": null,
+          "position": "engineer",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Leon Cruzan",
+          "rank": null,
+          "position": "radio",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Don Sherman",
+          "rank": null,
+          "position": "ball",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Monico Rodriguez",
+          "rank": null,
+          "position": "waist",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Wilton Fisher",
+          "rank": null,
+          "position": "tail",
+          "fate": "POW",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Leslie Gross",
+          "rank": null,
+          "position": "other",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Source lists a SECOND co-pilot, \"Co-pilot: Leslie Gross {body never recovered}\" - probably flying in another position (no bombardier is listed); position unresolved. Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        },
+        {
+          "name": "Nick Rukavina",
+          "rank": null,
+          "position": "waist",
+          "fate": "KIA",
+          "service_number": null,
+          "confidence": "PROBABLE",
+          "sources": [
+            "379-07",
+            "379-08"
+          ],
+          "notes": "Broke neck when parachute opened (source). Name in the informal/abbreviated form used by the source narrative (derived from Freeman, \"The B-17 Flying Fortress Story\", as reproduced on b17flyingfortress.de); full legal name not established. Ranks not given except pilot (Capt)."
+        }
+      ]
+    },
+    {
+      "mission_date": "1943-10-14",
+      "serial_number": "42-3325",
+      "aircraft_type": "B-17F",
+      "block": null,
+      "nickname": "Paddy Gremlin",
+      "nickname_confidence": "UNVERIFIED",
+      "nickname_note": null,
+      "nose_art": null,
+      "bomb_squadron": "524th",
+      "squadron_code": null,
+      "aircraft_letter": null,
+      "pilot": null,
+      "pilot_rank": null,
+      "formation_position": null,
+      "mission_outcome": "unknown",
+      "loss_details": null,
+      "macr": null,
+      "historical_confidence": "UNVERIFIED",
+      "sources": [
+        "379-09"
+      ],
+      "notes": "UNVERIFIED participant: a web-search summary of the 379th BG memorial/marker (hmdb.org, page returned HTTP 403) associated \"Paddy Gremlin\" with the 2nd Schweinfurt mission 14 Oct 43. Aircraft later lost 30 Jan 1944 (Brunswick). Participation, crew and outcome on 14 Oct 1943 not established.",
+      "crew": []
+    }
+  ],
+  "research_gaps": [
+    "No 379th BG loading list, sortie list, mission report or formation chart for 14 Oct 1943 found online. 379thbga.org has an expired TLS certificate; its plain-http and archived pages contain only a mission-date list (pdfs/missionreports.pdf), crew photos and reunion material.",
+    "Only the six losses are identified; the ~11 aircraft that returned (and any aborts) are unidentified - serials, pilots and crews UNKNOWN.",
+    "Crew lists come from one secondary source (b17flyingfortress.de, largely Freeman's \"B-17 Fortress Story\" history text derived from MACRs); MACRs 954-958 and 1353 themselves were not consulted (NARA/Fold3). Most names are informal short forms and most ranks are unknown.",
+    "americanairmuseum.com and hmdb.org returned HTTP 403; only search-result summaries used.",
+    "Squadron codes are each aircraft's 379th code from its service history, not confirmed for the date.",
+    "Group mission number for the 379th not established (the archived 379thbga.org mission list PDF is garbled)."
+  ],
+  "group_sources": [
+    "379-10",
+    "379-01"
+  ]
+}

@@ -1,18 +1,19 @@
-// The fighter pilot's cockpit, for flying a Bf 109, an Fw 190 or a P-51 in first person, built to the
+// The fighter pilot's cockpit, for flying a Bf 109, an Fw 190 or a P-47 in first person, built to the
 // photographs of the real ones:
 // - the fuselage round you as one shaped skin from the spinner to behind your head (painted outside in the
 //   type's colours, the interior colour inside), its gun fairings shaped into the cowling (the 109G's
 //   "Beulen", the Fw 190's MG 131 humps), the exhaust stubs, the wings with their airfoil and dihedral;
-// - the canopy: the 109G's Erla Haube with its armoured head glass, the Fw 190's and P-51's bubbles, the
-//   windscreens with their thick bulletproof glass, in box-section frames;
+// - the canopy: the 109G's Erla Haube with its armoured head glass, the Fw 190's bubble, the P-47
+//   razorback's framed sliding hood with the high spine behind your head, the windscreens with their
+//   thick bulletproof glass, in box-section frames;
 // - the instrument panel whose needles move with the real values (airspeed, altitude, climb, compass,
 //   boost, rpm, oil and coolant), its bezels standing out of it, glowing at night; the coaming over it;
-// - the gunsight (Revi 16B in the German fighters, the K-14's gyro box in the P-51), whose reticle
+// - the gunsight (Revi 16B in the German fighters, the N-3B reflector sight in the P-47), whose reticle
 //   pilot.js puts on the guns' line;
 // - the stick and throttle moving with your hands on them, your knees, the seat, the rudder pedals, the
-//   side consoles (trim wheels, levers, switch panels, the Fw 190's breaker panel, the P-51's radio);
-// - paint with wear and rivets (procedural textures); RLM 66 inside the German fighters, interior green
-//   and black in the P-51.
+//   side consoles (trim wheels, levers, switch panels, the Fw 190's breaker panel, the P-47's radio);
+// - paint with wear and rivets (procedural textures); RLM 66 inside the German fighters, dull dark green
+//   and a black panel in the P-47.
 // The aircraft models have no cockpit, so this is built here and shown in their place, round the pilot's
 // eye. Everything that doesn't move is merged: one draw call per material.
 import * as THREE from 'three';
@@ -26,7 +27,9 @@ import { wetGlass } from './environment.js';
  * - body: the fuselage's stations [z, half width, top, widest at, bottom, sill?]; with a sill the top is
  *   open there (the cockpit). n: how square its sections are.
  * - bumps: fairings shaped into the skin [x, y, z, along, across, height].
- * - top / side / belly: paint colours, metal: bare metal (the P-51), glare: the P-51's olive drab panel.
+ * - top / side / belly: paint colours, metal: bare metal, glare: an anti-glare panel ahead of the windscreen.
+ * - hub: a propeller hub's radius instead of a spinner (the P-47's Curtiss), propR: the propeller's radius,
+ *   face: a radial's dark face in the cowling's open front.
  * - wing [y, span, root chord, tip chord, leading edge at the root, sweep of the leading edge].
  * - exhausts [x, y, z0, z1, n].
  */
@@ -51,15 +54,18 @@ const TYPES = {
     inside: 0x393c3f, panel: 0x262829, units: 'metric', canopy: 'fw', sight: 'revi', fan: true,
     wing: [-1.3, 5.2, 2.25, 1.15, -1.45, 0.3], exhausts: [0.58, -1.0, -2.15, -1.7, 4],
   },
-  p51: {
-    eye: [0, 0.85, -0.1], prop: 4.2, n: 2.6, spinner: 0xd8c030,
-    body: [[-4.2, 0.22, -0.43, -0.66, -0.88], [-3.9, 0.33, -0.3, -0.66, -1.04], [-3.2, 0.39, -0.23, -0.66, -1.15], [-2.2, 0.41, -0.2, -0.66, -1.2],
-      [-1.2, 0.42, -0.19, -0.66, -1.22], [-0.64, 0.42, -0.17, -0.66, -1.25], [-0.52, 0.42, -0.165, -0.66, -1.25, -0.15], [0.9, 0.41, -0.11, -0.66, -1.25, -0.15],
-      [1.05, 0.4, -0.08, -0.66, -1.25], [2.0, 0.35, -0.13, -0.6, -1.3], [3.0, 0.27, -0.16, -0.55, -1.2]],
+  // the P-47D razorback (p47.js): a big, roomy cockpit high in the deep fuselage, the cowling's top well
+  // below your eye but a long nose ahead of it; behind the hood the spine rises to the head armour, so
+  // there's little to see straight behind (the mirror on the windscreen's bow helps)
+  p47: {
+    eye: [0, 1.05, -0.2], prop: 4.27, n: 2.4, spinner: 0x2b2b26, hub: 0.28, propR: 1.98, face: true,
+    body: [[-4.12, 0.64, -0.4, -1.12, -1.84], [-4.02, 0.7, -0.34, -1.12, -1.91], [-3.6, 0.73, -0.29, -1.11, -1.94], [-2.8, 0.72, -0.25, -1.09, -1.95],
+      [-2.0, 0.69, -0.22, -1.07, -1.96], [-1.2, 0.65, -0.2, -1.05, -1.97], [-0.67, 0.62, -0.19, -1.05, -1.97], [-0.55, 0.61, -0.185, -1.05, -1.97, -0.2],
+      [0.55, 0.55, -0.13, -1.03, -1.93, -0.2], [0.65, 0.54, 0.23, -1.0, -1.9], [1.2, 0.5, 0.16, -1.0, -1.84], [2.2, 0.42, 0.05, -0.95, -1.69], [3.2, 0.34, -0.08, -0.89, -1.51]],
     bumps: [],
-    top: 0xbfc4c8, side: 0xbfc4c8, belly: 0xb5babf, glare: 0x3f4430, metal: true,
-    inside: 0x59653f, panel: 0x161616, units: 'imperial', canopy: 'bubble', sight: 'k14',
-    wing: [-1.15, 5.4, 2.45, 1.05, -1.6, 0.18], exhausts: [0.405, -0.5, -3.25, -2.45, 6],
+    top: 0x4b4c33, side: 0x4b4c33, belly: 0x8a8d88, glare: 0x3a3b28, metal: false,
+    inside: 0x3c4630, panel: 0x161616, units: 'imperial', canopy: 'razorback', sight: 'n3b',
+    wing: [-1.67, 6.0, 2.84, 1.0, -1.76, 0.9], exhausts: [0.62, -1.75, -2.75, -2.55, 2], // (the turbo's waste-gate outlets, low behind the cowl flaps)
   },
 };
 const V2 = THREE.Vector2, V3 = THREE.Vector3;
@@ -291,7 +297,7 @@ function quadGeo(a, b, c, d) {
 /**
  * The fuselage: superelliptic sections through the stations, open over the cockpit where a station has a
  * sill, with fairings pushed out of it. uv: metres (so the textures tile at their real size); colours:
- * the paint (top / side / belly, the P-51's glare panel).
+ * the paint (top / side / belly, the anti-glare panel).
  */
 function fuselageGeo(T) {
   const N = 48, n = T.n, pos = [], uv = [], col = [], idx = [];
@@ -323,7 +329,7 @@ function fuselageGeo(T) {
       const h = (y - ym) / Math.max(0.01, yt - ym); // the paint: top colour above, belly below, blended on the sides
       const c = h > 0.35 ? top.clone().lerp(side, THREE.MathUtils.clamp((0.8 - h) / 0.45, 0, 1)) : side.clone().lerp(belly, THREE.MathUtils.clamp((0.1 - h) / 0.4, 0, 1));
       if (mottle && h > -0.1 && h < 0.6 && r() < 0.35) c.lerp(mottle, 0.35); // the 109's and 190's mottling down the sides
-      if (glare && Math.abs(x) < 0.2 && h > 0.85 && z < -0.55) c.copy(glare); // the P-51's anti-glare panel ahead of the windscreen
+      if (glare && Math.abs(x) < 0.2 && h > 0.85 && z < -0.55) c.copy(glare); // the olive drab anti-glare panel ahead of the windscreen
       col.push(c.r, c.g, c.b);
     }
     if (i) for (let k = 0; k < N; k++) {
@@ -407,7 +413,7 @@ export function buildCockpit(kind) {
   const black = new THREE.MeshStandardMaterial({ color: 0x151515, map: wear, roughness: 0.65, metalness: 0.3 });
   const steel = new THREE.MeshStandardMaterial({ color: 0x6a6d70, roughness: 0.4, metalness: 0.85 });
   const leather = new THREE.MeshStandardMaterial({ color: 0x3a2a1e, roughness: 0.85 });
-  const suit = new THREE.MeshStandardMaterial({ color: kind === 'p51' ? 0x5a5040 : 0x3e3a30, roughness: 0.95 });
+  const suit = new THREE.MeshStandardMaterial({ color: kind === 'p47' ? 0x5a5040 : 0x3e3a30, roughness: 0.95 });
   const exhaust = new THREE.MeshStandardMaterial({ color: 0x3a2a22, roughness: 0.9, metalness: 0.4 });
   const red = new THREE.MeshStandardMaterial({ color: 0x8a1c14, roughness: 0.5 });
   const white = new THREE.MeshStandardMaterial({ color: 0xd8d4c4, roughness: 0.6 });
@@ -446,13 +452,14 @@ export function buildCockpit(kind) {
   putM(inside, tidy(body.clone(), false), new THREE.Matrix4());
   const front = T.body[0], cy = front[3], prop = -T.prop;
   const spinner = new THREE.MeshStandardMaterial({ color: T.spinner, roughness: 0.45, metalness: 0.3, map: T.spiral ? spiralTex() : null });
-  put(spinner, new THREE.SphereGeometry(front[1] * 0.95, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(-Math.PI / 2).scale(1, 1, 2.1), 0, cy, prop + 0.05);
+  put(spinner, new THREE.SphereGeometry(T.hub ?? front[1] * 0.95, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(-Math.PI / 2).scale(1, 1, T.hub ? 1.2 : 2.1), 0, cy, prop + 0.05);
+  if (T.face) put(black, new THREE.CircleGeometry(front[1] * 0.98, 32), 0, cy, front[0] + 0.03); // the P-47's open cowling: the engine's dark face behind the lip
   if (T.fan) { // the Fw 190's cooling fan behind the spinner, in the cowl's open front
     put(black, new THREE.CircleGeometry(front[1] * 0.98, 32), 0, cy, front[0] + 0.12);
     for (let k = 0; k < 12; k++) put(steel, box(0.05, front[1] * 0.85, 0.01), 0, cy, front[0] + 0.1, 0, 0.5, (k / 12) * Math.PI * 2);
   }
   const blur = new THREE.MeshBasicMaterial({ color: 0x202020, transparent: true, opacity: 0.08, depthWrite: false, side: THREE.DoubleSide });
-  const disc = new THREE.Mesh(new THREE.RingGeometry(front[1] * 0.6, 1.6, 48), blur);
+  const disc = new THREE.Mesh(new THREE.RingGeometry(T.hub ?? front[1] * 0.6, T.propR ?? 1.6, 48), blur);
   disc.position.set(0, cy, prop - 0.05); g.add(disc);
   { // the exhaust stubs down both sides of the cowl
     const [ex, ey, ea, eb, en] = T.exhausts;
@@ -475,7 +482,7 @@ export function buildCockpit(kind) {
     put(black, box(0.012, 0.012, z1 - z0), s * (widthAt(0) - 0.05), sill + 0.02, (z0 + z1) / 2); // (the rail's track)
   }
   // the seat: a pressed bucket, the cushion of the parachute pack in it, and the armour plate behind
-  const seatZ = kind === 'p51' ? 0.38 : 0.32;
+  const seatZ = kind === 'p47' ? 0.4 : 0.32; // (the P-47's cockpit was famously roomy)
   put(paint, new THREE.CylinderGeometry(0.24, 0.22, 0.5, 18, 1, true, -Math.PI * 0.55, Math.PI * 1.1).rotateY(Math.PI), 0, -0.72, seatZ, 0, 0, 0, 1, 1, 0.55);
   put(paint, box(0.44, 0.03, 0.4), 0, -0.98, seatZ - 0.15);
   put(leather, box(0.38, 0.09, 0.34), 0, -0.92, seatZ - 0.14);
@@ -511,7 +518,7 @@ export function buildCockpit(kind) {
     for (let i = 0; i < 3; i++) for (let j = 0; j < 7; j++) put(white, cyl(0.008, 0.008, 0.012, 8), R - 0.035 + i * 0.035, top + 0.036, -0.33 + j * 0.038);
     switches(R - 0.03, top + 0.03, 0.02, 2, 2);
   } else {
-    // the P-51: throttle quadrant (throttle, prop, mixture), the trim tab wheels (elevator, rudder, aileron), the radio
+    // the P-47: throttle quadrant (throttle, prop, mixture, the turbo's boost), the trim tab wheels (elevator, rudder, aileron), the radio
     put(paint, box(0.1, 0.1, 0.28), L, top - 0.02, -0.3);
     for (let k = 0; k < 2; k++) put(steel, cyl(0.006, 0.008, 0.12, 6), L + 0.01 + k * 0.025, top + 0.07, -0.38 + k * 0.03, -0.4);
     for (let k = 0; k < 2; k++) put(red, new THREE.SphereGeometry(0.015, 8, 6), L + 0.01 + k * 0.025, top + 0.12, -0.4 + k * 0.03);
@@ -550,14 +557,20 @@ export function buildCockpit(kind) {
     put(steel, cyl(0.007, 0.007, 0.08, 8), 0, -0.1, -0.515, 0, 0, Math.PI / 2); // the filter's hinge
     put(leather, new RoundedBoxGeometry(0.05, 0.045, 0.03, 2, 0.012), 0, -0.165, -0.455);
     put(new THREE.MeshPhysicalMaterial({ color: 0x705a30, transparent: true, opacity: 0.45, roughness: 0.1, depthWrite: false, side: THREE.DoubleSide }), new THREE.PlaneGeometry(0.07, 0.05), 0, -0.07, -0.5, 0.9); // the sun filter, folded up
+  } else if (T.sight === 'n3b') { // the N-3B: the lamp housing, a short tube lying fore and aft on its bracket, the reflector glass over its lens, the pad
+    put(black, cyl(0.032, 0.032, 0.15, 16), 0, -0.165, -0.55, Math.PI / 2);
+    put(black, cyl(0.04, 0.036, 0.03, 16), 0, -0.165, -0.625, Math.PI / 2); // (its lens end, the glass's mount)
+    put(paint, box(0.05, 0.035, 0.1), 0, -0.2, -0.56); // the bracket on the coaming
+    put(steel, cyl(0.009, 0.009, 0.075, 8), 0.045, -0.15, -0.52, 0, 0, Math.PI / 2); // the dimmer's knob
+    put(leather, new RoundedBoxGeometry(0.06, 0.05, 0.03, 2, 0.012), 0, -0.165, -0.46); // the crash pad
   } else { // the K-14: the big gyro box, its range knob, the pad on its back, two glasses
     put(black, new RoundedBoxGeometry(0.11, 0.1, 0.24, 3, 0.018), 0, -0.175, -0.54);
     put(black, new RoundedBoxGeometry(0.09, 0.045, 0.08, 2, 0.01), 0, -0.105, -0.61);
     put(steel, cyl(0.02, 0.02, 0.025, 14), 0.068, -0.18, -0.5, 0, 0, Math.PI / 2); // the range knob
     put(leather, new RoundedBoxGeometry(0.1, 0.07, 0.045, 3, 0.02), 0, -0.18, -0.405); // the crash pad
   }
-  const plate = new THREE.Mesh(new THREE.PlaneGeometry(T.sight === 'revi' ? 0.075 : 0.09, 0.07), new THREE.MeshPhysicalMaterial({ color: 0xbcd8e0, transparent: true, opacity: 0.16, roughness: 0.03, depthWrite: false, side: THREE.DoubleSide }));
-  plate.position.set(0, -0.06, T.sight === 'revi' ? -0.53 : -0.6); plate.rotation.x = -0.6;
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(T.sight === 'revi' ? 0.075 : T.sight === 'n3b' ? 0.085 : 0.09, 0.07), new THREE.MeshPhysicalMaterial({ color: 0xbcd8e0, transparent: true, opacity: 0.16, roughness: 0.03, depthWrite: false, side: THREE.DoubleSide }));
+  plate.position.set(0, T.sight === 'n3b' ? -0.1 : -0.06, T.sight === 'revi' ? -0.53 : -0.6); plate.rotation.x = -0.6;
   g.add(plate);
 
   // ---- the stick and the throttle, with your hands on them, and your knees
@@ -589,22 +602,24 @@ export function buildCockpit(kind) {
   }
 
   // ---- the windscreen, the bulletproof glass, the canopy in box-section frames
-  const ws = T.canopy === 'bubble' ? { z: z0 - 0.08, x0: 0.16, x1: widthAt(z0) - 0.03, yt: 0.2, zt: -0.4 } : T.canopy === 'fw' ? { z: z0 - 0.08, x0: 0.19, x1: widthAt(z0) - 0.04, yt: 0.2, zt: -0.36 } : { z: z0 - 0.1, x0: 0.17, x1: widthAt(z0) - 0.04, yt: 0.21, zt: -0.36 };
+  const ws = T.canopy === 'razorback' ? { z: z0 - 0.1, x0: 0.18, x1: widthAt(z0) - 0.05, yt: 0.17, zt: -0.36 } : T.canopy === 'bubble' ? { z: z0 - 0.08, x0: 0.16, x1: widthAt(z0) - 0.03, yt: 0.2, zt: -0.4 } : T.canopy === 'fw' ? { z: z0 - 0.08, x0: 0.19, x1: widthAt(z0) - 0.04, yt: 0.2, zt: -0.36 } : { z: z0 - 0.1, x0: 0.17, x1: widthAt(z0) - 0.04, yt: 0.21, zt: -0.36 };
   const yb = sill - 0.01;
   // the windscreen's corners: the flat front panel between the inner posts, the side panes out to the sills
   const fl = P(-ws.x0, yb, ws.z), fr = P(ws.x0, yb, ws.z), tl = P(-ws.x0 * 0.85, ws.yt, ws.zt), tr = P(ws.x0 * 0.85, ws.yt, ws.zt);
   const sl = P(-ws.x1, yb, ws.z + 0.12), sr = P(ws.x1, yb, ws.z + 0.12), stl = P(-(ws.x1 - 0.07), ws.yt - 0.03, ws.zt + 0.06), str = P(ws.x1 - 0.07, ws.yt - 0.03, ws.zt + 0.06);
-  const bubble = T.canopy !== 'erla'; // (a bubble's windscreen bow is the bubble's own forward frame)
-  for (const [a, b] of bubble ? [[fl, tl], [fr, tr], [fl, fr]] : [[fl, tl], [fr, tr], [sl, stl], [sr, str], [tl, tr], [tl, stl], [tr, str], [fl, fr]]) bar(frameOut, a, b, 0.024, 0.026, P(0, 0.4, -1).normalize());
+  const bubble = T.canopy !== 'erla' && T.canopy !== 'razorback'; // (a bubble's windscreen bow is the bubble's own forward frame)
   putM(glass, quadGeo(fl, fr, tr, tl), new THREE.Matrix4());
-  putM(glass, quadGeo(sl, fl, tl, stl), new THREE.Matrix4());
-  putM(glass, quadGeo(fr, sr, str, tr), new THREE.Matrix4());
-  // the thick bulletproof glass: inside the 109's windscreen, outside the Fw 190's, the P-51's front panel itself
+  if (T.canopy !== 'razorback') { // (the razorback's own slimmer windscreen frame and side panes: below)
+    for (const [a, b] of bubble ? [[fl, tl], [fr, tr], [fl, fr]] : [[fl, tl], [fr, tr], [sl, stl], [sr, str], [tl, tr], [tl, stl], [tr, str], [fl, fr]]) bar(frameOut, a, b, 0.024, 0.026, P(0, 0.4, -1).normalize());
+    putM(glass, quadGeo(sl, fl, tl, stl), new THREE.Matrix4());
+    putM(glass, quadGeo(fr, sr, str, tr), new THREE.Matrix4());
+  }
+  // the thick bulletproof glass: inside the 109's windscreen, outside the Fw 190's, the P-47's front panel itself
   const agm = new THREE.Matrix4().makeRotationX(Math.atan2(ws.zt - ws.z, ws.yt - yb)) // (leaning back with the windscreen)
     .setPosition(0, (yb + ws.yt) / 2 + 0.005, (ws.z + ws.zt) / 2 + (kind === 'bf109' ? 0.06 : kind === 'fw190' ? -0.03 : 0));
   slab(ws.x0 * 1.7, 0.27, 0.05, agm);
   for (const sx of [-1, 1]) putM(frameOut, box(0.012, 0.29, 0.06).translate(sx * ws.x0 * 0.86, 0, 0), agm); // its frame's edges
-  const rearZ = z1 + 0.02, H = { erla: 0.24, fw: 0.27, bubble: 0.33 }[T.canopy];
+  const rearZ = z1 + 0.02, H = { erla: 0.24, fw: 0.27, bubble: 0.33, razorback: 0.27 }[T.canopy];
   if (T.canopy === 'erla') {
     // the Erla Haube: big clear side and top panels in a light frame; at the back the head armour, steel
     // below and armoured glass above
@@ -617,6 +632,35 @@ export function buildCockpit(kind) {
     put(steel, box(0.5, 0.2, 0.012), 0, sill + 0.06, rearZ - 0.04);
     slab(0.46, 0.17, 0.05, new THREE.Matrix4().makeTranslation(0, sill + 0.245, rearZ - 0.04));
     for (const [a, b] of [[P(-0.24, sill + 0.16, rearZ - 0.04), P(-0.24, sill + 0.33, rearZ - 0.04)], [P(0.24, sill + 0.16, rearZ - 0.04), P(0.24, sill + 0.33, rearZ - 0.04)], [P(-0.24, sill + 0.33, rearZ - 0.04), P(0.24, sill + 0.33, rearZ - 0.04)]]) bar(steel, a, b, 0.022, 0.06, P(0, 0, 1));
+  } else if (T.canopy === 'razorback') {
+    // the P-47D razorback as you see it from the seat: a slim framed windscreen (the flat armoured panel
+    // between two thin posts, an angled pane either side back to the windscreen's bow), then the sliding
+    // hood, clear all round with one slim hoop over your head and thin rails on the sills, and only behind
+    // your head the solid spine (the fuselage's own). Nothing crosses the view ahead or to the sides.
+    const I = new THREE.Matrix4(), fw = 0.016, fd = 0.018; // (the frames: a couple of cm, as on the real one)
+    const wr = (z) => widthAt(z) - 0.08; // the hood's foot, just inside the sill rails
+    const zb = ws.zt + 0.18; // the windscreen's bow, where the hood begins: nearly over your head, out of the view ahead (0.3 m ahead it ringed the top of the view)
+    const h = (z) => ws.yt + 0.02 + (H - ws.yt - 0.02) * Math.sin(Math.min(1, Math.max(0, (z - zb) / 0.3)) * Math.PI / 2);
+    const hoop = (z, n = 12) => { const p = []; for (let k = 0; k <= n; k++) { const a = -Math.PI / 2 + (k / n) * Math.PI; p.push(P(wr(z) * Math.sin(a), yb + (h(z) - yb) * Math.cos(a) ** 0.8, z)); } return p; };
+    const bow = hoop(zb);
+    // the side panes, from the front posts back to the bow, and the small roof pane over the front one
+    putM(glass, quadGeo(bow[0], fl, tl, bow[4]), I); putM(glass, quadGeo(fr, bow[12], bow[8], tr), I);
+    for (let k = 4; k < 8; k++) putM(glass, quadGeo(tl, bow[k], bow[k + 1], bow[k + 1]), I);
+    putM(glass, quadGeo(tl, bow[8], tr, tr), I);
+    for (const [a, b] of [[fl, tl], [fr, tr], [tl, tr], [fl, fr], [tl, bow[4]], [tr, bow[8]]]) bar(frameOut, a, b, fw, fd, P(0, 0.4, -1).normalize());
+    for (let k = 0; k < 12; k++) bar(frameOut, bow[k], bow[k + 1], 0.011, 0.012, P(0, 0, 1)); // (slimmer still: seen this close, a couple of cm fills a lot of the view)
+    // the hood: its glass, its one hoop (just behind your head, where it was: in front of the eye it read as
+    // a thick beam across the top of the view), its back frame where it meets the spine
+    putM(glass, bubbleGeo(zb, rearZ, wr, yb, h), I);
+    for (const z of [0.18, rearZ]) { const r = hoop(z); for (let k = 0; k < 12; k++) bar(frameOut, r[k], r[k + 1], 0.014, fd, P(0, 0, 1)); }
+    put(steel, box(0.32, 0.3, 0.012), 0, sill + 0.03, z1 - 0.15, -0.08); // the head armour
+    put(leather, box(0.2, 0.12, 0.05), 0, sill + 0.05, z1 - 0.18); // the headrest pad
+    // the rear-view mirror, out on top of the windscreen's bow on a short stem: a dark frame, its glass
+    // dim (a bright face read as a slab of sky)
+    const my = h(zb) + 0.05;
+    put(steel, box(0.01, 0.04, 0.01), 0, h(zb) + 0.025, zb);
+    put(frameOut, box(0.1, 0.032, 0.01), 0, my, zb, 0.25);
+    put(new THREE.MeshStandardMaterial({ color: 0x556066, roughness: 0.3, metalness: 0.8 }), box(0.09, 0.022, 0.004), 0, my, zb + 0.006, 0.25);
   } else {
     // a bubble: frameless, its back in a frame; the headrest and armour plate behind your head
     const w = (z) => widthAt(z) - 0.02;
@@ -629,7 +673,6 @@ export function buildCockpit(kind) {
     put(steel, box(0.32, 0.3, kind === 'fw190' ? 0.014 : 0.012), 0, sill + 0.03, z1 - 0.15, -0.08); // the head armour
     put(leather, box(0.2, 0.12, 0.05), 0, sill + 0.05, z1 - 0.18); // the headrest pad
     if (kind === 'fw190') for (const s of [-1, 1]) bar(steel, P(s * 0.15, sill - 0.1, z1 - 0.13), P(s * 0.12, sill + 0.16, z1 - 0.16), 0.02, 0.02, P(0, 0, 1));
-    if (kind === 'p51') put(new THREE.MeshStandardMaterial({ color: 0xaab4bb, roughness: 0.05, metalness: 1 }), box(0.14, 0.04, 0.008), 0, ws.yt + 0.005, ws.zt + 0.05, 0.2); // the rear-view mirror on the bow
   }
 
   // ---- merge: one mesh per material (glass drawn after the rest)
@@ -674,10 +717,11 @@ function spiralTex() {
 export function buildReticle(kind) {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
-  const x = c.getContext('2d'), col = kind === 'p51' ? 'rgba(255,170,90,1)' : 'rgba(255,190,80,1)';
+  const x = c.getContext('2d'), col = kind === 'p47' ? 'rgba(255,170,90,1)' : 'rgba(255,190,80,1)';
   x.strokeStyle = col; x.fillStyle = col; x.lineWidth = 5; x.shadowColor = col; x.shadowBlur = 8; x.lineCap = 'round';
   for (const [a, b, cc, d] of [[128, 30, 128, 104], [128, 152, 128, 226], [30, 128, 104, 128], [152, 128, 226, 128]]) { x.beginPath(); x.moveTo(a, b); x.lineTo(cc, d); x.stroke(); }
   x.beginPath(); x.arc(128, 128, 7, 0, 7); x.fill();
+  if (kind === 'p47') { x.lineWidth = 4; x.beginPath(); x.arc(128, 128, 88, 0, 7); x.stroke(); } // the N-3B's ring round the pip
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: t, color: new THREE.Color(4.5, 2.2, 0.7), transparent: true, depthTest: false, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));

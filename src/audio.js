@@ -1,5 +1,8 @@
 // All sound is made with the Web Audio API (no files). Starts only after the player clicks Start.
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+// (a setting eased toward `v`, as setTargetAtTime: but not again if it's already heading there. Called
+// every frame, each call is one more event on the param's timeline for the browser to work through)
+const glide = (p, v, t, tau) => { if (p._to !== undefined && Math.abs(v - p._to) <= Math.abs(p._to) * 0.005 + 1e-5) return; p._to = v; p.setTargetAtTime(v, t, tau); };
 export const MIX = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 }; // the channels of the mix, at full
 export class GameAudio {
   constructor() { this.volume = 1; this.muted = false; this.mix = { ...MIX }; }
@@ -103,7 +106,7 @@ export class GameAudio {
   /**
    * Your own fighter's engine, or null back in the B-17. A V12 heard from the cockpit: the firing note
    * (rises with throttle) over an exhaust crackle an octave down. The 109's DB 601 runs lower and rougher
-   * than the P-51's Merlin. The slipstream gets louder with speed.
+   * than the P-47's R-2800. The slipstream gets louder with speed.
    */
   ownEngine(kind, throttle = 0, speed = 0) {
     const ctx = this.ctx;
@@ -111,9 +114,9 @@ export class GameAudio {
     const t = ctx.currentTime;
     if (!kind) {
       if (this.ownKind === null) return; // already back in the B-17
-      this.fighterEng?.gain.gain.setTargetAtTime(0, t, 0.3); // (kept, silent, for the next sortie)
-      this.bomberGain?.gain.setTargetAtTime(0.22, t, 0.5);
-      this.windGain?.gain.setTargetAtTime(0.35, t, 0.5);
+      this.fighterEng && glide(this.fighterEng.gain.gain, 0, t, 0.3); // (kept, silent, for the next sortie)
+      this.bomberGain && glide(this.bomberGain.gain, 0.22, t, 0.5);
+      this.windGain && glide(this.windGain.gain, 0.35, t, 0.5);
       this.ownKind = null;
       return;
     }
@@ -139,15 +142,15 @@ export class GameAudio {
     const e = this.fighterEng;
     if (this.ownKind !== kind) { // the two engines' character: levels of each voice
       const mix = kind === 'bf109' ? [0.35, 0.3, 0.06, 0.22] : kind === 'fw190' ? [0.5, 0.26, 0.1, 0.16] : [0.45, 0.18, 0.1, 0.1];
-      e.voices.forEach((v, i) => v.g.gain.setTargetAtTime(mix[i], t, 0.1));
-      e.lp.frequency.setTargetAtTime(kind === 'bf109' ? 1100 : kind === 'fw190' ? 900 : 1600, t, 0.1);
+      e.voices.forEach((v, i) => glide(v.g.gain, mix[i], t, 0.1));
+      glide(e.lp.frequency, kind === 'bf109' ? 1100 : kind === 'fw190' ? 900 : 1600, t, 0.1);
       this.ownKind = kind;
     }
     const base = (kind === 'bf109' ? 82 : kind === 'fw190' ? 68 : 96) * (0.7 + 0.55 * throttle); // Hz (the BMW radial deeper still)
-    for (const v of e.voices) v.o.frequency.setTargetAtTime(base * v.m, t, 0.15);
-    e.gain.gain.setTargetAtTime(0.16 + throttle * 0.08, t, 0.2);
-    this.bomberGain?.gain.setTargetAtTime(0, t, 0.4); // the bombers' drone is outside now
-    this.windGain?.gain.setTargetAtTime(clamp(speed / 260, 0.15, 1) * 0.45, t, 0.3);
+    for (const v of e.voices) glide(v.o.frequency, base * v.m, t, 0.15);
+    glide(e.gain.gain, 0.16 + throttle * 0.08, t, 0.2);
+    this.bomberGain && glide(this.bomberGain.gain, 0, t, 0.4); // the bombers' drone is outside now
+    this.windGain && glide(this.windGain.gain, clamp(speed / 260, 0.15, 1) * 0.45, t, 0.3);
   }
 
   /** A short cue for your score: a kill (two rising notes), an assist (one soft note), a crit (a low ping). */
@@ -179,9 +182,9 @@ export class GameAudio {
       this.whine = { o, o2, bp, g };
     }
     const k = Math.min(1, speed / 1.05), t = ctx.currentTime, w = this.whine;
-    w.o.frequency.setTargetAtTime(120 + 220 * k, t, 0.1); w.o2.frequency.setTargetAtTime(242 + 440 * k, t, 0.1);
-    w.bp.frequency.setTargetAtTime(300 + 500 * k, t, 0.1);
-    w.g.gain.setTargetAtTime(k > 0.02 ? 0.006 + 0.014 * k : 0, t, 0.08); // (about a quarter of what it was)
+    glide(w.o.frequency, 120 + 220 * k, t, 0.1); glide(w.o2.frequency, 242 + 440 * k, t, 0.1);
+    glide(w.bp.frequency, 300 + 500 * k, t, 0.1);
+    glide(w.g.gain, k > 0.02 ? 0.006 + 0.014 * k : 0, t, 0.08); // (about a quarter of what it was)
   }
 
   noise() { // shared 1 s of white noise for gunshots and clanks
@@ -310,8 +313,8 @@ export class GameAudio {
     const vol = Math.min(0.5, 120 / Math.max(near, 60)) ** 1.3;
     const doppler = 343 / Math.max(120, 343 - clamp(Number.isFinite(closing) ? closing : 0, -250, 250));
     const t = ctx.currentTime;
-    this.drone.g.gain.setTargetAtTime(vol * 0.6, t, 0.1);
-    for (const [o, m] of this.drone.oscs) o.frequency.setTargetAtTime(95 * m * doppler, t, 0.1);
+    glide(this.drone.g.gain, vol * 0.6, t, 0.1);
+    for (const [o, m] of this.drone.oscs) glide(o.frequency, 95 * m * doppler, t, 0.1);
   }
 
   /** German guns heard from a distance. */
@@ -478,6 +481,113 @@ export class GameAudio {
     n.connect(lp).connect(g).connect(this.bus.battle);
     n.start(t);
     n.stop(t + dur + 0.1);
+  }
+
+  /**
+   * A recorded line (scripts/voices: one small MP3 a clip): fetched and decoded the first time it's
+   * wanted, and the last few dozen kept. Returns the AudioBuffer, null while it's still on its way, or
+   * false if there's no such recording. Decoded at 22 kHz (the intercom carries nothing above 3 kHz):
+   * a quarter of the memory of the 48 kHz sound system's own rate.
+   */
+  voiceClip(id, url = 'audio/voice') {
+    const clips = (this.clips ??= new Map());
+    let c = clips.get(id);
+    if (c) { clips.delete(id); clips.set(id, c); return c.failed ? false : c.buf; } // (to the back: the most recently wanted)
+    c = { buf: null, failed: false };
+    clips.set(id, c);
+    this.decoder ??= new OfflineAudioContext(1, 1, 22050);
+    fetch(`${url}/${id}.mp3`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`${r.status}`))))
+      .then((data) => this.decoder.decodeAudioData(data)).then((buf) => { c.buf = buf; })
+      .catch((e) => { c.failed = true; console.warn(`crew voice ${id} not loaded:`, e.message); });
+    for (const k of clips.keys()) { if (clips.size <= 80) break; clips.delete(k); } // (the oldest go)
+    return null;
+  }
+
+  /**
+   * One line on the intercom: the clip `id` through a headset and an amplifier (300 Hz to 3 kHz, a little
+   * overdriven), a hiss of static under it, a click as the mike is keyed and a burst of squelch after.
+   * rate: played a touch faster or slower (makes the man); far: the command radio, thinner and noisier.
+   * Returns { dur, stop } or null (not loaded yet, or no such clip: see voiceClip).
+   */
+  voice(id, { rate = 1, far = false, vol = 1 } = {}) {
+    const ctx = this.ctx, buf = this.voiceClip(id);
+    if (!ctx || !buf) return null;
+    const t = ctx.currentTime + 0.06, dur = buf.duration / rate;
+    const out = ctx.createGain();
+    out.gain.value = vol;
+    out.connect(this.bus.crew);
+    // the voice: band-limited, a presence peak, driven into the amplifier a little
+    const src = ctx.createBufferSource(), hp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), pk = ctx.createBiquadFilter(), sh = ctx.createWaveShaper(), g = ctx.createGain();
+    src.buffer = buf; src.playbackRate.value = rate;
+    hp.type = 'highpass'; hp.frequency.value = far ? 450 : 300; hp.Q.value = 0.7;
+    lp.type = 'lowpass'; lp.frequency.value = far ? 2600 : 3400; lp.Q.value = 0.8;
+    pk.type = 'peaking'; pk.frequency.value = 1800; pk.Q.value = 0.7; pk.gain.value = 3;
+    sh.curve = this.driveCurve(far ? 2.6 : 1.4); sh.oversample = '2x'; // (a touch: hard driving makes a voice buzz like a machine)
+    g.gain.value = far ? 0.6 : 0.8;
+    src.connect(hp).connect(pk).connect(lp).connect(sh).connect(g).connect(out);
+    src.start(t);
+    // the static under it, from the key going down to the squelch
+    const hiss = this.noise(), hb = ctx.createBiquadFilter(), hg = ctx.createGain();
+    hiss.loop = true;
+    hb.type = 'bandpass'; hb.frequency.value = 1900; hb.Q.value = 0.5;
+    const hl = far ? 0.07 : 0.022;
+    hg.gain.setValueAtTime(0, t - 0.05); hg.gain.linearRampToValueAtTime(hl, t - 0.03);
+    hg.gain.setValueAtTime(hl, t + dur + 0.03); hg.gain.linearRampToValueAtTime(0, t + dur + 0.06);
+    hiss.connect(hb).connect(hg).connect(out);
+    hiss.start(t - 0.05); hiss.stop(t + dur + 0.25);
+    // the click of the mike keyed, and the squelch tail as it's let go
+    const burst = (at0, len0, f, v) => {
+      const n = this.noise(), b = ctx.createBiquadFilter(), bg = ctx.createGain();
+      b.type = 'bandpass'; b.frequency.value = f; b.Q.value = 0.7;
+      bg.gain.setValueAtTime(v, at0); bg.gain.exponentialRampToValueAtTime(0.001, at0 + len0);
+      n.connect(b).connect(bg).connect(out); n.start(at0, Math.random() * 0.5, len0 + 0.02);
+    };
+    burst(t - 0.05, 0.02, 2500, 0.25);
+    burst(t + dur + 0.04, far ? 0.18 : 0.11, 2200, far ? 0.22 : 0.15);
+    return { dur: dur + 0.15, stop: () => { const n = ctx.currentTime; try { src.stop(n); hiss.stop(n + 0.05); } catch { /* (already over) */ } out.gain.setTargetAtTime(0, n, 0.01); } };
+  }
+
+  driveCurve(k) { // soft clipping (tanh): the amplifier pushed a little
+    this.curves ??= {};
+    if (!this.curves[k]) { const c = new Float32Array(1024); for (let i = 0; i < c.length; i++) { const x = (i / 1023) * 2 - 1; c[i] = Math.tanh(k * x) / Math.tanh(k); } this.curves[k] = c; }
+    return this.curves[k];
+  }
+
+  /**
+   * A spent .50 cal case hitting the floor (link: a belt link, duller steel): the bright ping of thin brass,
+   * two or three high partials that die away almost at once, and the tick of it landing. vol 0..1.
+   */
+  caseTink(vol, link = false) {
+    const ctx = this.ctx;
+    if (!ctx || vol < 0.01) return;
+    const t = ctx.currentTime + Math.random() * 0.02, f = link ? 1900 + Math.random() * 900 : 3300 + Math.random() * 2400;
+    const out = ctx.createGain();
+    out.gain.value = vol * (link ? 0.5 : 0.7);
+    out.connect(this.bus.guns);
+    for (const [m, a, d] of link ? [[1, 1, 0.03], [2.31, 0.4, 0.02]] : [[1, 1, 0.09 + Math.random() * 0.07], [2.72, 0.5, 0.05], [5.1, 0.25, 0.03]]) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = f * m;
+      g.gain.setValueAtTime(0.09 * a, t); g.gain.exponentialRampToValueAtTime(0.0005, t + d);
+      o.connect(g).connect(out); o.start(t); o.stop(t + d + 0.01);
+    }
+    const n = this.noise(), hp = ctx.createBiquadFilter(), ng = ctx.createGain(); // the tick of it landing
+    hp.type = 'highpass'; hp.frequency.value = 4000;
+    ng.gain.setValueAtTime(0.12, t); ng.gain.exponentialRampToValueAtTime(0.001, t + 0.012);
+    n.connect(hp).connect(ng).connect(out); n.start(t, Math.random() * 0.8, 0.02);
+  }
+
+  /**
+   * The brass lying on the floor, rolling and chinking against itself: a scatter of small quiet tinks, more
+   * of them the more brass there is (lying 0..1) and the more she moves (motion 0..1: banking, bumps, flak).
+   */
+  brass(dt, lying, motion) {
+    if (!this.ctx || lying <= 0) return;
+    this.brassT = (this.brassT ?? 0) - dt;
+    const rate = lying * (0.6 + 30 * motion); // tinks a second
+    while (this.brassT <= 0) {
+      this.brassT += -Math.log(1 - Math.random()) / Math.max(rate, 0.01);
+      this.caseTink((0.08 + 0.25 * Math.random()) * Math.min(1, 0.4 + motion), Math.random() < 0.3);
+    }
   }
 
   suspend() { this.ctx?.suspend(); }

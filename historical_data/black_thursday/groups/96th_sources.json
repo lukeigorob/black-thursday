@@ -1,0 +1,110 @@
+[
+ {
+  "id": "96-01",
+  "title": "VIII Bomber Command 115 (14 October 1943)",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/mission/viii-bomber-command-115",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Mission summary giving 96BG (41) dispatched; 3rd BD 15 FTR, 2 DBR."
+ },
+ {
+  "id": "96-02",
+  "title": "42-3453",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3453",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "94th BG aircraft loaned to 96th; Nettles crew, MACR 831; person records for all 10 crew (339th BS)."
+ },
+ {
+  "id": "96-03",
+  "title": "42-30040 Wabbit-Twacks III",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30040",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Harmeson crew, MACR 837."
+ },
+ {
+  "id": "96-04",
+  "title": "42-30709",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30709",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Goodner crew, MACR 836."
+ },
+ {
+  "id": "96-05",
+  "title": "42-30806 V-Packet",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30806",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Scarborough crew, MACR 832."
+ },
+ {
+  "id": "96-06",
+  "title": "42-3348 Dottie J III",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3348",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Bye crew, MACR 833."
+ },
+ {
+  "id": "96-07",
+  "title": "42-3430 Carolina Boomerang",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3430",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Horton crew, MACR 835; cites Freeman 'The B-17 Flying Fortress Story'."
+ },
+ {
+  "id": "96-08",
+  "title": "42-3528",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3528",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Barnhill crew, MACR 834."
+ },
+ {
+  "id": "96-09",
+  "title": "42-30736 Paper Doll",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-30736",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Bolick crew, battle damage, salvaged."
+ },
+ {
+  "id": "96-10",
+  "title": "B-17 losses on Schweinfurt mission on October 14th 1943 (list and per-aircraft pages)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Private research site; histories from Freeman/Osborne; production blocks. Largely same underlying data as AAM."
+ },
+ {
+  "id": "96-11",
+  "title": "42-3347 Charlene",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/aircraft/42-3347",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "385th BG aircraft flown by Chesmore and 96th crew; crash-landed Bovingdon."
+ },
+ {
+  "id": "96-12",
+  "title": "Mission October 14, 1943 Schweinfurt - photos incl. 3rd BD interrogation summary pages (Fold3 courtesy)",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/mission/?mission_id=48",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Image IMG_8331 shows a typed 3rd BD summary with a '96-B GROUP' section (about 75 E/A encountered)."
+ }
+]

@@ -1,6 +1,29 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 5173 }
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 1944,
+      "url": "http://b17.localhost:1944"
+    },
+    {
+      "name": "site-test",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8090",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "C:\\Users\\Garre\\AppData\\Local\\Temp\\claude\\C--Users-Garre-Documents-bomber-game\\b79d0b25-fad9-4913-b984-1286b8c66f14\\scratchpad\\hosttest"
+      ],
+      "port": 8090
+    }
   ]
 }

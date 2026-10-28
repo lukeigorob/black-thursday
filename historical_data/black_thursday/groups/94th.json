@@ -1,0 +1,850 @@
+{
+ "group": "94th",
+ "division": "3rd",
+ "combat_wing": "4th CBW",
+ "dispatched": 21,
+ "lost": 6,
+ "dispatched_confidence": "PROBABLE",
+ "dispatched_notes": "Dispatched 21 per AAM mission page VIII Bomber Command 115 (94-01) - single secondary source. Lost 6 = count of 94th aircraft records found for this date: 5 MIA with MACRs 788, 789, 790, 791, 792 plus 42-30383 ditched in the North Sea (crew rescued). Not counted: 94th aircraft 42-3453 (331st/333rd BS) which was loaned to and flown by a 96th BG crew (Nettles, MACR 831) - recorded in 96th.json. Combat wing assignment (4th CBW) is general knowledge, not from a source consulted here.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30149",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO",
+   "nickname": "Spare Parts",
+   "nose_art": null,
+   "bomb_squadron": "332nd",
+   "squadron_code": "XM",
+   "aircraft_letter": "A2 (as written: XM-A2)",
+   "pilot": "James A. Mullinax",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Shot down by enemy aircraft; crashed at Bamberg, near Wurzburg, Germany. All 10 POW.",
+   "macr": "790",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "94-02",
+    "94-08"
+   ],
+   "notes": "CONFLICT: AAM/Osborne history says 'Assigned 333BS/94BG' but the code XM is the 332nd BS code and all AAM crew person records list 332nd BS; 332nd recorded. AAM also lists the nickname 'Marian E' (date unknown). Navigator Fridrich's account is quoted on the AAM page. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "James A. Mullinax",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "34584268 / O-405008",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Frank E. Peyton",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "17071707 / O-746419",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Maurice Edwin Fridrich",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "19081748 / O-749385",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ],
+     "notes": "AAM page quotes 'Navigator 2Lt Maurice E Fridrich'."
+    },
+    {
+     "name": "Jay Gorman Coberly",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "20342192 / O-741474",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Emil L. McCormick",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "32434564",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "George L. Anderson",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "19138251",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Donald R. Wilson",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "13097012",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Willis P. Baxandall",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "33215873",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "94-02",
+      "94-08"
+     ],
+     "notes": "Name conflict: history text gives 'Ellis Baxendall'; AAM person record 'Willis P Baxandall'."
+    },
+    {
+     "name": "Harley James Almon",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "14124070",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Curtis Brown",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "14125281",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-02",
+      "94-08"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30383",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-100-BO",
+   "nickname": "Brennan's Circus",
+   "nose_art": null,
+   "bomb_squadron": "332nd",
+   "squadron_code": "XM",
+   "aircraft_letter": "D2 (as written: XM-D2)",
+   "pilot": "Joseph X. Brennan",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Enemy aircraft knocked out one engine, a second attack damaged another; bombs jettisoned; tracers knocked out a third engine; ditched in the North Sea about five miles from the UK; crew rescued within an hour (10 RTD). Matches AAM mission summary '10RTD (rescued by ASR)'.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "94-03",
+    "94-08"
+   ],
+   "notes": "Aircraft lost (ditched) but crew rescued. Did not bomb (bombs jettisoned). No MACR found. Crew list in source incomplete: engineer, ball, one waist and tail gunner unknown. AAM also links S/Sgt Severin Henry Rodeschin (waist gunner, 332nd BS) and S/Sgt Orville J Draeger to this airframe, but not to this date - UNVERIFIED, not added to crew. Wetzel's entry notes this was his final mission. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "Joseph X. Brennan",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Gordon White",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Verne D. Viterbo",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-678796",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Joseph Ernest Genone",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-435192",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Willard R. Wetzel",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Denver Austin Nowlin",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "38087532",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-03",
+      "94-08"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30453",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-105-BO",
+   "nickname": "Thunderbird",
+   "nose_art": null,
+   "bomb_squadron": "333rd",
+   "squadron_code": "TS",
+   "aircraft_letter": "K",
+   "pilot": "Roy G. Davidson",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Flak knocked out No.3 engine; crashed at Saverne, France. All 10 POW.",
+   "macr": "788",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "94-04",
+    "94-08"
+   ],
+   "notes": "CONFLICTS: (1) Pilot surname 'Davison' in Osborne/b17flyingfortress.de history vs 'Roy G Davidson' (O-798452) in AAM person record. (2) MACR: older history text says MACR 831 (which is the Nettles/42-3453 MACR); AAM revised entry cites MACR 788 (Fold3 image 28606545) for 14 Oct 43; b17flyingfortress.de gives '831(788?)'. 788 recorded. (3) b17flyingfortress.de dates loss 'Regensburg 14/10/43'; AAM flags an original 'Regensburg 17/8/43' date as wrong. AAM also links 1st Lt John C Thalmann (pilot) to this airframe, not this date. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "Roy G. Davidson",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-798452",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "94-04",
+      "94-08"
+     ],
+     "notes": "Surname Davison vs Davidson unresolved."
+    },
+    {
+     "name": "Stanley R. Chichester",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-681334",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Alden L. Faudie",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Charles Breuer",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Fred C. Krueger",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "20758568",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Louis C. Koth",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "16095608",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Carl F. Gibson",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "34035784",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Arthur F. Howell",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "12198624",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Claude W. Page",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "36259998",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Richard H. Mungenast",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "32592169",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-04",
+      "94-08"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30457",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-105-BO",
+   "nickname": "Jimmy Boy II",
+   "nose_art": null,
+   "bomb_squadron": "331st",
+   "squadron_code": "QE",
+   "aircraft_letter": "N",
+   "pilot": "Thomas W. Beal",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Shot down by enemy aircraft. CONFLICT on crash site: AAM 'crashed near Metz, Fr.'; b17flyingfortress.de 'crashed near Boissy-Fresnoy/Peroy-les-Gomberies, 50 km north-east of Paris'.",
+   "macr": "792",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "94-05",
+    "94-08"
+   ],
+   "notes": "CONFLICT on fates: AAM says 4 POW (Beal, Moseley, Elwell, Dillon) and 6 evaded; b17flyingfortress.de says 2 POW (Beal, Moseley) and 8 evaded. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "Thomas W. Beal",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-2044805",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Hubert J. Moseley",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "George E. Glatthar",
+     "rank": null,
+     "position": "navigator",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Edward R. Burley",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "James E. Tracy",
+     "rank": null,
+     "position": "engineer",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Charles H. Elwell",
+     "rank": null,
+     "position": "radio",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "94-05",
+      "94-08"
+     ],
+     "notes": "POW per AAM, evaded per b17flyingfortress.de."
+    },
+    {
+     "name": "Levoun J. Jamgochian",
+     "rank": null,
+     "position": "ball",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ],
+     "notes": "Spelled 'Levorn Jawgochian' on b17flyingfortress.de."
+    },
+    {
+     "name": "Robert J. Hamrick",
+     "rank": null,
+     "position": "waist",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Robert L. Dillon",
+     "rank": null,
+     "position": "waist",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "94-05",
+      "94-08"
+     ],
+     "notes": "POW per AAM, evaded per b17flyingfortress.de."
+    },
+    {
+     "name": "Lawrence B. Sheck",
+     "rank": null,
+     "position": "tail",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-05",
+      "94-08"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3338",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-DL",
+   "nickname": "Sleepy Time Gal",
+   "nose_art": null,
+   "bomb_squadron": "331st",
+   "squadron_code": "QE",
+   "aircraft_letter": "P",
+   "pilot": "Sherman Metcalf Dodge",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Shot down by enemy aircraft; crashed Essey-et-Maizeras, 17 miles N of Toul, France. 5 KIA, 5 POW.",
+   "macr": "791",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "94-06",
+    "94-08"
+   ],
+   "notes": "AAM person records place Dodge, Butterfield, Festa and Menaul in the 333rd BS and the others in the 331st BS; aircraft recorded as 331BS [QE-P]. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "Sherman Metcalf Dodge",
+     "rank": null,
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-797491",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "John T. Chandler",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-680405",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Frank J. Francis",
+     "rank": null,
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-747087",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "James K. D. Becker",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-671260",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "James V. Festa",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "32498839",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ],
+     "notes": "History text gives 'Jim Pesta'; AAM person record 'James V Festa'."
+    },
+    {
+     "name": "Douglas McClendon",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "34425437",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Louis J. Buonarobo",
+     "rank": null,
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": "12144418",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Warren G. Butterfield",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "39831659",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Robert M. Thomas",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "39255985",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    },
+    {
+     "name": "James Menaul",
+     "rank": null,
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": "19179204",
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-06",
+      "94-08"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5901",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-30-VE",
+   "nickname": "Superstitious Aloysius",
+   "nose_art": null,
+   "bomb_squadron": "410th",
+   "squadron_code": "GL",
+   "aircraft_letter": "T",
+   "pilot": "Edward S. Reed",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Enemy aircraft set wing on fire; crashed near Landa, between Wurzburg and Mannheim, Germany. 9 POW, 1 KIA.",
+   "macr": "789",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "94-07",
+    "94-08"
+   ],
+   "notes": "Source spelling of name: 'SUPERSTITUOUS ALOYSIUS'. Nickname as recorded in AAM/Osborne master log for the airframe; not confirmed as painted on 14 Oct 1943.",
+   "crew": [
+    {
+     "name": "Edward S. Reed",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Sidney B. Bledsoe",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "John R. Oerther",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Burnie P. Hayes",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Virgil M. Epperson",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Earl G. Morris",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Howard C. McGavack",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Robert C. Elliott",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "James R. Flener",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    },
+    {
+     "name": "Joseph J. O'Brien",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "94-07",
+      "94-08"
+     ]
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Only 6 of 21 dispatched 94th aircraft identified (all losses). No public sortie/loading list found for the 15 aircraft that returned. Searched: web search for 94th BG mission records, AAM mission 115 linked aircraft/people (only 42-30149 and 42-3095 linked for 94th), AAM aircraft pages, b17flyingfortress.de loss list for 14 Oct 1943.",
+  "Aborts, damaged aircraft and wounded in returning 94th aircraft: not found.",
+  "Formation positions not found.",
+  "Ranks on the date not established (AAM gives highest rank only; stored as null).",
+  "Brennan crew (42-30383) incomplete: engineer, ball, one waist and tail gunner not named in sources.",
+  "Conflicts recorded: 42-30149 squadron (333rd vs 332nd); 42-30453 pilot surname and MACR (788 vs 831); 42-30457 crash site and fates of Elwell and Dillon; name spellings (Baxendall/Baxandall, Pesta/Festa).",
+  "MACRs themselves (NARA/Fold3) not consulted directly; data from AAM entries citing Osborne's B-17 Fortress Master Log, MACRs and the 8th AF Roll of Honor.",
+  "Recommended next sources: 94th BG mission folder for 14 Oct 1943 (NARA RG 18 / AFHRA microfilm), 94th BG association records."
+ ]
+}

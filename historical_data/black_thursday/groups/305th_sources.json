@@ -1,0 +1,65 @@
+[
+ {
+  "id": "305-01",
+  "title": "VIII Bomber Command 115 (mission page), incl. 305th mission report figures and George Kuhl's loss timeline",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Source of the 13 pilot/serial/time/location timeline, the 2 returning aircraft (42-3412 Kane/Normand, 42-30678 Farrell) and the 18/3/11/3/0/2 mission report figures."
+ },
+ {
+  "id": "305-02",
+  "title": "IWM American Air Museum aircraft pages (42-29952, 42-3436, 42-30807, 42-3549, 42-30831, 42-29988, 42-3195, 42-37750, 42-30242, 42-30814, 42-30804, 42-3550, 42-37740, 42-3412, 42-30678)",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-30807",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Crew lists and loss text derive mainly from Dave Osborne's B-17 master log; URL pattern /archive/aircraft/<serial>."
+ },
+ {
+  "id": "305-03",
+  "title": "IWM American Air Museum person pages for 305th crew members (e.g. kenneth-r-fenn, raymond-p-bullock, brunson-w-bolin)",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/person/raymond-p-bullock",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Individual fates, ranks ('highest rank') and some service numbers; volunteer-contributed, some from NARA POW records."
+ },
+ {
+  "id": "305-04",
+  "title": "b17flyingfortress.de aircraft pages and 'B-17 losses on Schweinfurt-Mission on October 14th 1943'",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Blocks, codes, nicknames, MACR numbers; Lazy Baby crew table with ranks."
+ },
+ {
+  "id": "305-05",
+  "title": "303rd BG(H) Combat Mission No. 78, 14 October 1943",
+  "organisation": "303rd Bomb Group Association",
+  "url": "https://www.303rdbg.com/missionreports/078.pdf",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "1st Air Division table: 305BG (16)."
+ },
+ {
+  "id": "305-06",
+  "title": "George C. Kuhl, 'Wrong Place! Wrong Time! The 305th Bomb Group & the 2nd Schweinfurt Raid, October 14, 1943' (Schiffer, 1993)",
+  "organisation": "Book",
+  "url": null,
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Not consulted directly; quoted via 305-01 and 305-07. The key source to obtain for the 305th."
+ },
+ {
+  "id": "305-07",
+  "title": "Reader comment by Charlie Boruta on the b17flyingfortress.de page for 42-3412 (citing Kuhl)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/b17/42-3412/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Kane/Normand crew for 14 Oct 1943; group sent 18, 3 aborted, 3 reached target, 1 blew up after drop."
+ }
+]

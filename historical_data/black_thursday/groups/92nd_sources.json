@@ -1,0 +1,65 @@
+[
+ {
+  "id": "92-01",
+  "title": "B-17 database entries 42-30231 (2647), 42-30708 (3089), 42-30726 (3097), 42-30824 (3025), 42-30654 (3031), 42-30387 (2648), 42-3351 (3606), 42-3171 (2881); also 42-29511, 42-29653, 42-29776 checked and excluded",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/wp-json/wp/v2/b17database?status-date=152&per_page=100",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Per-record URLs https://b17flyingfortress.de/en/wp-json/wp/v2/b17database/<id>. Enthusiast database citing MACRs; crew names often informal; fates often only as totals."
+ },
+ {
+  "id": "92-02",
+  "title": "Aircraft records 42-30231, 42-30708, 42-30726, 42-30824, 42-30654, 42-30387, 42-3351, 42-3171, 42-30580",
+  "organisation": "IWM American Air Museum archive (americanarchive.iwm.org.uk)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-30726",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Pattern https://americanarchive.iwm.org.uk/archive/aircraft/<serial> (person links paginated with ?page=1, ?page=2). Read via summarising fetch tool."
+ },
+ {
+  "id": "92-03",
+  "title": "Person records for the crews of 42-30654, 42-30824, 42-30708, 42-30387, 42-3351, 42-3171, 42-30231 (Bomberger)",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/person/frank-m-talbot",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Pattern https://americanarchive.iwm.org.uk/archive/person/<slug>. Ranks may be highest held."
+ },
+ {
+  "id": "92-04",
+  "title": "Fields of Honor database: S/Sgt Nelson Walker Smith, 327th BS, 92nd BG",
+  "organisation": "Fields of Honor database",
+  "url": "https://www.fieldsofhonor-database.com/case/8978-smith-nelson-walker",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Seen via search snippet: KIA 14 Oct 1943, B-17F 42-30824, crashed ~1/2 mile from Villingen [sic]; killed in radio room; Ardennes American Cemetery."
+ },
+ {
+  "id": "92-05",
+  "title": "Robert Taylor print 'Schweinfurt - The Second Mission' description",
+  "organisation": "Aces High Gallery",
+  "url": "https://aces-high.com/catalogue/view/schweinfurt-the-second-mission-3-signatures",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Commercial art description; weak source for aircraft identity."
+ },
+ {
+  "id": "92-06",
+  "title": "James Kemp McLaughlin",
+  "organisation": "e-WV: The West Virginia Encyclopedia",
+  "url": "https://www.wvencyclopedia.org/entries/1602",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Captain McLaughlin piloted the lead bomber on the Schweinfurt raid; returned with an engine on fire."
+ },
+ {
+  "id": "92-07",
+  "title": "Mission: VIII Bomber Command 115, 14 October 1943",
+  "organisation": "IWM American Air Museum archive",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Gives 1st Bomb Division group strengths (91st 11, 92nd 19, 303rd 19)."
+ }
+]

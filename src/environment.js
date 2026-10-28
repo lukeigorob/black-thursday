@@ -1,4 +1,4 @@
-// The weather and the hour: time of day (morning, day, twilight, night), season (summer, winter) and
+// The weather and the hour: time of day (morning, day, twilight, night), season (summer, autumn, winter) and
 // weather (clear, cloudy, rain, thunderstorm). Chosen on the menus, remembered, and applied by World:
 // the sky, sun or moon, haze, cloud cover, the ground's snow, rain past the windows, lightning.
 import * as THREE from 'three';
@@ -6,22 +6,22 @@ import * as THREE from 'three';
 const KEY = 'bomber.env';
 export const ENV_OPTIONS = {
   time: [['morning', 'Morning'], ['day', 'Day'], ['twilight', 'Twilight'], ['night', 'Night']],
-  season: [['summer', 'Summer'], ['winter', 'Winter']],
+  season: [['summer', 'Summer'], ['autumn', 'Autumn'], ['winter', 'Winter']],
   weather: [['clear', 'Clear'], ['cloudy', 'Cloudy'], ['rain', 'Rain'], ['thunder', 'Thunderstorm']],
 };
 
 export function loadEnv() {
-  const env = { time: 'day', season: 'summer', weather: 'clear' };
+  const env = { time: 'day', season: 'autumn', weather: 'clear' };
   try { Object.assign(env, JSON.parse(localStorage.getItem(KEY) ?? '{}')); } catch { /* (defaults) */ }
-  const def = { time: 'day', season: 'summer', weather: 'clear' };
+  const def = { time: 'day', season: 'autumn', weather: 'clear' };
   for (const k of Object.keys(ENV_OPTIONS)) if (!ENV_OPTIONS[k].some(([v]) => v === env[k])) env[k] = def[k];
   return env;
 }
 export function saveEnv(env) { try { localStorage.setItem(KEY, JSON.stringify(env)); } catch { /* (not remembered) */ } }
 
-// how the mission's conditions are picked: 'default' (summer, day, clear), 'choose' (as set), 'random' (rolled anew each mission)
+// how the mission's conditions are picked: 'default' (autumn, day, clear: 14 October 1943), 'choose' (as set), 'random' (rolled anew each mission)
 const MODE_KEY = 'bomber.envMode';
-export const DEFAULT_ENV = { time: 'day', season: 'summer', weather: 'clear' };
+export const DEFAULT_ENV = { time: 'day', season: 'autumn', weather: 'clear' };
 export function loadEnvMode() {
   try { const m = localStorage.getItem(MODE_KEY); if (['default', 'choose', 'random'].includes(m)) return m; } catch { /* (default) */ }
   return 'default';
@@ -30,7 +30,7 @@ export function saveEnvMode(m) { try { localStorage.setItem(MODE_KEY, m); } catc
 /** A random hour, season and weather (the daylight hours and fair weather a little likelier). */
 export function rollEnv() {
   const pick = (list) => { let r = Math.random() * list.reduce((s, [, w]) => s + w, 0); return list.find(([, w]) => (r -= w) < 0)[0]; };
-  return { time: pick([['morning', 2], ['day', 3], ['twilight', 2], ['night', 2]]), season: pick([['summer', 1], ['winter', 1]]),
+  return { time: pick([['morning', 2], ['day', 3], ['twilight', 2], ['night', 2]]), season: pick([['summer', 1], ['autumn', 1], ['winter', 1]]),
     weather: pick([['clear', 3], ['cloudy', 3], ['rain', 2], ['thunder', 1]]) };
 }
 /** "Rain · Night · Winter" */

@@ -1,0 +1,56 @@
+[
+ {
+  "id": "388-01",
+  "title": "American Air Museum in Britain - aircraft 42-30193 \"Hard Luck\" (and linked person records)",
+  "organisation": "IWM American Air Museum in Britain (American Archive)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-30193",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "\"Crashed on take off for Schweinfurt 14/10/43 with Paul Swift ... (11 Returned to Duty), Salvaged.\" Crew list and linked person records (service numbers for some)."
+ },
+ {
+  "id": "388-02",
+  "title": "Biography/memoir of Eugene T. Carson, flight engineer/gunner, 560th BS, 388th BG (Schweinfurt chapter)",
+  "organisation": "Justin Museum of Military History (justinmuseum.com)",
+  "url": "http://www.justinmuseum.com/milbios/ecarsonbio.html",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "First-hand account (written later). 22 scheduled, take-off crash of Swift's Hard Luck, 5 aborts, 16 attacked, 3 landed away, no losses; 388th low group of lead wing with 96th; Carson flew tail in Tiger Girl 42-3555 with Ingebritsen, Meginnies, Allred. Includes Special Orders 205 (9 Sep 1943) crew No. 60 roster."
+ },
+ {
+  "id": "388-03",
+  "title": "VIII Bomber Command 115, 14 October 1943 (mission page)",
+  "organisation": "IWM American Air Museum in Britain",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "388BG (18); 3rd BD: 1 aircraft crashed on take-off (DBR) 11 RTD."
+ },
+ {
+  "id": "388-04",
+  "title": "American Air Museum in Britain - aircraft 42-3555 \"Tiger Girl\"",
+  "organisation": "IWM American Air Museum in Britain (American Archive)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-3555",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "B-17F-75-DL; 560BS/388BG 9/43; MIA Bremen 26/11/43 (MACR 3116). No 14 Oct 1943 entry."
+ },
+ {
+  "id": "388-05",
+  "title": "B-17 losses on the Schweinfurt mission of 14 October 1943 (loss list)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Only 388th-associated entry is 42-30709 (388th/96th, 339th BS, MACR 836) - lost with the 96th BG."
+ },
+ {
+  "id": "388-06",
+  "title": "388th Bomb Group database (missions, crews, aircraft) - login required",
+  "organisation": "388th Bomb Group (388bg.com)",
+  "url": "http://www.388bg.com/staticPages/Missions.html",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "NOT ACCESSED: servlet data pages redirect to a login/registration page. Not used as a source for any record."
+ }
+]

@@ -46,7 +46,7 @@ const EMBLEM = {
     <path d="M-5-27h10v22h22v10h-22v22h-10v-22h-22v-10h22z" fill="#111"/></svg>`,
   fw190: () => `<svg class="emblem" viewBox="-30 -30 60 60" aria-hidden="true"><circle r="28" fill="#e8b400"/><circle r="28" fill="none" stroke="#111" stroke-width="2"/>
     <path d="M-10-24h20v14h14v20h-14v14h-20v-14h-14v-20h14z" fill="#f3efe4" stroke="#111" stroke-width="1"/><path d="M-4.5-24h9v19.5h19.5v9h-19.5v19.5h-9v-19.5h-19.5v-9h19.5z" fill="#111"/></svg>`, // (on the yellow of the Reich defence)
-  p51: () => EMBLEM.crew(), // the USAAF's star and bars, as on the Mustang's wings and fuselage
+  p47: () => EMBLEM.crew(), // the USAAF's star and bars, as on the Thunderbolt's wings and fuselage
 };
 const both = (d) => `<path d="${d}"/><path d="${d}" transform="matrix(-1 0 0 1 100 0)"/>`; // a wing and its mirror
 const PLAN = { // recognition-chart plan views, nose up
@@ -55,7 +55,7 @@ const PLAN = { // recognition-chart plan views, nose up
     ${both('M45 33 8 37.5Q5 38 5 40.5l.5 3Q6 45.5 9 45.5L45 50z')}${both('M47.5 79 36 81Q34 82 34.5 84l1.5 2.5 11.5.5z')}</svg>`,
   fw190: `<svg class="plan" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 7C55.5 7 57 12 57 20L55.5 60 52.5 90h-5L44.5 60 43 20C43 12 44.5 7 50 7z"/>
     ${both('M44 30 7 37Q4 38 4 41q0 3.5 3.5 4L44 49z')}${both('M47.5 82 34 83.5Q32 84.5 32.5 87q.5 2 2.5 2h12.5z')}</svg>`,
-  p51: `<svg class="plan" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10C53 10 54.5 15 55 24v34l-3 28h-4l-3-28V24C45.5 15 47 10 50 10z"/>
+  p47: `<svg class="plan" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10C53 10 54.5 15 55 24v34l-3 28h-4l-3-28V24C45.5 15 47 10 50 10z"/>
     ${both('M45 36 9 40.5Q5 41 5 44q0 3.5 3.5 3.5L45 52z')}${both('M48 78 37 80Q35 81 35.5 83.5 36 85.5 38 85.5h10z')}</svg>`,
 };
 // the fighters' own damage diagrams, from the same plan views: [fuselage, left wing, tailplane (one
@@ -63,7 +63,7 @@ const PLAN = { // recognition-chart plan views, nose up
 const FPLAN = {
   bf109: ['M50 9C53.5 9 55 14 55.5 22L55 60 52.5 88h-5L45 60 44.5 22C45 14 46.5 9 50 9z', 'M45 33 8 37.5Q5 38 5 40.5l.5 3Q6 45.5 9 45.5L45 50z', 'M47.5 79 36 81Q34 82 34.5 84l1.5 2.5 11.5.5z', 9.5, 25, 4.6, 37, 45, 53],
   fw190: ['M50 7C55.5 7 57 12 57 20L55.5 60 52.5 90h-5L44.5 60 43 20C43 12 44.5 7 50 7z', 'M44 30 7 37Q4 38 4 41q0 3.5 3.5 4L44 49z', 'M47.5 82 34 83.5Q32 84.5 32.5 87q.5 2 2.5 2h12.5z', 8, 24, 6, 35, 41, 49],
-  p51: ['M50 10C53 10 54.5 15 55 24v34l-3 28h-4l-3-28V24C45.5 15 47 10 50 10z', 'M45 36 9 40.5Q5 41 5 44q0 3.5 3.5 3.5L45 52z', 'M48 78 37 80Q35 81 35.5 83.5 36 85.5 38 85.5h10z', 10.5, 31, 4.6, 41, 49, 56],
+  p47: ['M50 10C53 10 54.5 15 55 24v34l-3 28h-4l-3-28V24C45.5 15 47 10 50 10z', 'M45 36 9 40.5Q5 41 5 44q0 3.5 3.5 3.5L45 52z', 'M48 78 37 80Q35 81 35.5 83.5 36 85.5 38 85.5h10z', 10.5, 31, 4.6, 41, 49, 56],
 };
 const FDIAGRAM = Object.fromEntries(Object.entries(FPLAN).map(([kind, [body, wing, tail, e0, e1, ew, cy, f0, f1]]) => [kind, `<g class="dmg-body">
   <path data-part="wingL" d="${wing}"/><path data-part="wingR" d="${wing}" transform="matrix(-1 0 0 1 100 0)"/>
@@ -77,11 +77,11 @@ const ROLES = {
   crew: { name: 'B-17 crewman', unit: 'Eighth Air Force', line: 'Ten men, thirteen guns, one target.',
     does: ['Man any of the bomber\'s guns', 'Fly her from the pilot\'s seat', 'Drop the bombs through the Norden sight', 'Patch up the wounded'] },
   bf109: { name: 'Bf 109 pilot', unit: 'Luftwaffe · JG 26', line: 'Break up the bomber stream.',
-    does: ['Dive through the boxes head-on', 'Bring the B-17s down', 'Keep clear of the Mustangs'] },
+    does: ['Dive through the boxes head-on', 'Bring the B-17s down', 'Wait for the Thunderbolts to turn back'] },
   fw190: { name: 'Fw 190 pilot', unit: 'Luftwaffe · Sturmgruppe', line: 'Through the bombers head-on.',
     does: ['Four 20 mm cannon and armour', 'Attack in a tight group from ahead', 'Outrun the escorts in a dive'] },
-  p51: { name: 'P-51 pilot', unit: '357th Fighter Group', line: 'Keep the 109s off the bombers.',
-    does: ['Fly escort over the stream', 'Break up attacks before they land', 'Shoot down the 109s'] },
+  p47: { name: 'P-47 pilot', unit: '56th Fighter Group', line: 'Cover the bombers as far as your fuel goes.',
+    does: ['Fly escort over the stream', 'Break up attacks before they land', 'Turn back when your fuel runs low'] },
 };
 const ICON = {
   full: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>',
@@ -102,14 +102,15 @@ const CONTROLS = [
 /** "W / S" -> <kbd>W</kbd> <kbd>S</kbd>; "W A S D" -> four keys. */
 const keycaps = (k) => k.split(' / ').flatMap((x) => (/^([A-Z] )+[A-Z]$/.test(x) ? x.split(' ') : [x])).map((x) => `<kbd>${x}</kbd>`).join(' ');
 const FACTS = [
-  'The B-17G carried thirteen .50-calibre machine guns.',
+  'The B-17F carried up to twelve .50-calibre machine guns, two of them in the nose cheeks.',
   'Bomber crews flew at 25,000 feet in an unpressurised cabin, at forty below and colder.',
   'Gunners wore electrically heated suits, plugged into the aircraft.',
   'The Norden bombsight was so secret that bombardiers swore an oath to protect it.',
   'The combat box stacked the bombers so that their guns covered one another.',
-  'A tour of duty was 25 missions, raised to 30 and then 35 during 1944.',
+  'A tour of duty was 25 missions. In the autumn of 1943 few crews lived to finish one.',
   'More than 12,000 B-17s were built between 1936 and 1945.',
-  'From early 1944, P-51s with drop tanks could escort the bombers all the way to Berlin.',
+  'In October 1943 the P-47s could only escort the bombers as far as the German border.',
+  'On 14 October 1943, Black Thursday, 60 of the 291 B-17s sent to Schweinfurt were shot down.',
   'The ball turret gunner flew curled up under the fuselage, with no room for his parachute.',
 ];
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -179,7 +180,7 @@ export class UI {
             <div class="set-row"><label>Sound mix</label><p>Each kind of sound on its own.</p>
               <div class="mix">${[['guns', 'Guns'], ['engines', 'Engines'], ['battle', 'Flak and hits'], ['crew', 'Crew and turret motors'], ['ui', 'Menu sounds']].map(([k, l]) => `<label class="sound"><span>${l}</span>
                 <input type="range" min="0" max="100" step="1" value="100" data-mix="${k}" aria-label="${l}"><output data-mix-val="${k}"></output></label>`).join('')}</div></div>
-            ${[['time', 'Time of day', 'Morning sun, high noon, dusk or a moonlit night.'], ['season', 'Season', 'Winter brings snow on the ground and thicker contrails.'],
+            ${[['time', 'Time of day', 'Morning sun, high noon, dusk or a moonlit night.'], ['season', 'Season', 'Autumn browns the fields (mid-October, as on the day); winter brings snow and thicker contrails.'],
     ['weather', 'Weather', 'Clear, cloudy, rain, or a thunderstorm with lightning.']].map(([k, name, help]) => `<div class="set-row"><label for="env-${k}">${name}</label><p>${help}</p>
               <div class="select"><select id="env-${k}" data-env="${k}">${ENV_OPTIONS[k].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div></div>`).join('')}
           </section>
@@ -187,7 +188,8 @@ export class UI {
             <p class="pane-note">What's drawn over the battle. Each one on its own; remembered for next time.</p>
             ${[['enemy', 'Enemy markers', 'The red triangles over enemy aircraft'], ['friend', 'Friendly markers', 'The blue triangles over your own side'],
     ['distance', 'Distance numbers', 'The range under each marker, once within 1,000 m'], ['lead', 'Lead marker', 'Where to aim ahead of a fighter so your rounds meet it'],
-    ['plainSight', 'Plain crosshair in fighters', 'Instead of the reflector gunsight in the cockpit'], ['third', 'Third-person view for pilots', 'Behind your fighter or your B-17 instead of the cockpit. V switches it in flight'], ['infinite', 'Infinite ammunition', 'Your guns never run out (off: limited, as the real ones were: reload with R)']]
+    ['plainSight', 'Plain crosshair in fighters', 'Instead of the reflector gunsight in the cockpit'], ['third', 'Third-person view for pilots', 'Behind your fighter or your B-17 instead of the cockpit. V switches it in flight'], ['infinite', 'Infinite ammunition', 'Your guns never run out (off: limited, as the real ones were: reload with R)'],
+    ['historical', 'Historical outcomes', 'The bombers recorded as lost on 14 October 1943 are the likeliest to go down, those that came home the least, and the recorded aborts turn back. Off: the battle plays out on its own']]
     .map(([k, name, help]) => `<label class="set-row toggle"><span><b>${name}</b><small>${help}</small></span><input type="checkbox" data-hud="${k}"${k === 'lead' ? ' checked' : ''}><i></i></label>`).join('')}
           </section>
           <section class="pane" data-pane="controls"><div class="ctl-groups">${CONTROLS.map(([name, rows]) => `<div class="ctl-group"><h4>${name}</h4>
@@ -228,8 +230,9 @@ export class UI {
         <div id="sight"><div class="ring"></div><div class="h"></div><div class="v"></div>
           <div id="sight-info"></div></div>
         <div id="crew"></div>
-        <div id="you"><span class="lbl">You</span><span class="bar"><i id="you-bar"></i></span><b id="you-pct"></b></div>
+        <div id="you"><svg id="you-body" viewBox="0 0 40 80" aria-hidden="true"><circle data-z="head" cx="20" cy="8" r="6.5"/><rect data-z="torso" x="12" y="16" width="16" height="26" rx="3"/><rect data-z="armL" x="5" y="17" width="6" height="25" rx="3"/><rect data-z="armR" x="29" y="17" width="6" height="25" rx="3"/><rect data-z="legL" x="12.5" y="43" width="7" height="34" rx="3"/><rect data-z="legR" x="20.5" y="43" width="7" height="34" rx="3"/></svg><div class="you-col"><div class="you-row"><span class="lbl">You</span><span class="bar"><i id="you-bar"></i></span><b id="you-pct"></b></div><span id="you-zone"></span></div></div>
         <div id="hitflash"></div>
+        <div id="ident"></div>
         <div id="health"><svg id="dmg" viewBox="0 0 200 140"></svg><span id="health-pct"></span></div>
         <div id="engines"></div>
         <div id="nose"></div>
@@ -266,10 +269,10 @@ export class UI {
   }
 
   /**
-   * Role cards: crew / bf109 / p51. `into` is the element id; onRole(id) is called with the choice.
+   * Role cards: crew / bf109 / fw190 / p47. `into` is the element id; onRole(id) is called with the choice.
    * only: the ids to offer (all three by default). 1, 2, 3 pick them from the keyboard too.
    */
-  roles(into, onRole, only = ['crew', 'bf109', 'fw190', 'p51']) {
+  roles(into, onRole, only = ['crew', 'bf109', 'fw190', 'p47']) {
     const box = this.el(into);
     if (!onRole) { box.innerHTML = ''; return; }
     box.innerHTML = only.map((id, i) => {
@@ -425,7 +428,7 @@ export class UI {
    * moves the bar on, and a step is ticked off once every piece in it is in.
    */
   loading(steps, total, quality, onQuality) {
-    this.menu({ kind: 'loading', kicker: 'Eighth Air Force · 1944', title: 'B-17', sub: 'Flying Fortress', quality, onQuality });
+    this.menu({ kind: 'loading', kicker: 'Eighth Air Force · 14 October 1943', title: 'B-17', sub: 'Flying Fortress', quality, onQuality });
     this.slides();
     const box = this.el('menu-loading');
     box.innerHTML = `<div class="checklist">${steps.map((s) => `<span>${s}</span>`).join('')}</div>
@@ -505,7 +508,7 @@ export class UI {
   slides() {
     const box = document.querySelector('#menu .m-slides');
     if (!box || box.childElementCount) return;
-    box.innerHTML = LOADING_SHOTS.map((n, i) => `<i style="background-image:url(/loading/${n}.jpg)"${i ? '' : ' class="on"'}></i>`).join('');
+    box.innerHTML = LOADING_SHOTS.map((n, i) => `<i style="background-image:url(loading/${n}.jpg)"${i ? '' : ' class="on"'}></i>`).join('');
     const imgs = [...box.children];
     let k = 0;
     clearInterval(this.slideTimer);
@@ -563,7 +566,7 @@ export class UI {
     this.el('menu').style.display = 'none';
     this.el('hud').style.display = 'none';
     box.style.display = 'flex';
-    this.roles('map-roles', onRole ? (id) => { box.style.display = 'none'; onRole(id); } : null, ['bf109', 'fw190', 'p51']);
+    this.roles('map-roles', onRole ? (id) => { box.style.display = 'none'; onRole(id); } : null, ['bf109', 'fw190', 'p47']);
     this.el('map-roles').parentElement.style.display = onRole ? '' : 'none';
 
     const fitCrew = (b) => crewOf(b).members.filter((m) => m.state === 'ok').length;
@@ -733,7 +736,7 @@ export class UI {
         <div class="state"><span>${4 - b.deadEngines} of 4 engines</span><span>Airframe ${Math.round(b.health * 100)}%</span>${b.burning ? '<span class="hot">On fire</span>' : ''}<span>${fitCrew(b)} of 10 fit</span></div>
         <div class="rows">${crew.members.map((m, i) => {
           const name = m.name.startsWith(m.role.rank) ? m.name.slice(m.role.rank.length).trim() : m.name;
-          return `<button class="crew-row" data-i="${i}" ${m.state === 'ok' ? '' : 'disabled'}><span class="rk">${m.role.rank}</span>
+          return `<button class="crew-row" data-i="${i}" ${m.state === 'ok' || m.state === 'player' ? '' : 'disabled'}><span class="rk">${m.role.rank}</span>
             <span class="who"><b>${esc(name)}</b><small>${m.role.title}</small></span><span class="chip ${m.state}">${STATUS[m.state] ?? m.state}</span></button>`;
         }).join('')}</div>`;
       for (const btn of side.querySelectorAll('.crew-row')) btn.onclick = () => { box.style.display = 'none'; onPick(b, crew.members[+btn.dataset.i]); };
@@ -809,12 +812,12 @@ export class UI {
     const pct = (n, of) => `${(100 * n) / Math.max(1, of)}%`;
     const row = (cls, badge, name, total, segs, text) => `<div class="fr ${cls}">${badge}<span class="fn">${name}</span><b class="ft">${total}</b>
       <span class="fbar">${segs.map(([c, n]) => `<i class="${c}" style="width:${pct(n, total)}"></i>`).join('')}</span><span class="fx">${text}</span></div>`;
-    const fa = f.axis, fl = f.allied, B = (this.badges ??= { us: EMBLEM.crew(), them: EMBLEM.bf109(), p51: EMBLEM.p51() }); // (made once: the P-51's has its own id)
+    const fa = f.axis, fl = f.allied, B = (this.badges ??= { us: EMBLEM.crew(), them: EMBLEM.bf109(), p47: EMBLEM.p47() }); // (made once: the P-47's has its own id)
     const html = row('us', B.us, 'B-17', b.total, [['ok', b.healthy], ['dmg', b.damaged], ['down', b.down]],
-      `<em class="ok">${b.healthy}</em> healthy · <em class="dmg">${b.damaged}</em> damaged · <em class="down">${b.down}</em> lost`)
+      `<em class="ok">${b.healthy}</em> healthy · <em class="dmg">${b.damaged}</em> damaged · <em class="down">${b.down}</em> lost${b.aborted ? ` · ${b.aborted} turned back` : ''}`)
       + row('them', B.them, 'Luftwaffe', fa.total, [['air', fa.air], ['down', fa.down], ['left', fa.reserve]],
         `<em class="air">${fa.air}</em> up${fa.fw ? ` (${fa.fw} Fw 190)` : ''} · <em class="down">${fa.down}</em> down · <em class="left">${fa.reserve}</em> to come`)
-      + row('us', B.p51, 'P-51', fl.total, [['air', fl.air], ['down', fl.down], ['left', fl.reserve]],
+      + row('us', B.p47, 'P-47', fl.total, [['air', fl.air], ['down', fl.down], ['left', fl.reserve]],
         `<em class="air">${fl.air}</em> up · <em class="down">${fl.down}</em> down · <em class="left">${fl.reserve}</em> to come`);
     if (html !== this.lastForces) this.el('forces').innerHTML = this.lastForces = html;
   }
@@ -855,10 +858,10 @@ export class UI {
           ['… by the escorts', d.kills.escorts],
           ['Escorts lost', d.kills.alliedLost],
           ['Bf 109s and Fw 190s', `${f.f.axis.down} down of ${f.f.axis.total - f.f.axis.reserve} sent up`],
-          ['P-51s', `${f.f.allied.down} lost of ${f.f.allied.total - f.f.allied.reserve} sent up`]])}
+          ['P-47s', `${f.f.allied.down} lost of ${f.f.allied.total - f.f.allied.reserve} sent up`]])}
           ${this.section('The stream', [
           ['B-17s lost', `${d.bombersLost} of ${d.bombers}`],
-          ['At the end', `${f.b.healthy} healthy, ${f.b.damaged} damaged`],
+          ['At the end', `${f.b.healthy} healthy, ${f.b.damaged} damaged${f.b.aborted ? `, ${f.b.aborted} turned back early` : ''}`],
           ...(d.men ? [['Men in the bombers home', `${d.men.alive} fit · ${d.men.wounded} wounded · ${d.men.dead} dead`]] : [])])}</div>
         <div class="db-rec"><div class="stamp rating ${rating.toLowerCase()}"><small>Bombing</small>${rating}</div>
           ${this.lifeCard(d.score, 'Whole mission')}</div>
@@ -870,17 +873,17 @@ export class UI {
   pilotDebrief(d, onAgain, onQuality, role) {
     const p = d.pilot, f = d.forces;
     this.menu({
-      kind: 'debrief', kicker: role !== 'p51' ? 'Gefechtsbericht · combat report' : 'Interrogation report', title: role !== 'p51' ? 'Einsatz beendet' : 'Mission complete',
+      kind: 'debrief', kicker: role !== 'p47' ? 'Gefechtsbericht · combat report' : 'Interrogation report', title: role !== 'p47' ? 'Einsatz beendet' : 'Mission complete',
       button: 'Fly again', onClick: onAgain, onQuality,
       body: `<div class="debrief">
         <div>${this.section('Your sorties', [
-          ...(role !== 'p51' ? [['B-17s you brought down', p.bombers], ['P-51s you shot down', p.fighters]]
+          ...(role !== 'p47' ? [['B-17s you brought down', p.bombers], ['P-47s you shot down', p.fighters]]
             : [['Bf 109s you shot down', p.fighters], ['Attacks you broke up (bombers saved)', p.saved]]),
           ['Times you were shot down', p.deaths]])}</div>
         <div>${this.section('The air battle', [
           ['B-17s lost', `${d.bombersLost} of ${d.bombers}`],
           ['Luftwaffe fighters lost (all)', d.kills.axisLost ?? 0],
-          ['P-51s lost (all)', d.kills.alliedLost],
+          ['P-47s lost (all)', d.kills.alliedLost],
           ['B-17s at the end', `${f.b.healthy} healthy, ${f.b.damaged} damaged`],
           ['Bombs within 1,000 ft of the aiming point', `${d.dropped ? Math.round((d.onTarget / d.dropped) * 100) : 0}% of ${d.dropped}`]])}</div>
         <div class="db-rec">${this.lifeCard(d.score, 'Whole mission')}</div>
@@ -1004,7 +1007,7 @@ export class UI {
   /**
    * The mini map: a round radar plot, always up in the corner, turned with your view (straight up is where
    * you're looking). You in the middle; the B-17s as grey dots (paler lower down, crosses for the ones going
-   * down), the P-51s blue, the Luftwaffe red; the target's bearing and range on the rim. d: { at, yaw,
+   * down), the P-47s blue, the Luftwaffe red; the target's bearing and range on the rim. d: { at, yaw,
    * bombers, fighters, target, side, range }.
    */
   minimap(d) {
@@ -1050,9 +1053,21 @@ export class UI {
     g.fillStyle = '#ece8dc99'; g.font = '600 17px system-ui'; g.textAlign = 'left'; g.fillText(`${d.range / 1000} km`, 14, S - 12);
   }
 
-  you(h) {
+  /**
+   * You: your health, and a small figure of you (seen from behind: its left is your left) whose head, body,
+   * arms and legs are tinted as they're hurt (wounds: player.wounds, 0..1 each), like the bomber's diagram.
+   */
+  you(h, wounds = null) {
     const el = this.el('you');
     el.style.display = h == null ? 'none' : 'flex';
+    const key = wounds ? Object.values(wounds).map((v) => Math.round(v * 20)).join() : '';
+    if (wounds && key !== this.lastWounds) {
+      this.lastWounds = key;
+      for (const p of el.querySelectorAll('[data-z]')) p.style.fill = damageColour(wounds[p.dataset.z] ?? 0);
+      const worst = Object.entries(wounds).filter(([, v]) => v > 0.05).sort((a, b) => b[1] - a[1])[0];
+      const NAME = { head: 'Head', torso: 'Chest', armL: 'Left arm', armR: 'Right arm', legL: 'Left leg', legR: 'Right leg' };
+      this.el('you-zone').textContent = worst ? `${NAME[worst[0]]} ${worst[1] > 0.6 ? 'badly hurt' : 'hurt'}` : '';
+    }
     if (h == null || h === this.lastYou) return;
     if (this.lastYou != null && h < this.lastYou) this.hitFlash(Math.min(1, (this.lastYou - h) * 3));
     this.lastYou = h;
@@ -1060,6 +1075,27 @@ export class UI {
     bar.style.width = `${Math.round(h * 100)}%`;
     bar.style.background = h > 0.6 ? '#7fbf5a' : h > 0.3 ? '#e0a832' : '#d8452f';
     this.el('you-pct').textContent = `${Math.round(h * 100)}`;
+  }
+
+  /**
+   * The bomber you're in, as the records have her (I): serial, type, name, group and squadron, code, pilot,
+   * what became of her that day, and her crew by station with each man's recorded fate. Only what's on
+   * record is shown; an unknown is said to be unknown, a placeholder crewman is marked as one, and each
+   * line carries how sure the record is (VERIFIED / PROBABLE / UNVERIFIED). d: null hides it.
+   */
+  identity(d) {
+    const el = this.el('ident');
+    if (!d) { el.style.display = 'none'; return; }
+    const i = d.ident ?? {}, unk = '<i class="unk">unknown</i>', conf = (c) => (c ? `<span class="conf ${c.toLowerCase()}">${c}</span>` : '');
+    const OUT = { bombed: 'bombed the target', aborted: 'turned back (abort)', returned_damaged: 'returned damaged', written_off: 'written off', lost: 'lost', unknown: 'not known' };
+    const row = (k, v) => `<div><span>${k}</span><b>${v ?? unk}</b></div>`;
+    el.innerHTML = `<div class="id-head"><span>B-17${i.type ? ` ${esc(i.type.replace(/^B-17/, ''))}` : ''} Flying Fortress</span><b>${i.nickname ? `“${esc(i.nickname)}”` : i.known ? 'name not recorded' : 'not identified'}</b>${conf(i.confidence)}</div>
+      <div class="id-grid">${row('Serial', i.serial && esc(i.serial))}${row('Bomb Group', esc(i.unit ?? i.group ?? '?'))}${row('Squadron', i.squadron && esc(i.squadron))}${row('Code', i.code && esc(i.code))}
+      ${row('Pilot', i.pilot && esc(i.pilot))}${row('That day', OUT[i.outcome ?? 'unknown'] ?? esc(i.outcome))}${row('Mission', 'Schweinfurt, 14 October 1943')}${row('Her place', i.slotDocumented ? (i.slotBasis ? 'as charted' : 'as recorded') : 'not documented: an estimate')}</div>
+      ${i.lossDetails ? `<p class="id-note">${esc(i.lossDetails)}${i.macr ? ` (MACR ${esc(i.macr)})` : ''}</p>` : ''}
+      <div class="id-crew">${(d.crew ?? []).map((m) => `<div><span>${esc(m.title)}</span><b>${esc(m.name)}${m.placeholder ? ' <i class="unk">placeholder</i>' : ''}</b>${m.placeholder ? '' : `${conf(m.confidence)}<em>${esc(m.fate ?? '')}</em>`}</div>`).join('')}</div>
+      <p class="id-foot">${i.known ? 'From the bomb group records (historical_data/black_thursday).' : 'No record of this aircraft has been found: its crew are placeholders, not real men.'} <kbd>I</kbd> to close</p>`;
+    el.style.display = 'block';
   }
 
   /** The screen's edges flash red: you've been hit (k 0..1, how hard). */
@@ -1106,7 +1142,7 @@ export class UI {
    */
   banner(kind, name, points) {
     const head = { kill: 'Aircraft destroyed', assist: 'Kill assist', crit: 'Critical hit' }[kind];
-    const badge = /109/.test(name) ? EMBLEM.bf109() : /190/.test(name) ? EMBLEM.fw190() : /51/.test(name) ? EMBLEM.p51() : EMBLEM.crew();
+    const badge = /109/.test(name) ? EMBLEM.bf109() : /190/.test(name) ? EMBLEM.fw190() : /47/.test(name) ? EMBLEM.p47() : EMBLEM.crew();
     const b = document.createElement('div');
     b.className = `banner ${kind}`;
     b.innerHTML = `<span class="b-emb">${badge}</span><span class="b-txt"><span class="head">${head}</span><span class="sub">${name}</span></span><span class="pts">+${points}</span>`;
@@ -1151,7 +1187,7 @@ export class UI {
   }
 
   /**
-   * The mission map, held open with M: a 1944 briefing map of the route out from England to the target
+   * The mission map, held open with M: a 1943 briefing map of the route out from England to the target
    * town, the initial point, the flak belt, the rally, the bomber stream (you in yellow), fighters near
    * you, and the town itself in a corner. `d` = Mission.mapData plus where everyone is; null closes it.
    */
@@ -1212,7 +1248,7 @@ export class UI {
     this.el('mmap-side').innerHTML = `<h3>${d.phase}</h3>
       <div>${d.toTarget != null ? `Target in <b>${mmss(d.toTarget)}</b>` : 'Target behind us'}</div>
       <div>Town wrecked: <b>${Math.round((d.wrecked / d.buildings) * 100)}%</b> (${d.wrecked} buildings)</div>
-      <div class="key"><i style="background:#e8b400"></i>You <i style="background:#2d3a55"></i>B-17s <i style="background:#1d5fc0"></i>P-51s <i style="background:#c0281c"></i>Luftwaffe</div>
+      <div class="key"><i style="background:#e8b400"></i>You <i style="background:#2d3a55"></i>B-17s <i style="background:#1d5fc0"></i>P-47s <i style="background:#c0281c"></i>Luftwaffe</div>
       <h4>Log</h4>${log || '<div class="ev">Nothing yet</div>'}
       <div class="hold">Let go of M to close</div>`;
   }
@@ -1240,6 +1276,20 @@ export class UI {
   }
 
   /** Short pop-up message (only for your own death now). */
+  /** The line being said on the intercom, under the middle of the screen while it's said (null: nothing). */
+  caption(who, text) {
+    if (!text && !this.capOn) return;
+    let c = document.getElementById('radio-cap');
+    if (!c) { c = document.createElement('div'); c.id = 'radio-cap'; document.body.append(c); }
+    this.capOn = !!text;
+    if (!text) { c.classList.remove('on'); return; }
+    c.innerHTML = '';
+    const b = document.createElement('b');
+    b.textContent = who;
+    c.append(b, text);
+    c.classList.add('on');
+  }
+
   toast(text, kind = '') {
     const t = document.createElement('div');
     t.className = `toast ${kind}`;
@@ -1319,7 +1369,7 @@ export class UI {
   }
 
   /**
-   * The start menu's Mission conditions: Default (summer, day, clear), Choose (the three pickers) or Random
+   * The start menu's Mission conditions: Default (autumn, day, clear), Choose (the three pickers) or Random
    * (what this mission rolled). onMode(mode) when the mode changes, onPick(key, value) when Choose's pickers do.
    */
   conditions(mode, env, onMode, onPick) {
@@ -1339,7 +1389,7 @@ export class UI {
 
   /** The Options switches (markers, distances, lead): remembered between games; onChange(opts) now and on every change. */
   hudOptions(onChange) {
-    let o = { enemy: false, friend: false, distance: false, lead: true, plainSight: false, third: false, infinite: false, v: 2 };
+    let o = { enemy: false, friend: false, distance: false, lead: true, plainSight: false, third: false, infinite: false, historical: false, v: 2 };
     try { const saved = JSON.parse(localStorage.getItem('bomber.hud') ?? '{}'); if (saved.v === 2) o = { ...o, ...saved }; } catch { /* (defaults) */ }
     o.third = false; // (every game starts in the cockpit: V switches)
     const boxes = document.querySelectorAll('[data-hud]');

@@ -9,7 +9,7 @@ import { turretPoint, turretFloor } from './interior.js';
 
 const V = THREE.Vector3;
 const _inv = new THREE.Matrix4();
-const tmp2 = new THREE.Vector3(), tmp3 = new THREE.Vector3(), tmp4 = new THREE.Vector3(), _inv2 = new THREE.Matrix4();
+const tmp2 = new THREE.Vector3(), tmp3 = new THREE.Vector3(), tmp4 = new THREE.Vector3(), _inv2 = new THREE.Matrix4(), _ear = new THREE.Vector3();
 const _f = new THREE.Vector3(), _u = new THREE.Vector3(), _s = new THREE.Vector3(), _c = new THREE.Vector3(), _rm = new THREE.Matrix4();
 // the parts of the airframe a gun mustn't fire through: wings (from the wing roots), engines, the fin
 // and the tailplanes (bomber space; the fuselage itself is kept out of the guns' arcs by their limits)
@@ -266,8 +266,13 @@ class Casings {
       link: isLink, out: outside, age: 0, rest: false, floor: outside ? -Infinity : (this.it?.floorAt(at.x, at.z, at.y) ?? -Infinity) });
   }
 
-  update(dt) {
-    let nc = 0, nl = 0;
+  /**
+   * ear: where you're listening from (bomber space), or null (not aboard): each case that lands near you
+   * pings as it hits the floor (the first, hardest bounces; a few a frame at most).
+   */
+  update(dt, ear = null, audio = null) {
+    let nc = 0, nl = 0, pings = 0;
+    this.lying = 0;
     for (let i = 0; i < this.items.length; i++) {
       const c = this.items[i];
       c.age += dt;
@@ -278,10 +283,15 @@ class Casings {
         c.p.addScaledVector(c.v, dt);
         c.r.addScaledVector(c.w, dt);
         if (c.p.y < c.floor + 0.007) { // bounce, and soon lie still
+          if (ear && pings < 4 && c.v.y < -0.6) { // (the clink of it)
+            const d = c.p.distanceTo(ear), vol = Math.min(1, -c.v.y / 2.5) / (1 + d * d * 0.35);
+            if (vol > 0.03) { audio?.caseTink(vol, c.link); pings++; }
+          }
           c.p.y = c.floor + 0.007; c.v.y *= -0.3; c.v.x *= 0.5; c.v.z *= 0.5; c.w.multiplyScalar(0.4);
           if (Math.abs(c.v.y) < 0.25) { c.rest = true; c.r.set(Math.PI / 2, c.r.y, 0); }
         }
       }
+      if (c.rest) this.lying++;
       this.m.compose(c.p, this.q.setFromEuler(this.e.set(c.r.x, c.r.y, c.r.z)), this.one);
       if (c.link) { if (nl < this.MAX) this.links.setMatrixAt(nl++, this.m); } else if (nc < this.MAX) this.cases.setMatrixAt(nc++, this.m);
     }
@@ -604,7 +614,8 @@ export class Weapons {
       }
     }
 
-    this.casings?.update(dt);
+    // (heard only aboard: `ear`, the camera, set by the game while you're in the bomber)
+    this.casings?.update(dt, this.ear && this.bomber ? this.ear.getWorldPosition(_ear).applyMatrix4(_inv2.copy(this.bomber.group.matrixWorld).invert()) : null, this.audio);
     const gp = this.current(player);
     if (!gp) { player.reloadPressed = false; player.gripTargets = null; return; } // R away from a gun doesn't carry over
     // aim the model's guns where the player looks

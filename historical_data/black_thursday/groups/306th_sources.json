@@ -1,0 +1,83 @@
+[
+ {
+  "id": "306-01",
+  "title": "306th Bomb Group mission report folder, 14 October 1943 (Schweinfurt): intelligence narrative, formation chart, loading list, S-4 damage and abort reports, flak report, interrogation forms, combat claim forms",
+  "organisation": "306th Bomb Group Historical Association (NARA copies, declassified 745005)",
+  "url": "https://306bg.us/MISSION_REPORTS/14oct43_v2.pdf",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "58-page scanned PDF; pages 1, 6, 13, 15-16, 19, 23, 27-49 read for this file."
+ },
+ {
+  "id": "306-02",
+  "title": "Missing Air Crew Reports, 14 October 1943 (10 PDFs, 14oct43macr1-10)",
+  "organisation": "306th Bomb Group Historical Association",
+  "url": "https://306bg.us/research/missing-air-crew-reports",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Scan of macr1 tried; mirror-imaged bleed-through, not legible enough to transcribe. Used only via the site's name index (306-05)."
+ },
+ {
+  "id": "306-03",
+  "title": "306th BG personnel card file (individual cards: name, service number, squadron/duty, crew, MIA/KIA/POW notes)",
+  "organisation": "306th Bomb Group Historical Association",
+  "url": "https://306bg.us/card file/Cardfile_jpg/",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Association-compiled index cards (wartime/postwar). Read for all 100 lost-crew members; used for full names of returned crews."
+ },
+ {
+  "id": "306-04",
+  "title": "War Diary, 369th Squadron, 306th Bomb Group, October 1943, sheet 2 (in 'oct43wardiary.pdf')",
+  "organisation": "306th Bomb Group Historical Association",
+  "url": "https://306bg.us/306th BG War Diaries/oct43wardiary.pdf",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Lists 18 dispatched, 3 early returns, 5 completed, 10 missing; names missing pilots by squadron."
+ },
+ {
+  "id": "306-05",
+  "title": "306bg.us archive search (MACR name index, card index, mission-report index)",
+  "organisation": "306th Bomb Group Historical Association",
+  "url": "https://306bg.us/SearchV7/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "MACR index entries take the form 'Name: 14oct43macrN p.NNN First Over Germany'."
+ },
+ {
+  "id": "306-06",
+  "title": "b17flyingfortress.de aircraft pages (42-29971, 42-30710, 42-30813, 42-30175, 42-30727, 42-37720, 42-30811, 42-30199, 42-30707, 42-30779, 42-30782, 42-3169, 42-30603, 42-30714, 42-30812, 42-30767, 42-3301, 42-30728)",
+  "organisation": "b17flyingfortress.de (based on 'The B-17 Flying Fortress Story' plus corrections)",
+  "url": "https://b17flyingfortress.de/en/b17/42-29971/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Source of block, squadron code, MACR numbers, nicknames, crash locations and MACR-derived crew tables. Wrongly lists 42-29971 under the 305th BG. Pages for other serials follow the same URL pattern."
+ },
+ {
+  "id": "306-07",
+  "title": "Roy Gottgens, 'Thunder in Heaven' (Cole crew, 42-29971, 14 Oct 1943)",
+  "organisation": "306th Bomb Group Historical Association (hosted)",
+  "url": "https://306bgus.verio.com/history/crew_histories/Cole, Vernon/Gottgens report of Cole crew/2016 07-12 sm-file FINAL Gottgens Thunder in Heaven.pdf",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Found by search; not read in full. Cited as the detailed study of the Beek crash."
+ },
+ {
+  "id": "306-09",
+  "title": "John Noack, 306th Bomb Group (oral history article)",
+  "organisation": "The National WWII Museum",
+  "url": "https://www.nationalww2museum.org/war/articles/john-noack-306th-bomb-group",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Names engineer/top turret gunner Kenneth Fox, severely wounded on 14 Oct 1943."
+ },
+ {
+  "id": "306-08",
+  "title": "Russell A. Strong, 'First Over Germany: A Story of the 306th Bombardment Group', pp. 167-172",
+  "organisation": "306th BG (book)",
+  "url": null,
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Not consulted directly; page references come from the 306bg.us MACR index and card file."
+ }
+]

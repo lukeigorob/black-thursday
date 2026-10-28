@@ -1,0 +1,510 @@
+[
+ {
+  "bomb_group": "100th",
+  "gap": "Serial numbers: only one aircraft serial is supported by evidence (42-5997 'Heaven Can Wait', by name in an eyewitness account). 42-3271 and 42-6087 are mentioned on 100-01 but contradicted by their own aircraft records; the remaining aircraft are unknown. Searched: 100thbg.com Black Week page, mission record 36 (mission_id=48) incl. photo album, aircraft database (by name), crew database, AAM."
+ },
+ {
+  "bomb_group": "100th",
+  "gap": "Crew manifests: only the Hughes and Roane crews are tied to 14 Oct by a dated caption; all others are original crew rosters (UNVERIFIED). Lohof, Lakin and Mitchell crews are listed only by their position on the page."
+ },
+ {
+  "bomb_group": "100th",
+  "gap": "Ranks on the date not established; rank_in_source is as printed on 100-01 (may be later ranks)."
+ },
+ {
+  "bomb_group": "100th",
+  "gap": "Formation slot within each composite group not found."
+ },
+ {
+  "bomb_group": "100th",
+  "gap": "Squadron code for Roane (349th) and squadrons for Lohof and Lakin crews not established from sources consulted."
+ },
+ {
+  "bomb_group": "100th",
+  "gap": "Recommended next sources: 100th BG loading list / sortie report for 14 Oct 1943 (AFHRA 100th BG collection or 13th CBW history), 390th BG and 95th BG formation charts for the day."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Service numbers: none recorded; 303-01 does not give them. MACR 907 (Sanders) would list them for the lost crew - not retrieved (americanairmuseum.com returned HTTP 403 to the fetch tool; NARA/Fold3 MACR not accessed)."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "MACR number 907 for 42-29477 is from one secondary source (303-05) only; needs checking against the MACR index."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Block numbers for 19 of 20 aircraft not researched/recorded (only 42-29477 = B-17F-55-BO, PROBABLE). Could be filled from Joe Baugher's serial lists."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Individual wounded: 303-01 says five arriving crewmen were wounded; only Sgt James R. Teno (41-24619) is named. Other returning crew are marked 'returned' with fate_confidence PROBABLE."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Which aircraft was 'written off after landing' (303-01) is not stated; 42-5482 (crashed at Risley after bail-out) is recorded as written_off. 15 aircraft damaged, but only 42-5393, 42-5081, 41-24619, 42-3158 have documented damage."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Whether each non-aborting aircraft actually bombed the primary is assumed from 303-01 (no other early returns listed); 42-5393 salvoed its bombs before the target per pilot Heller."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Formation: the 303-01 assembly chart labels no squadrons (lead/high/low); positions are recorded as drawn. Klint's account mirrors left/right versus the chart for Hullar and Ness."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Aircraft letters come from the 303-03 index read through a summarising fetch; not individually confirmed on aircraft pages except VK-B, GN-Y, GN-I."
+ },
+ {
+  "bomb_group": "303rd",
+  "gap": "Nose art descriptions not researched."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "The three aborted aircraft (serials, pilots, crews) were not identified in any source found."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "No primary 305th records (loading lists, interrogation forms, MACR images) were found online; no 305th association website responded (305thbombgroup.com/.org, 305thbg.org do not resolve). Crew data come from the IWM American Air Museum archive (Dave Osborne B-17 master-log text plus volunteer person records) and b17flyingfortress.de, which share upstream sources, so most crew records are PROBABLE at best."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Many crew names are short forms (Bob, Chas, Vic, etc.) as given by the master-log text; full names found only where IWM person pages exist."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Where only group totals are given, individual fates are 'unknown' or, if assigned from list order or deduced from totals, marked UNVERIFIED with a note."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Farrell crew (42-30678) and the 3 aborts: no crew data. Kane/Normand crew (42-3412) from a single reader comment."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Ranks are missing for most crew; IWM 'Highest Rank' may postdate 14 Oct 1943."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Fate value 'interned' (Switzerland, Lazy Baby crew) is outside the schema's enumeration and is used deliberately."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "MACR for 42-37750 conflicts (915 on IWM, 779 on the b17flyingfortress.de loss list). Crash locations sometimes differ between Kuhl and the master log (e.g. Lang: Puffendorf vs Beek)."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "americanairmuseum.com blocked automated fetch (403); IWM americanarchive pages used instead and rate-limited part-way (HTTP 429)."
+ },
+ {
+  "bomb_group": "305th",
+  "gap": "Searched: web search for 305th association/loading lists, IWM mission page VIII BC 115, IWM aircraft pages for all 15 known serials, ~50 IWM person pages, b17flyingfortress.de pages and loss list, 303rd mission 78 PDF."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Noack crew (42-3169): no interrogation form found in the 14 Oct 43 mission report folder; only 5 of ~10 men identified (pilot, engineer Edward K. Fox from card file/oral history, plus three from combat claim forms)."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Ranks for most lost-crew members of the Jackson, Butler, Bisson, Holmstrom and Peters crews are null: 306-06 gives no ranks for those crews and the card files' rank boxes are not dated reliably. MACR PDFs (306-02) would give ranks but the scans (mirrored/bled-through JPEGs) were not legible enough to transcribe."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Fate conflicts between the 306th card file and b17flyingfortress.de for the Lockyear crew (Powell, Nagy, Rich, Weiland), Bernstein (Jackson crew) and Massey (Holmstrom crew) are unresolved; MACRs/ABMC/NARA POW records not checked."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Holmstrom: card says MACR KIA report erroneous, but POW status not confirmed; Peterson (Peters crew) and Levine (Jackson crew) final fates not confirmed."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "MACR numbers (814-823) come from b17flyingfortress.de only; 306bg.us files them as 14oct43macr1-10 without visible numbers. The mapping macr1=Cole, 2=Lockyear, 3=Jackson, 4=McCallum, 5=Bettinger, 6=Bisson, 7=Holmstrom, 8=Butler, 9=White, 10=Peters is from the 306bg.us name index."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Positions for lost crews come from b17flyingfortress.de (MACR-derived) and card codes; not checked against the MACR crew pages."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Nicknames: none confirmed for 14 Oct 1943 by a primary record. Secondary names (Queen Jeannie, Hammer of Hell, Fightin' Bitin', The Wicked WAAC, Piccadilly Commando II, plus Rationed Passion 42-30782, Las Vegas Avenger 42-30603, Hustling Sue 42-30714, Cavalier 42-3301) are held in 'nickname_unverified' / notes only."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Squadron code prefixes (GY/BO/WW/RD) are from 306-06; the primary records give only the aircraft letter."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "americanairmuseum.com returned HTTP 403 to automated fetch and was not used."
+ },
+ {
+  "bomb_group": "306th",
+  "gap": "Searched: 306bg.us mission-report search (14 Oct 43), aircraft search for all 18 serials, veteran name/card/MACR index for every crew member, Oct 43 war diary, 14oct43macr1 PDF (illegible scan), b17flyingfortress.de pages for all 18 serials."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Which of 42-3509 (Argiropolus) and 42-29863 (Hathaway) flew over the target is unresolved (load list vs Combat Report Form diagram)."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "The five men wounded on returning aircraft are not named in the sources seen; all returning crew are recorded as 'returned'."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Which three of the nine returning bombers landed at Kenley/Gravesend is not identified."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Reasons for each of the eight aborts are not linked to specific aircraft."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Crew data come from the 351st.org load-list database (a transcription of the group's crew loading lists); the original loading-list images were not inspected, so individual crew are PROBABLE except the Crismon crew, which is cross-checked against 351-03."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Squadron codes, blocks and nicknames are from b17flyingfortress.de (351-03) only and refer to the aircraft's assigned squadron; none confirmed for 14 Oct 1943."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "42-30135 'Trouble Shooter' (MACR 855), sometimes attributed to the 351st/511th for this date, was with the 95th BG/334th BS (BG-H) by 14 Oct 1943 per 351-03 and is excluded here."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "IWM/americanairmuseum person pages not checked for the Crismon crew (rate-limited/blocked)."
+ },
+ {
+  "bomb_group": "351st",
+  "gap": "Searched: 351st.org load-list database (mission 49 and all 18 aircraft), 351st.org mission 49 page and Combat Report Form image, b17flyingfortress.de pages for all 18 serials and its 14-10-1943 loss list, 303rd BG mission 78 PDF, IWM mission page VIII BC 115."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "No 379th BG loading list, sortie list, mission report or formation chart for 14 Oct 1943 found online. 379thbga.org has an expired TLS certificate; its plain-http and archived pages contain only a mission-date list (pdfs/missionreports.pdf), crew photos and reunion material."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "Only the six losses are identified; the ~11 aircraft that returned (and any aborts) are unidentified - serials, pilots and crews UNKNOWN."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "Crew lists come from one secondary source (b17flyingfortress.de, largely Freeman's \"B-17 Fortress Story\" history text derived from MACRs); MACRs 954-958 and 1353 themselves were not consulted (NARA/Fold3). Most names are informal short forms and most ranks are unknown."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "americanairmuseum.com and hmdb.org returned HTTP 403; only search-result summaries used."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "Squadron codes are each aircraft's 379th code from its service history, not confirmed for the date."
+ },
+ {
+  "bomb_group": "379th",
+  "gap": "Group mission number for the 379th not established (the archived 379thbga.org mission list PDF is garbled)."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "381st.org (381st BG Memorial Association) currently fails TLS / shows a hosting placeholder; all 381st BGMA material was read from Internet Archive snapshots (2002-2012). The 2015-2017 \"Unit-History/Data-Sets/Missions\" database required login and was not archived."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "No loading list, sortie list or formation chart for 381st mission #39 found; the old 381st.org mission database (2000) and mission pages (2002/2008) do not include 14 Oct 1943. The 381st BG group war diary for October 1943 was not archived."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "Aircraft serials are known only for 42-29803 (lost), 42-29832 (PROBABLE, Miller abort) and 42-5725 (Hutchens, from his memoir). All other sorties are known only by pilot surname from squadron diaries."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "Only the Yorba crew (42-29803) has a full crew manifest. Ball turret gunner conflict (Boylan vs Harkness) unresolved without MACR 1037 itself."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "americanairmuseum.com returned HTTP 403; only search-result summaries used."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "Paul Bingley & Mike Peters, \"Bomb Group\" (381st BG history, Casemate) likely contains the sortie list - not accessible online."
+ },
+ {
+  "bomb_group": "381st",
+  "gap": "Pilot first names and ranks for most diary-listed pilots not established; crew photo captions on 381st.org are not date-specific and were used only as PROBABLE leads in notes."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Ranks: 384th BG person pages record lowest/highest rank while with the group plus some dated promotion entries; rank on 14 Oct 1943 is set only where a single rank was recorded or dated promotions allow derivation. Others left null with the recorded range in notes."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Waist gunner side (left/right) is not recorded in the loading lists; recorded as \"waist\"."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Nicknames come from the 384th BG aircraft database (not date-specific); no photographic evidence for nose art on 14 Oct 1943 was checked. nose_art left null throughout."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Formation positions: only group lead (42-30026, with Capt. George W. Harris as Commander) and High Squadron lead (42-3429, aborted) are recorded in sortie comments. Full formation chart not located; the 384th site photo gallery category \"Combat Mission Records and Plans\" (photos.384thbombgroup.com/index.php?/category/4718) may contain the formation diagram but was not parsed."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Block numbers not recorded in sources consulted (384th aircraft pages may carry them; not checked per aircraft)."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "americanairmuseum.com returned HTTP 403 to direct fetch; only search-result titles were used as cross-checks for aircraft names/MACR of 42-3216, 42-30196, 42-3037, 42-31059."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Wounded crewmen who returned (e.g. 1st/2nd Lt. Joseph L. Bedsole, 42-29809) are recorded with fate \"wounded\"; nature of wounds not researched."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "b17flyingfortress.de lists 42-30040 (Piccadilly Commando, MACR 837) under the 384th for this mission; the 384th BG aircraft page shows it was transferred to the 96th BG (337BS, AW-A) on 6 Jul 1943 and was lost with the 96th on 14 Oct 1943 (crashed Avincourt, France) - NOT a 384th sortie. Likewise b17flyingfortress.de attributes 42-29784 and 42-29867 to the 381st as well; 384th loading lists show both flew with the 384th."
+ },
+ {
+  "bomb_group": "384th",
+  "gap": "Earlier draft placed the 384th in the 40th CBW from a newsletter summary mentioning Col. Peaslee; the 303rd BG report table places it in the 41st CBW. Peaslee (former 384th CO) led the 1st Air Division / 40th CBW flying with the 92nd BG."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Per-aircraft outcome (bombed vs aborted) not documented: 385th mission report for mission 28 not found online (385-02 gives only \"22 a/c flown\"). 385th BGA mission-report PDFs were not located for this mission."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Ranks not recorded: 385-01 gives name, position, crew and aircraft but no rank; individual person pages were not consulted."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Position detail incomplete: 385-01 often gives only \"G\" (gunner) without station; engineers are mostly not distinguished from gunners."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Squadron/code letters are airframe assignments (AAM/Osborne, b17flyingfortress.de), not mission-day records; several AAM codes conflict with the standard squadron codes (548 GX, 549 XA, 550 SG, 551 HR) and are recorded as given."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Aircraft attribution conflicts: 42-30171 (landing accident 3 Oct 1943 per AAM/b17flyingfortress.de), 42-30250 and 42-30827 (385th BGA B-17 list dates conflict with AAM)."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Charlene (42-3347) crew names other than the pilot not found; landing place disputed (Bovingdon vs Rowington)."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "Formation position: 385th position in the 3rd BD formation not documented in sources seen."
+ },
+ {
+  "bomb_group": "385th",
+  "gap": "No service numbers recorded except Chesmore (AAM)."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "Only 2 of the 388th's ~18-22 aircraft identified. The 388th BG database (www.388bg.com, linked from the 388th BG Association site 388thbga.org) has mission, formation (pageType=formation) and crew pages, but every data page requires registration/login with an email address; I did not register (account creation not permitted for me). The user could register and look up the 14 Oct 1943 mission (likely mission id pattern 388-M0xx) and its formation page - that would probably give the full load list and formation."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "388thbg.org / 388bg.org (named in the brief) do not resolve; www.388thbg.org has an expired TLS certificate; www.388bg.info is a parked/redirecting domain (not followed)."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "AAM aircraft pages linked to the mission returned only 388th airframes with no 14 Oct 1943 activity except 42-30193; AAM mission connection lists are sparse."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "Tiger Girl crew beyond pilot, co-pilot, engineer and tail gunner not confirmed for this date (rest taken from a 9 Sep 1943 roster, marked UNVERIFIED)."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "Which 5 aircraft aborted and which 3 landed away are not identified."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "Ranks and service numbers largely unknown."
+ },
+ {
+  "bomb_group": "388th",
+  "gap": "Carson memoir (388-02) parts beyond the Schweinfurt chapter not read in full; it is the only per-mission narrative found."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Which four 390th aircraft aborted is not identified; outcome left \"unknown\" for 11 aircraft whose crews do not appear in the MACR 858 eyewitness list. Next step: 390th mission report file no. 987-988 (Mission Reports Part I, 390th Memorial Museum Joseph A. Moller Library) or the 390th loading list."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Ranks on 14 Oct 1943 not found for most crew; the 390th DB mission listing gives no ranks. Individual personnel records (390-01, Personnel Search) were not opened one-by-one. Ranks recorded only for the McEwin crew (390-03) and MACR 858 eyewitnesses."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Squadron and code letters per aircraft are the airframe assignment from b17flyingfortress.de and AAM/Osborne (390-04..08), not from a 14 Oct 1943 loading list; 42-30642 moved 568th (BI-O) to 569th (CC-O) at an undocumented date."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Formation positions not documented in sources seen (Jeffrey/Clark command crew in 42-30338 and Tuttle as command pilot in 42-3327 indicate lead/deputy-lead roles, unconfirmed)."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Battle damage/wounded on returning aircraft not documented in sources seen (museum synopsis notes many damaged by flak and one with friendly .50 cal hits, unnamed)."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "No service numbers recorded (not seen in the sources used)."
+ },
+ {
+  "bomb_group": "390th",
+  "gap": "Block numbers not checked except 42-29991."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "91stbombgroup.com (the main source: daily mission/loading lists) returned HTTP 403 to the fetch tool and a Cloudflare 'Attention Required' challenge in the browser; it was not bypassed. Only 2 of 11 aircraft identified. A person with browser access to 91stbombgroup.com (Daily Journal / mission loading lists) could likely complete this group."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "americanairmuseum.com returns HTTP 403; the IWM American archive mirror (americanarchive.iwm.org.uk) worked and was used for person records."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "Nine 91st BG aircraft, pilots and crews unknown. Searched: web search for 91st/14 Oct 1943/Schweinfurt crews, b17flyingfortress.de REST API (all aircraft tagged with this date: only 42-5714 and 42-29741 are 91st), Wikipedia, libertyladybook.com, 100thbg.com Black Week page (100th only)."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "Slane crew: 5 of 10 full names via IWM; bombardier 'Bill Runner', engineer 'Sherman Sly', waist 'Bob Solomon', tail 'Claud Smith' are informal names only. Pilot full name 'Robert M. Slane' is a name+group match only. MACR 899 not consulted (would give full names, ranks, serial numbers)."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "42-29741 crew: only 5 names connected to the date; the IWM record also links radio operator T/Sgt Lloyd Derousse (37375849) to the aircraft/pilot but not to this date, so he is not listed. The Christensen record narrative ('Merseburg', abort) conflicts with Schweinfurt."
+ },
+ {
+  "bomb_group": "91st",
+  "gap": "No formation positions found; the 91st flew in the 1st CBW (91-04 table) but its slot (lead/high/low) is ambiguous in the extracted table."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Only 9 of ~19 aircraft identified (6 lost, 2 crash-landed in UK, 1 lead aircraft UNVERIFIED). The 10 or so other returning aircraft, pilots and crews are unknown. 92nd BG association sites (92ndma.org / 92nd BG history) were not found to host a 14 Oct 1943 loading list via web search; not fetched directly. AFHRA 92nd BG microfilm or the 92nd association's archive would be needed."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "americanairmuseum.com returns 403; used the IWM mirror americanarchive.iwm.org.uk. The IWM mission page 'VIII Bomber Command 115' lists only ~50 items linked by contributors (paged ?page=1..9), not a full order of battle."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Clough crew (42-30231): 5 of 10 names only informal ('Jim Dickens', 'Bill Fraser', 'Bandy Herman', 'Jones Jackson', 'George Woiblett'); full names/ranks would come from MACR 844."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Service numbers recorded only where an IWM person record gave them; MACRs 844-849 (NARA/Fold3) not consulted. Houser/Harmon share a number on IWM (conflict, not recorded)."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Ranks from IWM may be highest-held rather than rank on the date (noted per person)."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Formation positions (lead/high/low squadron slots) not found. The 92nd led the 40th CBW and the 1st Air Division."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Lead ship identity: 42-30580 'Equipoise' is UNVERIFIED (art print source only). Needs the 92nd BG loading list or Peaslee's 'Heritage of Valor' / McLaughlin's 'The Mighty Eighth in WWII: A Memoir'."
+ },
+ {
+  "bomb_group": "92nd",
+  "gap": "Exclusions: 42-29511 'The Iron Maiden', 42-29653 'Bad News' and 42-29776 were ex-92nd aircraft lost on 14 Oct 1943 but had transferred to the 379th BG on 4 Sep 1943, so they belong to the 379th file. 42-29717 'Mr Five by Five' is tagged with 92nd/326th on IWM but was with the 384th BG per the same page (not 92nd on this date - not checked further)."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Only 6 of 21 dispatched 94th aircraft identified (all losses). No public sortie/loading list found for the 15 aircraft that returned. Searched: web search for 94th BG mission records, AAM mission 115 linked aircraft/people (only 42-30149 and 42-3095 linked for 94th), AAM aircraft pages, b17flyingfortress.de loss list for 14 Oct 1943."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Aborts, damaged aircraft and wounded in returning 94th aircraft: not found."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Formation positions not found."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Ranks on the date not established (AAM gives highest rank only; stored as null)."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Brennan crew (42-30383) incomplete: engineer, ball, one waist and tail gunner not named in sources."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Conflicts recorded: 42-30149 squadron (333rd vs 332nd); 42-30453 pilot surname and MACR (788 vs 831); 42-30457 crash site and fates of Elwell and Dillon; name spellings (Baxendall/Baxandall, Pesta/Festa)."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "MACRs themselves (NARA/Fold3) not consulted directly; data from AAM entries citing Osborne's B-17 Fortress Master Log, MACRs and the 8th AF Roll of Honor."
+ },
+ {
+  "bomb_group": "94th",
+  "gap": "Recommended next sources: 94th BG mission folder for 14 Oct 1943 (NARA RG 18 / AFHRA microfilm), 94th BG association records."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Ranks on 14 Oct 1943 not established: 95thbgdb person records give one rank (often final, e.g. Kerr 'Major'); stored as rank_in_source, rank left null."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Left/right waist positions not distinguished in 95thbgdb (recorded as 'waist')."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Crews of the two aborts (L.E. Kring 42-3465, R.M. Smith 42-30167) not listed in 95thbgdb; full pilot names not resolved."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Which 5 aircraft were damaged (95-01 'Damaged: 5') not identified apart from 42-3462."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Formation positions not found; searched 95thbgdb mission page, crew pages and AAM aircraft records."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Squadron code letters use the standard squadron codes (334 BG, 335 OE, 336 ET, 412 QW) corroborated by AAM 'Coded' fields; AAM codes are undated and some airframes changed squadron, so codes on 14 Oct are PROBABLE."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Nicknames are 95thbgdb aircraft names; whether each was painted by 14 Oct 1943 not verified."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Nunnold fate (POW vs evaded) and McPherson crew navigator/bombardier swap unresolved; MACR 855 not consulted directly."
+ },
+ {
+  "bomb_group": "95th",
+  "gap": "Block numbers not researched (not in sources consulted)."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Only 9 of 41 dispatched 96th sorties identified (7 MIA, 1 DBR, 1 borrowed 385th aircraft). No public sortie/loading list found for the ~32 other aircraft. Searched: web search for 96th BG mission records (a History Hub thread says 96th Oct 1943 mission reports are undigitised at NARA College Park, RG 18), AAM mission 115 linked aircraft/people, AAM aircraft pages, b17flyingfortress.de 14 Oct 1943 loss list."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Which aircraft flew in the 96th 'A' and 'B' groups and formation positions: not found."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Aborts, other damaged aircraft and WIA in returning aircraft: not found (AAM: 11 WIA in returning aircraft across the whole 3rd BD)."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Ranks on the date not established (AAM gives highest rank only; e.g. Nettles 'Colonel')."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Left/right waist positions known only for Nettles crew (42-3453)."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "42-3347 (385th BG aircraft with a 96th crew): crew names other than Chesmore and the group credited with the sortie not found."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Name spelling conflicts recorded per crew member; MACRs 831-837 not consulted directly."
+ },
+ {
+  "bomb_group": "96th",
+  "gap": "Recommended next sources: Doherty & Ward 'Snetterton Falcons II'; NARA RG 18 96th BG mission folder for 14 Oct 1943; MACRs 831-837 on Fold3."
+ }
+]

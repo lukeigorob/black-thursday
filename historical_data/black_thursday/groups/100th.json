@@ -1,0 +1,1304 @@
+{
+ "group": "100th",
+ "division": "3rd",
+ "combat_wing": "13th CBW",
+ "dispatched": 8,
+ "lost": 0,
+ "dispatched_confidence": "VERIFIED",
+ "dispatched_notes": "8 crews/aircraft: 100-01 ('8 crews total', 'could only put up 8 aircraft after the Munster Mission') and AAM mission summary '100BG (8)'. 0 aircraft and 0 crew lost, bombing result EXCELLENT, 7 enemy aircraft claimed, 100th mission no. 36 (100-03). The 100th's own report (100-02) says its aircraft flew in two group formations: low group of the wing formation (with 390th) and high group with the 95th. These are 100th BG aircraft flown by 100th crews inside other groups' formations; recorded here as 100th sorties, not in the 95th file.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "351st",
+   "squadron_code": "EP",
+   "aircraft_letter": null,
+   "pilot": "Robert L. Hughes",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 95th BG, reported as the 'high group with 95th' (100-02, 100-01). Hughes led the four 100th crews with the 95th (100-01, 100-04).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "100-01",
+    "100-02",
+    "100-03",
+    "100-04",
+    "100-05"
+   ],
+   "notes": "Aircraft NOT established. 100-01 captions the crew list 'The crew of Nine Little Yanks and A Jerk on 14 October 1944' (1944 is a typo for 1943). The 100th database record for 'Nine Little Yanks and a Jerk' (42-3271, 351st EP-L, 100-05) shows 'FTO - engine trouble 10 Oct 43', no 14 Oct 43 entry, and Hughes as pilot only from 5 Nov 43; so the name may identify the crew rather than the aircraft flown that day. Candidate 42-3271 is UNVERIFIED. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Robert L. Hughes",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Donald S. Davis",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Leonard A. Wickens",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Richard E. Elliott",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Gerald Gulich",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database (100-04) spells 'GULICK, Gerald H.'"
+    },
+    {
+     "name": "Joseph E. Boyle",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database (100-04) gives 'BOYLE, Joseph F.'"
+    },
+    {
+     "name": "Horace Barnum",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database: 'BARNUM, Horace E.'"
+    },
+    {
+     "name": "Talmage P. Buntin",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database spells 'Talmadge'."
+    },
+    {
+     "name": "Robert L. McKimmy",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-03"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed by 100-01 under the 14 Oct crew caption (9 names; no second waist gunner listed). rank_in_source is as printed on 100-01 and may not be the rank on the date. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5997",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Heaven Can Wait",
+   "nose_art": null,
+   "bomb_squadron": "351st",
+   "squadron_code": "EP",
+   "aircraft_letter": "F",
+   "pilot": "Howard E. Keel",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 95th BG, reported as the 'high group with 95th' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "100-01",
+    "100-06",
+    "100-03"
+   ],
+   "notes": "Bombardier 2nd Lt Ruben C. Kelsey (Keel crew, 351st Sqdn Crew 25) wrote that on 14/10/43 they 'flew with the 95th BG' and 'flew Heaven Can Wait' (100-01). 100th database: 42-5997 'Heaven Can Wait', 351st, EP-F (100-06; later lost 30 Dec 1943, MACR 2019). Serial is a match by name only (single eyewitness). Keel as pilot that day is inferred from Kelsey being on the Keel crew - not stated explicitly. Kelsey says he and the ball turret gunner were each credited with enemy fighters (his an FW 190). Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Howard E. Keel",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Robert K. Edgley",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Alexander G. Park",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Ruben C. Kelsey",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). His own account places him on this mission."
+    },
+    {
+     "name": "Frederick A. Kornblum",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Thomas P. Hastings",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Claire J. Phelan",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Kelsey mentions an unnamed 'BTG' credited with fighters."
+    },
+    {
+     "name": "George L. Ferron",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Andrew J. Guglier",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database spells 'GUGLIERI, Andrew J.'"
+    },
+    {
+     "name": "Harry A. Koerner",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "418th",
+   "squadron_code": "LD",
+   "aircraft_letter": null,
+   "pilot": "Frank G. Lauro",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 95th BG, reported as the 'high group with 95th' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "100-01",
+    "100-04",
+    "100-07"
+   ],
+   "notes": "Crew listed by 100-01 among the crews that flew with the 95th, but the same page also says names of 'two other crews' were still being sought. Aircraft unknown: the crew's 'NELSON KING' is B-17G 42-31306 (100-07), a later airframe named after T/Sgt King's frostbite injury of 29 Nov 1943, so it cannot be the 14 Oct aircraft. Crew database gives pilot as 'Francis G. Lauro'. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Frank G. Lauro",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "Capt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database: 'LAURO, Francis G.'"
+    },
+    {
+     "name": "Emanuel E. Greasamar",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Emery Horvath",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Walter Green",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Dewey Thompson",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Nelson King",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). Crew database also lists T/Sgt Harry H. Greenfield as ROG on this crew."
+    },
+    {
+     "name": "Murray Schrier",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Gerald A. Will",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "William R. Heathman",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Arthur R. Tirrell",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). 100-01 spells 'Authur'."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "418th",
+   "squadron_code": "LD",
+   "aircraft_letter": null,
+   "pilot": "John J. Flanigan",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 95th BG, reported as the 'high group with 95th' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "100-01",
+    "100-04",
+    "100-08"
+   ],
+   "notes": "100-01: '(4th crew I believe is Lt Flanigan crew flying Royal Flush...mpf)'. CONFLICT: the Royal Flush record (42-6087, 418th LD-Z, 100-08) carries a known-mission list (Bowden / USAAF Nose Art Research Project) with no 14 Oct 1943 entry, after Cat AC damage on 10 Oct (Munster, Rosenthal crew). So the aircraft (42-6087 'Royal Flush') is UNVERIFIED and the crew's participation is itself uncertain. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "John J. Flanigan",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-797503",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Douglas E. Dunsdon",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-801641",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Earl L. Richardson",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Guy M. Tuccero",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Adam E. Rutkowski",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Guerino Melchiorre",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Frederick D. Brown",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Salvatore J. Luistro",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "Pvt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Jack J. Strang",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Original navigator 2nd Lt Rudolph Grum was POW 10 Oct 1943 (Munster, with J.F. Stephens) per 100-01, so he was not aboard; navigator on 14 Oct unknown. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "349th",
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "Owen D. Roane",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 390th BG, reported as the 'low group of the wing formation' (100-02, 100-01). Roane led the four 100th crews with the 390th (100-01, 100-04).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "100-01",
+    "100-02",
+    "100-03",
+    "100-04",
+    "100-09"
+   ],
+   "notes": "Aircraft unknown. Squadron 349th per AAM person record (100-09); squadron code not sourced. 100-04 crew page has a photo captioned 'Oct 14, 1943 Schweinfurt: upon return, the crew took this photo' naming Campbell, Roane, Gonzales, Stipe, A. Hauge, Jarvie, Stuart, Stroble, Healy, Tomb and Dettweiler (plus ground crew), which corroborates the 100-01 crew list. The 390th BG received a Distinguished Unit Citation for this mission and the four attached 100th crews were entitled to an oak leaf cluster (100-01). Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Owen D. Roane",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Arthur C. Stipe",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Omar Gonzales",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "1st Lt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Curtis K. Campbell",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Robert A. Stuart",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Clarence R. Tomb",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Roger O. Stroble",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Richard Dettweiler",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "James Jarvie",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Patrick J. Healy",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Arthur B. Hauge",
+     "rank": null,
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01",
+      "100-04"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Listed in 100-01 for this mission and named in the 14 Oct 1943 return photo caption (100-04). Fate: the 100th BG lost no aircraft and no crew on this mission (100-03). In the 14 Oct return photo ('A. Hauge') and on the crew roster as WG (RFS), but not in the 100-01 list for this mission; whether he flew is unknown."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": null,
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "Robert H. Lohof",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 390th BG, reported as the 'low group of the wing formation' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "100-01",
+    "100-04"
+   ],
+   "notes": "Crew printed in the 'Crews That Flew with 390th Bomb Group' section of 100-01 after the Roane crew; the page does not otherwise confirm the crew's participation or aircraft. Aircraft unknown. Lohof crew was later lost 3 Mar 1944 (Berlin, MACR 3022) - not relevant to this date. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Robert H. Lohof",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Capt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Robert L. Phillips",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "1st Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "William E. Vaden",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "1st Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Paul T. Davis",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "1st Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Sidney A. Goldenberg",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Guy L. Brown",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Vern R. Lines",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "James M. Butler",
+     "rank": null,
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Richard L. David",
+     "rank": null,
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "George W. Briggs",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": null,
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "William G. Lakin",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 390th BG, reported as the 'low group of the wing formation' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "100-01",
+    "100-04"
+   ],
+   "notes": "Crew printed in the 'Crews That Flew with 390th Bomb Group' section of 100-01 after the Roane crew; the page does not otherwise confirm the crew's participation or aircraft. Aircraft unknown. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "William G. Lakin",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Keith A. Sprague",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Robert G. Milam",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Duncan L. McCormac",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "James W. Cunningham",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Eugene E. Beister",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Clarence A. Butts",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Alfred J. Michini",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Daniel F. Feagins",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Thomas A. Kendall",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": null,
+   "aircraft_type": null,
+   "block": null,
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "350th",
+   "squadron_code": null,
+   "aircraft_letter": null,
+   "pilot": "Donald M. Mitchell",
+   "pilot_rank": null,
+   "formation_position": "Flew in the 100th BG composite formation attached to the 390th BG, reported as the 'low group of the wing formation' (100-02, 100-01).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "100-01",
+    "100-04"
+   ],
+   "notes": "Crew printed in the 'Crews That Flew with 390th Bomb Group' section of 100-01 after the Roane crew; the page does not otherwise confirm the crew's participation or aircraft. Aircraft unknown. Mitchell's 1983 letter (100-01) says four original men were replaced after the first few missions (Mabey, Beard, McCurry, Hulsey named as the replacements), so the roster order is uncertain; Woodrow W. McCurry (WG) may also have flown. Outcome 'bombed' inferred: 100th mission record gives bombing result EXCELLENT and 0 aircraft lost (100-03); no abort recorded for this crew.",
+   "crew": [
+    {
+     "name": "Donald M. Mitchell",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Yandell S. Warren",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Carl M. Davidson",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Earl G. Hafen",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "2nd Lt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "John J. Boggs",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "John K. Beard",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Charles A. Mabey",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "T/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Fay A. Hulsey",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Harold F. Hodgdon",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    },
+    {
+     "name": "Donald A. McAllister",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "100-01"
+     ],
+     "rank_in_source": "S/Sgt.",
+     "notes": "Name taken from the crew's original roster as printed on the 100th BG Black Week page (100-01) / crew database (100-04); presence aboard on 14 Oct 1943 not confirmed. Fate: the 100th BG lost no aircraft and no crew on this mission (100-03)."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Serial numbers: only one aircraft serial is supported by evidence (42-5997 'Heaven Can Wait', by name in an eyewitness account). 42-3271 and 42-6087 are mentioned on 100-01 but contradicted by their own aircraft records; the remaining aircraft are unknown. Searched: 100thbg.com Black Week page, mission record 36 (mission_id=48) incl. photo album, aircraft database (by name), crew database, AAM.",
+  "Crew manifests: only the Hughes and Roane crews are tied to 14 Oct by a dated caption; all others are original crew rosters (UNVERIFIED). Lohof, Lakin and Mitchell crews are listed only by their position on the page.",
+  "Ranks on the date not established; rank_in_source is as printed on 100-01 (may be later ranks).",
+  "Formation slot within each composite group not found.",
+  "Squadron code for Roane (349th) and squadrons for Lohof and Lakin crews not established from sources consulted.",
+  "Recommended next sources: 100th BG loading list / sortie report for 14 Oct 1943 (AFHRA 100th BG collection or 13th CBW history), 390th BG and 95th BG formation charts for the day."
+ ]
+}

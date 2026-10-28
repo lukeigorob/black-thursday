@@ -1,0 +1,2560 @@
+{
+ "group": "351st",
+ "division": "1st",
+ "combat_wing": "1st CBW, high group (lead 91st, low 381st); Air Commander Lt Col Milton (briefing outline, 351-02)",
+ "base": "Polebrook (Station 110)",
+ "group_mission_number": "49 (credited mission 46)",
+ "dispatched": 18,
+ "lost": 1,
+ "aborted": 8,
+ "bombed": 10,
+ "dispatched_confidence": "VERIFIED",
+ "dispatched_notes": "351-02 (group mission page transcribing the operations, S-2 and statistical reports): 18 aircraft assigned and took off, 0 failed to take off, 8 abortive, 10 attacked the target, 1 missing (42-6096); casualties ten MIA and five wounded. 351-05 (303rd BG mission 78 summary) and 351-06 (IWM mission page) list 351BG as 16 aircraft in the 1st Air Division table; recorded here as a conflict. The load list database has 18 aircraft for mission 49.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29925",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "The Duchess",
+   "nose_art": null,
+   "bomb_squadron": "510th",
+   "squadron_code": "TU-L",
+   "squadron_code_note": "Aircraft code per 351-03: TU-L",
+   "aircraft_letter": "L",
+   "pilot": "John R. Blaylock",
+   "pilot_rank": "Maj.",
+   "formation_position": "Group lead (Maj. J.R. Blaylock, Group Leader; Capt. W. Stockman lead navigator; 1st Lt. J.O. Bradley bombardier). Lead position on Combat Report Form diagram.",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'The Duchess' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found. Take-off 1026, landed 1750 per Combat Bombing Flight Record. Lead ship hit by flak and 20mm; one 20mm shell entered the cockpit behind the pilot's head and fell unexploded (Group Leader's narrative). Capt. Orville Oldham Jr. (508th) in tail position, consistent with a formation-control officer.",
+   "crew": [
+    {
+     "name": "John R. Blaylock",
+     "rank": "Maj.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-437451",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Leonard B. Roper",
+     "rank": "Capt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-431981",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Walter Stockman",
+     "rank": "Capt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-794175",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "James O. Bradley",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-733521",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Theodore Kaczka",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "32391934",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Edward C. Kase",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "35330376",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Adam J. Fischer",
+     "rank": "T/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "39242059",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Anton L. Nelson",
+     "rank": "T/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "39610627",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph R. Quiles",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "32439407",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Orville Oldham Jr.",
+     "rank": "Capt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "O-736317",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "From the 508th Sqn per load list."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30857",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-125-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "My Devotion",
+   "nose_art": null,
+   "bomb_squadron": "510th",
+   "squadron_code": "TU-J",
+   "squadron_code_note": "Aircraft code per 351-03: TU-J",
+   "aircraft_letter": "J",
+   "pilot": "Jose A. Garcia",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: left wing of lead (857).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'My Devotion' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Jose A. Garcia",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-663509",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "John R. White",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-738051",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Benjamin Schohan",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-794168",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Douglas L. Sheets",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-732987",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Peter J. Zibas",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "16124624",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Matthew A. Flanagan",
+     "rank": "Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "11072923",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "James Wiersma",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "36615316",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph J. Funicello",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "32199234",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Tomas Romero",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "18120836",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "John R. Farrell",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "16050826",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3523",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "April Girl",
+   "nose_art": null,
+   "bomb_squadron": "510th",
+   "squadron_code": "TU-M",
+   "squadron_code_note": "Aircraft code per 351-03: TU-M",
+   "aircraft_letter": "M",
+   "pilot": "Harry B. Holsapple",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: right wing of lead (523).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'April Girl' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Harry B. Holsapple",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-735786",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William W. Thompson",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-799098",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "James R. Johnston",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-796542",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Neil P. Conroy",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-734429",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Herbert J. Campbell",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "31092239",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Casper Vecchione",
+     "rank": "Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "33390794",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Hugo R. Johnson",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "36182129",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Stanley D. Klag",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "35512024",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alfred Scaffidi",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "33447579",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Harvey H. Bigham",
+     "rank": "T/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "14149417",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3495",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-70-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "510th",
+   "squadron_code": "TU-C",
+   "squadron_code_note": "Aircraft code per 351-03: TU-C",
+   "aircraft_letter": "C",
+   "pilot": "Andrew J. Koszarek",
+   "pilot_rank": "Capt.",
+   "formation_position": "Combat Report Form diagram: below lead (495). Group note: the Combat Duplication Check Form shows A/C 850 as lead of the second element of the lead group, but the J-form, Combat Report Form and loading list show 42-3495 flew that position.",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Andrew J. Koszarek",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-665694",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "David H. Palmer",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-736323",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Walter H. McKinnon",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-796563",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Eugene F. Meyer",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-731396",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Edwin B. Lemley Jr.",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "33302266",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph S. Christie",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "33290782",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Torlief M. Knaphus",
+     "rank": "T/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "39829813",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Reginald M. Nachreiner",
+     "rank": "T/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "36226772",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William J. McMahon",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "33289751",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Everett C. Thomas",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32445984",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29860",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Snoozin' Susan",
+   "nose_art": null,
+   "bomb_squadron": "508th",
+   "squadron_code": "RQ-W",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-W",
+   "aircraft_letter": "W",
+   "pilot": "Joseph S. Peck",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: right-hand element (860).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Snoozin' Susan' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Joseph S. Peck",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-294559",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Byron W. Fisher",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-741893",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Daniel O'Connell",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-797373",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Daniel L. McInnis",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-734947",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Walter H. Harber",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "34351187",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Edwin C. Schreiber",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "35381864",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Leotus E. Huckle",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "35354848",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Burle L. Newth",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "37086968",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Lawrence R. Legandre",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "32425075",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joe G. Skarzynski",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "34248584",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3532",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Lucille Ball",
+   "nose_art": null,
+   "bomb_squadron": "508th",
+   "squadron_code": "DS-O",
+   "squadron_code_note": "Aircraft code per 351-03: DS-O",
+   "aircraft_letter": "O",
+   "pilot": "Charles T. Hull",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: right-hand element (532).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Lucille Ball' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Charles T. Hull",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-793777",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Eugene E. Welch",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-2044667",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph S. Koffend",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-670138",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Donald Q. Wasson",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-733005",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Walter Johnson",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "39773909",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Paul W. Jones",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "17021512",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Norman J. St Peter",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "31216412",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Augustus F. Markert",
+     "rank": "T/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "10680385",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Frank S. Mazarka",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "36199060",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "John M. Swistak",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32292653",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3136",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-25-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Eight Ball / No Balls At All",
+   "nose_art": null,
+   "bomb_squadron": "508th",
+   "squadron_code": "DS-P",
+   "squadron_code_note": "Aircraft code per 351-03: DS-P",
+   "aircraft_letter": "P",
+   "pilot": "Leslie S. Cruthirds",
+   "pilot_rank": "F/O",
+   "formation_position": "Combat Report Form diagram: right-hand element (136).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Eight Ball / No Balls At All' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Leslie S. Cruthirds",
+     "rank": "F/O",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-2044842",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Richard Adams",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-735488",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Edward L. Sullivan",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-678784",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert E. Lee",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-739470",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William W. Nolen",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "14123211",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Morton Barel",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "12125737",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Howard M. Langer",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "32515125",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Delbert D. Goble",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "18048865",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Paul B. Young",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "19087788",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "George W. Bond",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "36401591",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3542",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Shady Lady II",
+   "nose_art": null,
+   "bomb_squadron": "509th",
+   "squadron_code": "RQ-V",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-V",
+   "aircraft_letter": "V",
+   "pilot": "Robert M. Spika",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: left-hand element (542).",
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Shady Lady II' (not evidenced for 14 Oct 1943). One of the nine aircraft that completed the mission and returned: six landed at base, three at Kenley and Gravesend (which three not identified). 351-02 reports five wounded aboard returning aircraft; names not found.",
+   "crew": [
+    {
+     "name": "Robert M. Spika",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-664463",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Floyd F. Homstad",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-737956",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Lloyd B. Marquardt",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-667414",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Francis M. Stone",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-733365",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Ashton E. Woodward",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "12035380",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Norman E. Anker",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "32276690",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William J. Franz",
+     "rank": "T/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "15087917",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Neville D. McNerney",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "15071162",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Leo A. Skalsky",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "27299915",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William E. Olivari",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32335378",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-6096",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-VE (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Onda Ball",
+   "nose_art": null,
+   "bomb_squadron": "511th",
+   "squadron_code": "DS-W",
+   "squadron_code_note": "Aircraft code per 351-03: DS-W",
+   "aircraft_letter": "W",
+   "pilot": "Oliver W. Crismon",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "Combat Report Form diagram: far left (096), circled as shot down by enemy aircraft.",
+   "mission_outcome": "lost",
+   "loss_details": "351-02 S-2 narrative: lost just after the target; #2 engine already feathered when #4 was knocked out by a rocket shell and caught fire; pilot fell out of formation; the ship caught fire and two parachutes were seen before it blew up. Operations narrative: 'seen to blow up over the target'. 351-03: crashed at Schweinfurt. Load list: 9 POW, 1 KIA (S/Sgt Granville R. Brown).",
+   "macr": "1036",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Onda Ball' (not evidenced for 14 Oct 1943).",
+   "crew": [
+    {
+     "name": "Oliver W. Crismon",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-735061",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'."
+    },
+    {
+     "name": "Malcolm H. Higgins",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-522535",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'. From the 508th Sqn per load list."
+    },
+    {
+     "name": "James D. Billett",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "O-678669",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'. 351-03 swaps navigator/bombardier (Moriarty navigator, Billett bombardier) and spells 'Walt Moriarty'; load list used here."
+    },
+    {
+     "name": "William R. Moriarity",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-676592",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'. 351-03 swaps navigator/bombardier (Moriarty navigator, Billett bombardier) and spells 'Walt Moriarty'; load list used here."
+    },
+    {
+     "name": "Theodore N. Biever",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "36325435",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'. 351-03 spells 'Theo Riever'."
+    },
+    {
+     "name": "Hardy Jones",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "34274776",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'."
+    },
+    {
+     "name": "Harvey M. Miller",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "POW",
+     "service_number": "37369784",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'."
+    },
+    {
+     "name": "Granville R. Brown",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "KIA",
+     "service_number": "20380157",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 KIA'."
+    },
+    {
+     "name": "Ernest W. Chambers",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "11071524",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'."
+    },
+    {
+     "name": "William C. Pickett Jr.",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "14142115",
+     "confidence": "VERIFIED",
+     "sources": [
+      "351-01",
+      "351-03"
+     ],
+     "notes": "Load list note: 'MACR 1036 POW'."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3509",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Crystal Ball",
+   "nose_art": null,
+   "bomb_squadron": "508th",
+   "squadron_code": "DS-Z",
+   "squadron_code_note": "Aircraft code per 351-03: DS-Z",
+   "aircraft_letter": "Z",
+   "pilot": "Theodore Argiropolus",
+   "pilot_rank": "Capt.",
+   "formation_position": "Not shown on the Combat Report Form diagram (which instead shows '863'); see notes.",
+   "mission_outcome": "unknown",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Crystal Ball' (not evidenced for 14 Oct 1943). CONFLICT: load list shows this crew without an abort note (i.e. flew the mission), and 351-02's supplementary damage assessment mentions photos from 'the plane 509' returning to base, but 42-3509 does not appear on the Combat Report Form diagram, which shows '863' instead. Either 42-3509 or 42-29863 was the tenth aircraft over the target; unresolved.",
+   "crew": [
+    {
+     "name": "Theodore Argiropolus",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-728539",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Richard G. Bohney",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-736465",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Peter F. Provenzale",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-395747",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Daniel F. Stevens",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-732991",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Phillip G. Hulse",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "16086665",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "John P. Pedri",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "19033116",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph S. Cebulak",
+     "rank": "T/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "32208425",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Frank P. Tock",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "35319389",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Fred J. Hesseltine",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "36405158",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "From the 511th Sqn per load list."
+    },
+    {
+     "name": "Paul F. Sheridan",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "31090638",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29863",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Aint it Gruesome / Kentucky Babe",
+   "nose_art": null,
+   "bomb_squadron": "509th",
+   "squadron_code": "RQ-Y",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-Y",
+   "aircraft_letter": "Y",
+   "pilot": "Richard E. Hathaway",
+   "pilot_rank": "Capt.",
+   "formation_position": "Load list marks 'Aborted Mission', but '863' appears on the Combat Report Form diagram on the left of the formation; see notes.",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03",
+    "351-04"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Aint it Gruesome / Kentucky Babe' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen. CONFLICT: see 42-3509. Crew of 11 including a photographer (PH).",
+   "crew": [
+    {
+     "name": "Richard E. Hathaway",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-665685",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Clair C. Ballard Jr.",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-735503",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert H. Graham",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-795236",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "Load list duty 'NB' (navigator-bombardier)."
+    },
+    {
+     "name": "Emanuel Mokol",
+     "rank": "S/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": "15102668",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "Load list duty 'NG' (nose gunner)."
+    },
+    {
+     "name": "Joseph L. Poltrone",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "35029461",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Russell C. Patten",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "37215800",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William S. Heard",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "18060139",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Paul J. Posti",
+     "rank": "T/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "20924021",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Charles E. Hammack",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "10600544",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Michael Kucsmas",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "33168486",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Donald V. Henderson",
+     "rank": "T/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": "13052110",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "Load list duty 'PH' (photographer)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5756",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-15-VE (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "KAY L II",
+   "nose_art": null,
+   "bomb_squadron": "508th",
+   "squadron_code": "RQ-R",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-R",
+   "aircraft_letter": "R",
+   "pilot": "Charles A. Fuller",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'KAY L II' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "Charles A. Fuller",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-736504",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "James D. Craven",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-680180",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alvin Scodel",
+     "rank": "F/O",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-2045057",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "George W. Gross",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-729499",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Gordon Stout",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "39829828",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Eugene H. Von Flotow",
+     "rank": "Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "39240770",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Kenneth Hale",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "37130012",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "From the 511th Sqn per load list."
+    },
+    {
+     "name": "Clarence W. Bockman",
+     "rank": "T/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "19774112",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert E. McCullough",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "12095296",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Thomas Notargiacomo",
+     "rank": "Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32518523",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29749",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-70-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Belle of the Bayous",
+   "nose_art": null,
+   "bomb_squadron": "509th",
+   "squadron_code": "RQ-Z",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-Z",
+   "aircraft_letter": "Z",
+   "pilot": "James W. Strouse",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Belle of the Bayous' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "James W. Strouse",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-664079",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alva R. Westhafer",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-736435",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert H. Saltsman",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-794166",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "David Proctor",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-734384",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert L. Gelsleichter",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "13025869",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Lloyd D. Blancett",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "18130322",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Roscoe S. Tyler",
+     "rank": "T/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "15112328",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alonzo J. Sowell",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "20429536",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Charles J. Majors",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "15046121",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Tim Touchin",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "18035394",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29812",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-70-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Lucifer Jr",
+   "nose_art": null,
+   "bomb_squadron": "509th",
+   "squadron_code": "RQ-U",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-U",
+   "aircraft_letter": "U",
+   "pilot": "James J. Maginnis",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Lucifer Jr' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "James J. Maginnis",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-793803",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Roy H. Peterson",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-735443",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "George C. Hornick Jr.",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-797118",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "George C. Wylie",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-734410",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William A. Glenn",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "38019500",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Raymond H. Rajala",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "11040263",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph P. Keane",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "12188173",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Angelo J. Riccardi",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "17076910",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Euian C. Mills",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "35442731",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Daniel J. Reeder",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "34339795",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3120",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-25-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Gremlin's Delight",
+   "nose_art": null,
+   "bomb_squadron": "509th",
+   "squadron_code": "RQ-O",
+   "squadron_code_note": "Aircraft code per 351-03: RQ-O (history) / RO-Q (page field)",
+   "aircraft_letter": "O",
+   "pilot": "Eugene P. Harris",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Gremlin's Delight' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "Eugene P. Harris",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-795050",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Merle S. Braden",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-675544",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Tommy A. Briscoe",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-673471",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Edward F. Jacobson",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-735872",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Charles E. Tigue",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "36240750",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alvin S. Olson",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "37281179",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Woodrow W. Blackburn",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "39682285",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William E. Krogher",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "35166326",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Raymond L. Smith",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "11041195",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Mitchell D. Miles",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "38056968",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3141",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-25-DL (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Hitler's Headache",
+   "nose_art": null,
+   "bomb_squadron": "510th",
+   "squadron_code": "YB-A",
+   "squadron_code_note": "Aircraft code per 351-03: YB-A",
+   "aircraft_letter": "A",
+   "pilot": "John H. Wrisberg Jr.",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Hitler's Headache' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "John H. Wrisberg Jr.",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-798629",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Eugene C. Caughlan",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-741963",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Bradley E. Squires",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-733363",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "Load list duty 'NB' (navigator-bombardier). From the 511th Sqn per load list."
+    },
+    {
+     "name": "Joseph S. Valento",
+     "rank": "S/Sgt.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": "6995476",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "Load list duty 'NG' (nose gunner)."
+    },
+    {
+     "name": "Marcel M. Copt",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "32463826",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Leonard J. Kriesky",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "37383068",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Harold L. Baker",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "20830404",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Charles M. Brown",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "15067847",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Levi H. Collins",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "38214489",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Raymond E. Howard",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "6549990",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29849",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Linda Ball",
+   "nose_art": null,
+   "bomb_squadron": "511th",
+   "squadron_code": "DS-U",
+   "squadron_code_note": "Aircraft code per 351-03: DS-U",
+   "aircraft_letter": "U",
+   "pilot": "Donald M. Norris",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Linda Ball' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "Donald M. Norris",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-665710",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Stanley L. Wendt",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-735131",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Orlyn E. Master",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-674231",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Joseph P. Shames",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-732983",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Louis E. Boone",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "38096943",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Ervin O. Schrock",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "35380488",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Arturo C. Chacon",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "18056373",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Jesse B. McGee",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "37379893",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Thomas B. Dye",
+     "rank": "T/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "35384409",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Robert G. Marriott",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "35333638",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29835",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-75-BO (per 351-03)",
+   "nickname": null,
+   "nickname_unverified": "Pistol Ball",
+   "nose_art": null,
+   "bomb_squadron": "511th",
+   "squadron_code": "DS-Y",
+   "squadron_code_note": "Aircraft code per 351-03: DS-Y",
+   "aircraft_letter": "Y",
+   "pilot": "Carl W. Wilson",
+   "pilot_rank": "Capt.",
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "351-01",
+    "351-02",
+    "351-03"
+   ],
+   "notes": "Crew from the 351st BG crew loading-list database (351-01, mission 49). Squadron given is the crew's squadron per the load list; code letters, block and nickname are for the aircraft per 351-03 and are not confirmed for this date (aircraft were often flown by other squadrons' crews). Nickname per 351-03 only: 'Pistol Ball' (not evidenced for 14 Oct 1943). Load list marks every man 'Aborted Mission'. 351-02: eight aircraft returned early (two mechanical, two personnel, four landed at other fields for reasons unknown at writing); only two of the eight returned directly to base, others landed at Ridgewell, Leeming, Bassingbourn, Ashbourne and Tibenham. Which reason applies to this aircraft is not recorded in sources seen.",
+   "crew": [
+    {
+     "name": "Carl W. Wilson",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-664106",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "James B. Penrod",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-736330",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Clarence N. Norris",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-733460",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ],
+     "notes": "From the 508th Sqn per load list."
+    },
+    {
+     "name": "Stuart C. Chenoweth",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-729539",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Nicholas Sidorick",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "12092909",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Jasper D. Gay",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "14022945",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Mills M. Kelly",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": "19002151",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "William L. Dean",
+     "rank": "M/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "14098198",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Alfred Terlizzi",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "12092437",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    },
+    {
+     "name": "Laurel S. Larson",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "37449635",
+     "confidence": "PROBABLE",
+     "sources": [
+      "351-01"
+     ]
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Which of 42-3509 (Argiropolus) and 42-29863 (Hathaway) flew over the target is unresolved (load list vs Combat Report Form diagram).",
+  "The five men wounded on returning aircraft are not named in the sources seen; all returning crew are recorded as 'returned'.",
+  "Which three of the nine returning bombers landed at Kenley/Gravesend is not identified.",
+  "Reasons for each of the eight aborts are not linked to specific aircraft.",
+  "Crew data come from the 351st.org load-list database (a transcription of the group's crew loading lists); the original loading-list images were not inspected, so individual crew are PROBABLE except the Crismon crew, which is cross-checked against 351-03.",
+  "Squadron codes, blocks and nicknames are from b17flyingfortress.de (351-03) only and refer to the aircraft's assigned squadron; none confirmed for 14 Oct 1943.",
+  "42-30135 'Trouble Shooter' (MACR 855), sometimes attributed to the 351st/511th for this date, was with the 95th BG/334th BS (BG-H) by 14 Oct 1943 per 351-03 and is excluded here.",
+  "IWM/americanairmuseum person pages not checked for the Crismon crew (rate-limited/blocked).",
+  "Searched: 351st.org load-list database (mission 49 and all 18 aircraft), 351st.org mission 49 page and Combat Report Form image, b17flyingfortress.de pages for all 18 serials and its 14-10-1943 loss list, 303rd BG mission 78 PDF, IWM mission page VIII BC 115."
+ ]
+}

@@ -1,0 +1,101 @@
+[
+ {
+  "id": "390-01",
+  "title": "390th Memorial Museum Personnel & Mission database - Mission 023, Schweinfurt GE, 10/14/1943 (164 crew-sortie records: name, position, fate, aircraft tail number, aircraft name, model, crew number)",
+  "organisation": "390th Memorial Museum (ArchivEra portal)",
+  "url": "https://5085.sydneyplus.com/archive/Portal/390th.aspx?lang=en-US&p_AAAH=tab7&p_AAAJ=tab7&d=d",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Browse Missions > page 3 > 023 Schweinfurt GE. Compiled by the museum from 390th records. Tail numbers given without hyphen and with leading fiscal-year digit (e.g. 230338 = 42-30338, 23327 = 42-3327)."
+ },
+ {
+  "id": "390-02",
+  "title": "Mission 023 Schweinfurt GE synopsis (390th Memorial Museum mission record)",
+  "organisation": "390th Memorial Museum",
+  "url": "https://5085.sydneyplus.com/archive/Portal/390th.aspx?lang=en-US&p_AAAH=tab7&p_AAAJ=tab7&d=d",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Cites 390th Mission Report No. 23 (Mission Reports Part I, file no. 987-988), \"390th Bomb Group: History of Aircraft Assigned\" (unpublished MS), The Story of the 390th Bombardment Group (1947), Rydell \"Louis Dolan: Letters Home\". States 18 ordered, 4 aborted, 3 100th BG aircraft attached, target VKF Werke II, over target ~1455, landed ~1815, loss of 42-29991."
+ },
+ {
+  "id": "390-03",
+  "title": "B-17 42-29991 \"Patches\" (aka \"We'll Never Know\")",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/?p=3024",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Block B-17F-80-BO, 571st BS code FC-T, MACR 858, crash site, Luftwaffe claim, crew with ranks, summaries of MACR 858 eyewitness statements (Asmussen, Brown, Dolan, Jeffrey, Clark, Cartwright, Geary, Riley)."
+ },
+ {
+  "id": "390-04",
+  "title": "568th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/568th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Serial/name list; no code letters."
+ },
+ {
+  "id": "390-05",
+  "title": "569th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/569th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Serial/name list; no code letters."
+ },
+ {
+  "id": "390-06",
+  "title": "570th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/570th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Serial/name list; no code letters."
+ },
+ {
+  "id": "390-07",
+  "title": "571st Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/571st-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Serial/name list; no code letters."
+ },
+ {
+  "id": "390-08",
+  "title": "American Air Museum in Britain aircraft records (42-29991, 42-3526, 42-3312, 42-3327, 42-3557, 42-30223, 42-30289, 42-30325, 42-30338, 42-30348, 42-30455, 42-30610, 42-30642, 42-30713, 42-30715, 42-30719)",
+  "organisation": "IWM American Air Museum in Britain (American Archive)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-29991",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Per-airframe histories (largely from Dave Osborne B-17 master log) incl. squadron and code letters [e.g. FC-T]. Read via americanarchive.iwm.org.uk (www.americanairmuseum.com returned 403 to automated fetch). Pattern: /archive/aircraft/<serial>. 42-29991 entry: MIA Schweinfurt 14/10/43, McEwin crew 10 POW, MACR 858."
+ },
+ {
+  "id": "390-09",
+  "title": "B-17 losses on the Schweinfurt mission of 14 October 1943 (loss list)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "69 aircraft; 390th entries: 42-29991 (MACR 858) and 42-3526 \"Crashed on take off\"."
+ },
+ {
+  "id": "390-10",
+  "title": "VIII Bomber Command 115, 14 October 1943 (mission page)",
+  "organisation": "IWM American Air Museum in Britain",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Gives 3rd BD contributions: 94BG(21), 95BG(18), 96BG(41), 100BG(8), 385BG(21), 388BG(18), 390BG(15); 142 sent, 128 effective."
+ },
+ {
+  "id": "390-11",
+  "title": "Black Week - Schweinfurt (100th BG crews flying with the 390th)",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/black-week-schweinfurt/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "States four 100th BG crews flew with the 390th BG, led by Lt Owen Roane (390-02 says three 100th aircraft)."
+ }
+]

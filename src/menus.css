@@ -120,7 +120,7 @@
 .role-card.crew { --card-bg: linear-gradient(165deg, #5f6a3d 0%, #3d4527 55%, #262b19 100%); --accent: #d9b56a; }
 .role-card.bf109 { --card-bg: linear-gradient(165deg, #6a737f 0%, #464d57 55%, #2a2e35 100%); --accent: #f0c13a; }
 .role-card.fw190 { --card-bg: linear-gradient(165deg, #5e626e 0%, #3e424c 55%, #24272e 100%); --accent: #f2c230; }
-.role-card.p51 { --card-bg: linear-gradient(165deg, #4d6589 0%, #31445f 55%, #1d283a 100%); --accent: #ef5a3c; }
+.role-card.p47 { --card-bg: linear-gradient(165deg, #4d6589 0%, #31445f 55%, #1d283a 100%); --accent: #ef5a3c; }
 .role-card .stripe { position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--accent); }
 .role-card .plan { position: absolute; right: -14%; bottom: -12%; width: 78%; color: #fff; opacity: .1; transform: rotate(-18deg); pointer-events: none; }
 .role-card .plan * { fill: currentColor !important; stroke: none !important; }
@@ -395,9 +395,13 @@
 .m-card.sheet #menu-stamp { right: 26px; top: 40px; }
 
 /* the start menu's mission conditions: a segmented switch, and the pickers or what was rolled */
-.conditions { display: none; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px 16px; margin-top: 14px; }
+/* (in a framed box, like a panel on a briefing form, so it's seen to be something you set) */
+.conditions { display: none; position: relative; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px 16px; width: fit-content; max-width: 100%;
+  margin: 22px auto 0; padding: 18px 22px 14px; border: 1px solid #c9a55a99; border-radius: 4px; background: linear-gradient(#22261ae6, #14160fe6);
+  box-shadow: inset 0 0 0 3px #0c0d09, inset 0 0 0 4px #c9a55a33, 0 6px 18px #0008; }
 #menu[data-kind='start'] .conditions { display: flex; }
-.conditions .lbl { font: 600 13px var(--f-cond); letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); }
+.conditions .lbl { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); padding: 2px 12px; background: var(--night); border: 1px solid #c9a55a99; border-radius: 3px;
+  font: 600 13px var(--f-cond); letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-2); white-space: nowrap; }
 .seg { display: inline-flex; border: 1px solid #c9a55a66; border-radius: 3px; overflow: hidden; }
 .seg button { padding: 6px 16px; border: 0; background: #0d0f0acc; color: var(--cream-dim); font: 600 13px var(--f-cond); letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; }
 .seg button + button { border-left: 1px solid #c9a55a44; }
@@ -410,7 +414,7 @@
 .select.small::after { right: 11px; width: 6px; height: 6px; margin-top: -5px; }
 .cond-note { font: 14px var(--f-type); color: var(--cream); }
 .conditions[data-mode='choose'] .cond-note { display: none; }
-@media (max-height: 800px) { .conditions { margin-top: 8px; } .m-facts div { padding: 5px 18px; } }
+@media (max-height: 800px) { .conditions { margin-top: 16px; padding: 14px 18px 10px; } .m-facts div { padding: 5px 18px; } }
 @media (max-height: 760px) {
   #menu[data-kind='start'] h1 { font-size: 64px; }
   #menu[data-kind='start'] .m-sub { margin-top: 0; font-size: 13px; }
@@ -466,10 +470,32 @@
 @keyframes bannerSweep { to { transform: translateX(100%); } }
 
 /* your health, top left */
-#minimap { position: fixed; left: 18px; top: 56px; width: 200px; height: 200px; display: none; filter: drop-shadow(0 2px 6px #000a); }
+#minimap { position: fixed; left: 18px; top: 112px; width: 200px; height: 200px; display: none; filter: drop-shadow(0 2px 6px #000a); }
 #minimap canvas { width: 100%; height: 100%; }
 #hud[data-mode="eject"] #minimap { display: none !important; }
-#you { position: fixed; left: 18px; top: 16px; display: none; align-items: center; gap: 8px; padding: 5px 10px; background: #0b0c08b0; border: 1px solid #c9a55a40; border-radius: 3px; }
+/* the bomber you're in, as the records have her (I) */
+#ident { display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(620px, 92vw); max-height: 86vh; overflow: auto; padding: 18px 22px;
+  background: linear-gradient(#e9dfc3, #ddd0ab); color: var(--ink); border: 1px solid var(--paper-edge); border-radius: 3px; box-shadow: 0 12px 40px #000a; z-index: 15; font: 15px var(--f-type); }
+#ident .id-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 2px solid var(--ink-2); padding-bottom: 8px; }
+#ident .id-head span { font: 700 13px var(--f-cond); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
+#ident .id-head b { font: 400 26px var(--f-display); letter-spacing: .04em; }
+#ident .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; margin: 10px 0; }
+#ident .id-grid div, #ident .id-crew div { display: flex; gap: 8px; align-items: baseline; border-bottom: 1px dashed #4c3f2c33; padding: 3px 0; }
+#ident .id-grid span, #ident .id-crew span:first-child { min-width: 92px; font: 700 12px var(--f-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+#ident .id-crew { margin-top: 6px; }
+#ident .id-crew b { flex: 1; font-weight: 600; }
+#ident .id-crew em { font-style: normal; font-size: 13px; color: var(--ink-2); }
+#ident .unk { font-style: italic; font-weight: 400; color: #7a6a52; }
+#ident .conf { font: 700 10px var(--f-cond); letter-spacing: .1em; padding: 1px 5px; border-radius: 2px; border: 1px solid currentColor; }
+#ident .conf.verified { color: #2f6b22; } #ident .conf.probable { color: #8a6a10; } #ident .conf.unverified, #ident .conf.unknown { color: #8a3a2a; }
+#ident .id-note { margin: 6px 0; font-size: 14px; }
+#ident .id-foot { margin: 10px 0 0; font-size: 12px; color: var(--ink-2); }
+#you { position: fixed; left: 18px; top: 16px; display: none; align-items: center; gap: 10px; padding: 6px 10px; background: #0b0c08b0; border: 1px solid #c9a55a40; border-radius: 3px; }
+#you-body { width: 36px; height: 72px; flex: none; filter: drop-shadow(0 1px 2px #000a); }
+#you-body [data-z] { fill: rgb(143, 165, 138); fill-opacity: 0.85; stroke: #0009; stroke-width: 0.8; transition: fill .4s; }
+.you-col { display: flex; flex-direction: column; gap: 6px; }
+.you-row { display: flex; align-items: center; gap: 8px; }
+#you-zone { min-height: 15px; font: 600 12px var(--f-cond); letter-spacing: 0.1em; text-transform: uppercase; color: #f0a090; }
 #you .lbl { font: 600 13px var(--f-cond); letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass-2); }
 #you .bar { width: 150px; height: 8px; background: #ffffff18; border-radius: 1px; overflow: hidden; }
 #you .bar i { display: block; height: 100%; width: 100%; transition: width .25s, background .25s; }

@@ -1,0 +1,1126 @@
+{
+ "group": "92nd",
+ "division": "1st",
+ "combat_wing": "40th CBW (92nd, 305th, 306th) - 1st Air Division lead wing",
+ "dispatched": 19,
+ "lost": 6,
+ "dispatched_confidence": "PROBABLE",
+ "dispatched_notes": "19 dispatched per the 1st Air Division table in the 303rd BG mission 078 report and the IWM mission page 'VIII Bomber Command 115' (92-07). Lost 6 MIA over the continent (MACRs 844-849, consecutive: 42-30231, 42-30708, 42-30726, 42-30824, 42-30654, 42-30387), plus 2 aircraft destroyed in crash-landings in England from fuel exhaustion (42-3351, 42-3171) with crews safe. The 6 losses are VERIFIED individually (two databases each); the total of 6 being complete is PROBABLE.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30231",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "326th",
+   "squadron_code": "JW",
+   "aircraft_letter": "O",
+   "pilot": "Ray Ellison Clough",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Brought down by enemy aircraft; crashed at St Goar, 11 miles SE of Boppard, Germany. All 10 crew POW.",
+   "macr": "844",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Two independent databases (92-01, 92-02) agree on serial, MACR 844, crash site and crew. 92-01 lists the first unit as '325th BS, 95th BG, NV-Z' - the 325th BS and code NV are 92nd BG, and 92-02 says 325th BS/92nd BG, so the '95th BG' tag in 92-01 is treated as an error. Code JW-O after transfer to 326th BS (date of transfer not given; squadron on 14 Oct 1943 per IWM person record of Bomberger = 326th).",
+   "crew": [
+    {
+     "name": "Ray Ellison Clough",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02"
+     ]
+    },
+    {
+     "name": "Jim Dickens",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02"
+     ],
+     "note": "Informal name as given; full name not found."
+    },
+    {
+     "name": "Frederick Joseph Bird",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02"
+     ]
+    },
+    {
+     "name": "Bill Fraser",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02"
+     ],
+     "note": "Informal name as given."
+    },
+    {
+     "name": "Bandy Herman",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02"
+     ],
+     "note": "Name as given."
+    },
+    {
+     "name": "Jones Jackson",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02"
+     ],
+     "note": "Name as given."
+    },
+    {
+     "name": "James J. Cauley",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02"
+     ]
+    },
+    {
+     "name": "Jack H. Calvert",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02"
+     ]
+    },
+    {
+     "name": "George Woiblett",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02"
+     ],
+     "note": "Name as given."
+    },
+    {
+     "name": "Arthur Boyd Bomberger",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "37264777",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30708",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "407th",
+   "squadron_code": "PY",
+   "aircraft_letter": null,
+   "pilot": "William J. Byrne",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Missing in action; downed by enemy aircraft and crashed near Würzburg, Germany. 3 KIA (bodies never recovered), 7 POW.",
+   "macr": "845",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Codes given as PY-L/J (92-01) - aircraft letter on this date uncertain.",
+   "crew": [
+    {
+     "name": "William J. Byrne",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Body never recovered (92-01). Rank from IWM person record, which may be the highest rank held rather than rank on 14 Oct 1943."
+    },
+    {
+     "name": "Clyde S. Fairchild",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Robert J. McCarthy",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "George W. Raynard",
+     "rank": "Sgt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Spelled 'George Reynard' in 92-01. IWM gives rank Sergeant for the bombardier position (possibly an enlisted togglier, or highest-rank artefact)."
+    },
+    {
+     "name": "Robert W. Fisher",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "John D. Carr",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Body never recovered (92-01)."
+    },
+    {
+     "name": "Anthony V. Gerhard",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Body never recovered (92-01)."
+    },
+    {
+     "name": "Ernest Rudolph Raines",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "33209534",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Stalag 17B."
+    },
+    {
+     "name": "Jack W. Pumphrey",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "John G. Krupinski",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "32554577",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "19 months in Stalag 17B."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30726",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "407th",
+   "squadron_code": "PY",
+   "aircraft_letter": "X",
+   "pilot": "Stafford Wilbur Webb",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Attacked by enemy fighters after leaving the target (92-01 says 'Fw110'); last seen at 13:40 (location given as near Düren), exploded and crashed near Kembach, about 15 miles W of Würzburg. Credited to Fw. Joachim Gutmann, 8./ZG 26. 6 KIA, 4 POW.",
+   "macr": "846",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Code PY-X (92-02); 92-01 gives PY-X/S. Last-seen location 'near Düren' is geographically odd for a crash near Würzburg - recorded as given.",
+   "crew": [
+    {
+     "name": "Stafford Wilbur Webb",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02"
+     ]
+    },
+    {
+     "name": "Harry Collier McIntosh",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "James Riley Blackburn",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "Joe C. Castillo",
+     "rank": "S/Sgt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ],
+     "note": "Enlisted man in the bombardier position per IWM crew list (probably togglier)."
+    },
+    {
+     "name": "Albert Donald Drgon",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "Harold Francis Cooke",
+     "rank": "Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "George J. Caldon",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "Carl William Ward",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "Joseph Flory",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    },
+    {
+     "name": "William Clark Woodward Jr.",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-02"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30824",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO",
+   "nickname": "Bobby Joe",
+   "nose_art": null,
+   "bomb_squadron": "327th",
+   "squadron_code": "UX",
+   "aircraft_letter": "R",
+   "pilot": "Frank M. Talbot",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Missing in action, attributed to enemy aircraft; crashed at Sickershausen, SE of Kitzingen, about 12 miles SE of Würzburg. 5 KIA, 5 POW. Tail gunner Nelson W. Smith reportedly did not bail out and was killed in the radio room (92-04).",
+   "macr": "847",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03",
+    "92-04"
+   ],
+   "notes": "Nickname 'Bobby Joe' from 92-01/92-02; not confirmed as painted on this date.",
+   "crew": [
+    {
+     "name": "Frank M. Talbot",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-738288",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Elvin C. Erickson",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "James H. Houser",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "IWM shows service number 38153701, which is also shown for Arlen R. Harmon (enlisted format); not recorded for Houser. Stalag Luft 3, later Nuremberg-Langwasser."
+    },
+    {
+     "name": "Edward L. Walter",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-741291",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Edward M. Evans",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Gerald F. Young",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Donoran W. Jones",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "'Donovan Jones' in 92-01; 'Donoran' in IWM."
+    },
+    {
+     "name": "Arlen R. Harmon",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "IWM gives service number 38153701 but shows the same number for Houser; left null pending check."
+    },
+    {
+     "name": "William C. Tench",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "IWM gives service number 7021909 (unusual 7-digit form); not recorded."
+    },
+    {
+     "name": "Nelson Walker Smith",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03",
+      "92-04"
+     ],
+     "note": "Commemorated at Ardennes American Cemetery (92-04)."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30654",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "327th",
+   "squadron_code": "UX",
+   "aircraft_letter": "W",
+   "pilot": "Julian T. Brown",
+   "pilot_rank": "Lt.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Hit by rocket projectiles from an enemy aircraft; crashed at Bischbrunn near Markt Heidenfeld, about 20 miles W of Würzburg. 7 KIA, 3 POW.",
+   "macr": "848",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": null,
+   "crew": [
+    {
+     "name": "Julian T. Brown",
+     "rank": "Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "IWM gives rank only as 'Lieutenant'."
+    },
+    {
+     "name": "Harold C. Toombs",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "'Harry Toombs' in 92-01."
+    },
+    {
+     "name": "Fred L. Dougherty",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-801063",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Rank from IWM person record, which may be the highest rank held rather than rank on 14 Oct 1943."
+    },
+    {
+     "name": "William S. Harrison",
+     "rank": "S/Sgt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Bombardier/togglier (enlisted)."
+    },
+    {
+     "name": "Donald J. Sack",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "James E. Giebell",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "'Jim Geibell' in 92-01."
+    },
+    {
+     "name": "John I. Johnson",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "George A. Rinko",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Vaughn E. Bowers",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "35562558",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Buried Jefferson Barracks National Cemetery."
+    },
+    {
+     "name": "Raphael C. Simeroth",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30387",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-100-BO",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "326th",
+   "squadron_code": "JW",
+   "aircraft_letter": null,
+   "pilot": "George L. Ott",
+   "pilot_rank": "Maj.",
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Missing in action, enemy aircraft; crashed at Flurabteilung Kastellerweg near Markt Bibart, about 22 miles SE of Würzburg. 1 KIA, 9 POW (one, Proakis, killed 3 Dec 1943 in captivity).",
+   "macr": "849",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Codes given as JW-F/A (92-01): aircraft letter on this date uncertain. Ott is 'Major' in 92-01/92-02 (Lt Col as highest rank in IWM person record). Whether Ott flew as an air commander/squadron leader is not documented here.",
+   "crew": [
+    {
+     "name": "George L. Ott",
+     "rank": "Maj.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-421300",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "George L. Long",
+     "rank": "Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Malcolm A. Champagne",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Jerome S. Tiger",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Raymond Hottenstein",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Richard A. Spellerberg",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "John H. Benson",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Harold W. Clark",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "Joe Pribish",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ]
+    },
+    {
+     "name": "James Proakis",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "12036950",
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Killed 3 Dec 1943 attempting to escape from Stalag XVII-B, Krems (IWM); 92-01 says 'died in camp 3/12/43'."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3351",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-50-DL",
+   "nickname": null,
+   "nose_art": null,
+   "bomb_squadron": "407th",
+   "squadron_code": "PY",
+   "aircraft_letter": "Z",
+   "pilot": "Richard W. Lyng",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "written_off",
+   "loss_details": "Ran out of fuel on return; crash-landed on a small strip at Winkfield, Berkshire, ground-looped and burned out; salvaged. All 10 crew returned to duty, none injured.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Two databases agree. Rank of Lyng from IWM (may be highest rank). Only 3-4 crew names known.",
+   "crew": [
+    {
+     "name": "Richard W. Lyng",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Rank from IWM person record, which may be the highest rank held rather than rank on 14 Oct 1943."
+    },
+    {
+     "name": "Paul L. Stebbins",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Rank from IWM person record, which may be the highest rank held rather than rank on 14 Oct 1943."
+    },
+    {
+     "name": "John William Disher",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "17034210",
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "92-01/92-02 name only 'Sgt Disher' as ball turret gunner; identification with IWM person John William Disher (ball turret gunner, 92nd BG) is by name/role."
+    },
+    {
+     "name": "Clarence Theodore Hultquist",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "92-03"
+     ],
+     "note": "IWM person record credits him with an Me 109 destroyed on the 14 Oct 1943 Schweinfurt mission and links him to 42-3351 and Lyng, but does not state he flew in this aircraft that day. IWM rank 'Sergeant (RAF)' looks erroneous; omitted."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3171",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-30-DL",
+   "nickname": "The Blivit",
+   "nose_art": null,
+   "bomb_squadron": "326th",
+   "squadron_code": "JW",
+   "aircraft_letter": "S",
+   "pilot": "Frank W. Wolf",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": null,
+   "mission_outcome": "written_off",
+   "loss_details": "Ran out of fuel on return from Schweinfurt and crash-landed/crashed at Shiplake (Oxfordshire per IWM; 'Berks' per 92-01); crew unhurt, all 10 returned to duty; aircraft salvaged.",
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "92-01",
+    "92-02",
+    "92-03"
+   ],
+   "notes": "Ex-95th BG 334th BS (BG-S). Crew other than pilot not named.",
+   "crew": [
+    {
+     "name": "Frank W. Wolf",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "92-01",
+      "92-02",
+      "92-03"
+     ],
+     "note": "Rank from IWM person record, which may be the highest rank held rather than rank on 14 Oct 1943."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30580",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-110-BO",
+   "nickname": "Equipoise",
+   "nose_art": null,
+   "bomb_squadron": "326th",
+   "squadron_code": "JW",
+   "aircraft_letter": "N",
+   "pilot": "James Kemp McLaughlin",
+   "pilot_rank": "Capt.",
+   "formation_position": null,
+   "mission_outcome": "returned_damaged",
+   "loss_details": "Not lost. 92-06 says McLaughlin's lead bomber returned with an engine on fire after pursuit by fighters.",
+   "macr": null,
+   "historical_confidence": "UNVERIFIED",
+   "sources": [
+    "92-05",
+    "92-06",
+    "92-02"
+   ],
+   "notes": "Aircraft-to-date link is weak: only an aviation-art print description (Robert Taylor, 'Schweinfurt - The Second Mission', 92-05) says Col. Budd Peaslee's B-17 'Equipose/Equipoise', flown by lead pilot Kemp McLaughlin, led the 92nd. 42-30580 'Equipoise' (326th BS, JW-N) exists in the IWM archive (photographed with 'Lt McLaughlin and crew' 25 Sep 1943) but its record does not mention 14 Oct 1943. McLaughlin as lead pilot on the raid is documented in 92-06 (rank Captain). Col. Budd Peaslee flew aboard as air commander per 92-05.",
+   "crew": [
+    {
+     "name": "James Kemp McLaughlin",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-06",
+      "92-05"
+     ],
+     "note": "Lead pilot on the raid per 92-06; aircraft identity UNVERIFIED."
+    },
+    {
+     "name": "Budd Peaslee",
+     "rank": "Col.",
+     "position": "other",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "92-05"
+     ],
+     "note": "Air commander aboard the lead aircraft per 92-05 ('Colonel Budd Peaslee's B-17'). Seat position not sourced here."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Only 9 of ~19 aircraft identified (6 lost, 2 crash-landed in UK, 1 lead aircraft UNVERIFIED). The 10 or so other returning aircraft, pilots and crews are unknown. 92nd BG association sites (92ndma.org / 92nd BG history) were not found to host a 14 Oct 1943 loading list via web search; not fetched directly. AFHRA 92nd BG microfilm or the 92nd association's archive would be needed.",
+  "americanairmuseum.com returns 403; used the IWM mirror americanarchive.iwm.org.uk. The IWM mission page 'VIII Bomber Command 115' lists only ~50 items linked by contributors (paged ?page=1..9), not a full order of battle.",
+  "Clough crew (42-30231): 5 of 10 names only informal ('Jim Dickens', 'Bill Fraser', 'Bandy Herman', 'Jones Jackson', 'George Woiblett'); full names/ranks would come from MACR 844.",
+  "Service numbers recorded only where an IWM person record gave them; MACRs 844-849 (NARA/Fold3) not consulted. Houser/Harmon share a number on IWM (conflict, not recorded).",
+  "Ranks from IWM may be highest-held rather than rank on the date (noted per person).",
+  "Formation positions (lead/high/low squadron slots) not found. The 92nd led the 40th CBW and the 1st Air Division.",
+  "Lead ship identity: 42-30580 'Equipoise' is UNVERIFIED (art print source only). Needs the 92nd BG loading list or Peaslee's 'Heritage of Valor' / McLaughlin's 'The Mighty Eighth in WWII: A Memoir'.",
+  "Exclusions: 42-29511 'The Iron Maiden', 42-29653 'Bad News' and 42-29776 were ex-92nd aircraft lost on 14 Oct 1943 but had transferred to the 379th BG on 4 Sep 1943, so they belong to the 379th file. 42-29717 'Mr Five by Five' is tagged with 92nd/326th on IWM but was with the 384th BG per the same page (not 92nd on this date - not checked further)."
+ ]
+}

@@ -1,4 +1,4 @@
-// Markers over the fighters: red for Bf 109s, blue for P-51s (so you don't shoot a friend), with the
+// Markers over the fighters: red for Bf 109s, blue for P-47s (so you don't shoot a friend), with the
 // range. On a gun, enemies within range also get a lead marker: where to aim so the rounds meet them.
 // Everything is drawn on one 2D canvas over the game, redrawn each frame (no DOM churn).
 import * as THREE from 'three';

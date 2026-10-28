@@ -1,0 +1,101 @@
+[
+ {
+  "id": "385-01",
+  "title": "385th BGA Airman Database - filter Date = 14-Oct-43 (mission 28, Schweinfurt): 213 records (name, position, mission, date, target, crew, B-17 name and serial)",
+  "organisation": "385th Bomb Group Association",
+  "url": "https://www.385thbga.com/records/database/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Search form (POST filters[date]=14-Oct-43). Compiled from group records (loading lists / individual records). No ranks or fates."
+ },
+ {
+  "id": "385-02",
+  "title": "385th BG Mission Reports / summaries - \"Mission No. 28 - 14 October - Target Schweinfurt - 22 a/c flown\"",
+  "organisation": "385th Bomb Group Association",
+  "url": "https://www.385thbga.com/records/index-mission-number-to-date-and-target-2/mission-summaries/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "Mission list: https://www.385thbga.com/records/index-mission-number-to-date-and-target-2/"
+ },
+ {
+  "id": "385-03",
+  "title": "American Air Museum in Britain aircraft records for the 385th serials listed, and 42-3347 Charlene",
+  "organisation": "IWM American Air Museum in Britain (American Archive)",
+  "url": "https://americanarchive.iwm.org.uk/archive/aircraft/42-3347",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Pattern /archive/aircraft/<serial>; airframe histories (largely Osborne B-17 master log) with squadron and code letters; person records give service numbers."
+ },
+ {
+  "id": "385-04",
+  "title": "548th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/548th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": null
+ },
+ {
+  "id": "385-05",
+  "title": "549th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/549th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": null
+ },
+ {
+  "id": "385-06",
+  "title": "550th Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/550th-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Lists 42-3347 Charlene crash-landed/battle damaged 14 Oct 1943."
+ },
+ {
+  "id": "385-07",
+  "title": "551st Bomb Squadron aircraft list",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/bs/551st-bomb-squadron/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": null
+ },
+ {
+  "id": "385-08",
+  "title": "385th BG B-17s (serial, name, dates, fate, MACR)",
+  "organisation": "385th Bomb Group Association",
+  "url": "https://www.385thbga.com/records/b-17/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "No aircraft with fate dated 14 Oct 1943."
+ },
+ {
+  "id": "385-09",
+  "title": "B-17 losses on the Schweinfurt mission of 14 October 1943 (loss list)",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/datenbank/b-17-verluste-bei-schweinfurt-mission-am-14-10-1943/",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "385th-related entries: 42-3347 Charlene (crash-landing, battle damaged) and 42-3338 (385th/94th, lost with 94th, MACR 791)."
+ },
+ {
+  "id": "385-10",
+  "title": "VIII Bomber Command 115, 14 October 1943 (mission page)",
+  "organisation": "IWM American Air Museum in Britain",
+  "url": "https://americanarchive.iwm.org.uk/archive/mission/viii-bomber-command-115",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "385BG (21) in 3rd BD force of 142; 96th BG furnished one crew to the 385th BG."
+ },
+ {
+  "id": "385-11",
+  "title": "B-17 42-3347 \"Charlene\"",
+  "organisation": "b17flyingfortress.de",
+  "url": "https://b17flyingfortress.de/en/?p=9421",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "B-17F-50-DL, 550th BS, SG-C; battle damaged 14 Oct 1943 with Emery Chesmore and 96th BG crew, crash-landed Bovingdon; reader comments dispute (Rowington)."
+ }
+]

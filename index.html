@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>B-17</title>
+    <title>B-17 Flying Fortress</title>
+    <meta name="description" content="Crew a B-17 on the Schweinfurt raid, 14 October 1943: man its guns, fly it, drop the bombs, patch up the wounded. Or fly a Bf 109, Fw 190 or P-47. Plays in the browser." />
+    <meta property="og:title" content="B-17 Flying Fortress" />
+    <meta property="og:description" content="Crew a B-17 on the Schweinfurt raid, 14 October 1943, or fly a Bf 109, Fw 190 or P-47. Plays in the browser." />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet" />
@@ -36,7 +40,7 @@
       @keyframes warnpulse { 50% { border-color: #ffb04aff; } }
       #prompt b { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; }
       #prompt .dim { opacity: .75; font-size: 15px; }
-      #hint { display: none; position: fixed; left: 50%; top: 96px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10c8; font-size: 15px; text-align: center; }
+      #hint { display: none; position: fixed; left: 50%; top: 124px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10c8; font-size: 15px; text-align: center; }
       #gun { display: none; position: fixed; right: 24px; bottom: 22px; width: 220px; text-align: right; text-shadow: 0 1px 3px #000; }
       #gun-ammo { font: 600 15px ui-monospace, Consolas, monospace; color: #ece8dcbb; }
       #gun-ammo b { font-size: 30px; color: #ece8dc; }
@@ -64,6 +68,10 @@
       .toast { padding: 6px 16px; background: #0b0d10c8; border-radius: 3px; font: 600 18px Barlow, system-ui; letter-spacing: 1px; text-shadow: 0 1px 3px #000; transition: opacity .5s; }
       .toast.kill { color: #ffb36a; }
       .toast.out { opacity: 0; }
+      /* the crew on the intercom: who's talking and what he says, while he says it */
+      #radio-cap { position: fixed; left: 50%; bottom: 16%; transform: translateX(-50%); max-width: min(760px, calc(100vw - 32px)); padding: 5px 14px; background: #0b0d10b0; border-radius: 3px; font: 500 17px Barlow, system-ui; color: #e6e8e3; text-shadow: 0 1px 3px #000; text-align: center; pointer-events: none; opacity: 0; transition: opacity .25s; z-index: 5; }
+      #radio-cap.on { opacity: 1; }
+      #radio-cap b { color: #b9c98a; font-weight: 700; letter-spacing: .5px; margin-right: 6px; }
       #crew { position: fixed; left: 18px; top: 40px; font: 11px/1.55 system-ui; letter-spacing: .5px; text-shadow: 0 1px 2px #000; color: #ece8dcaa; }
       #crew div { display: flex; justify-content: space-between; gap: 14px; min-width: 190px; }
       #crew b { font-weight: 600; }
@@ -111,8 +119,7 @@
       #lifestats b { color: #fff; }
       #ejectcard { display: none; position: fixed; right: 18px; bottom: 22px; }
       #hud[data-mode="eject"] #crew, #hud[data-mode="eject"] #engines, #hud[data-mode="eject"] #gun, #hud[data-mode="eject"] #flight,
-      #hud[data-mode="eject"] #health, #hud[data-mode="eject"] #crosshair, #hud[data-mode="eject"] #nose, #hud[data-mode="eject"] #gunsight,
-      #hud[data-mode="eject"] #prompt { display: none !important; }
+      #hud[data-mode="eject"] #health, #hud[data-mode="eject"] #crosshair, #hud[data-mode="eject"] #nose, #hud[data-mode="eject"] #gunsight { display: none !important; }
       #fps { display: none; position: fixed; right: 12px; top: 10px; font: 12px ui-monospace, Consolas, monospace; color: #b6ff9a; text-shadow: 0 1px 2px #000; }
       #mmap { display: none; position: fixed; inset: 0; align-items: center; justify-content: center; gap: 18px; background: #0009; pointer-events: none; z-index: 20; }
       #mmap-canvas { width: min(720px, 86vh, 62vw); height: min(720px, 86vh, 62vw); box-shadow: 0 6px 30px #000a; }

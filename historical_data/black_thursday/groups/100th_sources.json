@@ -1,0 +1,83 @@
+[
+ {
+  "id": "100-01",
+  "title": "Black Week - Schweinfurt (14 Oct 1943)",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/black-week-schweinfurt/",
+  "type": "secondary",
+  "accessed": "2026-10-28",
+  "notes": "8 crews: 4 with 95th BG led by Lt Robert Hughes, 4 with 390th BG led by Lt Owen 'Cowboy' Roane; crew tables, Kelsey account ('flew Heaven Can Wait'), Flanigan/Royal Flush caption ('I believe'), DUC note."
+ },
+ {
+  "id": "100-02",
+  "title": "3rd Bomb Division interrogation summary, 14 Oct 1943 (pages incl. 100 Group section), Fold3 images on 100th mission page",
+  "organisation": "100th Bomb Group Foundation (courtesy of Fold3; original USAAF record)",
+  "url": "https://100thbg.com/mission/?mission_id=48",
+  "type": "primary",
+  "accessed": "2026-10-28",
+  "notes": "Images IMG_8331/8332/8338: '100 GROUP - Our A/C participating in today's mission were flying in two group formations': low group of the wing formation, and high group with 95th."
+ },
+ {
+  "id": "100-03",
+  "title": "Mission - October 14, 1943 - Schweinfurt, Ball Bearings (100th BG mission #36)",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/mission/?mission_id=48",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Bombing result EXCELLENT; aircraft lost 0; crew lost 0; claims 7; strike photos SAV-100."
+ },
+ {
+  "id": "100-04",
+  "title": "100th BG crew database pages (Hughes 2470, Keel 2720, Lauro 3010, Flanigan 1654, Roane 4394, Lohof 3164)",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/crew/?crew_id=4394",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "Original crew rosters; Roane page photo caption 'Oct 14, 1943 Schweinfurt: upon return, the crew took this photo'; Hughes photo caption: Hughes and Roane led composite groups of the 100th to Schweinfurt on 14 Oct 1943."
+ },
+ {
+  "id": "100-05",
+  "title": "Aircraft 42-3271 'Nine Little Yanks and a Jerk'",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/aircraft/?aircraft_id=10043",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "351st, EP-L; history: 'RFO - Ford also FTO - engine trouble 10 Oct 43'; 'RFO - Lt. Robert L. Hughes' 5 Nov 1943; salvaged 7 Mar 1944."
+ },
+ {
+  "id": "100-06",
+  "title": "Aircraft 42-5997 'Heaven Can Wait'",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/aircraft/?aircraft_id=10058",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "351st, EP-F; FTR 30 Dec 1943 (MACR 2019)."
+ },
+ {
+  "id": "100-07",
+  "title": "Aircraft 42-31306 'Nelson King'",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/aircraft/?aircraft_id=10168",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "418th; pilot listed Emil Siewert. Later B-17G airframe; not the 14 Oct aircraft."
+ },
+ {
+  "id": "100-08",
+  "title": "Aircraft 42-6087 'Royal Flush'",
+  "organisation": "100th Bomb Group Foundation",
+  "url": "https://100thbg.com/aircraft/?aircraft_id=10059",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "418th, LD-Z; known mission list (Ray Bowden / USAAF Nose Art Research Project) has 9 and 10 Oct 1943 (Rosenthal) then 13 Nov 1943 (Flanigan) - no 14 Oct entry."
+ },
+ {
+  "id": "100-09",
+  "title": "Owen D Roane",
+  "organisation": "American Air Museum in Britain (IWM)",
+  "url": "https://www.americanairmuseum.com/archive/person/owen-d-roane",
+  "type": "database",
+  "accessed": "2026-10-28",
+  "notes": "100th BG, 349th BS; 'led the mission to Schweinfurt on 14-Oct-43'."
+ }
+]
