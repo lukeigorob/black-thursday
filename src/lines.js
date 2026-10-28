@@ -67,13 +67,13 @@ export const LINES = {
   // the escort turning back, out of fuel (fighters.js)
   escortsHome: { by: ['pilot', 'copilot'], pri: 2, say: ["Little friends are turning back. We're on our own, boys.", "There go the Thunderbolts. We're on our own from here."] },
   // flak
-  flakAhead: { by: ['pilot', 'copilot', 'engineer'], pri: 3, calm: true, say: ['Pilot to crew, flak ahead.', 'Pilot to crew, flak coming up ahead. Stay on your guns.'],
+  flakAhead: { by: ['pilot', 'copilot', 'engineer'], pri: 3, calm: true, say: ['Pilot to crew, flak ahead.'],
     as: { copilot: ['Flak ahead.', 'Flak coming up ahead. Hang on.'], engineer: ['Flak ahead.', 'Flak coming up ahead. Hang on.'] } },
   flakStopping: { by: ['pilot', 'copilot', 'engineer'], pri: 3, say: ["Flak's stopping. You know what that means, boys. Get ready for fighters.", "Flak's letting up. Watch for fighters."] },
   // the other Forts
   fortsFire: { any: true, by: GUNNERS, pri: 1, gap: 120, say: ['Forts on fire all over the place!', "There's Forts burning everywhere!", "They're getting hit all over the place!"] },
   fortDown: { by: GUNNERS, pri: 2, gap: 60, say: ['Fort going down! Count the chutes!', 'There goes a Fort! Look for chutes!', "Fort's going down!"] },
-  giveEmHell: { by: ['pilot', 'copilot'], pri: 1, gap: 180, say: ["Give 'em hell, boys!", 'Keep firing, boys!', 'Stay on your guns!'] },
+  giveEmHell: { by: ['pilot', 'copilot'], pri: 1, gap: 180, say: ["Give 'em hell, boys!", 'Keep firing, boys!'] },
   // our own bomber burning, as the pilot sees it from his seat
   wingFire_left: { by: ['pilot', 'copilot'], pri: 3, say: ["Left wing's on fire!", 'Fire in the left wing!'] },
   wingFire_right: { by: ['pilot', 'copilot'], pri: 3, say: ["Right wing's on fire!", 'Fire in the right wing!'] },

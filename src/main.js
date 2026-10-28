@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Graphics } from './graphics.js';
 import { World, ALTITUDE } from './world.js';
 import { loadModel } from './models.js';
-import { Bomber, AIRSPEED, swapBombers, PART, FORMATION, EYE } from './bomber.js';
+import { Bomber, AIRSPEED, swapBombers, PART, FORMATION, PropBlur } from './bomber.js';
 import { Player } from './player.js';
 import { GameAudio } from './audio.js';
 import { Radio } from './radio.js';
@@ -132,6 +132,7 @@ const detail = new Detail(scene, bombers, bomber, mids.map((m) => m.scene));
 
 detail.assign();
 const contrails = new Contrails(scene, bombers);
+const propBlur = new PropBlur(scene, bombers); // every running prop's blur disc, in one draw
 const player = new Player(bomber, camera);
 const weapons = new Weapons(scene, audio);
 weapons.attach(bomber);
@@ -1029,7 +1030,6 @@ gfx.renderer.setAnimationLoop((now) => {
     safely('bombers', () => {
       const controls = live && mode === 'crew' ? player.controls : null;
       bomber.manualFires = !!controls;
-      camera.getWorldPosition(EYE); // (close props blur: bomber.js)
       for (const b of bombers) {
         if (live) b.fly(dt, b === bomber ? controls : null); // you at the controls, or the AI pilot holding (or regaining) the slot
         b.update(t, dt);
@@ -1040,6 +1040,7 @@ gfx.renderer.setAnimationLoop((now) => {
       breakup.update(live ? dt : 0, camera.getWorldPosition(_brk));
       fleet.update();
       contrails.update();
+      propBlur.update(); // (after the contrails: the bombers' matrices are fresh)
     });
   }
   if (mode === 'crew' && !eject.active) safely('player', () => player.update(live ? dt : 0));

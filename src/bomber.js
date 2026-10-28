@@ -10,7 +10,6 @@ import { applyMarkings } from './markings.js';
 
 export const AIRSPEED = 75; // m/s: 270 km/h (~170 mph), a loaded B-17's cruise at altitude
 export const FORMATION = { bank: 0 }; // (the whole formation banked in a turn: rad, + right wing down; main.js)
-export const EYE = new THREE.Vector3(0, 1e9, 0); // the camera, in the world (main.js): props close to it show their blur disc
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const MAX_BANK = 0.6; // rad (~35 degrees): a loaded B-17 turns gently
@@ -21,7 +20,7 @@ const SPEED_PER_POWER = 40; // m/s more (or less) than the formation's speed per
 /** Turn a prop's blades about their own length: 0 = in flight pitch, 1 = feathered, edge-on. */
 function featherBlades(prop, k) {
   prop.userData.shown = k;
-  prop.userData.blades ??= prop.children.filter((c) => c.isMesh && c.name !== 'Prop_blur').map((b) => {
+  prop.userData.blades ??= prop.children.filter((c) => c.isMesh).map((b) => {
     b.geometry.computeBoundingBox();
     const axis = b.geometry.boundingBox.getCenter(new V()).setZ(0).normalize(); // (out along the blade from the hub)
     return { b, axis, q0: b.quaternion.clone() };
@@ -49,16 +48,43 @@ function blurMaterial() {
   // (lit like the rest of her: dark by night, not glowing)
   return (_blurMat = new THREE.MeshLambertMaterial({ map, transparent: true, depthWrite: false, side: THREE.DoubleSide }));
 }
-const _discGeo = new THREE.CircleGeometry(1, 40);
-function blurDisc(prop) {
+/** The disc's place on its prop: the blades' radius and how far along the shaft they sit (measured once). */
+function discOf(prop) {
+  if (prop.userData.discAt) return prop.userData.discAt;
   const box = new THREE.Box3();
   for (const m of prop.children) if (m.isMesh) { m.geometry.computeBoundingBox(); box.union(m.geometry.boundingBox.clone().applyMatrix4(m.matrix)); }
-  const R = Math.max(-box.min.x, box.max.x, -box.min.y, box.max.y);
-  const d = new THREE.Mesh(_discGeo, blurMaterial());
-  d.scale.setScalar(R); d.position.z = (box.min.z + box.max.z) / 2; d.renderOrder = 2; d.name = 'Prop_blur';
-  prop.add(d);
-  return d;
+  return (prop.userData.discAt = { R: Math.max(-box.min.x, box.max.x, -box.min.y, box.max.y), z: (box.min.z + box.max.z) / 2 });
 }
+
+/**
+ * Every running prop of every bomber as its blur disc: one instanced mesh, one draw call for the lot (each
+ * prop's blades, which it replaces, were a draw call of their own). update() after the bombers have moved
+ * and their matrices are fresh (main.js, after the contrails).
+ */
+export class PropBlur {
+  constructor(scene, bombers) {
+    this.bombers = bombers;
+    this.mesh = new THREE.InstancedMesh(new THREE.CircleGeometry(1, 40), blurMaterial(), bombers.length * 4);
+    this.mesh.frustumCulled = false; this.mesh.renderOrder = 2;
+    scene.add(this.mesh);
+  }
+
+  update() {
+    let k = 0;
+    for (const b of this.bombers) {
+      if (b.gone || !b.group.visible) continue;
+      for (const p of b.props) {
+        if (!p?.userData.blurred) continue;
+        const d = discOf(p), u = p.userData;
+        _dm.makeRotationZ(u.discA ?? 0).setPosition(0, 0, d.z).scale(_ds.setScalar(d.R));
+        this.mesh.setMatrixAt(k++, _dm.premultiply(p.matrixWorld));
+      }
+    }
+    this.mesh.count = k;
+    this.mesh.instanceMatrix.needsUpdate = true;
+  }
+}
+const _dm = new THREE.Matrix4(), _ds = new THREE.Vector3();
 
 /**
  * Wrap a model's ball and top turrets in pivots (once per model): the ball and its guns turn and tilt
@@ -624,19 +650,17 @@ export class Bomber {
   update(t, dt) {
     // the props: running, windmilling (a dead engine not yet feathered turns over slowly in the
     // airstream), or feathered: stopped, the blades turned edge-on
-    const near = this.group.position.distanceToSquared(EYE) < 250 * 250;
     for (const [i, p] of this.props.entries()) {
       if (!p) continue;
       const e = this.engines[i], u = p.userData, want = e.state === 'ok' || e.state === 'smoking' ? 31 + i * 0.4 : e.feathered ? 0 : 8;
       u.spin = u.spin == null ? want : u.spin + (want - u.spin) * (1 - Math.exp(-dt * 0.8));
       p.rotation.z += dt * u.spin;
-      // up to speed and close enough to see it, the blades give way to the blur disc (turning a little
-      // slower than the prop, so the ghosts are seen to go round, as a film camera catches them);
-      // windmilling, stopped or far off, the blades (a disc on every prop of 291 bombers cost a third of the frame)
-      const blur = u.spin > 18 && near;
-      if (blur) { u.disc ??= blurDisc(p); u.disc.rotation.z -= dt * u.spin * 0.8; }
-      if (u.disc) u.disc.visible = blur;
-      if (u.blurred !== blur) { u.blurred = blur; for (const m of p.children) if (m.isMesh && m !== u.disc) m.visible = !blur; }
+      // up to speed, the blades give way to the blur disc (PropBlur draws it, turning a little slower than
+      // the prop, so the ghosts are seen to go round, as a film camera catches them); windmilling or
+      // stopped, the blades
+      const blur = u.spin > 18;
+      if (blur) u.discA = ((u.discA ?? 0) - dt * u.spin * 0.8) % (Math.PI * 2);
+      if (u.blurred !== blur) { u.blurred = blur; for (const m of p.children) if (m.isMesh) m.visible = !blur; }
       const f = e.feathered && e.state !== 'ok' ? 1 : 0;
       u.feather = (u.feather ?? f) + Math.sign(f - (u.feather ?? f)) * Math.min(Math.abs(f - (u.feather ?? f)), dt / 3); // (takes a few seconds)
       if (u.feather !== u.shown) featherBlades(p, u.feather);
