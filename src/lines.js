@@ -103,12 +103,10 @@ for (const [id, w] of Object.entries(ROLE_WORDS)) {
 export const nameKey = (s) => String(s).replace(/[^A-Za-z]/g, '');
 for (const n of CREW_SURNAMES) LINES[`name_${nameKey(n)}`] = { by: ['copilot'], pri: 2, ttl: 8, say: `${n}.` };
 for (const n of PILOT_SURNAMES) LINES[`goingForP_${nameKey(n)}`] = { by: ['engineer'], pri: 1, ttl: 6, group: 'goingFor', gap: 75, say: `They're going for ${n}'s ship!` };
-// the fighters coming in, from wherever they really are: the first of the fight (and a big wave) with
-// how many there are, the rest just where
+// the fighters coming in, from wherever they really are: just where (no "whole gaggle" or "so many of them")
 for (let h = 1; h <= 12; h++) {
   for (const lvl of ['high', 'level', 'low']) {
     const where = `Bandits, ${NUM[h]} o'clock ${lvl}!`;
-    LINES[`banditsMany${h}_${lvl}`] = { by: clockCallers(h, lvl), pri: 3, ttl: 4, say: [`${where} There's so many of them!`, `${where} Here they come, a whole gaggle!`] };
     LINES[`bandits${h}_${lvl}`] = { by: clockCallers(h, lvl), pri: 2, ttl: 4, say: where };
   }
 }

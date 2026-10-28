@@ -10,6 +10,7 @@ import { AIRSPEED, PARTS as BOMBER_PARTS } from './bomber.js';
 import { loadModel } from './models.js';
 import { FarFighters } from './farfighters.js';
 import { BATTLE } from './battle.js';
+import { COMPACT, FIGHT_RANGE as REAL } from './oob.js';
 import { ALTITUDE } from './world.js';
 
 const V = THREE.Vector3;
@@ -33,7 +34,13 @@ const RAM_PAD = 2.5; // m added round a B-17's hit boxes for a fighter's size
 const AI_RAM_CHANCE = 0.06, AI_MIDAIR_CHANCE = 0.3; // AI pilots mostly just miss (rolled once per close pass)
 const BOMBER_RAM = 11; // m between two B-17s' centres: a crippled or falling one drifting into another (their bodies, not their spans)
 const FLOOR = 1500; // m above the ground: an AI fighter lower than this climbs back up
-const PREY_RANGE = 3000; // m from the formation: a dogfight further off than this is broken off
+// The fight goes on all through the force, not only round you (oob.js COMPACT: the whole of it within a
+// few km): the fighters pick their bombers anywhere in FIGHT_RANGE of yours, work the part of the force
+// they're over, and run out and come round from the force's middle (hub) rather than from you
+const FIGHT_RANGE = COMPACT ? REAL : 1300; // m from your bomber
+const SPAN = COMPACT ? 1500 : 0; // m: the force's reach from its middle, added to the ranges measured from there
+const LOCAL = 1400; // m: a fighter's next bomber is one near where he is, most of the time
+const PREY_RANGE = 3000 + SPAN; // m from the formation: a dogfight further off than this is broken off
 const BOMBER_RAM_CHANCE = 0.15; // (rolled once per close pass of a pair)
 const CONTACT_NEAR = 35; // m between centres: closer than this, your B-17's shape is tested against hers
 const BRUSH = 5, SMASH = 14, WING_OFF = 9; // how hard (m/s closing + 6 x depth in m): a brush below BRUSH, a big hit above SMASH; wings off above WING_OFF
@@ -354,10 +361,17 @@ export class Fighters {
   nearBombers() {
     if (!this.near || this.time - this.nearAt > 5) {
       this.nearAt = this.time;
-      this.near = this.bombers.filter((b) => !b.down && b.base.distanceTo(this.playerBomber.base) < 1300);
+      this.near = this.bombers.filter((b) => !b.down && b.base.distanceTo(this.playerBomber.base) < FIGHT_RANGE);
+      // the middle of the force (where the fighters run out from and circle): the bombers in the fight
+      const h = (this._hub ??= new V()).set(0, 0, 0);
+      for (const b of this.near) h.add(b.group.position);
+      if (this.near.length) h.divideScalar(this.near.length); else h.copy(this.center);
     }
     return this.near;
   }
+
+  /** The middle of the fight: the force's centre (COMPACT), or your bomber. */
+  get hub() { return COMPACT ? (this.nearBombers(), this._hub) : this.center; }
 
   async spawn(kind, slot, plan = null, idx = 0, count = 1) {
     const [{ scene: full }] = await Promise.all([loadModel(kind), this.far.load(kind)]);
@@ -368,8 +382,8 @@ export class Fighters {
     let f;
     const c = this.center;
     if (kind === 'p47') { // escorts are already on station round the formation when they arrive
-      const a = rand(0, Math.PI * 2), r = rand(700, 1300);
-      const pos = new V(Math.cos(a) * r, rand(350, 800), Math.sin(a) * r).add(c);
+      const a = rand(0, Math.PI * 2), r = rand(700, 1300) + SPAN * rand(0.3, 0.9);
+      const pos = new V(Math.cos(a) * r, rand(350, 800), Math.sin(a) * r).add(this.hub);
       f = new Fighter(kind, obj, full, pos, new V(-Math.sin(a), 0, Math.cos(a)));
       f.station = { a, r, h: pos.y - c.y, rate: rand(0.04, 0.07) * (Math.random() < 0.5 ? -1 : 1) }; // slow enough to hold at cruise
       f.state = 'patrol';
@@ -433,7 +447,10 @@ export class Fighters {
       return;
     }
     // fighters went for stragglers (engines out, falling behind) first, then the bombers round the player
-    const near = this.nearBombers().filter((b) => !b.down);
+    const all = this.nearBombers().filter((b) => !b.down);
+    // (the part of the force he's over, most of the time: so the attacks go in all through it, not all at one place)
+    const here = COMPACT && !f.plan && Math.random() < 0.85 ? all.filter((b) => b.group.position.distanceToSquared(f.pos) < LOCAL * LOCAL) : all;
+    const near = here.length ? here : all;
     const plan = f.plan;
     f.plan = null; // the gaggle attacks together once; after that each one picks his own
     const group = plan?.squad ? near.filter((b) => b.squad === plan.squad) : [];
@@ -543,9 +560,13 @@ export class Fighters {
     if (free.length < GAGGLE[0]) { this.waveT = 2; return; }
     const n = Math.min(free.length, Math.round(rand(...GAGGLE)), this.reserve.axis);
     if (n <= 0) { this.waveT = 5; return; } // the Luftwaffe has nothing left to send
-    const c = this.center, a = rand(-2.2, 2.2), dist = rand(3600, 4600);
     const near = this.nearBombers();
-    const pickOne = near[Math.floor(Math.random() * near.length)];
+    // (a third of the gaggles come for the groups round you, the rest anywhere in the force: you're at its
+    // front corner, so an even share left your guns with little to shoot at)
+    const round = COMPACT && Math.random() < 0.33 ? near.filter((b) => b.base.distanceTo(this.playerBomber.base) < 900) : [];
+    const from = round.length ? round : near, pickOne = from[Math.floor(Math.random() * from.length)];
+    // (they come in on the group they've picked, wherever it is in the force)
+    const c = COMPACT && pickOne ? pickOne.group.position : this.center, a = rand(-2.2, 2.2), dist = rand(3600, 4600);
     // a gaggle of Fw 190s now and then (in proportion to how many are left), the rest Bf 109s
     const fw = this.fwLeft > 0 && Math.random() < this.fwLeft / Math.max(1, this.reserve.axis);
     const kind = fw ? 'fw190' : 'bf109', count = fw ? Math.min(n, this.fwLeft) : n;
@@ -557,7 +578,7 @@ export class Fighters {
     if (fw) this.fwLeft -= count;
     for (let i = 0; i < count; i++) { this.axisSlots[free[i]] = 0; this.spawn(kind, free[i], plan, i, count); }
     this.waveT = this.surgeT > 0 ? rand(1.5, 3.5) : rand(...WAVE_GAP);
-    if (this.crewView && this.time > 20 && !this.playerBomber.down) {
+    if (this.crewView && this.time > 20 && !this.playerBomber.down && c.distanceTo(this.center) < 2000) { // (a gaggle for a group far off: not ours to call)
       const c = clock(this.playerBomber, plan.from);
       this.callAt = plan.from; // (where the call is from: the radio checks the clock again when it's said)
       this.ui.log(`Large formation of ${fw ? 'Fw 190s' : 'fighters'} coming in at ${c.h} o'clock ${c.level}! ${count} of them.`);
@@ -648,14 +669,14 @@ export class Fighters {
           if ((f.timer -= dt) <= 0 && f.pos.distanceTo(f.target.group.position) > 900) this.newAttack(f);
           break;
         }
-        const out = f.pos.clone().sub(this.center).setY(0), far = out.length();
+        const out = f.pos.clone().sub(COMPACT && f.target && !f.target.gone ? f.target.group.position : this.center).setY(0), far = out.length();
         out.lengthSq() < 1 ? out.set(1, 0, 0) : out.normalize();
         // (out to a couple of km, then round the stream rather than further away: never lost out of the fight)
         if (far > 2200) out.set(-out.z, 0, out.x).multiplyScalar(f.side3 ?? 1).addScaledVector(out, -0.3).normalize();
         f.speed += (k.cruise - f.speed) * dt * 0.3;
         f.steer(out.setY(far > 2200 ? 0.05 : 0.35), k.turn, dt);
         if (far > 3200 && f.timer <= 0) { this.newAttack(f); break; }
-        if ((f.timer -= dt) <= 0 && f.pos.distanceTo(this.center) > 1500) this.newAttack(f);
+        if ((f.timer -= dt) <= 0 && far > 1500) this.newAttack(f);
         break;
       }
       case 'evade':
@@ -668,7 +689,7 @@ export class Fighters {
       case 'patrol': { // escort weaving round its station above the formation
         const s = f.station;
         s.a += s.rate * dt;
-        const p = new V(Math.cos(s.a + s.rate * 4) * s.r, s.h, Math.sin(s.a + s.rate * 4) * s.r).add(this.center);
+        const p = new V(Math.cos(s.a + s.rate * 4) * s.r, s.h, Math.sin(s.a + s.rate * 4) * s.r).add(this.hub);
         f.speed += (k.cruise - f.speed) * dt * 0.4;
         f.steer(p.sub(f.pos), k.turn, dt);
         const bandit = f.checkNow ? this.pickPrey(f, 2500) : null;
@@ -686,15 +707,15 @@ export class Fighters {
         break;
       }
       case 'rtb': { // out of ammunition (or the end of the day): away from the bombers, climbing, and gone
-        const away = f.pos.clone().sub(this.center).setY(0);
+        const away = f.pos.clone().sub(this.hub).setY(0);
         away.lengthSq() < 1 ? away.set(1, 0, 0) : away.normalize();
         f.speed += (k.cruise - f.speed) * dt * 0.3;
         f.steer(away.setY(0.15), k.turn, dt);
-        if (f.pos.distanceTo(this.center) > 6500) f.state = 'gone';
+        if (f.pos.distanceTo(this.hub) > 6500 + SPAN) f.state = 'gone';
         break;
       }
       case 'hunt': { // 109 hunter: find an escort and get on its tail
-        if (f.prey && f.prey.pos.distanceTo(this.center) > PREY_RANGE) f.prey = null; // (gone off from the bombers: let him go)
+        if (f.prey && f.prey.pos.distanceTo(this.hub) > PREY_RANGE) f.prey = null; // (gone off from the bombers: let him go)
         if (!f.prey?.alive) { f.prey = this.pickPrey(f, 3500); if (f.prey) this.chased.add(f.prey); }
         if (!f.prey) { f.role = 'raider'; this.newAttack(f); break; }
         f.state = 'engage';
@@ -703,7 +724,7 @@ export class Fighters {
       }
       case 'engage': { // dogfight: lead pursuit on the prey, fire when the nose is on it
         const e = f.prey;
-        if (!e?.alive || (f.timer -= dt) <= 0 || e.pos.distanceTo(f.pos) > 4000 || e.pos.distanceTo(this.center) > PREY_RANGE) {
+        if (!e?.alive || (f.timer -= dt) <= 0 || e.pos.distanceTo(f.pos) > 4000 || e.pos.distanceTo(this.hub) > PREY_RANGE) {
           f.prey = null; f.leadSkill = undefined;
           f.state = f.side === 'allied' ? 'patrol' : 'hunt';
           break;
@@ -733,7 +754,7 @@ export class Fighters {
   pickPrey(f, range) {
     let best = null, bd = Infinity;
     for (const e of this.enemies(f)) {
-      if (e.pos.distanceTo(this.center) > range) continue;
+      if (e.pos.distanceTo(this.hub) > range + SPAN) continue;
       if (this.chased.has(e)) continue; // one chaser each, so some raiders get through
 
       const d = e.pos.distanceTo(f.pos);

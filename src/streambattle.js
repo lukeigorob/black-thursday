@@ -12,9 +12,10 @@
 // - a governor for each group as well as the stream: none wiped out by chance, none untouched.
 import * as THREE from 'three';
 import { PARTS } from './bomber.js';
+import { FIGHT_RANGE } from './oob.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
-const REAL = 1500; // m from your bomber: inside this the fight is the real one
+const REAL = FIGHT_RANGE; // m from your bomber: inside this the fight is the real one (all of the compact force)
 // (the fighters and the flak both: the flak mostly by an engine set alight, the fire into the wing)
 const PASS_RATE = 0.04; // fighter passes a second at a group, at full pressure
 const FLAK_RATE = 0.15; // flak hits a second at a group, at the heaviest

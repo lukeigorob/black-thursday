@@ -10,7 +10,7 @@ import { surnameOf } from './history.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const BANDIT_GAP = 30; // s between two calls of where the fighters are
-const MANY_GAP = 240; // s before "there's so many of them" again (a big fresh wave)
+const MANY_GAP = 240; // s before a big fresh wave is called again even straight after another call
 // a crewman by his role, as the game logs it ("Left waist's hit!"), and his surname (the last of his name)
 const byTitle = (r, title) => r.crew?.members.find((x) => x.role.title === title);
 const surname = (m) => (m ? surnameOf(m.name) : null);
@@ -89,15 +89,16 @@ export class Radio {
   }
 
   /**
-   * Fighters coming at us from `h` o'clock, `level`, where they are now. The first of the fight (or a big
-   * fresh wave, `big`) with how many there are; after that only now and then, never a running commentary.
+   * Fighters coming at us from `h` o'clock, `level`, where they are now: just where, never how many ("a whole
+   * gaggle", "so many of them": cut, they grated). The first of the fight or a big fresh wave (`big`) is
+   * always called; after that only now and then, never a running commentary.
    */
   bandits(h, level, big) {
     const many = !this.seenBandits || (big && this.t - this.manyT > MANY_GAP);
     if (!many && this.t - this.banditT < BANDIT_GAP) return null; // (just said where they are: the log has it)
     this.seenBandits = true; this.banditT = this.t;
     if (many) this.manyT = this.t;
-    return `${many ? 'banditsMany' : 'bandits'}${h}_${level}`;
+    return `bandits${h}_${level}`;
   }
 
   /**

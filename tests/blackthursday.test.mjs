@@ -6,7 +6,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { forceSlots, FORCE, TOTALS } from '../src/oob.js';
+import { forceSlots, FORCE, TOTALS, COMPACT_LAYOUT, HISTORICAL_LAYOUT } from '../src/oob.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 let failed = 0, passed = 0;
@@ -40,6 +40,19 @@ for (let i = 0; i < slots.length; i++) for (let j = i + 1; j < slots.length; j++
   closest = Math.min(closest, d);
 }
 check(closest > 31.6, 'no aircraft overlapping at spawn (closer than a B-17\'s span, 31.6 m)', `closest ${closest.toFixed(1)} m`);
+// the compact layout the game flies: the whole force in one box round you (2-3 km wide, under 1 km
+// tall, a few km long), groups well clear of each other; the historical one still as it flew
+{
+  const box = (list) => [0, 1, 2].map((i) => Math.max(...list.map((s) => s.pos[i])) - Math.min(...list.map((s) => s.pos[i])));
+  const [w, h, l] = box(forceSlots(COMPACT_LAYOUT));
+  check(w < 3000 && h < 1000 && l < 6000, 'the compact force fits its box (under 3 x 1 x 6 km)', `${w.toFixed(0)} x ${h.toFixed(0)} x ${l.toFixed(0)} m`);
+  const cs = forceSlots(COMPACT_LAYOUT);
+  let gap = Infinity;
+  for (let i = 0; i < cs.length; i++) for (let j = i + 1; j < cs.length; j++) if (cs[i].squad !== cs[j].squad) { const a = cs[i].pos, b = cs[j].pos; gap = Math.min(gap, Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2])); }
+  check(gap > 120, 'compact: no two groups closer than 120 m', `${gap.toFixed(0)} m`);
+  const hs = box(forceSlots(HISTORICAL_LAYOUT));
+  check(hs[0] > 45000 && hs[2] > 18000, 'historical spacing kept: the divisions 30 mi abreast, the wings 9 km apart', `${hs[0].toFixed(0)} x ${hs[2].toFixed(0)} m`);
+}
 for (const w of FORCE) for (const g of w.groups) check(count((s) => s.squad === `${FORCE.indexOf(w)}-${g.pos[0].toUpperCase()}${g.pos.slice(1)}` && s.lead && s.group === g.group) === 1, `${g.group}${g.part ? `-${g.part}` : ''} has one lead ship`);
 
 // ---- the records

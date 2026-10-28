@@ -168,7 +168,7 @@ export const STATIONS = [
   { id: 'copilot', name: 'Co-pilot seat', stand: [0.18, -0.40, -7.2], eye: [0.55, 0.88, -7.72], yaw: 0, yawLim: 120, pitch: [-40, 40], seat: true, flies: true },
   { id: 'top', name: 'Top turret', stand: [0, -0.28, -6.78], eye: [0, 1.4, -6.71], yaw: 0, yawLim: 180, pitch: [-5, 85], guns: ['TopGuns'], floor: [55, 9], // (forward of the beam its guns can't come down into the cockpit roof: no lower than 9 degrees within 55 of dead ahead)
     entry: { time: 0.8, path: [[0, 0.85, -6.85]], bob: 0.02, bobs: 1 }, // step up onto the platform, head up into the dome
-    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, twin: [0.27, -0.07, 0.12, 1.1, 0.42], // either side of your head, as in the real one: the receivers by your temples, the barrels out through the dome's slots (topturret.js SLOT_X)
+    pivot: [0, 1.43, -6.71], turret: { yaw: ['TopTurret'] }, twin: [0.27, -0.07, 0.12, 0.81, 0.42], // (barrels shortened with the model's: models.js BARREL_K) either side of your head, as in the real one: the receivers by your temples, the barrels out through the dome's slots (topturret.js SLOT_X)
     hide: ['TopTurret'], attach: 'topCockpit' }, // inside, the model's dome is replaced by a glass one (topturret.js)
   { id: 'ball', name: 'Ball turret', stand: [0, -1.95, 0.6], eye: [0, -2.42, -0.1], yaw: 0, yawLim: 180, pitch: [-89, 0], guns: ['GunBarrel004', 'GunBarrel14'], // (down from the horizon: up there her belly fills the top of the window)
     entry: { time: 1.2, path: [[0, -1.05, 0.3], [0, -1.75, 0.08], [0, -2.25, -0.02]], bob: 0.015, bobs: 2 }, // kneel at the hatch, down into the ball

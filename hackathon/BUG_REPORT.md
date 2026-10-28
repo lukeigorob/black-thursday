@@ -316,3 +316,111 @@ The full write-up is in `BLACK_THURSDAY_RESEARCH.md` (sources, confirmed facts, 
     - **Second pass:** 143 clips with a stray word at the end or an overlong name were redone at 5 takes. The 8 still flagged are Whisper splitting a name into words ("Struck and Bruck"), not faults.
     - **Checked in the large battle:** all 1,782 load and decode. A tail-gunner hit played "hitRole_tail" then "name_Bomberger" (S/Sgt. Arthur Boyd Bomberger), with no fallback to the browser's voice.
     - **Not checked by ear:** Whisper often writes the "ship" of "going for X's ship" as "shit". Probably Whisper, but worth a listen.
+
+## Formation, crew models, turret barrels, sound (follow-up)
+
+- **Formation compressed so the whole battle is in view** (prompt: `hackathon/FORMATION_PROMPT.md`):
+  - **Layout:** `src/oob.js` now flies `COMPACT_LAYOUT`. The order of battle, groups, squadrons, elements and the 48 charted slots are unchanged; only the distances shrank. The combat wings are about 1 km apart (they were 9 km), and the 3rd Division flies 1.25 km to the right (it was 48 km).
+  - **Size:** the force is 2,183 × 748 × 3,263 m, with the closest pair 37 m apart and groups at least 186 m apart. `?spacing=historical` flies the old distances (`HISTORICAL_LAYOUT`).
+  - **Fighters:** they fight the whole force for real, out to 4.2 km from you. A gaggle comes in on the group it picked. After a pass a fighter usually takes a bomber near where he is, and he runs out from the bomber he attacked. A third of the gaggles go for the groups round you. Escorts patrol round the whole force.
+  - **Flak:** it fires on the whole force (6 batteries, up from 3), with the same share aimed at your bomber as before. The abstract far battle (`streambattle.js`) now only runs with historical spacing.
+  - **Full real-time mission:** 55 of 291 lost (18.9%), spread over all 16 groups. 47 of them went down 500 m or more from you, most within 2.5 km, in view. There were 60 flak engine fires.
+  - **Frame times (240 s of fighting, 1920×1080):** median 44–50 ms against 45 ms with historical spacing; 99% under 69–89 ms; 9–21 frames over 100 ms in about 5,000.
+  - **Tests:** `node tests/blackthursday.test.mjs` passes 3,152 checks, with new ones for the compact box, the group clearance and the kept historical spacing.
+  - **Screenshots:** `formation_waist_view.jpg` and `formation_waist_view2.jpg`.
+  - **Not ideal:** the inspection mode's whole-force views are still framed for the 50 km historical spread, so in compact mode the bombers are dots.
+- **Crew models rebuilt from research** (prompt: `hackathon/CREW_MODELS_PROMPT.md`; research: `hackathon/CREW_GEAR_RESEARCH.md`, sourced, every item rated VERIFIED, PROBABLE or UNVERIFIED):
+  - **Body:** slimmed from the superhero base to a wiry 19–22-year-old's build, drawn in towards the bones with blended weights.
+  - **Clothes by station, 14 Oct 1943:**
+    - B-3 jacket and A-3 trousers for the waist and tail gunners;
+    - the olive B-10 with its mouton collar for the bombardier, engineer and radio operator;
+    - the A-2 for the pilots and the navigator;
+    - the blue F-1 heated suit alone for the ball gunner.
+    - The jackets end at the waist.
+  - **Head:**
+    - **Helmet:** the B-6, with its sheepskin lining turned out round the face. It replaces the 1944 A-11.
+    - **Mask:** the A-10 Revised, its hose out of the chin. It replaces the 1944 A-14.
+    - **Officers:** they wear helmets, not crush caps. The research found no dated October 1943 photo of a cap worn at altitude.
+  - **Kit:**
+    - **Harness:** plain olive drab (red markings only came in from May 1944). The leg straps are flat bands fitted to each thigh, replacing the floating rings.
+    - **Mae West:** its collar is a round yellow roll round the back of the neck, not a flat patch.
+    - **Flak vests:** the M1 in dark green with its red quick-release pull, on the waist gunners, radio operator and bombardier. The top and ball turret gunners have none.
+  - **Lighting:** the crew catch more of the window light than the hull does, and the leather has a sheen, so a man seen from behind isn't a black shape. Stitched seams were added to the jackets' backs.
+  - **Screenshots:**
+    - `crew_turnaround.jpg`: every man front, back, three-quarter, head and in the bomber.
+    - `waist_gunner_from_behind.jpg`: the view from your report.
+    - `crew_b6_helmet_a10_mask.jpg`.
+  - **Not done or not checked:**
+    - The base mesh is still the same CC0 character, slimmed, not a new professionally modelled one.
+    - The bail-out, wounded and dead poses were not re-checked after the slimming.
+    - The ball gunner can't be seen in his turret, so he wasn't photographed.
+    - Gloves are close to skin colour.
+    - The research's colours are estimates.
+- **Turret barrels:** the ball and top turret barrels are 70% of their old length (`models.js` `BARREL_K`). The shortening runs along each barrel from its end in the turret, on every B-17, and your own top turret's Brownings match. Screenshot: `turret_barrels.jpg`.
+- **Sound:**
+  - **Casings:** falling cases are 60% quieter, and the brass rolling on the floor chinks about a third as often and quieter.
+  - **Flak:** it's heard from where you are (the camera), not from your bomber, and fades with distance (`exp(-d/1800)`). In a P-47 far off it's a distant rumble.
+  - **Not checked by ear:** this was tested headless with no sound.
+- **Nothing committed.**
+- **Fighter calls trimmed:**
+  - **Change:** "There's so many of them!" and "Here they come, a whole gaggle!" are gone. Every fighter call is just where they are ("Bandits, twelve o'clock high!"), including the first of the fight and a big new wave.
+  - **Clips:** the 144 unused clips were moved out of `public/audio/voice` to `.voices/retired`, not deleted.
+  - **Checked in game:** the first call of the fight played `bandits12_high` and nothing else.
+- **New crewman (MPFB):**
+  - **What changed:** the crew are now a realistic MPFB (MakeHuman for Blender, CC0) man: real face, eyes, brows and skin. His 1943 kit is modelled on his body in Blender and baked to textures (`scripts/crew/`, exported to `public/models/crew/crewman1943.glb`, about 17 MB):
+    - B-3/A-3 sheepskins, B-10 with olive trousers, A-2, and the F-1 suit;
+    - B-6 helmet, goggles, A-10 mask, A-6 boots and gloves;
+    - harness, B-4 Mae West and M1 flak vest.
+  - **Outfits:** each station shows its own outfit (`src/figure.js` OUTFITS).
+  - **Mask:** a smooth moulded cup on an oval from the bridge of the nose, below the eyes, to under the chin. The face under it is removed, so nothing pokes through.
+  - **Oxygen:** each man's mask hose clips to his harness, and a rubber hose hangs from there to the A-12 regulator at his post (`figure.js` oxygenLine, outlets from `interiordetail.js`). Away from every regulator he's off the line, as on a walk-around bottle.
+  - **A-3 trousers:** the seat bridges the crease and moves with the pelvis, and the suede is darker and duller (it read as bare skin).
+  - **Frames:** large battle, 46 fps, no frame over 100 ms.
+  - **Screenshots:**
+    - `crew_mpfb_turnaround.jpg`
+    - `crew_mpfb_mask.jpg`
+    - `crew_oxygen_hoses.jpg`
+    - `crew_mpfb_waist.jpg`
+  - **Not done or not checked:**
+    - The bail-out, wounded and dead poses weren't photographed.
+    - The ball gunner's F-1 can't be seen in his turret.
+    - The old `crewman.glb` is still in `public/models/crew` but no longer loaded.
+    - **Nothing committed.**
+- **Crew, professional pass (`hackathon/CREW_PRO_MODEL_PROMPT.md`), built free rather than buying the £180 Fab pack:**
+  - **Arms on the guns:** the men now stand where their hands fall on their grips. Each lean and step is worked out from the man's own arm length and each hand's distance to its own grip (`crew.js` FAR/NEAR). Measured shoulder to grip (`scripts/crew/t_arms.js`), every hand on its grip:
+    - **Pilot:** right hand was 0.62 m (11 cm short), now 0.49 m.
+    - **Navigator:** left hand was 0.72 m (21 cm short), now 0.58 m. He may step 45 cm toward the cheek gun.
+    - **Radio:** was 0.17–0.26 m (arm folded flat into the gun), now 0.41–0.47 m. He no longer floats 26 cm off the floor to reach the hatch gun.
+    - **Engineer:** now 0.29 m (was 0.22 m).
+    - **Waist:** now 0.28–0.47 m.
+    - **Pilots:** lean forward to the wheel and throttles, eyes kept ahead.
+  - **Pilots' caps:** the pilot and co-pilot wear the officer's service cap, crushed, with:
+    - a dark olive drab wool crown, low and soft, its sides pressed down by the headset;
+    - a brown leather visor and chin strap with buttons, and the eagle;
+    - an HS-38 headset over it (black Bakelite receivers in rubber cushions, a flat steel band over the crown, the cord);
+    - short hair showing under it.
+    Everyone else keeps the B-6 helmet and goggles (`figure.js` HEADGEAR, `crew.js` KIT `cap`).
+  - **Mask:** dark olive rubber (it was pale green), with its own elastic head straps above and below the ears, a raised rubber lip round the edge, metal snaps and a metal hose fitting. The hose is corrugated, and so is the long hose to the regulator in the game.
+  - **Materials:** CC0 scans from ambientCG (leather grain, sheepskin pile, wool, twill and canvas weave), tinted to the researched colours, with dirt baked into the creases (see `CREDITS.md`).
+  - **Size and frames:** the crew download is 22.5 MB (was 17 MB). Large battle: 43 fps, no frame over 100 ms.
+  - **Screenshots** (`hackathon/bug-shots/`):
+    - `crew_pilot_cap_headset.jpg`
+    - `crew_pilots_and_gunners_ingame.jpg`
+    - `crew_hands_on_grips.jpg`
+    - `crew_scanned_materials.jpg`
+  - **Not done, honestly:**
+    - The garments are still grown from the body's surface, not cut and sewn, and not sculpted then baked. Collars, cuffs and pockets are real, but there are no sewn seams or deep cloth folds. That is still short of the Fab reference's standard.
+    - The Mae West and flak vest look flat up close.
+    - The bail-out, wounded and dead poses weren't re-photographed.
+    - The forearm-to-gun clipping was checked by eye in screenshots, not with a mesh-intersection test.
+    - The cockpit lighting makes the A-2 read grey-blue.
+    - **Nothing committed.**
+- **Crew follow-up (your screenshots of the radio operator, the nose, and the top turret):**
+  - **Radio operator's arms behind his head:** reaching up to the hatch gun, his elbows were bent back. When a grip is above the shoulder, the elbows now swing out and forward (`figure.js` reach), and the arms stay in front of him.
+  - **Arms hidden by the harness and vest:** the harness, Mae West and flak vest near the armpit were weighted to the upper arm. Raising the arms to a gun pulled them into a sheet over the arm. They now move only with the spine and clavicles (`scripts/crew/bake_export.py` torso_only), and from behind the arms show at every gun.
+  - **Top turret gunner:**
+    - The green boxes are the Sperry turret's own ammunition cans, one either side of him. In your screenshot he was pressed into one, because the new reach code stepped him back from grips that are close to his chest. A turret gunner no longer steps.
+    - He now wears the brown B-3 sheepskin over olive trousers instead of the olive cloth B-10.
+  - **Two in the nose:** as bombardier or navigator, you see only the other one. Standing in the nose from another station, you see both, which is right for a B-17F.
+  - **Frames:** large battle, 63 fps, no frame over 100 ms.
+  - **Screenshots:** `crew_arms_from_behind.jpg`, `crew_top_turret_b3.jpg`.

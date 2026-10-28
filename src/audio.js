@@ -410,7 +410,8 @@ export class GameAudio {
     const lp = ctx.createBiquadFilter();
     lp.type = 'lowpass';
     lp.frequency.value = Math.max(140, (1600 - dist * 1.2) * (1 - 0.4 * muffle));
-    const g = ctx.createGain(), v = Math.min(1.6, 180 / Math.max(dist, 30));
+    // (louder close by; far off it dies away fast, the air soaking it up: a barrage 3 km off is a distant rumble)
+    const g = ctx.createGain(), v = Math.min(1.6, 180 / Math.max(dist, 30)) * Math.exp(-dist / 1800);
     g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + 0.012);
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.9 + Math.min(1, dist / 800));
     n.connect(lp).connect(g).connect(this.bus.battle);
@@ -562,7 +563,7 @@ export class GameAudio {
     if (!ctx || vol < 0.01) return;
     const t = ctx.currentTime + Math.random() * 0.02, f = link ? 1900 + Math.random() * 900 : 3300 + Math.random() * 2400;
     const out = ctx.createGain();
-    out.gain.value = vol * (link ? 0.5 : 0.7);
+    out.gain.value = vol * (link ? 0.5 : 0.7) * 0.4; // (well under the guns: a tinkle at your feet, not a bell)
     out.connect(this.bus.guns);
     for (const [m, a, d] of link ? [[1, 1, 0.03], [2.31, 0.4, 0.02]] : [[1, 1, 0.09 + Math.random() * 0.07], [2.72, 0.5, 0.05], [5.1, 0.25, 0.03]]) {
       const o = ctx.createOscillator(), g = ctx.createGain();
@@ -583,10 +584,10 @@ export class GameAudio {
   brass(dt, lying, motion) {
     if (!this.ctx || lying <= 0) return;
     this.brassT = (this.brassT ?? 0) - dt;
-    const rate = lying * (0.6 + 30 * motion); // tinks a second
+    const rate = lying * (0.3 + 10 * motion); // tinks a second (a quiet background chink, now and then)
     while (this.brassT <= 0) {
       this.brassT += -Math.log(1 - Math.random()) / Math.max(rate, 0.01);
-      this.caseTink((0.08 + 0.25 * Math.random()) * Math.min(1, 0.4 + motion), Math.random() < 0.3);
+      this.caseTink((0.05 + 0.12 * Math.random()) * Math.min(1, 0.4 + motion), Math.random() < 0.3);
     }
   }
 

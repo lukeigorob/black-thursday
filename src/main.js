@@ -227,6 +227,7 @@ fighters.onBomberHit = (b, part, local, cannon, dir) => {
 const flak = new Flak({ effects, audio, ui, bombers, playerBomber: bomber, onBomberHit: fighters.onBomberHit, onShrapnel,
   onClose: (k) => { if (mode === 'crew' && !player.away && !eject.active) { player.jolt(k); audio.flakClose(k); shake = Math.max(shake, k); } } }); // (felt inside your bomber)
 player.onSightRefused = () => ui.log(mission.phase === 'outbound' ? `Bombsight: nothing to aim at yet. ${mission.status(missionTime).replace(/^Outbound · /, '')}.` : 'Bombsight: the bombs are away.');
+flak.ear = camera; // (the flak heard from where you are: in your bomber or a fighter)
 flakEnv = () => { flak.night = env.time === 'night' ? 1 : env.time === 'twilight' ? 0.45 : 0; flak.muffle = WEATHER[env.weather]?.overcast ?? 0; };
 flakEnv();
 const mission = new Mission(scene, { effects, audio, ui, bombers, playerBomber: bomber });

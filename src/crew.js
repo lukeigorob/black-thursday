@@ -27,7 +27,9 @@ import { SURNAMES } from './lines.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
-const _sa = new V(), _sb = new V(), _sc = new V(), _hd = new V();
+const _sa = new V(), _sb = new V(), _sc = new V(), _sd = new V(), _se = new V(), _hd = new V();
+// how far a hand sits from its shoulder at a grip, as a share of his reach: elbow bent but not folded
+const FAR = 0.85, NEAR = 0.5;
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
@@ -37,6 +39,20 @@ const ACQUIRE = [0.8, 2.2], BURST = [0.5, 1.3], PAUSE = [1.4, 3.5], SPRAY = 0.1;
 const ACTIVE_RANGE = 1200; // bombers further than this from the player don't simulate their gunners
 export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 
+// What each man wears over his F-1 heated suit on 14 October 1943, by his station (hackathon/
+// CREW_GEAR_RESEARCH.md, its station table): the waist and tail gunners at their open windows in full
+// sheepskin, the cockpit in A-2 jackets, the nose, the engineer and the radio operator in B-10s (or an A-2),
+// the ball gunner in his F-1 alone. The pilots in their officer's caps, crushed, with an HS-38 headset over
+// them (as the 303rd's pilots wore them that first year in England); everyone else in a B-6 helmet; every
+// man in the A-10 Revised mask. Flak vests: the waist gunners and the radio operator (as the 8th's crews
+// were issued them through 1943), the bombardier for his bomb run; never the top or ball turret gunner,
+// who had none.
+const KIT = {
+  pilot: { outfit: 'a2', flak: false, cap: true }, copilot: { outfit: 'a2', flak: false, cap: true },
+  bombardier: { outfit: 'b10', flak: true }, navigator: { outfit: 'a2', flak: false },
+  engineer: { outfit: 'b3od', flak: false }, radio: { outfit: 'b10', flak: true },
+  ball: { outfit: 'f1', flak: false }, waistL: { outfit: 'sheep', flak: true }, waistR: { outfit: 'sheep', flak: true }, tail: { outfit: 'sheep', flak: false },
+};
 export const ROLES = [
   { id: 'pilot', title: 'Pilot', rank: 'Lt.', station: 'pilot' },
   { id: 'copilot', title: 'Co-pilot', rank: 'Lt.', station: 'copilot' },
@@ -229,10 +245,10 @@ export class Crew {
     this.listeners = [];
     if (visible) {
       for (const m of this.members) {
-        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, flak: /waist|tail|ball/.test(m.role.id) ? undefined : false, pilot: /pilot/.test(m.role.id) }); // (gunners may wear flak vests; the pilots their caps and A-2 jackets)
+        m.fig = makeFigure({ seed: ROLES.indexOf(m.role) * 7 + 3, ...KIT[m.role.id] });
         // (the model's waist is barely 1.7 m under the roof, its windows low: the men who stand at
         // their guns there are on the short side, as many gunners were)
-        if (m.role.id.startsWith('waist')) m.fig.scale.setScalar(0.88);
+        if (m.role.id.startsWith('waist')) m.fig.scale.setScalar(0.92);
         interior.group.add(m.fig);
         this.place(m);
       }
@@ -602,18 +618,31 @@ export class Crew {
     const rig = m.fig.userData.rig, par = m.fig.parent, lean = (m.lean ??= new V());
     m.bend ??= 0;
     if (rig && par) {
-      const sh = rig.arms.l.upper.getWorldPosition(_sa).add(rig.arms.r.upper.getWorldPosition(_sb)).multiplyScalar(0.5);
-      par.worldToLocal(sh).sub(m.fig.position).add(b.pos);
+      const shL = par.worldToLocal(rig.arms.l.upper.getWorldPosition(_sa)).sub(m.fig.position).add(b.pos);
+      const shR = par.worldToLocal(rig.arms.r.upper.getWorldPosition(_sb)).sub(m.fig.position).add(b.pos);
+      const sh = _sd.copy(shL).add(shR).multiplyScalar(0.5);
       const want = par.worldToLocal(_sc.copy(m.grips[0]).add(m.grips[1]).multiplyScalar(0.5)).sub(sh);
-      let d = Math.hypot(want.x, want.z);
-      const ux = d ? want.x / d : 0, uz = d ? want.z / d : 0;
-      d += Math.sin(m.bend) * 0.5; // (undo last frame's bend: his shoulders had already come that far)
+      const dh = Math.hypot(want.x, want.z);
+      const ux = dh ? want.x / dh : 0, uz = dh ? want.z / dh : 0;
+      // each hand to its own grip, from where his shoulder would be standing straight (last frame's
+      // bend undone: his shoulders had already come that far). He wants every hand within a comfortable
+      // reach, elbow bent (FAR of his arm), and none so close the arm folds up into the gun (NEAR): he
+      // leans or steps in for the far one, and steps back from a gun that's on top of him.
+      const L = (rig.arms.l.a + rig.arms.l.b) * m.fig.getWorldScale(_se).x + 0.075; // (the wrist stops a hand short)
+      const fwd = Math.sin(m.bend) * 0.5;
+      let go = 0, back = 0;
+      for (const [s, g] of [[shL, m.grips[0]], [shR, m.grips[1]]]) {
+        const gl = par.worldToLocal(_se.copy(g));
+        const d = Math.hypot(gl.x - s.x + ux * fwd, gl.y - s.y, gl.z - s.z + uz * fwd);
+        go = Math.max(go, d - FAR * L); back = Math.max(back, NEAR * L - d);
+      }
+      if (go <= 0) go = top ? 0 : -Math.min(back, 0.2); // (in the turret he can't step back: the Sperry's grips are close to his chest)
       // (a waist gunner stands up to his gun: he steps in to it rather than stooping over it)
-      const waist = stationId.startsWith('waist'), go = Math.max(0, d - 0.38), bendGo = Math.min(go, waist ? 0.15 : 0.26);
-      const bend = Math.asin(bendGo / 0.5), step = Math.min(go - bendGo, stationId === 'tail' ? 0.45 : waist ? 0.45 : 0.3);
+      const waist = stationId.startsWith('waist'), bendGo = THREE.MathUtils.clamp(go, 0, waist ? 0.15 : 0.26);
+      const bend = Math.asin(bendGo / 0.5), step = Math.min(go - bendGo, stationId === 'tail' || waist || stationId.startsWith('cheek') ? 0.45 : 0.3); // (the cheek guns are well forward of the navigator's table)
       // a waist gunner gets down to a low gun by bending his knees, feet flat on the floor
       const sink = waist ? THREE.MathUtils.clamp(-(want.y + 0.12) * 0.7, 0, 0.16) : 0;
-      want.set(ux * step, Math.max(stationId === 'tail' ? -0.12 : 0, (want.y + 0.1) * 0.5), uz * step); // (up a little; only the kneeling tail gunner sinks to his)
+      want.set(ux * step, THREE.MathUtils.clamp((want.y + 0.1) * 0.5, stationId === 'tail' ? -0.12 : 0, 0.05), uz * step); // (up a little, on his toes at most; only the kneeling tail gunner sinks to his)
       m.sink = (m.sink ?? sink) + (sink - (m.sink ?? sink)) * (m.leanSet ? 0.2 : 1);
       if (waist) {
         const H = b.hip - m.sink, a = Math.acos(THREE.MathUtils.clamp(H / 0.92, 0, 1));
@@ -667,6 +696,15 @@ export class Crew {
       if (id === 'pilot') m.wheel[1].set(-0.06, 0.21, -8.06); // (his right hand on the throttles)
       for (const w of m.wheel) it.localToWorld(w);
       reachFor(f, m.wheel);
+      // he sits forward to the wheel (and the pilot over to his throttles) until the farther hand is in
+      // easy reach, his back off the seat, rather than his arm stretched out short of it
+      const rig = f.userData.rig;
+      if (rig) {
+        const L = (rig.arms.l.a + rig.arms.l.b) * f.getWorldScale(_se).x + 0.075;
+        const d = Math.max(rig.arms.l.upper.getWorldPosition(_sa).distanceTo(m.wheel[0]), rig.arms.r.upper.getWorldPosition(_sb).distanceTo(m.wheel[1]));
+        m.sitLean = THREE.MathUtils.clamp((m.sitLean ?? 0) + (d - FAR * L) * 0.6, 0, 0.5);
+        f.userData.j.torso.rotation.x = b.torso - m.sitLean;
+      }
       if ((m.lookT = (m.lookT ?? rand(1, 4)) - dt) <= 0) {
         m.lookT = rand(2.5, 7);
         const r = Math.random();
@@ -674,7 +712,7 @@ export class Crew {
       }
       const [ly, lp] = m.lookAt ?? [0, 0], k = 1 - Math.exp(-dt * 2.5), j = f.userData.j;
       m.headY = (m.headY ?? 0) + (ly - (m.headY ?? 0)) * k; m.headP = (m.headP ?? 0) + (lp - (m.headP ?? 0)) * k;
-      j.head.rotation.y = m.headY; j.head.rotation.x = b.head + m.headP;
+      j.head.rotation.y = m.headY; j.head.rotation.x = b.head + m.headP + (m.sitLean ?? 0); // (eyes kept ahead as he sits forward)
     }
   }
 

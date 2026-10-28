@@ -9,13 +9,14 @@
 import * as THREE from 'three';
 import { PARTS, AIRSPEED } from './bomber.js';
 import { ParticlePool } from './effects.js';
+import { COMPACT, FIGHT_RANGE } from './oob.js';
 
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);
 const LETHAL = 55; // m: shrapnel reaches this far
 const CLOSE = 160; // m: nearer than this you feel it
 const SALVO = 6, QUEUE = 200; // shells a battery fires together; bursts waiting to go off
-const BATTERIES = 3; // batteries firing at once: their salvos overlap
+const BATTERIES = COMPACT ? 6 : 3; // batteries firing at once: their salvos overlap (more on the whole compact force)
 const FRAGS = 2600; // glowing fragments in the air at once
 const DIRECT = 2.5; // m from her skin: a shell bursting this close is as good as a direct hit
 const ENGINE_FIRE = 0.3; // chance splinters through an engine set it alight
@@ -75,7 +76,7 @@ class Fragments {
   }
 }
 
-const _at = new V(), _v = new V(), _l = new V(), _c = new V(), _m = new V(), _p = new V();
+const _e = new V(), _at = new V(), _v = new V(), _l = new V(), _c = new V(), _m = new V(), _p = new V();
 const C_FLASH = [70, 58, 42], C_BALL0 = [34, 15, 3.5], C_BALL1 = [2.2, 0.5, 0.08], C_SMOKE0 = [0.022, 0.019, 0.016], C_SMOKE1 = [0.1, 0.095, 0.09];
 const opts = { life: 0, s0: 0, s1: 0, a0: 1, c0: C_FLASH, c1: C_FLASH, drag: 0, grav: 0 };
 
@@ -126,11 +127,11 @@ export class Flak {
     if ((this.nearT -= 1) <= 0) { // (who's in range, now and then)
       this.nearT = 8;
       this.near.length = 0;
-      for (const b of this.bombers) if (!b.down && b.base.distanceTo(this.playerBomber.base) < 1500) this.near.push(b);
+      for (const b of this.bombers) if (!b.down && b.base.distanceTo(this.playerBomber.base) < FIGHT_RANGE) this.near.push(b);
     }
     for (let bat = 0; bat < BATTERIES; bat++) {
       // (a battery on the bomber you're in now and then: the near ones' crack and jolt much more often)
-      const aimed = Math.random() < 0.06 ? this.playerBomber : this.near[Math.floor(Math.random() * this.near.length)];
+      const aimed = Math.random() < (COMPACT ? 0.03 : 0.06) ? this.playerBomber : this.near[Math.floor(Math.random() * this.near.length)];
       if (!aimed || aimed.down) continue;
       this.salvo(aimed);
     }
@@ -181,8 +182,10 @@ export class Flak {
     }
     if (this.night > 0) { this.lightK = 1.2e6; this.light.position.copy(at); } // (the last one lights the bombers round it)
     const d = at.distanceTo(this.playerBomber.group.position);
-    if (d < 600 || this.heard < 3) { this.heard++; this.audio.flak(d, m); } // (the far ones: a few at a time, or the sound would clip)
-    if (d < CLOSE) this.onClose?.(1 - d / CLOSE, d); // the thump, the jolt, the rattle
+    // heard from where you are (ear: the camera, main.js): in a P-47 far off, the flak's far off too
+    const dh = this.ear ? at.distanceTo(this.ear.getWorldPosition(_e)) : d;
+    if (dh < 600 || this.heard < 3) { this.heard++; this.audio.flak(dh, m); } // (the far ones: a few at a time, or the sound would clip)
+    if (d < CLOSE && dh < CLOSE * 2) this.onClose?.(1 - d / CLOSE, d); // the thump, the jolt, the rattle (in the bomber)
     for (const b of this.bombers) {
       if (b.down || b.gone) continue;
       const dist = at.distanceTo(b.group.position);

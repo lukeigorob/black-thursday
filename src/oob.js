@@ -7,7 +7,13 @@
 // its parent formation's lead, so a whole box moves with its leader.
 
 // ---- how each level is laid out (formations.json; the confidence of each is in the comment) ----
-export const LAYOUT = {
+// Two layouts. HISTORICAL_LAYOUT is the force as it flew: the combat wings two minutes (9 km) apart and
+// the 3rd Division thirty miles off to the side, so from any one bomber you see your own wing and little
+// else. The game flies COMPACT_LAYOUT: the same order of battle, groups, squadrons, elements and charted
+// slots, with only the distances between the wings and the divisions shrunk (and the wing a little
+// tighter), so the whole force is round you in one mass of 291 bombers and the fighters' attacks all
+// through it are in sight. ?spacing=historical flies the historical one.
+const SHARED = {
   // an element of three: the lead, the wingmen back and out on either side (50 ft wingtip and nose-to-tail
   // clearance: B-17 Pilot Training Manual, PROBABLE)
   element: [[0, 0, 0], [-47, 0, 38], [47, 0, 38]],
@@ -18,16 +24,34 @@ export const LAYOUT = {
   // history's +100 / -250 ft diagram, PROBABLE; lateral and fore-aft ESTIMATE); the 100th's four-ship
   // flights trailing the group they joined (ESTIMATE)
   group: { lead: [0, 0, 0], high: [100, 30, 120], low: [-100, -76, 120], attached: [0, -45, 250] },
+};
+export const HISTORICAL_LAYOUT = {
+  ...SHARED,
   // a combat wing: high group 1,000 ft up and to the right, the low 1,000 ft down to the left (vertical
   // documented for this mission: the 351st's briefing; lateral and trail ESTIMATE, fitted to the wing's
   // ~3,000 x 7,000 x 2,000 ft envelope)
   wing: { lead: [0, 0, 0], high: [250, 305, 400], low: [-250, -305, 800] },
-  // the wings of a division in trail, about two minutes apart (ESTIMATE, from the bombing times) and the
-  // 3rd Division abreast of the 1st, thirty miles to the south: to the right as the stream flies east
-  // (the official history, PROBABLE)
-  wingInterval: 120, // s
-  divisionLateral: 48300, // m
+  // the wings of a division in trail, about two minutes apart (ESTIMATE, from the bombing times: 120 s at
+  // the game's 75 m/s) and the 3rd Division abreast of the 1st, thirty miles to the south: to the right as
+  // the stream flies east (the official history, PROBABLE)
+  wingTrail: [0, 0, 9000], // m, each wing from the one ahead
+  division: { '1st': [0, 0, 0], '3rd': [48300, 0, 0] }, // m
 };
+export const COMPACT_LAYOUT = {
+  ...SHARED,
+  // (the wing: the high and low groups closer in, still a squadron's height and more clear of the lead's)
+  wing: { lead: [0, 0, 0], high: [230, 190, 260], low: [-230, -190, 520] },
+  // (the wings ~1 km apart in trail, each stepped down and out a little so the one behind sees past the
+  // one ahead; the 3rd Division close alongside, to the right as it flew, a little back and below)
+  wingTrail: [-90, -60, 1000],
+  division: { '1st': [0, 0, 0], '3rd': [1250, -110, 420] },
+};
+const historical = typeof location !== 'undefined' && new URLSearchParams(location.search).get('spacing') === 'historical';
+export const LAYOUT = historical ? HISTORICAL_LAYOUT : COMPACT_LAYOUT;
+export const COMPACT = !historical; // (the fight spreads through the whole force: fighters.js, streambattle.js)
+// m from your bomber: inside this the battle's fought for real, fighters and flak (beyond it, streambattle.js):
+// the whole of the compact force
+export const FIGHT_RANGE = COMPACT ? 4200 : 1500;
 
 /**
  * The force as it flew: [division, wing, its groups in the wing's lead / high / low positions]. Aircraft
@@ -76,12 +100,13 @@ function groupSquadrons(n, sizes = null) {
  * group, part, wingPos, squadron, element, wingman, lead (the group's lead ship), squad (the bombing unit:
  * one id a group), attachedTo (the 100th's), estimate (a count or place that isn't documented) }.
  */
-export function forceSlots() {
+export function forceSlots(layout = LAYOUT) {
+  const LAYOUT = layout; // (the tests check both)
   const out = [];
   const div0 = new Map(); // division -> how many wings of it laid out so far
   FORCE.forEach((w, wi) => {
     const nth = div0.get(w.division) ?? 0; div0.set(w.division, nth + 1);
-    const wingAt = [w.division === '3rd' ? LAYOUT.divisionLateral : 0, 0, nth * LAYOUT.wingInterval * 75]; // (75 m/s: the formation's speed in the game, AIRSPEED)
+    const d = LAYOUT.division[w.division], t = LAYOUT.wingTrail, wingAt = [d[0] + nth * t[0], d[1] + nth * t[1], d[2] + nth * t[2]];
     for (const g of w.groups) {
       const groupAt = add(wingAt, LAYOUT.wing[g.pos]);
       const squad = `${wi}-${g.pos[0].toUpperCase()}${g.pos.slice(1)}`;

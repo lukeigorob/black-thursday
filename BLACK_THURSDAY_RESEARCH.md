@@ -181,8 +181,12 @@ All values are configurable. They are listed in full in `formations.json`, using
     - 13th CBW: 95th high and 390th low (the 100th's interrogation), with the lead slot empty.
 - **Spacing:**
   - **Element, squadron and group:** from `formations.json`.
-  - **Combat wings:** 120 s apart (9 km at the game's 75 m/s).
-  - **Divisions:** abreast, 48.3 km apart, which puts the 3rd Division out of sight as it historically was. Its groups still bomb when they reach the target; their bombs are scored at the target but not drawn.
+  - **Compressed for the game (the default):** the historical distances put all but your own wing out of sight, so the game flies the same order of battle with the distances between the wings and the divisions shrunk (`COMPACT_LAYOUT` in `src/oob.js`). Every group, squadron, element and charted slot is unchanged.
+    - **Combat wings:** about 1 km apart in trail, each stepped a little down and out.
+    - **3rd Division:** close alongside to the right, 1.25 km over, a little back and below.
+    - **Wing:** high and low groups ±230 m to the side and ±190 m up and down (historically ±250 m and ±305 m).
+    - **Result:** the whole force flies in about 2.2 × 0.75 × 3.3 km, with groups at least 186 m apart. The fighters and the flak fight all of it for real, not only the part round you.
+  - **Historical (`?spacing=historical`, kept in `HISTORICAL_LAYOUT`):** the combat wings 120 s apart (9 km at the game's 75 m/s), and the divisions abreast 48.3 km apart, which puts the 3rd Division out of sight as it historically was. Groups beyond 1.5 km are fought in the abstract (`src/streambattle.js`); the far groups still bomb when they reach the target, and their bombs are scored but not drawn.
   - **Your wing's rally:** waits only for your own combat wing.
 - **Formation behaviour:**
   - **Station-keeping:** every bomber keeps station with its own slow error, a few metres over 25–70 s, banking into its corrections.

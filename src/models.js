@@ -95,6 +95,49 @@ const depthMats = new Map();
 // and the spinner-like knob under the nose, which looked from the ball turret like a propeller hub
 const REMOVED = ['FrontGunCapsule', 'LowerFrontGuns', 'NavigationKnob'];
 
+// The ball and top turrets' guns: the model's barrels stand too far out of the turrets, so each is
+// shortened along its own length to BARREL_K of it, from its inner end (the end in the turret): the
+// same barrel, as thick, only less of it out in the air. (Your own turret's Brownings are built to these
+// shortened barrels too: weapons.js measures them; the top turret's from its station, interior.js.)
+const SHORT_BARRELS = { BallTurret: ['GunBarrel004', 'GunBarrel14'], TopGuns: ['GunBarrel', 'GunBarrel15'] };
+export const BARREL_K = 0.7;
+function shortenBarrels(root) {
+  root.updateMatrixWorld(true);
+  const centreOf = { BallTurret: root.getObjectByName('BallTurret'), TopGuns: root.getObjectByName('TopTurret') };
+  for (const [key, names] of Object.entries(SHORT_BARRELS)) {
+    const turret = centreOf[key];
+    if (!turret) continue;
+    const scope = key === 'TopGuns' ? root.getObjectByName('TopGuns') ?? root : root;
+    for (const n of names) {
+      const o = scope.getObjectByName(n);
+      if (!o?.isMesh) continue;
+      const g = (o.geometry = o.geometry.clone()), pos = g.attributes.position, p = new THREE.Vector3();
+      // its length: the principal axis of its vertices (a few rounds of power iteration on their spread)
+      const c = new THREE.Vector3();
+      for (let i = 0; i < pos.count; i++) c.add(p.fromBufferAttribute(pos, i));
+      c.divideScalar(pos.count);
+      let axis = new THREE.Vector3(0.3, 0.6, 0.7).normalize();
+      for (let it = 0; it < 12; it++) {
+        const next = new THREE.Vector3();
+        for (let i = 0; i < pos.count; i++) { p.fromBufferAttribute(pos, i).sub(c); next.addScaledVector(p, p.dot(axis)); }
+        axis = next.normalize();
+      }
+      // which end is in the turret: the one nearer its centre
+      const inside = o.worldToLocal(turret.getWorldPosition(new THREE.Vector3()));
+      let lo = Infinity, hi = -Infinity;
+      for (let i = 0; i < pos.count; i++) { const d = p.fromBufferAttribute(pos, i).sub(c).dot(axis); lo = Math.min(lo, d); hi = Math.max(hi, d); }
+      const from = inside.clone().sub(c).dot(axis) < (lo + hi) / 2 ? lo : hi;
+      for (let i = 0; i < pos.count; i++) {
+        p.fromBufferAttribute(pos, i);
+        const d = p.clone().sub(c).dot(axis);
+        p.addScaledVector(axis, (from + (d - from) * BARREL_K) - d);
+        pos.setXYZ(i, p.x, p.y, p.z);
+      }
+      g.computeBoundingBox(); g.computeBoundingSphere();
+    }
+  }
+}
+
 function prepare(root) {
   for (const n of REMOVED) root.getObjectByName(n)?.removeFromParent();
   root.traverse((o) => {
@@ -220,6 +263,7 @@ export async function loadModel(name, { lod = false, mid = false } = {}) {
       loader
         .loadAsync(url)
         // lower-detail versions are only looked at, never taken apart: merge them for speed
+        .then((gltf) => { if (name === 'b17') shortenBarrels(gltf.scene); return gltf; })
         .then((gltf) => ({ scene: suffix ? mergeByMaterial(prepare(gltf.scene), /^Prop_\d$/, mid ? MID_TURRETS : null) : prepare(gltf.scene), ok: true }))
         .catch((err) => {
           console.warn(`Could not load ${url}, using a placeholder.`, err);

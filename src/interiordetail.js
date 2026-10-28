@@ -199,11 +199,13 @@ export function addMoreDetail(it, MAT, DECKS) {
   // ---- oxygen regulators and interphone jack boxes at every post, on the nearest wall
   const posts = [[-10.25, -0.35, -1], [-9.5, 0.05, -1], [-7.55, 0.2, -1], [-7.55, 0.2, 1], [-6.75, 0.45, 1], [-2.3, -1.25, -1], [2.45, -1.45, -1], [2.45, -1.45, 1], [9.2, -1.85, 1], [-0.2, -1.5, 1]];
   const reg = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.07), dialPlate(1));
+  const outlets = it.group.userData.oxygen = []; // (where each man's mask hose plugs in: figure.js runs it to him)
   for (const [z, y, side] of posts) {
     const x = side * wallX(z, y, 0.035);
     it.add(M.od, new THREE.BoxGeometry(0.05, 0.14, 0.1).translate(x, y, z));
     const face = reg.clone(); face.position.set(x - side * 0.026, y + 0.03, z); face.rotation.y = -side * Math.PI / 2; it.group.add(face);
-    it.rod([x - side * 0.02, y - 0.07, z], [x - side * 0.12, y - 0.35, z + 0.15], 0.01, M.black); // its hose
+    it.rod([x - side * 0.02, y - 0.07, z], [x - side * 0.03, y - 0.1, z], 0.012, M.black); // its outlet
+    outlets.push(new THREE.Vector3(x - side * 0.03, y - 0.1, z));
     const jx = side * wallX(z + 0.16, y - 0.05, 0.03);
     it.add(M.black, new THREE.BoxGeometry(0.04, 0.08, 0.06).translate(jx, y - 0.05, z + 0.16)); // interphone jack box
     it.rod([jx - side * 0.02, y - 0.09, z + 0.16], [jx - side * 0.08, y - 0.3, z + 0.22], 0.004, M.black);

@@ -4,7 +4,7 @@
 // squadron, or one B-17 and its neighbours. Keys (only in this mode): , and . change the view, [ and ]
 // change which bomber the view is built round, \ hides the overlay.
 import * as THREE from 'three';
-import { LAYOUT, TOTALS } from './oob.js';
+import { LAYOUT, HISTORICAL_LAYOUT, TOTALS } from './oob.js';
 
 export const formationDebugOn = new URLSearchParams(location.search).get('debug') === 'formation';
 const VIEWS = ['normal', 'force', 'division', 'wing', 'group', 'squadron', 'neighbours'];
@@ -94,9 +94,19 @@ export class FormationDebug {
       ...[...groups].map(([k, g]) => `  ${k.padEnd(28)} ${String(g.up).padStart(2)} / ${String(g.n).padStart(2)}${g.off ? `  (${g.off} out of the box)` : ''}`),
       '',
       'HISTORY NOTES: counts 1st AD from its dispatch table (VERIFIED/PROBABLE); 3rd AD wing places and the 388th/390th',
-      `counts ESTIMATE; spacing: element/vertical PROBABLE, lateral/fore-aft ESTIMATE (oob.js LAYOUT); divisions ${(LAYOUT.divisionLateral / 1609).toFixed(0)} mi abreast.`,
+      `counts ESTIMATE; spacing: element/vertical PROBABLE, lateral/fore-aft ESTIMATE (oob.js LAYOUT); ${LAYOUT === HISTORICAL_LAYOUT ? 'historical spacing' : 'COMPACT spacing (for the game: historically the wings flew 9 km apart and the divisions 30 mi abreast; ?spacing=historical)'}.`,
+      `FORCE BOX now: ${this.forceBox()}`,
     ];
     return lines.join('\n');
+  }
+
+  /** The size of the force in the air now (the bombers still up): width x height x length, and the closest pair. */
+  forceBox() {
+    const up = this.bombers.filter((b) => !b.down && !b.gone), mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
+    for (const b of up) { const p = b.group.position.toArray(); for (let i = 0; i < 3; i++) { mn[i] = Math.min(mn[i], p[i]); mx[i] = Math.max(mx[i], p[i]); } }
+    let close = Infinity;
+    for (let i = 0; i < up.length; i++) for (let j = i + 1; j < up.length; j++) close = Math.min(close, up[i].group.position.distanceTo(up[j].group.position));
+    return `${(mx[0] - mn[0]).toFixed(0)} m wide x ${(mx[1] - mn[1]).toFixed(0)} m tall x ${(mx[2] - mn[2]).toFixed(0)} m long, ${up.length} bombers, closest pair ${close.toFixed(1)} m`;
   }
 
   /** The camera for a framing view (none for 'normal'): over and behind the bombers it frames, far enough to take them all in. */
