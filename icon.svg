@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- the USAAF star and bar of 1943-44, on olive drab -->
+  <rect width="64" height="64" rx="12" fill="#4b5320"/>
+  <rect x="3" y="27" width="58" height="12" fill="#ffffff"/>
+  <rect x="4.5" y="28.5" width="55" height="9" fill="#ffffff"/>
+  <rect x="3" y="27" width="58" height="12" fill="none" stroke="#1d3a7a" stroke-width="2.4"/>
+  <circle cx="32" cy="33" r="17" fill="#1d3a7a"/>
+  <polygon fill="#ffffff" points="32,17.6 35.6,28.6 47.2,28.6 37.8,35.4 41.4,46.4 32,39.6 22.6,46.4 26.2,35.4 16.8,28.6 28.4,28.6"/>
+</svg>
