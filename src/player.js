@@ -477,15 +477,32 @@ export class Player {
       this.firing = false;
       this.eye += (0.3 - this.eye) * (1 - Math.exp(-dt * 3)); // lying on the floor
     } else if (this.enabled && !this.station && !this.dead && !this.crawl) this.walk(dt);
-    this.near = this.station || this.wounded || this.crawl ? null : this.it.nearestStation(this.feet);
-    if (this.near?.id === 'tail' && this.bomber.noTail) this.near = null; // (the tail's gone: nothing back there to take)
-    // the crawlway: its hatch (or its mouth in the nose) in reach, and nearer than any station
-    this.passage = null;
+    // what E takes: of the positions and crawlways in reach, the one you're looking towards (the flight
+    // deck has both seats, the top turret and the crawlway down to the nose within a stride of each
+    // other: by distance alone it was whichever you happened to be a few centimetres nearer). A seat is
+    // judged by the seat itself, not the spot you stand at to take it; standing right on a crawlway, or
+    // looking down at it, takes the crawlway.
+    this.near = null; this.passage = null;
     if (!this.station && !this.wounded && !this.dead && !this.crawl && !this.away) {
+      const fx = -Math.sin(this.yaw), fz = -Math.cos(this.yaw);
+      const score = (x, z, d) => { // (smaller is better: how far off your line of sight, then how far)
+        const dx = x - this.feet.x, dz = z - this.feet.z, l = Math.hypot(dx, dz);
+        return (l < 0.2 ? 0.5 : Math.acos(Math.max(-1, Math.min(1, (dx * fx + dz * fz) / l)))) + d * 0.25; // (standing on it: no telling which way you look)
+      };
+      let best = Infinity;
+      for (const s of this.it.stations) {
+        if (Math.abs(this.feet.y - s.stand.y) > 0.7 || s.sight || (s.id === 'tail' && this.bomber.noTail)) continue; // (the bombsight has its own key, B; the tail's gone: nothing back there to take)
+        const d = Math.hypot(this.feet.x - s.stand.x, this.feet.z - s.stand.z);
+        if (d > 1.1) continue;
+        const at = s.seat ? s.eye : s.stand, k = score(at.x, at.z, d) - (d < 0.15 ? 0.3 : 0); // (at its own spot: that one)
+        if (k < best) { best = k; this.near = s; }
+      }
       for (const p of PASSAGES) {
         if (p.station === 'tail' && this.bomber.noTail) continue;
         const d = Math.hypot(this.feet.x - p.from[0], this.feet.z - p.from[1]);
-        if (d < (p.reach ?? 0.38) && Math.abs(this.feet.y - p.floor) < 0.1 && (!this.near || d < this.near.stand.distanceTo(this.feet) || d < 0.3 || this.pitch < -0.35)) { this.passage = p; this.near = null; } // (over it, or looking down at it: the crawlway, not the seat beside it)
+        if (d > (p.reach ?? 0.38) || Math.abs(this.feet.y - p.floor) >= 0.1) continue;
+        const k = d < 0.2 || this.pitch < -0.6 ? -1 : score(p.from[0], p.from[1], d) + 0.25; // (over it, or looking well down at it; else only if it's clearly what you face)
+        if (k < best) { best = k; this.near = null; this.passage = p; }
       }
     }
     // going down: the nearest lit hatch in reach

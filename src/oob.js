@@ -40,11 +40,12 @@ export const HISTORICAL_LAYOUT = {
 export const COMPACT_LAYOUT = {
   ...SHARED,
   // (the wing: the high and low groups closer in, still a squadron's height and more clear of the lead's)
-  wing: { lead: [0, 0, 0], high: [230, 190, 260], low: [-230, -190, 520] },
-  // (the wings ~1 km apart in trail, each stepped down and out a little so the one behind sees past the
-  // one ahead; the 3rd Division close alongside, to the right as it flew, a little back and below)
-  wingTrail: [-90, -60, 1000],
-  division: { '1st': [0, 0, 0], '3rd': [1250, -110, 420] },
+  wing: { lead: [0, 0, 0], high: [175, 150, 210], low: [-175, -150, 420] },
+  // (the wings ~700 m apart in trail, each stepped down and out a little so the one behind sees past the
+  // one ahead; the 3rd Division close alongside, to the right as it flew, a little back and below. As
+  // tight as it goes with every group still 120 m clear of the next: the test's limit)
+  wingTrail: [-70, -50, 720],
+  division: { '1st': [0, 0, 0], '3rd': [930, -95, 320] },
 };
 const historical = typeof location !== 'undefined' && new URLSearchParams(location.search).get('spacing') === 'historical';
 export const LAYOUT = historical ? HISTORICAL_LAYOUT : COMPACT_LAYOUT;

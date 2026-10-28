@@ -270,3 +270,105 @@ def patch(src, name, keep, off, solid=0.003, mat=None):
     for p in ob.data.polygons: p.use_smooth = True
     if mat: ob.data.materials.append(mat)
     return ob
+
+# ---------------------------------------------------------------- straps and seams that lie on a surface
+def tree_of(ob):
+    """A BVH of the object's mesh as it is now (not the depsgraph's copy, which can be stale)."""
+    bm = bmesh.new(); bm.from_mesh(ob.data); t = BVHTree.FromBMesh(bm); bm.free()
+    return t
+
+def slice_path(tree, centre, axis, start, sweep, n, off, spoke=None):
+    """Points on a surface along a slice through it: rays cast in from outside at angles round `axis`
+    (through `centre`), from direction `start`, through `sweep` radians. spoke(a) can tilt each ray's
+    direction (to bend the path). Returns [(point lifted off by off, outward normal)]."""
+    axis = axis.normalized(); start = (start - axis * start.dot(axis)).normalized(); side = axis.cross(start)
+    out = []
+    for i in range(n):
+        a = sweep * i / (n - 1)
+        d = start * math.cos(a) + side * math.sin(a)
+        if spoke: d = spoke(a, d).normalized()
+        hit = tree.ray_cast(centre + d * 0.5, -d, 0.5)
+        if hit[0] is None: continue
+        nor = hit[1] if hit[1].dot(d) > 0 else -hit[1]
+        out.append((hit[0] + nor * off, nor))
+    return out
+
+def flat_strap(name, path, width, thick, closed=False):
+    """A flat strap lying along path [(point, outward normal)]: its width across the surface, its
+    thickness outward (so it lies flat on it, never edge-on)."""
+    vs, fs = [], []
+    m = len(path)
+    for i, (p, nor) in enumerate(path):
+        a = path[(i + 1) % m if closed else min(i + 1, m - 1)][0]; b = path[(i - 1) % m if closed else max(i - 1, 0)][0]
+        t = (a - b).normalized(); w = t.cross(nor).normalized()
+        for sw, sn in ((-1, -0.3), (1, -0.3), (1, 1), (-1, 1)):
+            vs.append(tuple(p + w * (width * sw) + nor * (thick * sn)))
+    for i in range(m if closed else m - 1):
+        j = (i + 1) % m
+        for k in range(4):
+            fs.append((i * 4 + k, i * 4 + (k + 1) % 4, j * 4 + (k + 1) % 4, j * 4 + k))
+    if not closed: fs += [(3, 2, 1, 0), tuple(4 * (m - 1) + k for k in range(4))]
+    me = bpy.data.meshes.new(name); me.from_pydata(vs, [], fs); me.update()
+    ob = bpy.data.objects.new(name, me); bpy.context.scene.collection.objects.link(ob)
+    active(ob); bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT'); bpy.ops.mesh.normals_make_consistent(inside=False); bpy.ops.object.mode_set(mode='OBJECT')
+    for p in me.polygons: p.use_smooth = True
+    me.uv_layers.new(name='UVMap')
+    return ob
+
+# ---------------------------------------------------------------- cloth hangs, it doesn't cling
+def _hull2(pts):
+    """Convex hull of 2D points (monotone chain), counter-clockwise."""
+    pts = sorted(set(pts))
+    if len(pts) < 3: return pts
+    def cross(o, a, b): return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    lo, hi = [], []
+    for p in pts:
+        while len(lo) >= 2 and cross(lo[-2], lo[-1], p) <= 0: lo.pop()
+        lo.append(p)
+    for p in reversed(pts):
+        while len(hi) >= 2 and cross(hi[-2], hi[-1], p) <= 0: hi.pop()
+        hi.append(p)
+    return lo[:-1] + hi[:-1]
+
+def _ray_hull(c, d, hull):
+    """Distance from c along unit d to the hull polygon's edge."""
+    best = None
+    for i in range(len(hull)):
+        a, b = hull[i], hull[(i + 1) % len(hull)]
+        ex, ey = b[0] - a[0], b[1] - a[1]
+        den = d[0] * ey - d[1] * ex
+        if abs(den) < 1e-12: continue
+        t = ((a[0] - c[0]) * ey - (a[1] - c[1]) * ex) / den
+        u = ((a[0] - c[0]) * d[1] - (a[1] - c[1]) * d[0]) / den
+        if t > 0 and -1e-6 <= u <= 1 + 1e-6 and (best is None or t < best): best = t
+    return best
+
+def drape(ob, select, blend=0.85, bin_h=0.012, margin=0.0):
+    """Hang the cloth: in each horizontal slice, the selected vertices pushed out to the slice's convex
+    outline (and margin beyond), so it bridges every hollow (between the pecs, the spine, under the
+    shoulder blades) instead of clinging to the muscle."""
+    me = ob.data
+    bins = {}
+    for v in me.vertices:
+        if select(v.co): bins.setdefault(int(v.co.z / bin_h), []).append(v)
+    for k, vs in bins.items():
+        hull = _hull2([(round(v.co.x, 5), round(v.co.y, 5)) for v in vs])
+        if len(hull) < 3: continue
+        cx = sum(p[0] for p in hull) / len(hull); cy = sum(p[1] for p in hull) / len(hull)
+        for v in vs:
+            dx, dy = v.co.x - cx, v.co.y - cy; l = math.hypot(dx, dy)
+            if l < 1e-6: continue
+            r = _ray_hull((cx, cy), (dx / l, dy / l), hull)
+            if r is None or r + margin <= l: continue
+            t = (r + margin - l) * blend
+            v.co.x += dx / l * t; v.co.y += dy / l * t
+    me.update()
+
+def ease(ob, select, iterations=8, factor=0.5, push=0.0):
+    """Smooth the selected part (a sleeve: no biceps showing through), then back out by push."""
+    bm = bmesh.new(); bm.from_mesh(ob.data); bm.verts.ensure_lookup_table()
+    vs = [v for v in bm.verts if select(v.co) and not v.is_boundary]
+    for _ in range(iterations): bmesh.ops.smooth_vert(bm, verts=vs, factor=factor, use_axis_x=True, use_axis_y=True, use_axis_z=True)
+    bm.normal_update()
+    for v in vs: v.co += v.normal * push
+    bm.to_mesh(ob.data); bm.free()

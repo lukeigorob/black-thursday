@@ -21,9 +21,64 @@ def run():
     J = {n: L.group_centre(body, n) for n in ['joint-l-eye', 'joint-r-eye', 'joint-mouth', 'joint-jaw', 'joint-head-2', 'joint-neck', 'ears', 'joint-l-elbow', 'joint-r-elbow', 'joint-l-knee', 'joint-r-knee', 'joint-l-hand', 'joint-r-hand', 'joint-l-ankle', 'joint-r-ankle']}
     log('landmarks', {k: tuple(round(x, 3) for x in v) for k, v in J.items() if v})
     L.prepare_body(body, rig)
+    # blue eyes (MakeHuman's own CC0 "blue" iris, in place of the brown it came with)
+    blue = bpy.data.images.load(os.path.join(HERE, 'blue_eye.png'))
+    for o in bpy.data.objects:
+        if o.type == 'MESH' and 'low-poly' in o.name:
+            for slot in o.material_slots:
+                for n in (slot.material.node_tree.nodes if slot.material and slot.material.use_nodes else []):
+                    if n.type == 'TEX_IMAGE' and n.image and 'eye' in n.image.name.lower(): n.image = blue
+    # his skin: its colour as MPFB gave it, its surface (pores, fine lines round the eyes and mouth) from the
+    # CC0 "Aksel" skin's normal map, which shares every MakeHuman skin's UV layout
+    for slot in body.material_slots:
+        m = slot.material
+        if not m or not m.use_nodes: continue
+        img = next((n.image for n in m.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image and 'diffuse' in n.image.name.lower()), None)
+        if not img: continue
+        sk = bpy.data.materials.new('skin'); sk.use_nodes = True
+        nt = sk.node_tree; bsdf = nt.nodes['Principled BSDF']
+        t = nt.nodes.new('ShaderNodeTexImage'); t.image = img
+        # grime: hours in a cold, oily bomber, cordite and dirt worked into the skin in patches, darker in
+        # every crease and round the eyes (ambient occlusion), and fine specks of soot
+        tc_ = nt.nodes.new('ShaderNodeTexCoord')
+        def noise_(scale, detail):
+            n_ = nt.nodes.new('ShaderNodeTexNoise'); n_.inputs['Scale'].default_value = scale; n_.inputs['Detail'].default_value = detail
+            nt.links.new(tc_.outputs['Object'], n_.inputs['Vector']); return n_.outputs[0]
+        patch = nt.nodes.new('ShaderNodeMapRange'); patch.inputs[1].default_value = 0.3; patch.inputs[2].default_value = 0.7; patch.inputs[3].default_value = 0.22; patch.inputs[4].default_value = 0.75
+        nt.links.new(noise_(30, 8), patch.inputs[0])  # (smudges a few cm across)
+        speck = nt.nodes.new('ShaderNodeMapRange'); speck.inputs[1].default_value = 0.62; speck.inputs[2].default_value = 0.78; speck.inputs[3].default_value = 0.0; speck.inputs[4].default_value = 0.22
+        nt.links.new(noise_(260, 2), speck.inputs[0])
+        amt = nt.nodes.new('ShaderNodeMath'); amt.operation = 'ADD'; amt.use_clamp = True
+        nt.links.new(patch.outputs[0], amt.inputs[0]); nt.links.new(speck.outputs[0], amt.inputs[1])
+        dirt = nt.nodes.new('ShaderNodeMix'); dirt.data_type = 'RGBA'; dirt.blend_type = 'MULTIPLY'
+        dirt.inputs[7].default_value = (0.3, 0.23, 0.17, 1)
+        nt.links.new(amt.outputs[0], dirt.inputs[0]); nt.links.new(t.outputs[0], dirt.inputs[6])
+        ao = nt.nodes.new('ShaderNodeAmbientOcclusion'); ao.inputs['Distance'].default_value = 0.02; ao.samples = 8
+        aok = nt.nodes.new('ShaderNodeMapRange'); aok.inputs[3].default_value = 0.4; aok.inputs[4].default_value = 1.0
+        nt.links.new(ao.outputs['AO'], aok.inputs[0])
+        crease = nt.nodes.new('ShaderNodeMix'); crease.data_type = 'RGBA'; crease.blend_type = 'MULTIPLY'; crease.inputs[0].default_value = 1.0
+        nt.links.new(dirt.outputs[2], crease.inputs[6]); nt.links.new(aok.outputs[0], crease.inputs[7])
+        nt.links.new(crease.outputs[2], bsdf.inputs['Base Color'])
+        nimg = bpy.data.images.load(os.path.join(HERE, 'Aksel_Skin_NRM.png')); nimg.colorspace_settings.name = 'Non-Color'
+        tn = nt.nodes.new('ShaderNodeTexImage'); tn.image = nimg
+        nm = nt.nodes.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = 1.2
+        nt.links.new(tn.outputs[0], nm.inputs['Color']); nt.links.new(nm.outputs[0], bsdf.inputs['Normal'])
+        bsdf.inputs['Roughness'].default_value = 0.5
+        try: bsdf.inputs['Subsurface Weight'].default_value = 0.08; bsdf.inputs['Subsurface Radius'].default_value = (0.9, 0.4, 0.25)
+        except KeyError: pass
+        slot.material = sk
     B = L.BONES
     mats = M.all_materials()
     eye = (J['joint-l-eye'] + J['joint-r-eye']) / 2
+    # the eyeballs themselves (the joint sits a little above them): the goggles' lenses are centred on these
+    eo = next((o for o in bpy.data.objects if o.type == 'MESH' and 'low-poly' in o.name), None)
+    eyes_at = {}
+    if eo:
+        for s_ in (1, -1):
+            vs_ = [eo.matrix_world @ v.co for v in eo.data.vertices if v.co.x * s_ > 0]
+            if vs_: eyes_at[s_] = sum(vs_, V()) / len(vs_)
+    eye_front = min((v.co.y for v in eo.data.vertices), default=eye.y) if eo else eye.y  # (the front of his eyeballs)
+    log('eyeballs', eyes_at, 'joint eye', eye)
     mouth, jaw = J['joint-mouth'], J['joint-jaw']
     head = B['head'][0]; neck = B['neck_01'][0]
     top = max(v.co.z for v in body.data.vertices)
@@ -56,6 +111,20 @@ def run():
         return True
     def jacket(name, mat, thick, cuff_mat, collar_mat, collar_w, collar_h, cuff_w, hem_w, knit=False):
         j = L.shell(body, name, jacket_keep, thick, smooth=14, lam=0.6, subdiv=1)
+        # it hangs from his shoulders and chest: the body bridged across every hollow, the sleeves eased
+        # smooth round his arms (no muscle showing through the leather)
+        arm_z = B['upperarm_l'][0].z
+        L.drape(j, lambda co: WAIST - 0.03 < co.z < arm_z - 0.05 and abs(co.x) < 0.2, blend=0.9, margin=0.004)
+        L.drape(j, lambda co: arm_z - 0.05 <= co.z < neck.z - 0.02 and abs(co.x) < 0.13, blend=0.6, margin=0.002)
+        L.ease(j, lambda co: abs(co.x) > 0.17 and co.z > WAIST, iterations=10, factor=0.5, push=0.003)
+        # loose leather falls in soft vertical folds down the front and back of the body, deepest above the
+        # hem where it gathers, fading out towards the chest and shoulders
+        for v in j.data.vertices:
+            co = v.co
+            if not (WAIST - 0.02 < co.z < arm_z - 0.08 and abs(co.x) < 0.17): continue
+            fade = max(0.0, min(1.0, (arm_z - 0.08 - co.z) / 0.18))
+            wave = math.sin(co.x * 58 + math.sin(co.z * 9) * 1.4) * 0.6 + math.sin(co.x * 131 + co.z * 21) * 0.4
+            v.co += v.normal * (0.0042 * fade * wave)
         folds(j, [elbow['l'], elbow['r']], lambda c: (hand['l' if c.x > 0 else 'r'] - c).normalized(), amp=0.006, freq=110, reach=0.11)
         folds(j, [V((0, B['spine_01'][0].y - 0.12, WAIST + 0.08))], lambda c: V((0, 0, 1)), amp=0.003, freq=140, reach=0.16)
         j.data.materials.append(mat)
@@ -129,6 +198,17 @@ def run():
     def trousers(name, mat, thick, cuff_mat=None):
         t = L.shell(body, name, trouser_keep, thick, smooth=22, lam=0.6, subdiv=1)
         seat(t)
+        # round the hips the cloth hangs straight; and nothing shows at the fork in front: no further forward
+        # there than the fronts of his thighs beside it
+        L.drape(t, lambda co: PEL.z - 0.04 < co.z < WAIST + 0.06, blend=0.85, margin=0.003)
+        fronts = {}
+        for v in t.data.vertices:
+            if PEL.z - 0.2 < v.co.z < PEL.z + 0.02 and 0.06 < abs(v.co.x) < 0.12 and v.co.y < PEL.y:
+                k = int(v.co.z / 0.01); fronts[k] = min(fronts.get(k, 9), v.co.y)
+        for v in t.data.vertices:
+            k = int(v.co.z / 0.01)
+            if k in fronts and abs(v.co.x) < 0.06 and v.co.y < fronts[k] - 0.004:
+                v.co.y += (fronts[k] - 0.004 - v.co.y) * 0.9
         folds(t, [knee['l'], knee['r']], lambda c: V((0, 0, 1)), amp=0.005, freq=100, reach=0.1)
         folds(t, [V((s * 0.14, -0.02, BOOT + 0.05)) for s in (1, -1)], lambda c: V((0, 0, 1)), amp=0.006, freq=120, reach=0.09)
         t.data.materials.append(mat); parts = [t]
@@ -158,7 +238,9 @@ def run():
     ga = L.shell(body, 'gauntlets', lambda co, bone: bone is not None and bone.startswith('lowerarm') and (co - hand[side(bone)]).length < 0.085, 0.036, smooth=8, subdiv=1)
     ga.data.materials.append(mats['glove']); gloves.append(ga)
     out['gloves'] = gloves
-    # ---------------- the B-6 helmet: a hood of leather, sheepskin lining turned out round the face
+    # ---------------- the B-6 helmet: a hood of brown leather, its sheepskin lining turned out round the face
+    import bmesh
+    from mathutils import noise
     fc = V((0, eye.y, (eye.z + mouth.z) / 2 + 0.005))
     def helmet_keep(co, bone):
         if bone is None or not bone.startswith(('head', 'neck')): return False
@@ -168,41 +250,163 @@ def run():
         return not (u * u + w * w < 1 and co.y < head.y - 0.015)
     hm = L.shell(body, 'helmet', helmet_keep, 0.009, smooth=6, lam=0.5, subdiv=1)
     hm.data.materials.append(mats['helmet']); helmet = [hm]
+    htree = L.tree_of(hm)
+    btree = L.tree_of(body)
+    HC = V((0, head.y + 0.01, eye.z + 0.03))  # (about the middle of his skull)
+    # round the face: the leather turned over in a rolled, stitched edge (as on the helmet in the photograph:
+    # no fleece showing)
     fl = L.loop_near(hm, fc + V((0, -0.05, 0)))
     if fl:
-        rim = L.tube('helmet_rim', L.resample(fl, 48), 0.011, 0.011); rim.data.materials.append(mats['sheep']); helmet.append(rim)
-    ears = {s: V((s * 0.075, head.y + 0.005, eye.z - 0.03)) for s in (1, -1)}
+        rim = L.tube('helmet_rim', L.resample(fl, 72), 0.0055, 0.0055); rim.data.materials.append(mats['helmet'])
+        helmet.append(rim)
+    # its construction: a seam over the crown from brow to nape, a panel seam either side, each a raised welt
+    for x in (0.0, 0.048, -0.048):
+        seam = L.slice_path(htree, HC + V((x, 0, 0)), V((-1, 0, 0)), V((0, -1, 0.9)), 2.75, 40, 0.0012)
+        seam = seam[6:]  # (it starts behind the face's rolled edge, not sticking up over it)
+        if len(seam) > 3:
+            w = L.tube('helmet_seam', [p for p, _ in seam], 0.0022, 0.0022, closed=False); w.data.materials.append(mats['helmet']); helmet.append(w)
+    # the adjusting strap across the nape, and its little buckle
+    nape = L.slice_path(htree, V((0, head.y, eye.z - 0.075)), V((0, 0, 1)), V((0.6, 1, 0)), 1.1, 16, 0.002)
+    if len(nape) > 3:
+        ns = L.flat_strap('nape_strap', nape, 0.008, 0.0022); ns.data.materials.append(mats['helmet']); helmet.append(ns)
+        p, nor = nape[len(nape) // 2]
+        bk = bpy.data.meshes.new('nape_buckle'); o = bpy.data.objects.new('nape_buckle', bk); bpy.context.scene.collection.objects.link(o)
+        bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+        bmesh.ops.scale(bm, verts=bm.verts, vec=(0.014, 0.004, 0.018)); bm.to_mesh(bk); bm.free()
+        o.location = p + nor * 0.003; o.rotation_euler = nor.to_track_quat('Y', 'Z').to_euler()
+        L.active(o); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        o.data.materials.append(mats['metal']); helmet.append(o)
+    # the ear cups: big glossy leather domes sewn on low over each ear (the receivers inside), a stitched seam
+    # round each
+    ears = {s: V((s * 0.075, head.y + 0.002, eye.z - 0.04)) for s in (1, -1)}
     for s, at in ears.items():
-        at = L.onto(hm, [at + V((s * 0.05, 0, 0))], 0.012)[0]
-        for r, h, z0 in ((0.036, 0.018, 0.0), (0.027, 0.012, 0.016)):
-            c = bpy.data.meshes.new('ph'); o = bpy.data.objects.new('earphone', c); bpy.context.scene.collection.objects.link(o)
-            import bmesh
-            bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=24, radius1=r, radius2=r * 0.92, depth=h)
-            bmesh.ops.rotate(bm, verts=bm.verts, cent=(0, 0, 0), matrix=__import__('mathutils').Matrix.Rotation(math.pi / 2, 3, 'Y'))
-            bmesh.ops.translate(bm, verts=bm.verts, vec=at + V((s * z0, 0, 0)))
-            bm.to_mesh(c); bm.free()
-            for p in c.polygons: p.use_smooth = True
-            o.data.materials.append(mats['helmet'] if z0 == 0 else mats['phones']); helmet.append(o)
-    # chin strap, from below one ear cup round under the chin to the other
-    cs = [ears[1] + V((0.005, -0.02, -0.05)), V((0.05, mouth.y + 0.03, jaw.z - 0.035)), V((0, mouth.y + 0.01, jaw.z - 0.05)), V((-0.05, mouth.y + 0.03, jaw.z - 0.035)), ears[-1] + V((-0.005, -0.02, -0.05))]
-    st = L.tube('chin_strap', L.onto(body, cs, 0.012), 0.009, 0.0025, closed=False, rect=True); st.data.materials.append(mats['helmet']); helmet.append(st)
+        hit = htree.find_nearest(at + V((s * 0.06, 0, 0)))
+        base, nor = hit[0], hit[1] if hit[1].x * s > 0 else -hit[1]
+        me = bpy.data.meshes.new('earcup'); o = bpy.data.objects.new('earcup', me); bpy.context.scene.collection.objects.link(o)
+        bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=28, v_segments=14, radius=1.0)
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.co.z < -0.05], context='VERTS')  # (a dome)
+        bmesh.ops.scale(bm, verts=bm.verts, vec=(0.045, 0.047, 0.026)); bm.to_mesh(me); bm.free()
+        o.location = base - nor * 0.002; o.rotation_euler = nor.to_track_quat('Z', 'Y').to_euler()
+        L.active(o); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        for p in me.polygons: p.use_smooth = True
+        o.data.materials.append(mats['earcup']); helmet.append(o)
+        ring = [base + (nor.orthogonal().normalized() * math.cos(a) + nor.cross(nor.orthogonal().normalized()) * math.sin(a)) * 0.045 for a in [math.tau * i / 36 for i in range(36)]]
+        sw = L.tube('earcup_seam', L.onto(hm, ring, 0.003), 0.0032, 0.0032); sw.data.materials.append(mats['helmet']); helmet.append(sw)
+    # the receivers' lead: a thin tan cord from under the left ear cup down to his chest
+    cord = [ears[1] + V((0.03, 0.0, -0.045)), ears[1] + V((0.03, -0.012, -0.09)), V((0.095, -0.1, neck.z - 0.07)), V((0.085, -0.16, neck.z - 0.25))]
+    cdo = L.tube('phone_cord', cord, 0.0034, 0.0034, closed=False); cdo.data.materials.append(mats['cord']); helmet.append(cdo)
+    # the chin strap, lying flat: from below one ear cup round under the chin to the other, its buckle at the side
+    cs = L.resample([ears[1] + V((0.005, -0.02, -0.05)), V((0.05, mouth.y + 0.03, jaw.z - 0.035)), V((0, mouth.y + 0.01, jaw.z - 0.05)), V((-0.05, mouth.y + 0.03, jaw.z - 0.035)), ears[-1] + V((-0.005, -0.02, -0.05))], 32, closed=False)
+    chin = []
+    for p in cs:
+        loc, nor, _, _ = btree.find_nearest(p)
+        chin.append((loc + nor * 0.011, nor))
+    st = L.flat_strap('chin_strap', chin, 0.0085, 0.0022); st.data.materials.append(mats['helmet']); helmet.append(st)
+    p, nor = chin[5]
+    bk = bpy.data.meshes.new('chin_buckle'); o = bpy.data.objects.new('chin_buckle', bk); bpy.context.scene.collection.objects.link(o)
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0); bmesh.ops.scale(bm, verts=bm.verts, vec=(0.016, 0.004, 0.02)); bm.to_mesh(bk); bm.free()
+    o.location = p + nor * 0.003; o.rotation_euler = nor.to_track_quat('Y', 'Z').to_euler()
+    L.active(o); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    o.data.materials.append(mats['metal']); helmet.append(o)
     out['helmet'] = helmet
-    # goggles up on the brow: two lens cups in rubber, the bridge, the strap round the helmet
+    # goggles down over his eyes, as in the photograph: two lenses, each a rounded D angled out round his face,
+    # in a dark metal frame on a brown leather pad that seals against the face, joined over the nose by a
+    # bridge, and a leather strap from each side round the back of the helmet
     gog = []
-    gz = eye.z + 0.065
+    rim_obj = next((o for o in helmet if o.name.startswith('helmet_rim')), None)
+    rtree = L.tree_of(rim_obj) if rim_obj else None
+    def face_hit(p, d):
+        """Where a ray from p along -d first meets his face, the helmet's edge or the helmet."""
+        best = None
+        for tree in (btree, rtree, htree):
+            if not tree: continue
+            hit = tree.ray_cast(p + d * 0.3, -d, 0.3)
+            if hit[0] is not None and (best is None or (hit[0] - p).dot(d) > (best - p).dot(d)): best = hit[0]
+        return best
+    lens_obs, frames = [], {}
     for s in (1, -1):
-        ctr = L.onto(hm, [V((s * 0.036, front, gz))], 0.022)[0]
-        import bmesh
-        for r, d, mat, dz in ((0.028, 0.026, mats['phones'], 0.0), (0.023, 0.004, mats['lens'], -0.014), (0.03, 0.006, mats['metal'], -0.011)):
-            me = bpy.data.meshes.new('g'); o = bpy.data.objects.new('goggle', me); bpy.context.scene.collection.objects.link(o)
-            bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=24, radius1=r, radius2=r * 0.95, depth=d)
-            bmesh.ops.rotate(bm, verts=bm.verts, cent=(0, 0, 0), matrix=__import__('mathutils').Matrix.Rotation(math.pi / 2 - 0.55, 3, 'X'))
-            bmesh.ops.translate(bm, verts=bm.verts, vec=ctr + V((0, dz, dz * -0.6)))
-            bm.to_mesh(me); bm.free()
-            for p in me.polygons: p.use_smooth = True
-            o.data.materials.append(mat); gog.append(o)
-    sp = L.ring_on(hm, V((0, head.y + 0.01, gz + 0.005)), V((0, 0.35, 1)), 0.09, 40, 0.004)
-    gs = L.tube('goggle_strap', sp, 0.011, 0.002, rect=True); gs.data.materials.append(mats['phones']); gog.append(gs)
+        E = V((eyes_at[s].x, eye.y, eyes_at[s].z)) if s in eyes_at else V((s * 0.033, eye.y, eye.z - 0.001))  # (on his eye)
+        n = V((s * 0.32, -1, 0.06)).normalized()                # (each lens turned out to follow the face)
+        u = V((0, 0, 1)).cross(n).normalized() * -s; v = n.cross(u).normalized() * -s
+        if v.z < 0: v = -v
+        brow = face_hit(E + V((0, 0, 0.012)), n)
+        C = (brow if brow else E - n * 0.01) + n * 0.017       # (the lens stands 17 mm off the brow)
+        C = C - n * ((C - E).dot(n) - max((C - E).dot(n), 0.022))
+        C.z = E.z + 0.002  # (the brow sets how far out it stands, the eye where it's centred)
+        if C.y > eye_front - 0.013: C = C + n * ((C.y - (eye_front - 0.013)) / -n.y)  # (and never closer than 13 mm to the eye: the glass in front of it)
+        # its outline: a rounded D, flatter on the nose side, deeper at the outer corner
+        out_l = []
+        for k in range(36):
+            a = math.tau * k / 36
+            cx, cy = math.cos(a), math.sin(a)
+            ex = 2.0 / 3.2
+            x = 0.027 * math.copysign(abs(cx) ** ex, cx); y = 0.020 * math.copysign(abs(cy) ** ex, cy)
+            if x * s < 0: y *= 0.85 + 0.15 * (1 + cx * s) / 2      # (the nose side a little shallower)
+            if y < 0 and x * s < -0.008: y *= 0.75                 # (cut away over the nose)
+            out_l.append(C + u * x + v * y)
+        frames[s] = (C, n, u, v, out_l)
+        # the lens: a gently domed glass
+        vs = [tuple(C + n * 0.004)] + [tuple(p + n * 0.0005) for p in out_l]
+        fs = [(0, 1 + k, 1 + (k + 1) % 36) for k in range(36)]
+        me = bpy.data.meshes.new('goggle_lens'); me.from_pydata(vs, [], fs); me.update()
+        ln = bpy.data.objects.new('goggle_lens', me); bpy.context.scene.collection.objects.link(ln)
+        L.active(ln); bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT'); bpy.ops.mesh.normals_make_consistent(inside=False); bpy.ops.object.mode_set(mode='OBJECT')
+        for p in me.polygons: p.use_smooth = True
+        me.uv_layers.new(name='UVMap')
+        ln.data.materials.append(mats['lens']); lens_obs.append(ln)
+        # the metal frame round it
+        fr = L.tube('goggle_frame', out_l, 0.003, 0.003); fr.data.materials.append(mats['frame']); gog.append(fr)
+        # the leather pad behind it, widening back to the face
+        sv, sf = [], []
+        for p in out_l:
+            r = (p - C).normalized()
+            back = face_hit(p + r * 0.004, n) or (p - n * 0.016)
+            sv += [tuple(p + r * 0.0045), tuple(back + r * 0.021 + n * 0.001)]  # (a broad leather surround)
+        for k in range(36):
+            a, b = 2 * k, 2 * ((k + 1) % 36); sf.append((a, b, b + 1, a + 1))
+        me = bpy.data.meshes.new('goggle_pad'); me.from_pydata(sv, [], sf); me.update()
+        pd = bpy.data.objects.new('goggle_pad', me); bpy.context.scene.collection.objects.link(pd)
+        m = pd.modifiers.new('sol', 'SOLIDIFY'); m.thickness = 0.003; m.use_even_offset = False
+        m2 = pd.modifiers.new('sub', 'SUBSURF'); m2.levels = 1; m2.render_levels = 1
+        L.apply_mods(pd)
+        for p in pd.data.polygons: p.use_smooth = True
+        pd.data.uv_layers.new(name='UVMap')
+        pd.data.materials.append(mats['helmet']); gog.append(pd)
+    out['goggle_lens'] = lens_obs
+    # the bridge over the nose: a short padded leather strap between the two frames' inner tops
+    inner = {s: max(frames[s][4], key=lambda p: (-p.x * s) + p.z * 0.6) for s in (1, -1)}
+    mid = (inner[1] + inner[-1]) / 2 + V((0, -0.006, 0.004))
+    br = L.tube('goggle_bridge', [inner[1], mid, inner[-1]], 0.0045, 0.0045, closed=False); br.data.materials.append(mats['helmet']); gog.append(br)
+    # the strap: leather, from each frame's outer side over the ear cup and round the back of the helmet
+    outer = {s: max(frames[s][4], key=lambda p: p.x * s) for s in (1, -1)}
+    gpath = L.slice_path(htree, V((0, head.y, eye.z + 0.012)), V((0, 0.18, 1)), V((1, -0.25, 0)), 3.6, 60, 0.0025)
+    pts = L.resample([outer[1]] + [p for p, _ in gpath] + [outer[-1]], 90, closed=False)
+    HCg = V((0, head.y + 0.01, eye.z))
+    cup_obs = [o for o in helmet if o.name.startswith('earcup')]
+    layers = [(htree, 0.0025), (rtree, 0.002), (btree, 0.003)] + [(L.tree_of(o), 0.002) for o in cup_obs]
+    gpath = []
+    for i, p in enumerate(pts):
+        best = None
+        for tree, off in layers:
+            if not tree: continue
+            loc, nor, _, _ = tree.find_nearest(p)
+            if loc is None or (loc - p).length > 0.03: continue
+            if nor.dot(loc - HCg) < 0: nor = -nor
+            q = loc + nor * off
+            if best is None or (q - HCg).length > (best[0] - HCg).length: best = (q, nor)
+        if 0 < i < len(pts) - 1 and best and (p - HCg).length < (best[0] - HCg).length: p = best[0]
+        gpath.append((p, best[1] if best else V((0, 0, 1))))
+    gs = L.flat_strap('goggle_strap', gpath, 0.009, 0.0022); gs.data.materials.append(mats['helmet']); gog.append(gs)
+    for s, i in ((1, 14), (-1, len(gpath) - 15)):  # (a buckle on each side, just behind the frame)
+        p, nor = gpath[i]
+        t = (gpath[i + 1][0] - gpath[i - 1][0]).normalized(); w = t.cross(nor).normalized()
+        bk = bpy.data.meshes.new('goggle_buckle'); o = bpy.data.objects.new('goggle_buckle', bk); bpy.context.scene.collection.objects.link(o)
+        bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0); bmesh.ops.scale(bm, verts=bm.verts, vec=(0.022, 0.012, 0.003)); bm.to_mesh(bk); bm.free()
+        from mathutils import Matrix
+        o.matrix_world = Matrix((list(w) + [0], list(t) + [0], list(nor) + [0], [0, 0, 0, 1])).transposed()
+        o.location = p + nor * 0.002
+        L.active(o); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        o.data.materials.append(mats['metal']); gog.append(o)
     out['goggles'] = gog
     # ---------------- the pilots' officer's service cap, crushed (the stiffener out so the headset sits on it),
     # and the HS-38 headset over it
@@ -331,11 +535,12 @@ def run():
     # seals, and from there rises smoothly into the moulded cup (an ellipsoid wide enough to clear the nose)
     from mathutils.bvhtree import BVHTree
     btree = BVHTree.FromObject(body, bpy.context.evaluated_depsgraph_get(), deform=False)
-    C, ax = V((0, front + 0.05, mc.z - 0.004)), V((0.064, 0.072, 0.078))
+    C, ax = V((0, front + 0.045, mc.z - 0.026)), V((0.07, 0.09, 0.104))  # (a deep moulded cup, its snout low where the hose joins, as the Type H in the photograph)
     def face_y(x, z):
         hit = btree.ray_cast(V((x, front - 0.1, z)), V((0, 1, 0)), 0.3)
         return hit[0].y if hit[0] is not None else front
-    TOP = min(0.058, eye.z - 0.014 - mc.z)  # (the rim's top, on the bridge of the nose between the eyes)
+    ez = min(e.z for e in eyes_at.values()) if eyes_at else eye.z
+    TOP = min(0.06, ez - 0.016 - mc.z)  # (the rim's top: up under the goggles, which rest on it)
     log('mask top', TOP, 'eye', eye.z, 'centre', mc.z)
     RINGS, SEGS = 18, 56
     verts, faces = [], []
@@ -345,8 +550,8 @@ def run():
             a = 2 * math.pi * j / SEGS
             # (its top on the bridge of the nose, well under the eyes, and narrower there: the A-10's shape)
             up = math.sin(a) > 0
-            x = 0.05 * 0.97 * r * math.cos(a) * (1 - 0.6 * max(0.0, math.sin(a)) ** 1.5)
-            z = mc.z + (TOP if up else 0.058 * 0.97) * r * math.sin(a)
+            x = 0.068 * 0.97 * r * math.cos(a) * (1 - 0.08 * max(0.0, math.sin(a)) ** 2) * (1 - 0.32 * max(0.0, -math.sin(a)) ** 1.5)  # (wide at the top: up under both lenses, out to the cheekbones; narrowing to the chin)
+            z = mc.z + ((TOP + 0.014 * max(0.0, math.sin(a)) ** 8) if up else 0.074 * 0.97) * r * math.sin(a)  # (down under the chin; up to a peak over the bridge of the nose)
             fy = face_y(x, z) - 0.003
             q = 1 - ((x - C.x) / ax.x) ** 2 - ((z - C.z) / ax.z) ** 2
             ey = C.y - ax.y * math.sqrt(max(q, 0.0))
@@ -367,29 +572,102 @@ def run():
         for a, b in kw.items(): setattr(m, a, b)
     L.apply_mods(mk)
     mk.data.materials.append(mats['rubber']); mask = [mk]
-    bottom = V((0, mc.y - 0.02, mc.z - 0.055))
-    hose_pts = [bottom, bottom + V((0.0, 0.0, -0.05)), V((0.05, -0.17, neck.z - 0.07)), V((0.1, -0.16, neck.z - 0.17)), V((0.12, -0.15, neck.z - 0.26))]
+    bottom = V((0, mc.y - 0.03, mc.z - 0.068))
+    hose_pts = [bottom, bottom + V((0.0, -0.005, -0.04)), V((0.0, -0.16, neck.z - 0.08)), V((0.0, -0.17, neck.z - 0.2)), V((0.0, -0.17, neck.z - 0.32))]  # (straight down his chest)
     # the corrugated hose: rings along it (the tube drawn with many sections, each pushed out on a rib)
     cl = L.resample(L.resample(hose_pts, 40, closed=False), 260, closed=False)
-    ho = L.tube('hose', cl, 0.011, 0.011, closed=False, smooth_pts=False)
+    ho = L.tube('hose', cl, 0.016, 0.016, closed=False, smooth_pts=False)  # (a big hose: 3.5 cm)
     acc = [0.0]
     for a, b in zip(cl, cl[1:]): acc.append(acc[-1] + (b - a).length)
     for v in ho.data.vertices:
         i = min(range(len(cl)), key=lambda k: (cl[k] - v.co).length_squared)
-        rib = 1 + 0.2 * max(0.0, math.sin(acc[i] / 0.0085 * math.tau)) ** 0.5
+        rib = 1 + 0.18 * max(0.0, math.sin(acc[i] / 0.011 * math.tau)) ** 0.5
         v.co = cl[i] + (v.co - cl[i]) * rib
     ho.data.materials.append(mats['hose']); mask.append(ho)
     # its metal fitting at the mask, the raised rubber lip round the mask's edge, the snaps at the sides
-    mask.append(disc('mask_fitting', bottom + V((0, 0, 0.012)), V((0, -0.35, 1)), 0.016, 0.022, mats['metal'], r2=0.013))
+    mask.append(disc('mask_fitting', bottom + V((0, 0, 0.012)), V((0, -0.35, 1)), 0.02, 0.022, mats['rubber'], r2=0.017))
+    # the microphone switch on its front, a black knob, and its lead looping down to the side
+    mtree = L.tree_of(mk)
+    sh = mtree.ray_cast(V((-0.012, front - 0.2, mc.z + 0.006)), V((0, 1, 0)), 0.3)
+    if sh[0] is not None:
+        sp = sh[0]
+        nn = sh[1] if sh[1].y < 0 else -sh[1]
+        mask.append(disc('mic_switch', sp + nn * 0.004, nn, 0.0145, 0.011, mats['bakelite'], r2=0.012))  # (a boss moulded on the front)
+        mask.append(disc('mic_knob', sp + nn * 0.011, nn, 0.0055, 0.005, mats['bakelite']))
+        lead = [sp + nn * 0.006 + V((-0.012, 0, -0.002)), sp + nn * 0.012 + V((-0.032, 0, -0.006)), V((-0.075, mc.y - 0.01, mc.z - 0.02)), V((-0.088, mc.y + 0.015, mc.z - 0.07)), V((-0.085, -0.13, neck.z - 0.05)), V((-0.065, -0.15, neck.z - 0.13))]  # (out from the switch round the side of the mask, then down)
+        ld = L.tube('mic_lead', lead, 0.0038, 0.0038, closed=False); ld.data.materials.append(mats['bakelite']); mask.append(ld)
+        # the webbing band across the mask's top, over the nose
+        band_pts = []
+        for k in range(24):
+            x = -0.06 + 0.12 * k / 23
+            h = mtree.ray_cast(V((x, front - 0.2, mc.z + TOP * 0.55)), V((0, 1, 0)), 0.35)
+            if h[0] is not None: band_pts.append((h[0] + h[1] * (0.002 if h[1].y < 0 else -0.002), h[1] if h[1].y < 0 else -h[1]))
+        if len(band_pts) > 4:
+            bd = L.flat_strap('mask_band', band_pts, 0.0085, 0.0016); bd.data.materials.append(mats['strap']); mask.append(bd)
     rim_pts = [verts[1 + (RINGS - 1) * SEGS + j] + V((0, -0.002, 0)) for j in range(SEGS)]
     lip = L.tube('mask_lip', rim_pts, 0.0045, 0.0045); lip.data.materials.append(mats['rubber']); mask.append(lip)
+    # its straps, laid over whatever they cross (face, fleece, helmet, hair): each point taken out to the
+    # outermost of those surfaces under it, as seen from the middle of his head
+    HC2 = V((0, head.y + 0.01, eye.z - 0.01))
+    def drape(pts, layers, n=40):
+        path = []
+        for p in L.resample(pts, n, closed=False):
+            best = None
+            for tree, off in layers:
+                loc, nor, _, _ = tree.find_nearest(p)
+                if loc is None or (loc - p).length > 0.03: continue
+                if nor.dot(loc - HC2) < 0: nor = -nor
+                q = loc + nor * off
+                if best is None or (q - HC2).length > (best[0] - HC2).length: best = (q, nor)
+            path.append(best)
+        path = [q for q in path if q]
+        # (eased: a strap pulled taut runs smooth, it doesn't follow every step from one surface to the next)
+        for _ in range(4):
+            path = [path[0]] + [((path[i - 1][0] + path[i][0] * 2 + path[i + 1][0]) / 4, (path[i - 1][1] + path[i][1] * 2 + path[i + 1][1]).normalized()) for i in range(1, len(path) - 1)] + [path[-1]]
+        return path
+    rim_obj = next((o for o in helmet if o.name.startswith('helmet_rim')), None)
+    hair = next((o for o in bpy.data.objects if 'short' in o.name and o.type == 'MESH'), None)
+    face_layer = (btree, 0.004)
+    snaps = {}
     for s in (1, -1):
         sn = rim_pts[0 if s > 0 else SEGS // 2]
+        snaps[s] = sn
         mask.append(disc('mask_snap', sn + V((s * 0.004, 0, 0)), V((s, -0.3, 0)), 0.006, 0.005, mats['metal']))
-        # the A-10R's own head harness (it hangs from it, not the helmet): above and below the ear to the back of the head
+        # with the B-6: the mask clips to a snap on the helmet just in front of each ear cup (two short
+        # straps from the mask's side, over the fleece, to it), so these go with the helmet
+        layers = [face_layer, (htree, 0.0025)] + ([(L.tree_of(rim_obj), 0.002)] if rim_obj else [])
+        # two green webbing straps, as on the surviving masks: one up to a snap at the temple, one back below
+        # the ear cup, each with its metal buckle partway along
+        cups = [(L.tree_of(o), 0.002) for o in helmet if o.name.startswith('earcup') and o.type == 'MESH' and 'seam' not in o.name]
+        # two long webbing straps, as on the mask in the photograph: one up in front of the ear cup to a snap
+        # at the temple, one back under the cup; each through a wire slide buckle partway along
+        for zoff, via, tgt in ((0.014, V((s * 0.088, head.y - 0.075, eye.z - 0.03)), V((s * 0.11, head.y - 0.05, eye.z + 0.0))),
+                               (-0.014, V((s * 0.08, head.y - 0.06, eye.z - 0.088)), V((s * 0.1, head.y + 0.002, eye.z - 0.102)))):
+            hs = htree.find_nearest(tgt)
+            stud = hs[0] + (hs[1] if hs[1].x * s > 0 else -hs[1]) * 0.003
+            helmet.append(disc('helmet_mask_snap', stud, V((s, -0.2, 0)), 0.006, 0.005, mats['metal']))
+            path = drape([sn + V((s * 0.003, 0.004, zoff)), via, stud], layers + cups, 26)
+            st = L.flat_strap('mask_strap_helmet', path, 0.009, 0.0016); st.data.materials.append(mats['strap']); helmet.append(st)
+            k = len(path) // 2
+            p, nor = path[k]
+            t = (path[k + 1][0] - path[k - 1][0]).normalized(); w = t.cross(nor).normalized()
+            q = p + nor * 0.0025
+            frame = [q + w * 0.012 + t * 0.008, q - w * 0.012 + t * 0.008, q - w * 0.012 - t * 0.008, q + w * 0.012 - t * 0.008]
+            bk = L.tube('mask_buckle', frame, 0.0013, 0.0013, smooth_pts=False); bk.data.materials.append(mats['metal']); helmet.append(bk)
+            bar = L.tube('mask_buckle_bar', [q + w * 0.012, q - w * 0.012], 0.0012, 0.0012, closed=False, smooth_pts=False); bar.data.materials.append(mats['metal']); helmet.append(bar)
+    # with the cap: the A-10R's own head harness, one strap above the ears and one below, each a single
+    # elastic band from one side of the mask round the back of his head to the other
+    if hair:
+        cap_layers = [face_layer, (L.tree_of(hair), 0.003)]
         for zoff, yz in ((0.012, eye.z + 0.012), (-0.012, eye.z - 0.07)):
-            pts = [sn + V((0, 0.005, zoff)), V((s * 0.075, eye.y + 0.05, yz)), V((s * 0.085, head.y + 0.01, yz)), V((s * 0.06, head.y + 0.07, yz - 0.005)), V((0, head.y + 0.095, yz - 0.01))]
-            st = L.tube('mask_strap', L.onto(body, pts, 0.008), 0.006, 0.0015, closed=False, rect=True); st.data.materials.append(mats['strap']); mask.append(st)
+            pts = [snaps[1] + V((0.003, 0.004, zoff))]
+            for s in (1, -1):
+                arc = [V((s * 0.075, eye.y + 0.05, yz)), V((s * 0.085, head.y + 0.01, yz)), V((s * 0.06, head.y + 0.07, yz - 0.005))]
+                pts += arc if s > 0 else arc[::-1]
+                if s > 0: pts.append(V((0, head.y + 0.095, yz - 0.01)))
+            pts.append(snaps[-1] + V((-0.003, 0.004, zoff)))
+            st = L.flat_strap('mask_strap_cap', drape(pts, cap_layers, 70), 0.0055, 0.0015)
+            st.data.materials.append(mats['strap']); cap.append(st)
     out['mask'] = mask
     jk = b3[0]  # (the kit worn over the jacket is shaped on the thickest one, the B-3)
     chest = B['spine_03'][0].z + 0.16
@@ -400,7 +678,17 @@ def run():
     back_half.sort(key=lambda p: math.atan2(p.x, p.y))
     if len(back_half) > 4:
         col = L.onto(jk, back_half, 0.045)
-        c = L.tube('mae_collar', col, 0.032, 0.026, closed=False); c.data.materials.append(mats['mae']); mw.append(c)
+        c = L.tube('mae_collar', col, 0.032, 0.026, closed=False); c.data.materials.append(mats['mae'])
+        # (its ends taper away into the chest bladders, not cut off square)
+        acc_ = [0.0]
+        for a_, b_ in zip(col, col[1:]): acc_.append(acc_[-1] + (b_ - a_).length)
+        tot = acc_[-1]
+        for v in c.data.vertices:
+            i = min(range(len(col)), key=lambda k: (col[k] - v.co).length_squared)
+            e = min(acc_[i], tot - acc_[i])
+            k = 0.35 + 0.65 * min(1.0, e / 0.06) ** 0.7
+            v.co = col[i] + (v.co - col[i]) * k
+        mw.append(c)
     for s in (1, -1):
         mw.append(L.patch(jk, f'mae_bladder_{s}', lambda co, s=s: 0.025 < co.x * s < 0.155 and chest - 0.22 < co.z < chest + 0.06 and co.y < -0.03, 0.012, 0.03, mats['mae']))
     for o in mw[1:]:
@@ -410,11 +698,13 @@ def run():
     hn = []
     a3 = out['a3'][0]
     for s in (1, -1):
+        # (the QAC harness: over the shoulder, down the chest, in to the quick-release box on his belly, and
+        # on down to the leg strap)
         path = [V((s * 0.1, 0.16, WAIST + 0.05)), V((s * 0.11, 0.15, chest)), V((s * 0.12, 0.06, neck.z + 0.0)), V((s * 0.115, -0.08, neck.z - 0.04)),
-                V((s * 0.11, -0.16, chest)), V((s * 0.085, -0.16, chest - 0.2)), V((s * 0.06, -0.15, WAIST)), V((s * 0.075, -0.12, WAIST - 0.12))]
+                V((s * 0.105, -0.16, chest)), V((s * 0.05, -0.17, chest - 0.2)), V((s * 0.05, -0.15, WAIST)), V((s * 0.075, -0.12, WAIST - 0.12))]
         pts = L.onto(jk, path[:-1], 0.004) + L.onto(a3, path[-1:], 0.004)
         pts = [p + (V((0, -0.035, 0)) if p.y < -0.05 and chest - 0.25 < p.z < chest + 0.07 else V()) for p in pts]  # (over the Mae West's bladders)
-        hn.append(L.tube(f'harness_{s}', L.resample(pts, 40, closed=False), 0.022, 0.0035, closed=False, rect=True))
+        hn.append(L.tube(f'harness_{s}', L.resample(pts, 40, closed=False), 0.025, 0.0035, closed=False, rect=True))  # (wide webbing, 5 cm)
         thigh = B[f'thigh_{"l" if s > 0 else "r"}']
         at = thigh[0].lerp(thigh[1], 0.22)
         hn.append(L.tube(f'leg_loop_{s}', L.ring_on(a3, at, thigh[1] - thigh[0], 0.09, 36, 0.004), 0.022, 0.0035, rect=True))
@@ -432,6 +722,10 @@ def run():
         hn.append(box('snap', cs[2 + s * 1] + V((0, -0.006, 0)), (0.026, 0.012, 0.034), mats['metal']))   # the chest strap's snap hooks
         d = L.tube('d_ring', [cs[2 + s * 2] + V((s * 0.0, -0.01, -0.06)) + V((math.cos(a) * 0.022, 0, math.sin(a) * 0.028)) for a in [i * math.tau / 14 for i in range(14)]], 0.004, 0.004)
         d.data.materials.append(mats['metal']); hn.append(d)                                               # the D-rings for the chest pack
+    # the quick-release box on his belly, where the straps meet: a big round metal disc, its turning face
+    qp = L.onto(jk, [V((0, -0.22, chest - 0.2))], 0.0)[0] + V((0, -0.045, 0))
+    hn.append(disc('qac_box', qp, V((0, -1, 0.15)), 0.038, 0.016, mats['metal'], r2=0.035))
+    hn.append(disc('qac_face', qp + V((0, -0.009, 0.001)), V((0, -1, 0.15)), 0.03, 0.003, mats['qac']))
     out['harness'] = hn
     # ---------------- the M1 flyer's vest: padded front and back plates in dark green canvas, quilted, the red pull
     fv = []
@@ -478,7 +772,7 @@ try:
                 if k == 'flak': vis = tag in ('sheep', 'b10')
                 if k == 'maewest': vis = tag != 'f1'
                 if k in ('cap', 'headset'): vis = tag == 'a2'          # (the pilots: cap and headset, not the helmet)
-                if k in ('helmet', 'goggles'): vis = tag != 'a2'
+                if k in ('helmet', 'goggles', 'goggle_lens'): vis = tag != 'a2'
                 for o in obs: o.hide_render = not vis
             for o in bpy.data.objects:
                 if 'short' in o.name: o.hide_render = tag != 'a2'      # (his hair shows only under the cap)

@@ -41,17 +41,16 @@ export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 
 // What each man wears over his F-1 heated suit on 14 October 1943, by his station (hackathon/
 // CREW_GEAR_RESEARCH.md, its station table): the waist and tail gunners at their open windows in full
-// sheepskin, the cockpit in A-2 jackets, the nose, the engineer and the radio operator in B-10s (or an A-2),
+// sheepskin, the pilots in B-3 sheepskin jackets too (their fleece collars), the nose and the radio operator in B-10s (or an A-2),
 // the ball gunner in his F-1 alone. The pilots in their officer's caps, crushed, with an HS-38 headset over
 // them (as the 303rd's pilots wore them that first year in England); everyone else in a B-6 helmet; every
-// man in the A-10 Revised mask. Flak vests: the waist gunners and the radio operator (as the 8th's crews
-// were issued them through 1943), the bombardier for his bomb run; never the top or ball turret gunner,
-// who had none.
+// man in the A-10 Revised mask. No flak vests: the heavy plated vests were left off (they read as a shapeless
+// box over the jacket); opts.flak still adds one if a station ever needs it.
 const KIT = {
-  pilot: { outfit: 'a2', flak: false, cap: true }, copilot: { outfit: 'a2', flak: false, cap: true },
-  bombardier: { outfit: 'b10', flak: true }, navigator: { outfit: 'a2', flak: false },
-  engineer: { outfit: 'b3od', flak: false }, radio: { outfit: 'b10', flak: true },
-  ball: { outfit: 'f1', flak: false }, waistL: { outfit: 'sheep', flak: true }, waistR: { outfit: 'sheep', flak: true }, tail: { outfit: 'sheep', flak: false },
+  pilot: { outfit: 'b3od', flak: false, cap: true }, copilot: { outfit: 'b3od', flak: false, cap: true }, // (the B-3's sheepskin collar under the cap, as the officers wore it)
+  bombardier: { outfit: 'b10', flak: false }, navigator: { outfit: 'a2', flak: false },
+  engineer: { outfit: 'b3od', flak: false }, radio: { outfit: 'b10', flak: false },
+  ball: { outfit: 'f1', flak: false }, waistL: { outfit: 'sheep', flak: false }, waistR: { outfit: 'sheep', flak: false }, tail: { outfit: 'sheep', flak: false },
 };
 export const ROLES = [
   { id: 'pilot', title: 'Pilot', rank: 'Lt.', station: 'pilot' },

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Graphics } from './graphics.js';
 import { World, ALTITUDE } from './world.js';
 import { loadModel } from './models.js';
-import { Bomber, AIRSPEED, swapBombers, PART, FORMATION } from './bomber.js';
+import { Bomber, AIRSPEED, swapBombers, PART, FORMATION, EYE } from './bomber.js';
 import { Player } from './player.js';
 import { GameAudio } from './audio.js';
 import { Radio } from './radio.js';
@@ -325,7 +325,7 @@ function showMenu(paused) {
   const quality = gfx.qualityName, onQuality = (q) => gfx.setQuality(q);
   if (!paused) {
     ui.menu({
-      kind: 'start', kicker: 'Eighth Air Force · 14 October 1943', title: 'B-17', sub: 'Flying Fortress', stamp: 'Restricted',
+      kind: 'start', kicker: 'Eighth Air Force · 14 October 1943', title: 'Black Thursday', sub: 'B-17 Flying Fortress', stamp: 'Restricted',
       text: 'Mission briefing: Schweinfurt, the ball-bearing works, deep in Germany. The Thunderbolts can only take you as far as the border; after that you are on your own. Fly with the stream, or against it.',
       facts: [['Target', 'Schweinfurt'], ['Altitude', '25,000 ft'], ['Force', `${bombers.length} B-17s`], ['Escort', `${ALLIED_TOTAL} P-47s (to the border)`], ['Opposition', `${AXIS_TOTAL} fighters`], ['Conditions', envLabel(env)]],
       roles: chooseRole, quality, onQuality,
@@ -833,7 +833,7 @@ function missionComplete(d) {
 function quitToMenu() {
   state = 'over';
   audio.suspend();
-  ui.menu({ kind: 'loading', kicker: 'Eighth Air Force · 14 October 1943', title: 'B-17', sub: 'Flying Fortress', text: 'Returning to the briefing…' });
+  ui.menu({ kind: 'loading', kicker: 'Eighth Air Force · 14 October 1943', title: 'Black Thursday', sub: 'B-17 Flying Fortress', text: 'Returning to the briefing…' });
   try { if (document.fullscreenElement) sessionStorage.setItem('bomber.fs', '1'); } catch { /* (no storage) */ } // (full screen back on after the reload)
   setTimeout(() => location.reload(), 30); // (after the screen has changed)
 }
@@ -1029,6 +1029,7 @@ gfx.renderer.setAnimationLoop((now) => {
     safely('bombers', () => {
       const controls = live && mode === 'crew' ? player.controls : null;
       bomber.manualFires = !!controls;
+      camera.getWorldPosition(EYE); // (close props blur: bomber.js)
       for (const b of bombers) {
         if (live) b.fly(dt, b === bomber ? controls : null); // you at the controls, or the AI pilot holding (or regaining) the slot
         b.update(t, dt);

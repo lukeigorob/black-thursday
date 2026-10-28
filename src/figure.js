@@ -30,7 +30,7 @@ const OUTFITS = { sheep: ['gear_b3', 'gear_a3'], b3od: ['gear_b3', 'gear_od'], b
 const WORN = ['Human', 'gear_boots', 'gear_gloves', 'gear_mask', 'gear_harness'];
 // on his head: the B-6 helmet and goggles, or (the pilots, opts.cap) the crushed officer's cap and HS-38
 // headset, his hair showing under it
-const HEADGEAR = { helmet: ['gear_helmet', 'gear_goggles'], cap: ['gear_cap', 'gear_headset', 'Humanshort02'] }; // (three.js drops the dot from the glTF's names)
+const HEADGEAR = { helmet: ['gear_helmet', 'gear_goggles', 'gear_goggle_lens'], cap: ['gear_cap', 'gear_headset', 'Humanshort02'] }; // (three.js drops the dot from the glTF's names)
 const CHEST = ['gear_maewest', 'gear_flak']; // (off on your own body: they sat round your eyes)
 const SCALE = 1.05; // the model is 1.65 m: a man of 1.73, the airmen's average
 // inside the bomber the crew catch more of the light from the windows than the hull round them does (cabinlook.js
@@ -53,6 +53,7 @@ export async function loadCrewModel() {
       m.envMapIntensity = 0.35;
       if (/eyebrow|eyelash|short/i.test(o.name)) { m.transparent = false; m.alphaTest = 0.4; m.side = THREE.DoubleSide; m.depthWrite = true; }
       if (/mask|maewest|flak/.test(o.name)) m.side = THREE.DoubleSide; // (thin shells: seen from inside at their edges)
+      if (/goggle_lens/.test(o.name)) { m.transparent = true; m.opacity = 0.8; m.depthWrite = false; m.roughness = 0.05; m.metalness = 0; m.envMapIntensity = 1; } // (dark smoked glass: his eyes just seen through it)
       insideLight(m, CREW_AMBIENT);
     }
   });
@@ -122,10 +123,10 @@ export function makeFigure(opts = {}) {
   // bind the rig to the skeleton: put the rig in the model's rest pose (its limbs pointing the way the
   // bones do), and remember, for each bone, its rotation relative to its rig joint
   root.updateMatrixWorld(true);
-  // where the mask's hose ends, clipped to the harness on his chest (build_crew.py: 26 cm under the neck,
-  // 12 cm to his left, 15 cm out in front), carried by the upper spine: the oxygen line runs on from there
+  // where the mask's hose ends, clipped to the harness on his chest (build_crew.py: straight down from the mask,
+  // 32 cm under the neck, in the middle of his chest, 17 cm out in front), carried by the upper spine: the oxygen line runs on from there
   const clip = bones.spine_03.worldToLocal(bones.neck_01.getWorldPosition(new V())
-    .add(new V(0.12, -0.26, 0.15).multiplyScalar(SCALE).applyQuaternion(model.getWorldQuaternion(new Q())).multiply(root.getWorldScale(new V()))));
+    .add(new V(0, -0.32, 0.17).multiplyScalar(SCALE).applyQuaternion(model.getWorldQuaternion(new Q())).multiply(root.getWorldScale(new V()))));
   const hose = makeHose(); root.add(hose);
   const dirOf = (a, b) => bones[b].getWorldPosition(new V()).sub(bones[a].getWorldPosition(new V())).normalize();
   const aim = (joint, dir) => { // turn a joint so its -Y (down the limb) points along dir (world)

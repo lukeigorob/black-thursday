@@ -428,7 +428,7 @@ export class UI {
    * moves the bar on, and a step is ticked off once every piece in it is in.
    */
   loading(steps, total, quality, onQuality) {
-    this.menu({ kind: 'loading', kicker: 'Eighth Air Force · 14 October 1943', title: 'B-17', sub: 'Flying Fortress', quality, onQuality });
+    this.menu({ kind: 'loading', kicker: 'Eighth Air Force · 14 October 1943', title: 'Black Thursday', sub: 'B-17 Flying Fortress', quality, onQuality });
     this.slides();
     const box = this.el('menu-loading');
     box.innerHTML = `<div class="checklist">${steps.map((s) => `<span>${s}</span>`).join('')}</div>

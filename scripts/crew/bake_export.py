@@ -9,7 +9,7 @@ args = sys.argv[sys.argv.index('--') + 1:]
 OUT = args[0]; SIZE = int(args[1]) if len(args) > 1 else 1024
 L.LOG = open(os.path.join(HERE, 'bake_export.log'), 'w'); log = L.log
 
-RIGID = {'helmet': 'head', 'goggles': 'head', 'cap': 'head', 'headset': 'head'}
+RIGID = {'helmet': 'head', 'goggles': 'head', 'goggle_lens': 'head', 'cap': 'head', 'headset': 'head'}
 BIG = {'b3', 'b10', 'a2', 'f1', 'a3', 'od', 'boots'}
 CAP = {'b3': 22000, 'b10': 20000, 'a2': 20000, 'f1': 24000}  # vertices kept per set (12000 for the rest): ten men skinned at once
 
@@ -112,6 +112,31 @@ def seat_weights(ob):
         for g in list(me.vertices[i].groups): ob.vertex_groups[g.group].remove([i])
         for g, w in W[i].items(): ob.vertex_groups[g].add([i], w, 'REPLACE')
 
+def bake_skin(ob, size):
+    """His face: its colour (the skin with its grime and the creases darkened) baked onto its own UVs, and the
+    skin's normal map kept as it is (the two share the MakeHuman layout)."""
+    me = ob.data
+    m0 = next((s.material for s in ob.material_slots if s.material and s.material.use_nodes), None)
+    if not m0: return simple_material(ob)
+    nimg = next((n.image for n in m0.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image and 'nrm' in n.image.name.lower()), None)
+    im = bpy.data.images.new('skin_col', size, size, alpha=False)
+    for slot in ob.material_slots:
+        nt = slot.material.node_tree
+        n = nt.nodes.get('BAKE') or nt.nodes.new('ShaderNodeTexImage'); n.name = 'BAKE'; n.image = im; nt.nodes.active = n
+    L.active(ob)
+    sc = bpy.context.scene
+    sc.render.bake.use_pass_direct = False; sc.render.bake.use_pass_indirect = False; sc.render.bake.use_pass_color = True; sc.render.bake.margin = 8
+    bpy.ops.object.bake(type='DIFFUSE', uv_layer=me.uv_layers.active.name)
+    im.filepath_raw = os.path.join(HERE, 'tex', 'skin_col.png'); im.file_format = 'PNG'; im.save()
+    new = bpy.data.materials.new('skin_gl'); new.use_nodes = True
+    nt = new.node_tree; bsdf = nt.nodes['Principled BSDF']; bsdf.inputs['Roughness'].default_value = 0.5
+    t = nt.nodes.new('ShaderNodeTexImage'); t.image = im; nt.links.new(t.outputs[0], bsdf.inputs['Base Color'])
+    if nimg:
+        tn = nt.nodes.new('ShaderNodeTexImage'); tn.image = nimg
+        nm = nt.nodes.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = 1.2
+        nt.links.new(tn.outputs[0], nm.inputs['Color']); nt.links.new(nm.outputs[0], bsdf.inputs['Normal'])
+    for slot in ob.material_slots: slot.material = new
+
 def simple_material(ob, alpha=False):
     """The MPFB material swapped for a plain Principled with its own diffuse image (what glTF can carry)."""
     for slot in ob.material_slots:
@@ -125,6 +150,12 @@ def simple_material(ob, alpha=False):
             t = nt.nodes.new('ShaderNodeTexImage'); t.image = img
             nt.links.new(t.outputs[0], bsdf.inputs['Base Color'])
             if alpha: nt.links.new(t.outputs[1], bsdf.inputs['Alpha']); new.blend_method = 'HASHED' if hasattr(new, 'blend_method') else None
+        # (and its normal map, where it has one: the skin's pores)
+        nimg = next((n.image for n in m.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image and 'nrm' in n.image.name.lower()), None)
+        if nimg:
+            tn = nt.nodes.new('ShaderNodeTexImage'); tn.image = nimg
+            nm = nt.nodes.new('ShaderNodeNormalMap'); nm.inputs['Strength'].default_value = 1.2
+            nt.links.new(tn.outputs[0], nm.inputs['Color']); nt.links.new(nm.outputs[0], bsdf.inputs['Normal'])
         slot.material = new
 
 try:
@@ -171,7 +202,7 @@ try:
     bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
     bm.to_mesh(body.data); bm.free()
     log('face under the mask removed:', len(gone), 'faces')
-    simple_material(body)
+    bake_skin(body, 2048)
     for o in bpy.data.objects:
         if o.type == 'MESH' and o.parent in (rig, body) and o is not body and not o.name.startswith('gear_'):
             simple_material(o, alpha=('eyebrow' in o.name or 'eyelash' in o.name or 'short' in o.name))
