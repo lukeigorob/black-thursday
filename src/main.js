@@ -132,7 +132,7 @@ const detail = new Detail(scene, bombers, bomber, mids.map((m) => m.scene));
 
 detail.assign();
 const contrails = new Contrails(scene, bombers);
-const propBlur = new PropBlur(scene, bombers); // every running prop's blur disc, in one draw
+const propBlur = new PropBlur(scene, bombers, lod.scene); // every running prop's blur disc, in one draw
 const player = new Player(bomber, camera);
 const weapons = new Weapons(scene, audio);
 weapons.attach(bomber);
@@ -1212,4 +1212,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, pilotStats, stats, eject, bailOut, addScar, breakup, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });
+Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });

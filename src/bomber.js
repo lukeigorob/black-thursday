@@ -58,12 +58,18 @@ function discOf(prop) {
 
 /**
  * Every running prop of every bomber as its blur disc: one instanced mesh, one draw call for the lot (each
- * prop's blades, which it replaces, were a draw call of their own). update() after the bombers have moved
- * and their matrices are fresh (main.js, after the contrails).
+ * prop's blades, which it replaces, were a draw call of their own). The bombers with a model of their own
+ * place it on their props; the far ones the Fleet draws, on where the low-detail model's props are (lod).
+ * update() after the bombers have moved and their matrices are fresh (main.js, after the contrails).
  */
 export class PropBlur {
-  constructor(scene, bombers) {
+  constructor(scene, bombers, lod) {
     this.bombers = bombers;
+    lod.updateMatrixWorld(true);
+    this.far = [1, 2, 3, 4].map((i) => { // (each prop's place in the model, and its disc)
+      const p = lod.getObjectByName(`Prop_${i}`);
+      return p && { local: p.matrixWorld.clone(), d: discOf(p) };
+    });
     this.mesh = new THREE.InstancedMesh(new THREE.CircleGeometry(1, 40), blurMaterial(), bombers.length * 4);
     this.mesh.frustumCulled = false; this.mesh.renderOrder = 2;
     scene.add(this.mesh);
@@ -72,12 +78,13 @@ export class PropBlur {
   update() {
     let k = 0;
     for (const b of this.bombers) {
-      if (b.gone || !b.group.visible) continue;
-      for (const p of b.props) {
-        if (!p?.userData.blurred) continue;
-        const d = discOf(p), u = p.userData;
-        _dm.makeRotationZ(u.discA ?? 0).setPosition(0, 0, d.z).scale(_ds.setScalar(d.R));
-        this.mesh.setMatrixAt(k++, _dm.premultiply(p.matrixWorld));
+      if (b.gone || !b.group.visible || (!b.model && b.wreckBody)) continue;
+      for (let i = 0; i < 4; i++) {
+        const sp = b.spin[i], p = b.props[i], far = !b.model && this.far[i];
+        if (!sp.blur || !(p ? p.visible : far)) continue; // (a prop gone with a broken-off wing: breakup.js)
+        const d = p ? discOf(p) : far.d;
+        _dm.makeRotationZ(sp.a).setPosition(0, 0, d.z).scale(_ds.setScalar(d.R));
+        this.mesh.setMatrixAt(k++, p ? _dm.premultiply(p.matrixWorld) : _dm.premultiply(far.local).premultiply(b.group.matrixWorld));
       }
     }
     this.mesh.count = k;
@@ -184,7 +191,7 @@ export function swapBombers(a, b) {
   for (const x of [a, b]) {
     x.group.visible = !x.gone;
     x.group.position.copy(x.base);
-    for (const p of x.props) if (p) p.userData.spin = null;
+    for (const sp of x.spin) sp.v = null;
     if (x.model) applyMarkings(x.model, x.ident); // (the identity moved: so do her markings)
   }
 }
@@ -215,6 +222,7 @@ export class Bomber {
     }
     this.hp = Object.fromEntries(PARTS.map((p) => [p.name, p.hp]));
     this.engines = ENGINE_X.map(() => ({ state: 'ok', fireT: 0 })); // ok | smoking | dead | fire
+    this.spin = ENGINE_X.map(() => ({ v: null, r: Math.random() * 6, a: 0, blur: true })); // each prop: rad/s, blade angle, blur disc angle
     this.tankFire = { '-1': 0, 1: 0 }; // seconds a wing tank has been burning (0 = not burning)
     this.leak = { '-1': 0, 1: 0 }; // seconds of fuel still streaming from a holed tank
     this.fx = []; // things to show next frame: a wing or the tail breaking off, a tank blowing up
@@ -650,17 +658,20 @@ export class Bomber {
   update(t, dt) {
     // the props: running, windmilling (a dead engine not yet feathered turns over slowly in the
     // airstream), or feathered: stopped, the blades turned edge-on
-    for (const [i, p] of this.props.entries()) {
-      if (!p) continue;
-      const e = this.engines[i], u = p.userData, want = e.state === 'ok' || e.state === 'smoking' ? 31 + i * 0.4 : e.feathered ? 0 : 8;
-      u.spin = u.spin == null ? want : u.spin + (want - u.spin) * (1 - Math.exp(-dt * 0.8));
-      p.rotation.z += dt * u.spin;
+    for (const [i, e] of this.engines.entries()) {
+      const sp = this.spin[i], want = e.state === 'ok' || e.state === 'smoking' ? 31 + i * 0.4 : e.feathered ? 0 : 8;
+      sp.v = sp.v == null ? want : sp.v + (want - sp.v) * (1 - Math.exp(-dt * 0.8));
+      sp.r = (sp.r + dt * sp.v) % (Math.PI * 2);
       // up to speed, the blades give way to the blur disc (PropBlur draws it, turning a little slower than
       // the prop, so the ghosts are seen to go round, as a film camera catches them); windmilling or
-      // stopped, the blades
-      const blur = u.spin > 18;
-      if (blur) u.discA = ((u.discA ?? 0) - dt * u.spin * 0.8) % (Math.PI * 2);
-      if (u.blurred !== blur) { u.blurred = blur; for (const m of p.children) if (m.isMesh) m.visible = !blur; }
+      // stopped, the blades. (Kept on the bomber, not the model: a far bomber the Fleet draws has props too.)
+      sp.blur = sp.v > 18;
+      if (sp.blur) sp.a = (sp.a - dt * sp.v * 0.8) % (Math.PI * 2);
+      const p = this.props[i];
+      if (!p) continue;
+      const u = p.userData;
+      p.rotation.z = sp.r;
+      if (u.blurred !== sp.blur) { u.blurred = sp.blur; for (const m of p.children) if (m.isMesh) m.visible = !sp.blur; }
       const f = e.feathered && e.state !== 'ok' ? 1 : 0;
       u.feather = (u.feather ?? f) + Math.sign(f - (u.feather ?? f)) * Math.min(Math.abs(f - (u.feather ?? f)), dt / 3); // (takes a few seconds)
       if (u.feather !== u.shown) featherBlades(p, u.feather);

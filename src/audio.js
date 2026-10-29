@@ -500,8 +500,18 @@ export class GameAudio {
     fetch(`${url}/${id}.mp3`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`${r.status}`))))
       .then((data) => this.decoder.decodeAudioData(data)).then((buf) => { c.buf = buf; })
       .catch((e) => { c.failed = true; console.warn(`crew voice ${id} not loaded:`, e.message); });
-    for (const k of clips.keys()) { if (clips.size <= 80) break; clips.delete(k); } // (the oldest go)
+    for (const [k, o] of clips) { if (clips.size <= 400) break; if (o.buf || o.failed) clips.delete(k); } // (the oldest go: never one still on its way)
     return null;
+  }
+
+  /**
+   * Fetch every crew clip once, quietly, a few at a time, so the browser has them all on disk (public/_headers
+   * lets it keep them) and no line waits on the network in the middle of a fight. ids: clip ids.
+   */
+  prefetchVoices(ids, url = 'audio/voice') {
+    const todo = [...ids];
+    const next = () => { const id = todo.shift(); if (id) fetch(`${url}/${id}.mp3`, { priority: 'low' }).then((r) => r.arrayBuffer()).catch(() => {}).then(next); };
+    for (let k = 0; k < 4; k++) next();
   }
 
   /**

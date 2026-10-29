@@ -4,7 +4,7 @@
 // game logs reaches here as a line of text; the ones a man would call are given to him and said aloud,
 // his own voice every time, through the headset's crackle. One man talks at a time: the rest wait their
 // turn, the urgent ones first, and stale ones are dropped. Long gaps between the calls: never a chatter.
-import { LINES, SPEAKERS, clipId, clockCallers, nameKey, versions, words } from './lines.js';
+import { LINES, SPEAKERS, allClips, clipId, clockCallers, nameKey, versions, words } from './lines.js';
 import { clock } from './fighters.js';
 import { surnameOf } from './history.js';
 
@@ -48,6 +48,9 @@ export class Radio {
     this.queue = []; this.later = []; this.playing = null; this.busyT = 0;
     this.lastSaid = {}; this.lastVer = {};
     this.reset();
+    // every man's clips fetched ahead, in the background once the game's loaded (the gunners' first: the
+    // co-pilot's many are mostly names, said less often)
+    setTimeout(() => audio.prefetchVoices(allClips().map((c) => c.id).sort((a, b) => a.endsWith('.copilot') - b.endsWith('.copilot'))), 6000);
   }
 
   /** A new life aboard: forget what's been said (the distance, the fighters seen, the Forts lost). */
@@ -153,10 +156,11 @@ export class Radio {
     this.queue.sort((a, b) => b.pri - a.pri || a.born - b.born);
     if (!this.stillThere(this.queue[0], s?.bomber)) { this.queue.shift(); return; }
     const q = this.queue[0], sp = SPEAKERS[q.spk], id = clipId(q.key, q.i ?? 0, sp.voice), buf = this.audio.voiceClip(id);
-    if (buf === null && this.t - (q.asked ??= this.t) < 2) return; // (still on its way: a moment more)
+    if (buf === null && this.t - (q.asked ??= this.t) < 5) return; // (still on its way: a moment more)
     this.queue.shift();
     const h = buf ? this.audio.voice(id, { rate: sp.rate, far: sp.far }) : null;
-    const dur = h ? h.dur : this.speak(q.text, sp); // (no recording: the browser's own voice)
+    if (!h) return; // (not here in time, or failed: left unsaid. Never the browser's own voice: a robot, and not his)
+    const dur = h.dur;
     this.playing = { ...q, h, ends: this.t + dur + 0.4 };
     this.busyT = dur + rand(0.4, 0.8);
     this.onCaption?.(sp.label, q.text);
@@ -177,17 +181,6 @@ export class Radio {
     if (hours > 1 || c.level !== m[3] || !LINES[key]?.by.includes(q.spk)) return false;
     q.key = key; q.text = words(key, q.spk, q.i);
     return true;
-  }
-
-  /** No recordings: the browser's own voice says it (no crackle, but the words). Returns about how long. */
-  speak(text, sp) {
-    const ss = globalThis.speechSynthesis;
-    if (!ss) return 0.5;
-    const u = new SpeechSynthesisUtterance(text);
-    u.voice = ss.getVoices().find((v) => /en-US/i.test(v.lang) && /David|Guy|Male|Mark/i.test(v.name)) ?? null;
-    u.rate = 1.05 * sp.rate; u.pitch = sp.deep ? 0.8 : 1; u.volume = this.audio.level * 1.6 * (this.audio.mix.crew ?? 1);
-    ss.speak(u);
-    return text.length * 0.065;
   }
 
   /** The things the crew call of their own accord, from what they can see. */

@@ -64,25 +64,35 @@ export class Fleet {
     this.bombers = bombers;
     lodModel.updateMatrixWorld(true);
     this.parts = [];
+    const propOf = (o) => { for (let x = o; x; x = x.parent) { const m = /^Prop_(\d)$/.exec(x.name); if (m) return [x, +m[1] - 1]; } return null; };
     lodModel.traverse((o) => {
       if (!o.isMesh) return;
       o.geometry.computeBoundingSphere();
-      if (o.geometry.boundingSphere.radius < 0.8) return; // guns, blades, fairings: sub-pixel at range
+      const prop = propOf(o);
+      if (!prop && o.geometry.boundingSphere.radius < 0.8) return; // guns, fairings: sub-pixel at range
       const mesh = new THREE.InstancedMesh(o.geometry, o.material, bombers.length);
       mesh.frustumCulled = false;
       mesh.castShadow = mesh.receiveShadow = false;
       scene.add(mesh);
-      this.parts.push({ mesh, local: o.matrixWorld.clone() });
+      // a prop's blades turn with the bomber's engine (b.spin), and give way to the blur disc (PropBlur) up to speed
+      this.parts.push(prop ? { mesh, engine: prop[1], hub: prop[0].matrixWorld.clone(), inProp: prop[0].matrixWorld.clone().invert().multiply(o.matrixWorld) } : { mesh, local: o.matrixWorld.clone() });
     });
     this.m = new THREE.Matrix4();
+    this.r = new THREE.Matrix4();
   }
 
   update() {
     for (const b of this.bombers) if (!b.model) b.group.updateMatrixWorld();
     const hidden = new THREE.Matrix4().makeScale(0, 0, 0);
-    for (const { mesh, local } of this.parts) {
+    for (const { mesh, local, engine, hub, inProp } of this.parts) {
       // bombers drawn with their own model right now (the player's and its neighbours) are skipped
-      this.bombers.forEach((b, i) => mesh.setMatrixAt(i, b.gone || b.model || b.wreckBody ? hidden : this.m.multiplyMatrices(b.group.matrixWorld, local)));
+      this.bombers.forEach((b, i) => {
+        if (b.gone || b.model || b.wreckBody) return mesh.setMatrixAt(i, hidden);
+        if (local) return mesh.setMatrixAt(i, this.m.multiplyMatrices(b.group.matrixWorld, local));
+        const sp = b.spin[engine];
+        if (sp.blur) return mesh.setMatrixAt(i, hidden);
+        mesh.setMatrixAt(i, this.m.multiplyMatrices(b.group.matrixWorld, hub).multiply(this.r.makeRotationZ(sp.r)).multiply(inProp));
+      });
       mesh.instanceMatrix.needsUpdate = true;
     }
   }
