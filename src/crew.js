@@ -22,7 +22,7 @@ function slab(o, d) {
   return t0;
 }
 import { SECTIONS } from './bomber.js';
-import { makeFigure, reachFor } from './figure.js';
+import { makeFigure, reachFor, plantFeet } from './figure.js';
 import { SURNAMES } from './lines.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
@@ -30,6 +30,16 @@ const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
 const _sa = new V(), _sb = new V(), _sc = new V(), _sd = new V(), _se = new V(), _hd = new V();
 // how far a hand sits from its shoulder at a grip, as a share of his reach: elbow bent but not folded
 const FAR = 0.85, NEAR = 0.5;
+// the men who stand to a flexible gun (standToGun): lean = forward from the hips at a level gun (negative
+// back), pitchLean = how much less as it's raised, crouch = how low his hips may go (of their standing
+// height), stride and width = his stance (m), twist = his shoulders turned in behind the grips
+const STAND = {
+  waistL: { lean: 0.38, pitchLean: 0.3, crouch: 0.58, stride: 0.34, width: 0.15, twist: 0.08 },
+  waistR: { lean: 0.38, pitchLean: 0.3, crouch: 0.58, stride: 0.34, width: 0.15, twist: -0.08 },
+  radio: { lean: -0.24, pitchLean: 0.15, crouch: 0.8, stride: 0.36, width: 0.14, twist: 0.05 },
+};
+const TOP_STANCE = { stride: 0.2, width: 0.13 }; // (the engineer's feet on the turret's little platform)
+const _g1 = new V(), _g2 = new V(), _g3 = new V(), _g4 = new V(), _g5 = new V(), _g6 = new V(), _g7 = new V(), _g8 = new V(), _gq = new THREE.Quaternion();
 const rand = (a, b) => a + Math.random() * (b - a);
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
@@ -75,11 +85,11 @@ const SPOTS = {
   bombardier: { at: [0.26, -0.72, -9.9], pose: 'kneel', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (kneeling upright behind the right nose gun: standing, the low nose bent him double)
   navigator: { at: [-0.38, -0.72, -9.45], pose: 'kneel', yaw: 70 * D, lie: [-0.26, -0.72, -8.7], liePose: 'lie' }, // (kneeling at the left cheek gun, as the bombardier does behind his)
   engineer: { at: [0, -0.28, -6.78], pose: 'stand', yaw: 0, lie: [0.1, -0.40, -7.05], liePose: 'lie' },
-  radio: { at: [0.1, -1.8, -2.25], pose: 'gun', yaw: Math.PI, lie: [-0.1, -1.80, -1.8], liePose: 'lie' }, // at his gun under the roof hatch, facing aft
+  radio: { at: [0, -1.8, -2.25], pose: 'gun', yaw: Math.PI, lie: [-0.1, -1.80, -1.8], liePose: 'lie' }, // at his gun under the roof hatch, facing aft
   ball: { at: [0, -2.2, -0.13], pose: 'hidden', yaw: 0, lie: [0.05, -1.95, 0.95], liePose: 'lie' }, // pulled out of the turret
-  // (well out at their windows: the walkway between them stays half a metre wide)
-  waistL: { at: [-0.3, -1.95, 1.93], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.6], liePose: 'lie' }, // (staggered: the right gun is forward)
-  waistR: { at: [0.3, -1.95, 1.67], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.1], liePose: 'lie' },
+  // (back to back at their guns, staggered: standToGun puts them where the guns' sights do)
+  waistL: { at: [0.02, -1.95, 2.02], pose: 'gun', yaw: 90 * D, lie: [-0.2, -1.95, 2.6], liePose: 'lie' }, // (staggered: the right gun is forward)
+  waistR: { at: [-0.02, -1.95, 1.58], pose: 'gun', yaw: -90 * D, lie: [0.2, -1.95, 1.1], liePose: 'lie' },
   tail: { at: [0, -2.32, 9.98], pose: 'kneel', yaw: 180 * D, lie: [0, -2.32, 9.3], liePose: 'lie' },
 };
 
@@ -161,6 +171,7 @@ export function pose(fig, name, t = 0) {
   if (fig.userData.rig) { // hands half closed, or relaxed; at a gun, animateGunner puts them on the grips
     fig.userData.rig.grip = ['gun', 'kneel', 'crouch', 'sit', 'slump'].includes(name) ? 0.6 : 0.3;
     fig.userData.rig.reach = null;
+    fig.userData.rig.feet = null;
   }
   fig.rotation.x = 0;
   j.hips.position.set(0, 0.95, 0);
@@ -446,7 +457,8 @@ export class Crew {
       // fill the screen) he isn't drawn either
       if (f.userData.model) {
         const eye = camera ? camera.getWorldPosition(_c).applyMatrix4(_inv) : null;
-        f.userData.model.visible = !(eye && (b.distanceToPoint(eye) < 0.2 || Math.hypot(eye.x - head.x, eye.y - head.y - 0.08, eye.z - head.z) < 0.38)); // (his shoulders and arms are wider than the box)
+        const crowd = camera?.userData.exiting && eye && Math.hypot(eye.x - head.x, eye.z - head.z) < 0.9; // (going out of a hatch past the men crowding it: they're not drawn in your face)
+        f.userData.model.visible = !(eye && (crowd || b.distanceToPoint(eye) < 0.2 || Math.hypot(eye.x - head.x, eye.y - head.y - 0.08, eye.z - head.z) < 0.38)); // (his shoulders and arms are wider than the box)
       }
     }
   }
@@ -602,13 +614,19 @@ export class Crew {
     const m = this.members.find((x) => x.role.station === stationId);
     const b = m?.fig?.userData.base;
     if (!b || !m.fig.visible || m.task !== 'station' || !(m.state === 'ok' || m.standIn)) return;
+    if (STAND[stationId]) { this.standToGun(m, gp, firing); return; } // (posed from the gun: standToGun)
+    m.t = (m.t ?? Math.random() * 20) + 1 / 60;
     const j = m.fig.userData.j, top = stationId === 'top';
     const rel = wrap(gp.yaw - m.spot.yaw);
     m.fig.rotation.y = b.yaw + rel * (top ? 1 : 0.6);
     const arms = top ? 1.45 : 0, lift = THREE.MathUtils.clamp(gp.pitch, -0.8, 1.2) * 0.85;
     j.armL.sh.rotation.x = (arms || b.shL) + lift;
     j.armR.sh.rotation.x = (arms || b.shR) + lift;
-    if (top) { j.armL.el.rotation.x = j.armR.el.rotation.x = 0.7; }
+    if (top) { // his feet on the platform, stepping round as the turret turns him
+      j.armL.el.rotation.x = j.armR.el.rotation.x = 0.7;
+      const now = performance.now() / 1000, dt = Math.min(0.05, Math.max(0, now - (m.lastT ?? now))); m.lastT = now;
+      this.stepFeet(m, b.pos.x, b.pos.z, m.fig.rotation.y, b.pos.y, TOP_STANCE, dt);
+    }
     j.head.rotation.x = b.head + THREE.MathUtils.clamp(gp.pitch, -0.6, 0.9) * 0.5;
     reachFor(m.fig, gp.gripsWorld(m.grips ??= [new V(), new V()])); // both hands on the grips, wherever the gun points
     // he leans in to his grips: his shoulders (where they'd be standing straight) a forearm and a bit
@@ -657,12 +675,16 @@ export class Crew {
       lean.lerp(want, k); m.bend += (bend - m.bend) * k; m.leanSet = true;
     }
     const torso = b.torso - m.bend;
-    if (firing) { // the guns hammer him about
-      m.fig.position.set(b.pos.x + rand(-1, 1) * 0.005, b.pos.y + rand(-1, 1) * 0.004, b.pos.z + rand(-1, 1) * 0.005).add(lean);
-      j.torso.rotation.x = torso + rand(-1, 1) * 0.025;
-    } else {
+    if (firing) { // the guns hammer him: each round's kick (12.5 a second, twice that from a twin mount) back through his shoulders
+      const kick = Math.max(0, Math.sin(m.t * (gp.guns.length > 1 ? 25 : 12.5) * Math.PI * 2)) ** 3;
+      const back = _g1.set(Math.sin(gp.yaw), 0, Math.cos(gp.yaw)).multiplyScalar(kick * 0.01);
+      m.fig.position.copy(b.pos).add(lean).add(back);
+      m.fig.position.y += rand(-1, 1) * 0.002;
+      j.torso.rotation.x = torso + kick * 0.03;
+      j.head.rotation.x += rand(-1, 1) * 0.02 * kick;
+    } else { // breathing
       m.fig.position.copy(b.pos).add(lean);
-      j.torso.rotation.x = torso;
+      j.torso.rotation.x = torso + Math.sin(m.t * 1.6) * 0.012;
     }
     // and his head stays inside: where the hull's low (the nose, the cheek windows) he stoops under it
     const room = this.interior;
@@ -672,6 +694,105 @@ export class Crew {
       m.duck = THREE.MathUtils.clamp((m.duck ?? 0) + (over > 0 ? over * 0.5 : -0.01), 0, 0.35); // (eased, and never more than a stoop)
       if (m.duck > 0) m.fig.position.y -= m.duck;
     }
+  }
+
+  /**
+   * A man standing to a flexible gun (the waist guns, the radio room's): posed from the gun itself, as men
+   * stood to them in the photos. His eye goes on the sight line behind the ring sight, wherever the gun
+   * points; his body turns with the gun; he leans into a low gun from the hips (back under the radio
+   * room's, his head tipped back to its sight), and bends his knees for the rest of the height, his feet
+   * planted on the floor in a braced stance, one ahead of the other, stepping round as the gun swings
+   * far enough to leave a foot behind. Hands on the spade grips. Between bursts he breathes, shifts his
+   * weight and looks round the sky; firing, the gun's hammering at 750 a minute shakes through his
+   * shoulders and head.
+   */
+  standToGun(m, gp, firing) {
+    const fig = m.fig, rig = fig.userData.rig, par = fig.parent, j = fig.userData.j, st = gp.station, cfg = STAND[st.id];
+    if (!rig?.dims || !par) return;
+    const now = performance.now() / 1000, dt = Math.min(0.05, Math.max(0, now - (m.lastT ?? now)));
+    m.lastT = now; m.t = (m.t ?? Math.random() * 20) + dt;
+    const sc = fig.scale.x, D = rig.dims, floor = st.stand.y, t = m.t;
+    // the sight line: the gun's direction and its "up", and the eye a hand behind the ring
+    const cp = Math.cos(gp.pitch), sp = Math.sin(gp.pitch), sy = Math.sin(gp.yaw), cy = Math.cos(gp.yaw);
+    const fwd = _g1.set(-sy * cp, sp, -cy * cp), up = _g2.set(sy * sp, cp, cy * sp);
+    const pv = par.worldToLocal(gp.pivot.getWorldPosition(_g3));
+    const E = _g4.copy(pv).addScaledVector(fwd, -st.eyeBehind).addScaledVector(up, st.eyeUp ?? 0.22);
+    // firing: each round's kick (12.5 a second), sharp and dying away
+    const kick = firing ? Math.max(0, Math.sin(t * 12.5 * Math.PI * 2)) ** 3 : 0;
+    m.fire = THREE.MathUtils.lerp(m.fire ?? 0, firing ? 1 : 0, 1 - Math.exp(-dt * 6));
+    // his body turns with the gun (a moment behind it)
+    m.bodyYaw = (m.bodyYaw ?? gp.yaw) + wrap(gp.yaw - (m.bodyYaw ?? gp.yaw)) * (1 - Math.exp(-dt * 7));
+    const by = m.bodyYaw, F = _g5.set(-Math.sin(by), 0, -Math.cos(by)), R = _g6.set(Math.cos(by), 0, -Math.sin(by));
+    // leaning into it: more over a gun aimed down, less as it comes up; breathing; the kick rocks him back
+    const lean = cfg.lean - gp.pitch * cfg.pitchLean + Math.sin(t * 1.6) * 0.012 - kick * 0.035;
+    // his head: on the sight between looks round the sky (not while he's firing)
+    if ((m.lookT = (m.lookT ?? rand(2, 5)) - dt) <= 0) {
+      m.lookT = rand(1.5, 4.5);
+      m.look = Math.random() < 0.45 ? [0, 0] : [rand(-0.7, 0.7), rand(-0.15, 0.35)];
+    }
+    const [ly, lp] = firing ? [0, 0] : m.look ?? [0, 0], kl = 1 - Math.exp(-dt * (firing ? 9 : 3));
+    m.headY = (m.headY ?? 0) + (ly - (m.headY ?? 0)) * kl; m.headP = (m.headP ?? 0) + (lp - (m.headP ?? 0)) * kl;
+    const aim = THREE.MathUtils.clamp(gp.pitch + m.headP, -0.75, 1.05), headRel = THREE.MathUtils.clamp(aim + lean, -0.6, 1.0);
+    // where his eye is from his hips, in his own frame (y up, -z ahead): the spine leaning, the head pitched
+    const S = D.spine * sc, a = headRel - lean, ey = D.eye.y * sc, ez = -D.eye.z * sc;
+    const eyeUp = S * Math.cos(lean) + ey * Math.cos(a) + ez * Math.sin(a), eyeAhead = S * Math.sin(lean) + ez * Math.cos(a) - ey * Math.sin(a);
+    // (corrected by what last frame's pose actually put where: the skeleton isn't quite this simple)
+    const corr = (m.corr ??= new V());
+    let hip = THREE.MathUtils.clamp(E.y - floor - eyeUp + corr.y, D.hip * sc * cfg.crouch, D.hip * sc * 0.97);
+    hip += Math.sin(t * 0.9) * 0.006 - kick * 0.008;
+    const sway = Math.sin(t * 0.45) * 0.018 * (1 - m.fire); // (shifting his weight foot to foot)
+    const hx = E.x - F.x * eyeAhead + R.x * sway + corr.x - fwd.x * kick * 0.012, hz = E.z - F.z * eyeAhead + R.z * sway + corr.z - fwd.z * kick * 0.012;
+    fig.position.set(hx, floor, hz);
+    fig.rotation.set(0, by, 0);
+    j.hips.position.y = hip / sc - rig.pelvisAt.y;
+    j.torso.rotation.set(-lean, cfg.twist + kick * 0.02 * (Math.random() - 0.5), 0);
+    j.head.rotation.set(headRel + (Math.random() - 0.5) * kick * 0.04, m.headY, 0);
+    // his hands on the grips
+    reachFor(fig, gp.gripsWorld(m.grips ??= [new V(), new V()]));
+    rig.grip = 1;
+    this.stepFeet(m, hx, hz, by, floor, cfg, dt);
+    // and where his eye really went last frame (the skeleton's head, the eye in front of it), for the correction
+    if (rig.bones.Head.matrixWorld.elements[15] === 1 && m.posed) {
+      const h = rig.bones.Head.getWorldPosition(_g3);
+      h.add(_g8.copy(D.eye).multiplyScalar(sc * fig.parent.getWorldScale(_g1).x).applyQuaternion(j.head.getWorldQuaternion(_gq)));
+      par.worldToLocal(h);
+      const err = _g8.subVectors(m.lastE ?? E, h);
+      corr.addScaledVector(err, 0.25).clampLength(0, 0.25);
+    }
+    m.lastE = (m.lastE ?? new V()).copy(E);
+    m.posed = true;
+  }
+
+  /**
+   * His feet, planted on the floor (figure.js plantFeet): in a stance round (hx, hz) facing yaw `by` (cfg:
+   * stride, one foot ahead of the other, and width), toes a little out; each stays put till the body has
+   * moved or turned far enough to leave it behind, then steps, one foot at a time.
+   */
+  stepFeet(m, hx, hz, by, floor, cfg, dt) {
+    const par = m.fig.parent, F = _g5.set(-Math.sin(by), 0, -Math.cos(by)), R = _g6.set(Math.cos(by), 0, -Math.sin(by));
+    m.feet ??= [0, 1].map(() => ({ p: new V(), yaw: by, step: null, set: false }));
+    for (let i = 0; i < 2; i++) {
+      const ft = m.feet[i], s = i ? 1 : -1, ahead = (i ? -1 : 1) * cfg.stride * 0.5;
+      const want = _g7.set(hx, floor, hz).addScaledVector(R, s * cfg.width).addScaledVector(F, ahead);
+      const it = this.interior, lim = it ? it.hw(want.z, floor + 0.1) - 0.13 : 9;
+      if (Number.isFinite(lim) && lim > 0.1 && Math.abs(want.x) > lim) want.x = Math.sign(want.x) * lim;
+      const wantYaw = by + s * -0.22;
+      if (!ft.set) { ft.p.copy(want); ft.yaw = wantYaw; ft.set = true; }
+      const other = m.feet[1 - i];
+      if (!ft.step && !other.step && (ft.p.distanceTo(want) > 0.15 || Math.abs(wrap(wantYaw - ft.yaw)) > 0.5)) ft.step = { from: ft.p.clone(), yaw0: ft.yaw, u: 0 };
+      let lift = 0;
+      if (ft.step) {
+        const k = (ft.step.u = Math.min(1, ft.step.u + dt / 0.28)), e = k * k * (3 - 2 * k);
+        ft.p.lerpVectors(ft.step.from, want, e);
+        ft.yaw = ft.step.yaw0 + wrap(wantYaw - ft.step.yaw0) * e;
+        lift = Math.sin(k * Math.PI) * 0.06;
+        if (k >= 1) ft.step = null;
+      }
+      ft.out ??= { at: new V(), q: new THREE.Quaternion() };
+      ft.out.at.copy(ft.p); ft.out.at.y += lift; par.localToWorld(ft.out.at);
+      par.getWorldQuaternion(ft.out.q).multiply(_gq.setFromAxisAngle(_g8.set(0, 1, 0), ft.yaw));
+    }
+    plantFeet(m.fig, [m.feet[0].out, m.feet[1].out]);
   }
 
   /**

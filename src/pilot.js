@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 import { ALTITUDE } from './world.js';
 import { buildCockpit, buildReticle } from './cockpit.js';
+import { BALLISTICS } from './weapons.js';
 
 const V = THREE.Vector3;
 const LOOK = 0.0022; // rad per pixel of mouse movement
@@ -25,8 +26,9 @@ const _aim = new V(), _t = new V(), _m = new THREE.Matrix4(), _q = new THREE.Qua
 const _ax = new V(), _ay = new V(), _fq = new THREE.Quaternion(), _l = new V(), _hq = new THREE.Quaternion();
 const AIM_MAX = 0.7; // rad: the aim mark can lead the nose by this much at most (~40 degrees: it stays on the screen)
 const RETICLE_AT = 3; // m ahead of the eye the collimated sight image is drawn (its size scales with it)
-// right click held: lock on (aim assist). Picks the enemy nearest the aim within this cone and range, then
-// draws the aim onto where to point for the bullets to meet him (his lead); the mouse still steers on top
+// middle click: lock on (aim assist), a toggle (click again to let go). Picks the enemy nearest the aim within
+// this cone and range, then draws the aim onto where to point for the bullets to meet him (his lead); the
+// mouse still steers on top
 const LOCK_CONE = THREE.MathUtils.degToRad(25), LOCK_RANGE = 1500, LOCK_KEEP = 2200, LOCK_OFF = THREE.MathUtils.degToRad(70), ASSIST = 3.5;
 
 export class Pilot {
@@ -54,9 +56,13 @@ export class Pilot {
     addEventListener('mousedown', (e) => {
       if (!this.active) return;
       if (e.button === 0) this.firing = true;
-      if (e.button === 2) this.locking = true;
+      if (e.button === 1) { // middle click: lock on / let go (and no browser autoscroll)
+        e.preventDefault();
+        if (this.locking) { this.locking = false; this.locked = null; } else this.locking = true;
+      }
+      if (e.button === 2) this.zoom = true; // hold right click: zoom in (main.js eases the view's FOV)
     });
-    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; if (e.button === 2) { this.locking = false; this.locked = null; } });
+    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; if (e.button === 2) this.zoom = false; });
     document.addEventListener('mousemove', (e) => {
       if (!this.active || !(document.pointerLockElement || this.freeLook)) return;
       if (Math.abs(e.movementX) > 300 || Math.abs(e.movementY) > 300) return; // a bogus jump (Chrome on Windows)
@@ -92,7 +98,7 @@ export class Pilot {
   }
 
   stop() {
-    this.active = false; this.firing = false; this.keys = {}; this.locking = false; this.locked = null;
+    this.active = false; this.firing = false; this.zoom = false; this.keys = {}; this.locking = false; this.locked = null;
     this.showCockpit(null);
     for (const r of Object.values(this.reticles)) r.visible = false;
   }
@@ -176,9 +182,9 @@ export class Pilot {
   }
 
   /**
-   * Right click held: lock on to the enemy nearest the aim (within LOCK_CONE and LOCK_RANGE), and draw the aim
-   * onto his lead, where the guns must point for the bullets to meet him. Let go, or he's down, out of
-   * range or well off the nose, and the lock's gone.
+   * Middle click (a toggle): lock on to the enemy nearest the aim (within LOCK_CONE and LOCK_RANGE), and draw
+   * the aim onto his lead, where the guns must point for the bullets to meet him. Click again, or he's down,
+   * out of range or well off the nose, and the lock's gone.
    */
   assist(f, dt) {
     if (!this.locking || !f.alive) { this.locked = null; return; }
@@ -196,13 +202,42 @@ export class Pilot {
     }
     this.locked = t ? t.obj : null;
     if (!t) { this.locking = false; return; }
-    // his lead: where he'll be when the bullets get there (they fly at the guns' muzzle speed plus ours)
-    const dist = t.pos.distanceTo(f.pos), tof = dist / (f.k.muzzle + f.speed * 0.5);
-    _l.copy(t.pos);
-    if (t.vel) _l.addScaledVector(t.vel, tof);
-    _l.sub(f.pos).normalize();
+    // his lead: the direction to point the guns for the bullets to meet him (pull the aim onto it)
+    this.leadDir(f, t, _l);
     this.aimV.lerp(_l, 1 - Math.exp(-dt * ASSIST)).normalize();
     this.limitAim();
+  }
+
+  /**
+   * The intercept: which way to point the guns so a round meets target t ({ pos, vel }). Worked in the air's
+   * frame (the bullets' drag is against the air): the round leaves at the guns' muzzle speed plus our own
+   * airspeed, slows under BALLISTICS' quadratic drag and drops under gravity, while he flies on at his
+   * velocity. A few rounds of fixed-point iteration on the time of flight. Writes the unit direction to `out`
+   * and the meeting point (world) to this.leadAt; returns the time of flight.
+   */
+  leadDir(f, t, out) {
+    const { DRAG, GRAVITY, WIND } = BALLISTICS, m = f.k.muzzle;
+    const uf = _ax.copy(f.dir).multiplyScalar(f.speed); // our airspeed vector (f.velocity less the wind)
+    const ut = _ay.copy(WIND).negate(); // his, through the air (a bomber: still over the ground, flying through the air)
+    if (t.vel) ut.add(t.vel);
+    const r = _t.copy(t.pos).sub(f.pos); // where he is now (air frame, from us)
+    let tof = r.length() / (m + f.speed);
+    for (let i = 0; i < 4; i++) {
+      // where he'll be then, plus the drop to allow for: the line the round must leave on
+      out.copy(r).addScaledVector(ut, tof);
+      out.y += 0.5 * GRAVITY * tof * tof;
+      const d = out.length(), e = out.divideScalar(d || 1);
+      // the round's speed on that line: |v0 e - uf| = m, so v0 = e.uf + sqrt((e.uf)^2 - uf.uf + m^2)
+      const eu = e.dot(uf), v0 = eu + Math.sqrt(Math.max(0, eu * eu - uf.lengthSq() + m * m));
+      // with dv/dt = -k v^2 it covers d in (e^(k d) - 1) / (k v0)
+      tof = Math.min(3, (Math.exp(DRAG * d) - 1) / (DRAG * v0));
+      if (i === 3) {
+        this.leadAt = (this.leadAt ?? new V()).copy(t.pos); // (world: where he'll be when the rounds arrive)
+        if (t.vel) this.leadAt.addScaledVector(t.vel, tof);
+        out.multiplyScalar(v0).sub(uf).normalize(); // the gun line: launch velocity less our own speed
+      }
+    }
+    return tof;
   }
 
   /** Where the locked target is now (for its brackets on the screen), or null. */
@@ -267,7 +302,7 @@ export class Pilot {
       c.userData.update({
         speed: f.speed, alt: ALTITUDE + f.pos.y, climb: vel.y, heading: Math.atan2(f.dir.x, -f.dir.z), bank: Math.atan2(-right.y, up.y),
         pitch: Math.asin(THREE.MathUtils.clamp(f.dir.y, -1, 1)), throttle: this.throttle, heat: Math.max(...this.heat), damage: f.smoking || f.engineDead,
-        time: this.fighters?.time ?? 0, stickX: this.stickX ?? 0, stickY: this.stickY ?? 0,
+        time: this.fighters?.time ?? 0, stickX: this.stickX ?? 0, stickY: this.stickY ?? 0, ammo: this.ammo, ammoMax: AMMO[f.kind],
       }, dt);
       if (c.userData.nightK !== this.night) { c.userData.nightK = this.night; c.userData.night(this.night); }
       // the gunsight's image, collimated: out along the guns' line from your eye, facing you

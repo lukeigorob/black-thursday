@@ -80,8 +80,8 @@ const ROLES = {
     does: ['Dive through the boxes head-on', 'Bring the B-17s down', 'Wait for the Thunderbolts to turn back'] },
   fw190: { name: 'Fw 190 pilot', unit: 'Luftwaffe · Sturmgruppe', line: 'Through the bombers head-on.',
     does: ['Four 20 mm cannon and armour', 'Attack in a tight group from ahead', 'Outrun the escorts in a dive'] },
-  p47: { name: 'P-47 pilot', unit: '56th Fighter Group', line: 'Cover the bombers as far as your fuel goes.',
-    does: ['Fly escort over the stream', 'Break up attacks before they land', 'Turn back when your fuel runs low'] },
+  p47: { name: 'P-47 pilot', unit: '56th Fighter Group', line: 'Cover the bombers through the fight.',
+    does: ['Fly escort over the stream', 'Break up attacks before they land', 'Stay with them all the way in'] },
 };
 const ICON = {
   full: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>',
@@ -97,7 +97,7 @@ const CONTROLS = [
     ['C', 'hold: look round'], ['F', 'hold by a wounded man: first aid']]],
   ['Pilot\'s seat', [['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 – 4', 'a bottle on that engine'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view']]],
   ['Bombsight', [['1 – 4', 'in the nose: its guns, left to right'], ['5 / B', 'in the nose, from the initial point: the bombsight'], ['A / D', 'steer the formation'], ['Space / Click', 'bombs away'], ['B / E', 'leave the sight']]],
-  ['Fighters', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Left click', 'guns'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view'], ['J', 'bail out']]],
+  ['Fighters', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Left click', 'guns'], ['Middle click', 'lock on / off (aim assist)'], ['Right click', 'hold: zoom'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view'], ['J', 'bail out']]],
 ];
 /** "W / S" -> <kbd>W</kbd> <kbd>S</kbd>; "W A S D" -> four keys. */
 const keycaps = (k) => k.split(' / ').flatMap((x) => (/^([A-Z] )+[A-Z]$/.test(x) ? x.split(' ') : [x])).map((x) => `<kbd>${x}</kbd>`).join(' ');

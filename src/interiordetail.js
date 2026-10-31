@@ -69,7 +69,7 @@ export function addMoreDetail(it, MAT, DECKS) {
       const d = deckAt(z);
       if (!d) { prev = null; continue; }
       const y = d.y + up, w = wallX(z, y);
-      const blocked = windows.some(([z0, z1, h0, h1]) => z > z0 && z < z1 && up > h0 && up < h1);
+      const blocked = windows.some(([z0, z1, h0, h1]) => z > z0 && z < z1 && up > h0 && up < h1) || (z > -1.2 && z < 5.15); // (the waist's own: waist.js)
       if (!(w > 0.2) || !Number.isFinite(w) || blocked) { prev = null; continue; }
       const p = [s * w, y, z];
       if (prev && Math.abs(prev[1] - p[1]) < 0.3) it.rod(prev, p, 0.011, M.stringer, 4);
@@ -151,11 +151,11 @@ export function addMoreDetail(it, MAT, DECKS) {
     it.add(M.od, new THREE.BoxGeometry(0.04, 0.5, 0.36).translate(x, y, z));
     it.rod([x, y + 0.25, z], [s * wallX(z, y + 0.4, 0.02), y + 0.36, z], 0.006, MAT.metal);
   }
-  { // the first-aid kit, white with its red cross
-    const z = 4.4, y = -1.15, x = wallX(z, y, 0.05);
+  { // the first-aid kit, white with its red cross (on the left wall: the main door's on the right, there)
+    const z = 4.4, y = -1.15, x = -wallX(z, y, 0.05);
     it.add(M.white, new THREE.BoxGeometry(0.06, 0.24, 0.32).translate(x, y, z));
-    it.add(M.knob, new THREE.BoxGeometry(0.004, 0.14, 0.04).translate(x - 0.031, y, z));
-    it.add(M.knob, new THREE.BoxGeometry(0.004, 0.04, 0.14).translate(x - 0.031, y, z));
+    it.add(M.knob, new THREE.BoxGeometry(0.004, 0.14, 0.04).translate(x + 0.031, y, z));
+    it.add(M.knob, new THREE.BoxGeometry(0.004, 0.04, 0.14).translate(x + 0.031, y, z));
   }
 
   // ---- the tail gunner's knee pads, and his little seat behind him on its post
@@ -197,7 +197,7 @@ export function addMoreDetail(it, MAT, DECKS) {
   it.box(wallX(-1.75, -1.25, 0.08) - 0.1, wallX(-1.75, -1.25, 0.08) + 0.04, -1.25, -1.22, -1.98, -1.52, MAT.metal, false); // the shelf
 
   // ---- oxygen regulators and interphone jack boxes at every post, on the nearest wall
-  const posts = [[-10.25, -0.35, -1], [-9.5, 0.05, -1], [-7.55, 0.2, -1], [-7.55, 0.2, 1], [-6.75, 0.45, 1], [-2.3, -1.25, -1], [2.45, -1.45, -1], [2.45, -1.45, 1], [9.2, -1.85, 1], [-0.2, -1.5, 1]];
+  const posts = [[-10.25, -0.35, -1], [-9.5, 0.05, -1], [-7.55, 0.2, -1], [-7.55, 0.2, 1], [-6.75, 0.45, 1], [-2.3, -1.25, -1], [9.2, -1.85, 1], [-0.2, -1.5, 1]];
   const reg = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.07), dialPlate(1));
   const outlets = it.group.userData.oxygen = []; // (where each man's mask hose plugs in: figure.js runs it to him)
   for (const [z, y, side] of posts) {

@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { AIRSPEED, PARTS } from './bomber.js';
-import { buildBrowning } from './browning.js';
+import { buildBrowning, buildYoke } from './browning.js';
 import { insideLight } from './cabinlook.js';
 import { turretPoint, turretFloor } from './interior.js';
 
@@ -302,7 +302,9 @@ class Casings {
 
 const FLASH_TEX = flashTexture();
 
-let CAN_MAT = null;
+let CAN_MAT = null, MOUNT_MAT = null, CHUTE_MAT = null;
+const CHUTE = { rings: 46, sides: 10 };
+const _ci = new THREE.Matrix4(), _cB = new V(), _cU = new V(), _cW = new V(), _c1 = new V(), _c2 = new V(), _cT = new V(), _cP = new V(), _cN = new V(), _cM = new V();
 
 /** A nose gun in its ball socket: no gun in the model, so one laid out from the station itself. */
 function socketGun(station) {
@@ -362,7 +364,8 @@ class GunPosition {
     for (const g of info) {
       if (g.mesh) g.mesh.visible = false;
       const front = flex ? station.front ?? 1.5 : g.breech.distanceTo(g.muzzle);
-      const gun = buildBrowning(flex ? 'flex' : station.twin?.[4] ? 'turret' : 'barrel', front, station.twin?.[4] ?? station.gunRear ?? 0.12, flex);
+      if (flex && station.rest) g.axis.copy(this.restDir); // (on its own mount: laid out by the station, not the model's barrel)
+      const gun = buildBrowning(flex ? 'flex' : station.twin?.[4] ? 'turret' : 'barrel', front, station.twin?.[4] ?? station.gunRear ?? 0.12, flex, { feed: station.feed, bag: station.bag });
       const zAxis = g.axis.clone().negate(), xAxis = new V().crossVectors(UP, zAxis).normalize(), yAxis = new V().crossVectors(zAxis, xAxis);
       gun.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis));
       gun.position.copy(flex ? pivotPos : g.breech).sub(pivotPos);
@@ -442,7 +445,8 @@ class GunPosition {
     // a flexible gun's mount stands where the station puts it (the waist guns are staggered, and sit
     // higher in the window than the model's): everything on the pivot moves with it
     if (station.mount) this.pivot.position.add(new V(...station.mount));
-    if (flex && bomber.interior && !station.socket) { // its post (a nose gun's mount is its ball socket in the glass: buildNoseGlazing), down from the pivot to the window sill, braced to the wall
+    if (flex && bomber.interior && station.sill != null) this.buildMount(bomber, station);
+    else if (flex && bomber.interior && !station.socket) { // its post (a nose gun's mount is its ball socket in the glass: buildNoseGlazing), down from the pivot to the window sill, braced to the wall
       bomber.group.updateMatrixWorld(true);
       const p = bomber.interior.group.worldToLocal(this.pivot.getWorldPosition(new V())), out = Math.sign(p.x), mat = insideLight(new THREE.MeshStandardMaterial({ color: 0x2c2e2a, roughness: 0.55, metalness: 0.6, envMapIntensity: 0.3 }));
       const post = new THREE.Mesh(mergeGeometries([
@@ -485,6 +489,82 @@ class GunPosition {
     return out;
   }
 
+  /**
+   * A waist gun's mount in its window: the socket bolted to the sill (fixed), the yoke on its pintle,
+   * turning with the gun in traverse only (aim()), and the flexible steel chute from the ammunition box
+   * up into the gun's feed tray, bent each frame as the gun swings (updateChute).
+   */
+  buildMount(bomber, station) {
+    const it = bomber.interior, p = new V(...station.pivot), out = Math.sign(p.x), sill = station.sill;
+    MOUNT_MAT ??= insideLight(new THREE.MeshStandardMaterial({ color: 0x2c2e2a, roughness: 0.55, metalness: 0.6, envMapIntensity: 0.3 }));
+    const socket = new THREE.Mesh(mergeGeometries([
+      new THREE.CylinderGeometry(0.036, 0.04, 0.1, 14).translate(p.x, sill + 0.05, p.z), // the socket the pintle drops into
+      new THREE.CylinderGeometry(0.05, 0.05, 0.015, 14).translate(p.x, sill + 0.007, p.z), // its flange
+      new THREE.BoxGeometry(0.2, 0.025, 0.16).translate(p.x + out * 0.03, sill - 0.012, p.z), // the plate on the sill
+      ...[-1, 1].flatMap((s) => [-1, 1].map((t) => new THREE.CylinderGeometry(0.008, 0.008, 0.012, 6).translate(p.x + out * 0.03 + s * 0.08, sill + 0.006, p.z + t * 0.06))), // its bolts
+      new THREE.BoxGeometry(0.03, 0.22, 0.05).translate(p.x - out * 0.05, sill - 0.12, p.z), // a gusset down the wall under it
+    ].map((x) => x.toNonIndexed())), MOUNT_MAT);
+    socket.castShadow = true;
+    it.group.add(socket);
+    const drop = Math.max(0.05, p.y - 0.16 - (sill + 0.03));
+    this.yoke = new THREE.Object3D();
+    this.yoke.position.copy(this.pivot.position);
+    this.pivot.parent.add(this.yoke);
+    const y = buildYoke(drop);
+    y.rotation.y = this.yaw0; // (built facing -Z: turned to the gun's rest direction)
+    this.yoke.add(y);
+    if (station.feedBox) {
+      const n = CHUTE.rings * CHUTE.sides, geo = new THREE.BufferGeometry(), idx = [];
+      geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+      geo.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+      for (let i = 0; i < CHUTE.rings - 1; i++) for (let k = 0; k < CHUTE.sides; k++) {
+        const a = i * CHUTE.sides + k, b = i * CHUTE.sides + (k + 1) % CHUTE.sides;
+        idx.push(a, a + CHUTE.sides, b, b, a + CHUTE.sides, b + CHUTE.sides);
+      }
+      geo.setIndex(idx);
+      CHUTE_MAT ??= insideLight(new THREE.MeshStandardMaterial({ color: 0x3c3f38, roughness: 0.7, metalness: 0.35, envMapIntensity: 0.1, side: THREE.DoubleSide }));
+      this.chute = new THREE.Mesh(geo, CHUTE_MAT);
+      this.chute.frustumCulled = false; this.chute.castShadow = true;
+      this.chuteFrom = new V(...station.feedBox);
+      it.group.add(this.chute);
+      this.chuteIt = it.group;
+    }
+    this.updateChute();
+  }
+
+  /** Bend the feed chute from its box to where the gun's feed tray is now. */
+  updateChute() {
+    const g = this.guns?.[0]?.gun;
+    if (!this.chute || !g?.userData.feed) return;
+    g.updateWorldMatrix(true, false); this.chuteIt.updateWorldMatrix(true, false);
+    _ci.copy(this.chuteIt.matrixWorld).invert();
+    const B = _cB.copy(g.userData.feed).applyMatrix4(g.matrixWorld).applyMatrix4(_ci); // the chute's end, at the feed tray
+    const up = _cU.set(0, 1, 0).transformDirection(g.matrixWorld).transformDirection(_ci); // (into the tray from below)
+    const along = _cW.set(0, 0, 1).transformDirection(g.matrixWorld).transformDirection(_ci); // (the belt's rounds lie along the gun)
+    const A = this.chuteFrom, d = A.distanceTo(B);
+    _c1.copy(A).add(_cT.set(0, d * 0.55, 0)); // up out of the box
+    _c2.copy(B).addScaledVector(up, -d * 0.45).addScaledVector(_cT.set(g.userData.feedSide * 0.5, 0, 0).transformDirection(g.matrixWorld).transformDirection(_ci), d * 0.2);
+    const pos = this.chute.geometry.attributes.position.array, nor = this.chute.geometry.attributes.normal.array;
+    const R = CHUTE.rings, S = CHUTE.sides, bez = (t, o) => { const u = 1 - t; return o.set(0, 0, 0).addScaledVector(A, u * u * u).addScaledVector(_c1, 3 * u * u * t).addScaledVector(_c2, 3 * u * t * t).addScaledVector(B, t * t * t); };
+    for (let i = 0; i < R; i++) {
+      const t = i / (R - 1);
+      bez(t, _cP); bez(Math.min(1, t + 0.01), _cT); if (t >= 1) { bez(t - 0.01, _cT); _cT.subVectors(_cP, _cT); } else _cT.sub(_cP);
+      _cT.normalize();
+      // the chute's flat: its wide side across the belt (the rounds lie along the box, then along the gun)
+      _cN.set(Math.sign(A.x) || 1, 0, 0).multiplyScalar(-1).lerp(along, t * t).addScaledVector(_cT, -_cN.dot(_cT)).normalize();
+      _cM.crossVectors(_cT, _cN);
+      const link = i % 3 === 0 ? 1.12 : 1; // (its articulated links: a lip every few centimetres)
+      for (let k = 0; k < S; k++) {
+        const a = (k / S) * Math.PI * 2, c = Math.cos(a), sn = Math.sin(a);
+        // a rounded rectangle: 6 cm by 2.5 cm across
+        const w = Math.sign(c) * Math.abs(c) ** 0.35 * 0.06 * link, h = Math.sign(sn) * Math.abs(sn) ** 0.35 * 0.025 * link, o = (i * S + k) * 3;
+        pos[o] = _cP.x + _cN.x * w + _cM.x * h; pos[o + 1] = _cP.y + _cN.y * w + _cM.y * h; pos[o + 2] = _cP.z + _cN.z * w + _cM.z * h;
+        nor[o] = _cN.x * c + _cM.x * sn; nor[o + 1] = _cN.y * c + _cM.y * sn; nor[o + 2] = _cN.z * c + _cM.z * sn;
+      }
+    }
+    this.chute.geometry.attributes.position.needsUpdate = true; this.chute.geometry.attributes.normal.needsUpdate = true;
+  }
+
   makeTurret(model, names, pivotPos) {
     if (!names) return null;
     const part = new THREE.Object3D();
@@ -517,6 +597,7 @@ class GunPosition {
     this.qPitch.setFromAxisAngle(this.elevAxis, this.pitch - this.pitch0);
     this.aimQ.multiplyQuaternions(this.qYaw, this.qPitch);
     this.pivot.quaternion.copy(this.aimQ);
+    if (this.yoke) { this.yoke.quaternion.copy(this.qYaw); this.updateChute(); } // (the mount turns in traverse only)
     if (this.fullPart) this.fullPart.quaternion.copy(this.aimQ);
     if (this.yawPart) this.yawPart.rotation.y = this.yaw - this.yaw0;
     if (this.dome) this.dome.rotation.y = this.yaw;
@@ -687,7 +768,7 @@ export class Weapons {
         if (this.casings) { // the M2 throws its spent case and the belt's link out underneath it
           const it = this.bomber.interior, port = gp.pivot.localToWorld(tmp3.copy(g.port)).applyMatrix4(_inv2.copy(this.bomber.group.matrixWorld).invert());
           const out = !it || Math.abs(port.x) > it.hw(port.z, port.y) - 0.02 || gp.station.id === 'ball';
-          this.casings.spawn(port, new V((Math.random() - 0.5) * 0.6, -0.8 - Math.random() * 0.8, (Math.random() - 0.5) * 0.6), false, out);
+          if (!g.gun?.userData.bag) this.casings.spawn(port, new V((Math.random() - 0.5) * 0.6, -0.8 - Math.random() * 0.8, (Math.random() - 0.5) * 0.6), false, out); // (with a bag under it the cases go in the bag: only the links fall)
           this.casings.spawn(port.clone().add(tmp4.set(0, -0.02, 0)), new V((Math.random() - 0.5) * 0.3, -0.6, (Math.random() - 0.5) * 0.3), true, out);
         }
         if (player || gp.rounds % 3 === 0) this.audio.gunshot(vol); // AI guns: fewer sounds, same rhythm

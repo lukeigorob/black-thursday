@@ -16,6 +16,7 @@ const STEP = 0.42, WALK = 1.7, GRAVITY = 9.8, LOOK = 0.0022;
 const _sh = new THREE.Vector3(), _sh2 = new THREE.Vector3(), _m3 = new THREE.Matrix3();
 const OUT_BY = { tail: TAILWAY.fwd }; // positions you leave by crawling straight out (E at the tail gun: back to the waist)
 // a crawl's progress against time: easing in and out over its first and last 12%, steady between
+const EXIT_TIME = 2.3; // s: from E at a hatch to out under the plane (startExit)
 const easeEnds = (k, a = 0.12) => { const v = 1 / (1 - a); return k < a ? v * k * k / (2 * a) : k > 1 - a ? 1 - v * (1 - k) ** 2 / (2 * a) : v * (k - a / 2); };
 const BODY_DROP = 0.14, BODY_BACK = 0.22; // m: your body's neck sits this far below and behind your eye
 const TO_STATION = 4; // 1 / seconds to move into a gun position
@@ -83,7 +84,7 @@ export class Player {
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
     addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
     addEventListener('mousedown', (e) => {
-      if (e.button === 0 && this.enabled && this.hatch && !this.wounded) { this.onHatch?.(); return; } // (a click at a lit hatch: out)
+      if (e.button === 0 && this.enabled && this.hatch && !this.wounded) { this.startExit(this.hatch); return; } // (a click at a lit hatch: out)
       if (e.button === 0 && this.enabled && !this.station && (this.passage || this.near) && !this.crawl && !this.wounded) { this.interact(); return; } // (a click at a crawlway or a position takes it, as E does)
       if (e.button === 0 && this.enabled) this.firing = true;
       if (e.button === 2 && this.enabled) this.zoom = true; // hold right click to zoom in
@@ -231,7 +232,7 @@ export class Player {
     this.dead = false;
     this.wounded = false;
     // a man who died at a gun can't leave it himself (interact() ignores the dead): start clean
-    this.station = null; this.lastStation = null; this.blend = 0; this.crawl = null;
+    this.station = null; this.lastStation = null; this.blend = 0; this.crawl = null; this.exit = null; this.jumped = false;
     this.firing = false; this.vy = 0; this.woundLeft = 0; this.health = 1; this.wounds = noWounds(); this.lastZone = null;
     this.reloadPressed = this.releasePressed = false;
     this.eye = STAND_EYE; this.camY = stand.y + STAND_EYE;
@@ -259,7 +260,7 @@ export class Player {
   }
 
   interact() {
-    if (this.hatch && !this.wounded && !this.dead) { this.onHatch?.(); return; } // (going down: out through the hatch)
+    if (this.hatch && !this.wounded && !this.dead) { this.startExit(this.hatch); return; } // (going down: out through the hatch)
     this.firing = false;
     if (this.wounded || this.dead || this.crawl) return;
     if (!this.station && this.passage) { this.startCrawl(this.passage); return; }
@@ -351,9 +352,51 @@ export class Player {
     if (!this.hatchSprites) return;
     const t = performance.now() / 1000;
     for (const s of this.hatchSprites) {
-      s.visible = !!this.hatches;
+      s.visible = !!this.hatches && !this.exit; // (not in your face as you go out)
       s.scale.setScalar((this.hatch === s.userData.h ? 0.2 : 0.15) * (1 + 0.12 * Math.sin(t * 7)));
     }
+  }
+
+  /**
+   * Out through a hatch (going down): you step to it, turning to face out of a side door (or over a hatch in
+   * the floor, looking down through it), crouch in it a moment with the slipstream roaring past, and go:
+   * out and down, the air taking you aft, tumbling over to see her flying on above you. Then the
+   * parachute (onHatch: main.js, eject.js) takes over from where you are.
+   */
+  startExit(h) {
+    if (this.exit) return;
+    const it = this.it, side = Math.abs(h.pos.x) > 0.3 ? Math.sign(h.pos.x) : 0, f = h.pos.y, V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+    const at = side ? [h.pos.x - side * 0.3, h.pos.z] : [h.pos.x, h.pos.z];
+    const room = it.headroom(at[0], at[1], f, R, STEP);
+    const crouch = Math.min(room - 0.15, 0.95);
+    const pts = side
+      ? [V3(at[0], f + crouch, at[1]), V3(h.pos.x + side * 0.12, f + 0.55, h.pos.z + 0.08), V3(h.pos.x + side * 1.1, f - 0.3, h.pos.z + 1.3), V3(h.pos.x + side * 2.6, f - 2.2, h.pos.z + 5), V3(h.pos.x + side * 3.6, f - 4.5, h.pos.z + 10)]
+      : [V3(at[0], f + crouch, at[1]), V3(at[0], f - 0.15, at[1] + 0.05), V3(at[0], f - 1.2, at[1] + 1.3), V3(at[0] + 0.5, f - 3, at[1] + 5), V3(at[0] + 0.8, f - 5.5, at[1] + 10)];
+    this.exit = { h, t: 0, side, from: this.camera.position.clone(), yaw0: this.station ? this.station.yaw + this.sYaw : this.yaw, pitch0: this.station ? this.sPitch : this.pitch,
+      curve: new THREE.CatmullRomCurve3(pts, false, 'centripetal'), yawOut: side ? -side * Math.PI / 2 : this.yaw };
+    this.station = null; this.blend = 0; this.firing = false; this.vel.set(0, 0, 0); this.crawl = null;
+    this.onExit?.(h);
+  }
+
+  /** The way out (startExit): where your eye is, and where you look, `k` (0..1) of the way. */
+  exitView(k) {
+    const x = this.exit, ss = THREE.MathUtils.smootherstep;
+    const step = ss(k, 0, 0.28), set = ss(k, 0.28, 0.5), go = clamp((k - 0.5) / 0.5, 0, 1);
+    const first = x.curve.points[0];
+    if (k < 0.5) { // over to it, and down into a crouch in it, leaning out a little
+      this.camera.position.lerpVectors(x.from, first, step);
+      if (set > 0) this.camera.position.add(_crawlAt.set(x.side * 0.12, -0.12, 0).multiplyScalar(set));
+    } else x.curve.getPoint(go * go * (0.6 + 0.4 * go), this.camera.position); // (pushing off, then falling faster)
+    // looking: round to the way out, down at the slipstream and the ground; falling, over and back up at her
+    const yawOut = x.yawOut, pitchOut = x.side ? -0.55 : -1.25;
+    let yaw = x.yaw0 + Math.atan2(Math.sin(yawOut - x.yaw0), Math.cos(yawOut - x.yaw0)) * step, pitch = x.pitch0 + (pitchOut - x.pitch0) * ss(k, 0, 0.45), roll = 0;
+    if (go > 0) {
+      const back = ss(go, 0.1, 0.9);
+      yaw += (x.side ? Math.PI * 0.85 : 0.4) * back * (x.side || 1);
+      pitch += ((x.side ? 0.45 : 1.15) - pitchOut) * back;
+      roll = Math.sin(go * 7) * 0.35 * go * (1 - back * 0.5);
+    }
+    this.camera.quaternion.setFromEuler(_euler.set(pitch, yaw, roll, 'YXZ'));
   }
 
   /** Down through the hatch and forward under the flight deck to the nose (or back): the eye along the way. */
@@ -431,7 +474,7 @@ export class Player {
   }
 
   get prompt() {
-    if (this.wounded || this.dead) return '';
+    if (this.wounded || this.dead || this.exit) return '';
     if (this.hatch) return `<b>E</b> or <b>click</b> Bail out through ${this.hatch.name}`;
     if (this.hatches && this.station?.flies) return '<span style="color:#ff8a70">Bail out! <b>E</b> out of the seat, then the red <b>E</b> at the crawlway down to the nose hatch, or the bomb bay</span>';
     if (this.hatches) return '<span style="color:#ff8a70">Bail out! Get to a hatch: the red <b>E</b></span>';
@@ -476,7 +519,9 @@ export class Player {
       if ((this.woundLeft -= dt) <= 0) { this.wounded = false; this.dead = true; }
       this.firing = false;
       this.eye += (0.3 - this.eye) * (1 - Math.exp(-dt * 3)); // lying on the floor
-    } else if (this.enabled && !this.station && !this.dead && !this.crawl) this.walk(dt);
+    } else if (this.enabled && !this.station && !this.dead && !this.crawl && !this.exit) this.walk(dt);
+    this.camera.userData.exiting = !!this.exit;
+    if (this.exit && (this.exit.t += dt / EXIT_TIME) >= 1) { const h = this.exit.h; this.exitView(1); this.exit = null; this.jumped = true; this.onHatch?.(h); return; } // (out: the parachute takes it from here)
     // what E takes: of the positions and crawlways in reach, the one you're looking towards (the flight
     // deck has both seats, the top turret and the crawlway down to the nose within a stride of each
     // other: by distance alone it was whichever you happened to be a few centimetres nearer). A seat is
@@ -507,7 +552,7 @@ export class Player {
     }
     // going down: the nearest lit hatch in reach
     this.hatch = null;
-    if (this.hatches && !this.wounded && !this.dead) for (const h of this.hatches) if (Math.hypot(this.feet.x - h.pos.x, this.feet.z - h.pos.z) < 0.85 && Math.abs(this.feet.y - h.pos.y) < 0.8) this.hatch = h;
+    if (this.hatches && !this.wounded && !this.dead && !this.exit) for (const h of this.hatches) if (Math.hypot(this.feet.x - h.pos.x, this.feet.z - h.pos.z) < 0.85 && Math.abs(this.feet.y - h.pos.y) < 0.8) this.hatch = h;
     this.hatchMarks();
     if (this.crawl && (this.crawl.t += dt / this.crawl.p.time) >= 1) this.endCrawl();
     this.passageMarks(); // (the E over each crawlway's opening)
@@ -551,7 +596,7 @@ export class Player {
 
   updateBody(dt) {
     const b = this.body, j = b.userData.j, s = this.station;
-    if (this.dead) { b.visible = false; return; }
+    if (this.dead || this.exit) { b.visible = false; return; } // (going out of a hatch: the camera's own way, your body would fill it)
     // crawling or climbing into a cramped position, the camera takes its own way: don't let it pass
     // through your own body on the way
     const entering = ((this.station ?? this.lastStation)?.entry && this.blend > 0.02 && this.blend < 0.92) || this.crawl;
@@ -696,6 +741,7 @@ export class Player {
     const wall = Math.max(0, this.it.hwSmooth(this.feet.z, this.camY) - 0.09);
     const walkPos = _walkPos.set(clamp(this.feet.x, -wall, wall), this.camY, this.feet.z);
     const walkRot = _walkRot.setFromEuler(_euler.set(this.pitch, this.yaw, 0, 'YXZ'));
+    if (this.exit) { this.exitView(clamp(this.exit.t, 0, 1)); return; } // (out through a hatch: startExit)
     if (this.crawl) { // on hands and knees through the crawlway: the eye along its path, looking the way you go
       const c = this.crawl, k = easeEnds(clamp(c.t, 0, 1));
       c.curve.getPointAt(k, this.camera.position);

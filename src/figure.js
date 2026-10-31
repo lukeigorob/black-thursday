@@ -169,11 +169,19 @@ export function makeFigure(opts = {}) {
   // the arms' bone lengths, for reaching the grips (two-bone IK)
   const arm = (s) => ({ upper: bones[`upperarm_${s}`], lower: bones[`lowerarm_${s}`], hand: bones[`hand_${s}`], a: W(`upperarm_${s}`).distanceTo(W(`lowerarm_${s}`)), b: W(`lowerarm_${s}`).distanceTo(W(`hand_${s}`)) });
   const arms = { l: arm('l'), r: arm('r') };
+  // and the legs', for standing on the floor where the crew code plants his feet (two-bone IK too), each foot's
+  // rest turn (flat on the floor, the way he faces) and the ankle's height over the sole
+  const leg = (s) => ({ upper: bones[`thigh_${s}`], lower: bones[`calf_${s}`], foot: bones[`foot_${s}`], a: W(`thigh_${s}`).distanceTo(W(`calf_${s}`)), b: W(`calf_${s}`).distanceTo(W(`foot_${s}`)),
+    rest: bones[`foot_${s}`].getWorldQuaternion(new Q()), ankle: W(`foot_${s}`).y });
+  const legs = { l: leg('l'), r: leg('r') };
+  // his proportions, for posing him to a gun's sight (crew.js): the pelvis's height, the spine from the
+  // pelvis up to the head bone, and the eyes from it (in front of and above the skull's base)
+  const dims = { hip: W('pelvis').y, spine: W('Head').distanceTo(W('pelvis')), eye: new V(0, 0.075, -0.095).multiplyScalar(SCALE), legLen: legs.l.a + legs.l.b + legs.l.ankle };
   // the rig back to its neutral pose (pose() sets it from here)
   for (const g of [j.armL.sh, j.armL.el, j.armR.sh, j.armR.el, j.legL.hip, j.legL.knee, j.legR.hip, j.legR.knee]) g.quaternion.identity();
   root.userData.j = j;
   root.userData.model = model;
-  root.userData.rig = { map, bones, pelvisAt, fingers, arms, grip: 0.35, root, reach: null, chest, clip, hose };
+  root.userData.rig = { map, bones, pelvisAt, fingers, arms, legs, dims, grip: 0.35, root, reach: null, feet: null, chest, clip, hose };
   figures.add(root);
   return root;
 }
@@ -190,6 +198,15 @@ export function reachFor(fig, grips) {
   rig.free = [!grips[0], !grips[1]]; // (a null hand stays as posed)
   for (let i = 0; i < 2; i++) if (grips[i]) rig.reach[i].copy(grips[i]);
   rig.grip = 1;
+}
+
+/**
+ * Plant his feet: [left, right], each { at: world point on the floor, q: world turn of the foot, flat } (or
+ * null to let the pose's legs be). The legs reach them with two-bone IK, the knees bending forward.
+ */
+export function plantFeet(fig, feet) {
+  const rig = fig.userData.rig;
+  if (rig) rig.feet = feet;
 }
 
 /** Curl the fingers: 0 open, 1 a fist round a grip. */
@@ -223,6 +240,7 @@ function sync(fig) {
   else bones.Head.scale.setScalar(fig.userData.noHead ? 0.01 : 1);
   for (const c of chest) c.visible = c.userData.on && !fig.userData.noHead; // (and the Mae West under your chin)
   if (fig.userData.rig.reach) reach(fig.userData.rig, fig);
+  if (fig.userData.rig.feet) stand(fig.userData.rig, fig);
   for (const f of fingers) { // curl about each joint's own bend axis: more at the knuckle, a fist at 1
     f.b.quaternion.copy(f.rest).multiply(_q.setFromAxisAngle(f.axis, g * (f.thumb ? 0.45 : [0, 1.15, 1.3, 0.9][f.k])));
   }
@@ -252,7 +270,7 @@ const _A = new V(), _B = new V(), _D = new V(), _P1 = new V(), _P2 = new V(), _p
 function oxygenLine(fig) {
   const { hose, clip, bones } = fig.userData.rig, par = fig.parent, outlets = par?.userData.oxygen;
   hose.visible = false;
-  if (!outlets) return;
+  if (!outlets || fig.userData.model?.visible === false) return; // (and not when he isn't drawn: crew.js solid)
   // in the figure's own frame: the clip, the nearest outlet, and "down" (the bomber's)
   _A.copy(clip).applyMatrix4(bones.spine_03.matrixWorld);
   par.worldToLocal(_pt.copy(_A));
@@ -319,6 +337,33 @@ function reach(rig, fig) {
     _E.copy(_S).addScaledVector(_u, a * cosA).addScaledVector(_p, a * Math.sqrt(1 - cosA * cosA));
     aimBone(A.upper, A.lower, _E);
     aimBone(A.lower, A.hand, _T.copy(_S).addScaledVector(_u, d));
+  });
+}
+
+const _lq = new Q(), _lu = new V(), _lk = new V();
+/** Two-bone IK for the legs: the ankle over its planted foot, the knee forward (and a little out), the foot flat. */
+function stand(rig, fig) {
+  fig.getWorldQuaternion(_qf);
+  const k = fig.getWorldScale(_E).x;
+  [['l', 0, -1], ['r', 1, 1]].forEach(([s, i, side]) => {
+    const f = rig.feet[i];
+    if (!f) return;
+    const L = rig.legs[s];
+    L.upper.getWorldPosition(_S);
+    _lu.set(0, 1, 0).applyQuaternion(_qf);
+    _T.copy(f.at).addScaledVector(_lu, L.ankle * k);
+    _u.subVectors(_T, _S); const dist = _u.length(); _u.divideScalar(dist || 1);
+    const a = L.a * k, b = L.b * k, d = Math.min(dist, (a + b) * 0.999);
+    _lk.set(side * 0.18, 0, -1).applyQuaternion(f.q ?? _qf); // (the knee over the toes, turned out a little)
+    _lk.addScaledVector(_u, -_lk.dot(_u)).normalize();
+    const cosA = THREE.MathUtils.clamp((a * a + d * d - b * b) / (2 * a * d), -1, 1);
+    _p.copy(_S).addScaledVector(_u, a * cosA).addScaledVector(_lk, a * Math.sqrt(1 - cosA * cosA));
+    aimBone(L.upper, L.lower, _p);
+    aimBone(L.lower, L.foot, _T.copy(_S).addScaledVector(_u, d)); // (not _cur: aimBone uses it)
+    // the foot flat on the floor, turned the way it was put down
+    L.foot.parent.getWorldQuaternion(_lq).invert();
+    L.foot.quaternion.copy(_lq.multiply(_qa.copy(f.q ?? _qf).multiply(L.rest)));
+    L.foot.updateMatrixWorld(true);
   });
 }
 

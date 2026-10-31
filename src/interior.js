@@ -11,6 +11,7 @@ import { buildTopTurret } from './topturret.js';
 import { addMoreDetail } from './interiordetail.js';
 import { buildB17Cockpit } from './cockpitb17.js';
 import { buildStations } from './stations.js';
+import { buildWaistSection } from './waist.js';
 import { wetGlass } from './environment.js';
 import { hullPaint, insideLight, planks, leather, propWear } from './cabinlook.js';
 import { SCARS, SCAR_MAX } from './scars.js';
@@ -154,8 +155,10 @@ export const STATIONS = [
   // the radio room gun: a flexible Browning on its mount at the forward end of the hatch in the roof,
   // firing up and aft (finCut: [yaw, pitch] the fin and tailplane stand in: aimed within that yaw of
   // dead astern, no lower than that pitch). The radio operator mans it.
-  { id: 'radio', name: 'Radio room gun', stand: [0.15, -1.8, -2.2], eye: [0, -0.1, -2.3], yaw: 180, yawLim: 45, pitch: [25, 85], guns: [], socket: true,
-    pivot: [0, 0.32, -1.72], rest: [0, 0.7071, 0.7071], browning: 'flex', front: 0.9, gunRear: 0.4, eyeBehind: 0.62, eyeUp: 0.22, finCut: [15, 34] },
+  // (its pivot just under the roof, the grips at about head height and above: he holds them with his arms
+  // bent, leaning back, his head tipped back to the sight)
+  { id: 'radio', name: 'Radio room gun', stand: [0.15, -1.8, -2.3], eye: [0, -0.21, -2.44], yaw: 180, yawLim: 45, pitch: [25, 85], guns: [], socket: true,
+    pivot: [0, 0.2, -1.72], rest: [0, 0.7071, 0.7071], browning: 'flex', front: 0.9, gunRear: 0.5, eyeBehind: 0.8, eyeUp: 0.22, finCut: [15, 34] },
   // the Norden bombsight: a telescope looking down-ahead to where the bombs would land (no gun)
   { id: 'bombsight', name: 'Norden bombsight', stand: [0.32, -0.72, -9.82], eye: [0, -0.42, -11.05], yaw: 0, yawLim: 4, pitch: [-4, 4], sight: true,
     hide: ['FrontGunPanels', 'NoseCone', 'NoseFlat'] }, // looks down through the flat panel in the nose bottom (a telescope: no glass in its view)
@@ -178,12 +181,16 @@ export const STATIONS = [
     twin: [0.3, -0.15, 0.35, 1.45, 0.45], eyeTurret: [0, -0.17, 0.2], whine: true, // (the guns out through the front of the ball, your head between them at the window) // (the guns beside you, as the cockpit draws them: ballturret.js; turned by its motors: player.js drive) // (the guns outside the ball either side, level with your eye, as in the photos)
     // inside, the model's ball is replaced by a glass and steel one that turns with your aim (ballturret.js)
     hide: ['BallTurret', 'BallStabilizer1', 'BallTurretTracks', 'BallCap'], attach: 'ballCockpit' },
-  // the waist guns: Brownings on their mounts, staggered as in the B-17G (the right gun forward, the
-  // left aft, so the two gunners aren't back to back) and higher in the window than the model's
-  { id: 'waistL', name: 'Left waist gun', stand: [-0.3, -1.95, 1.93], eye: [-0.9, -0.83, 1.93], yaw: 90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel10'], hide: ['SideGunPanels'], eyeBehind: 0.32, eyeUp: 0.22, roundArc: true, // behind the gun, swinging round its mount with it
-    browning: 'flex', gunRear: 0.08, mount: [0, 0.05, 0.12] },
-  { id: 'waistR', name: 'Right waist gun', stand: [0.3, -1.95, 1.67], eye: [0.9, -0.81, 1.67], yaw: -90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel005'], hide: ['SideGunPanels'], eyeBehind: 0.32, eyeUp: 0.22, roundArc: true,
-    browning: 'flex', gunRear: 0.08, mount: [0, 0.05, -0.12] },
+  // the waist guns: Brownings on their K-5 type mounts in the open windows, staggered as in the B-17G
+  // (the right gun forward, the left aft, so the two gunners aren't quite back to back). Only the jacket
+  // and barrel go out of the window: the pivot (the trunnion) is in it, the receiver and grips inside.
+  // sill: the window's bottom, where the mount's socket stands; feed: the side the belt comes in (-1 the
+  // gun's left); feedBox: the top of its ammunition box (waist.js), where the chute comes out; bag: a
+  // canvas bag catches the cases (hackathon/WAIST_SPEC.md)
+  { id: 'waistL', name: 'Left waist gun', stand: [-0.22, -1.95, 2.02], eye: [-0.26, -0.84, 2.02], yaw: 90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel10'], hide: ['SideGunPanels'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true, // behind the gun, swinging round its mount with it
+    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [-0.98, -1.06, 2.02], rest: [-1, 0, 0], sill: -1.33, feed: -1, bag: true, feedBox: [-0.8, -1.42, 2.42] },
+  { id: 'waistR', name: 'Right waist gun', stand: [0.22, -1.95, 1.58], eye: [0.26, -0.84, 1.58], yaw: -90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel005'], hide: ['SideGunPanels'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true,
+    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [0.98, -1.06, 1.58], rest: [1, 0, 0], sill: -1.33, feed: 1, bag: true, feedBox: [0.8, -1.42, 1.98] },
   { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.55, 10.1], lean: 0.05, duck: 0.3, // (up close behind the rear window: you see where the guns point, up too)
     yaw: 180, yawLim: 50, pitch: [-40, 35], roundArc: true, // (wider than the real one's: more fun; the corners cut off by the cab's frames)
     guns: ['GunBarrel007', 'GunBarrel12'], // (aimed with the plain crosshair, as the other guns are)
@@ -492,6 +499,7 @@ export class Interior {
     this.cutTailplanes(model);
     this.buildDetails();
     addMoreDetail(this, MAT, DECKS);
+    buildWaistSection(this, MAT); // the waist's windows, ammunition, structure, oxygen and interphone (waist.js)
 
     this.bombMeshes = [];
     for (const [mat, geos] of this.geos) {
@@ -1033,11 +1041,7 @@ varying vec3 vTpP;`)
     cap.receiveShadow = true;
     this.group.add(cap);
     this.add(MAT.dark, new THREE.CylinderGeometry(0.08, 0.1, 0.05, 16).translate(0, cy + rc - 0.01, -0.13)); // its hub
-    for (const s of [-1, 1]) {
-      this.box(s > 0 ? 0.5 : -0.74, s > 0 ? 0.74 : -0.5, f, f + 0.35, 2.75, 3.15, MAT.green); // ammo boxes
-      this.cylinder(0.11, 0.55, s * 0.72, -1.15, 0.8, 'y', MAT.yellow); // oxygen bottles
-      this.cylinder(0.11, 0.55, s * 0.72, -1.15, 1.05, 'y', MAT.yellow);
-    }
+    // (its drum and column, the ammunition boxes and the oxygen bottles: waist.js)
   }
 
   /** A thin rod (cable, hose, chute) from a to b. */
@@ -1064,21 +1068,7 @@ varying vec3 vTpP;`)
    * All decoration (no colliders), kept clear of the walkway and every gun position's view.
    */
   buildDetails() {
-    // waist guns: an ammo box on the floor just aft of each (staggered) gun, and the flexible steel
-    // chute that carries the belt up into the gun's feed tray, on its left side
-    for (const [s, z0, feed] of [[-1, 2.3, [-1.01, -1.03, 2.005]], [1, 1.9, [1.0, -1.01, 1.595]]]) {
-      const bx = s * 0.66;
-      this.box(bx - 0.13, bx + 0.13, -1.95, -1.62, z0, z0 + 0.36, MAT.ammo, false);
-      this.box(bx - 0.135, bx + 0.135, -1.64, -1.6, z0 - 0.005, z0 + 0.365, MAT.dark, false); // the lid
-      this.stencil(['CAL .50', 'LINKED'], 0.2, [bx, -1.76, z0 - 0.002], Math.PI);
-      const A = new V(bx, -1.6, z0 + 0.12), F = new V(...feed);
-      const curve = new THREE.CatmullRomCurve3([A, new V(bx * 1.05, -1.35, z0 + 0.06), F.clone().add(new V(-s * 0.05, -0.18, (F.z - A.z) * 0.15)), F]);
-      this.add(MAT.chute, new THREE.TubeGeometry(curve, 24, 0.034, 4, false));
-      for (let i = 1; i < 24; i++) { // the chute's links: a ring every few centimetres
-        const p = curve.getPointAt(i / 24), t = curve.getTangentAt(i / 24);
-        this.add(MAT.dark, new THREE.TorusGeometry(0.037, 0.005, 3, 4).applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new V(0, 0, 1), t)).translate(p.x, p.y, p.z));
-      }
-    }
+    // (the waist guns' ammunition boxes: waist.js; their feed chutes move with the guns, weapons.js)
     // tail guns: boxes along the walls, chutes forward to the guns
     for (const s of [-1, 1]) {
       this.box(s * 0.32 - 0.12, s * 0.32 + 0.12, -2.32, -2.02, 8.55, 9.15, MAT.ammo, false);
@@ -1108,7 +1098,6 @@ varying vec3 vTpP;`)
       this.rod([x, y + 0.27, z], [x * 0.92, y + 0.55, z + 0.25], 0.012, MAT.hose);
     }
     this.stencil(['OXYGEN'], 0.2, [0.69, -1.45, -2.08], -Math.PI / 2, '#1a1a1a');
-    for (const s of [-1, 1]) this.rod([s * 0.62, -1.75, 1.05], [s * 0.86, -1.45, 1.3], 0.012, MAT.hose); // waist gunners' hoses (low along the wall, behind the gun: clear of the view out)
     // fire extinguisher by the radio room door
     this.cylinder(0.07, 0.42, 0.55, -1.58, -1.4, 'y', MAT.red, 12);
     this.stencil(['FIRE', 'EXTINGUISHER'], 0.26, [0.55, -1.1, -1.32], 0);

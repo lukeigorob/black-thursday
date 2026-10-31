@@ -294,7 +294,7 @@ const TIPS = {
   gun: ['On a gun', [['Click', 'fire'], ['Right click', 'zoom'], ['R', 'reload'], ['C', 'hold: look round'], ['E', 'leave the gun']]],
   seat: ['At the controls', [['Mouse', 'steer'], ['W / S', 'throttle'], ['V', 'switch view'], ['C', 'hold: look round'], ['E', 'leave the seat']]],
   sight: ['On the bombsight', [['A / D', 'steer the formation'], ['Space', 'bombs away'], ['E', 'leave the sight']]],
-  fighter: ['Flying a fighter', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['Click', 'guns'], ['Right click', 'hold: lock on'], ['V', 'switch view'], ['J', 'bail out']]],
+  fighter: ['Flying a fighter', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['Click', 'guns'], ['Middle click', 'lock on / off'], ['Right click', 'hold: zoom'], ['V', 'switch view'], ['J', 'bail out']]],
   bail: ['Bail out', [['W A S D', 'to a red hatch'], ['E', 'jump']]],
 };
 const tip = (id) => ui.tip(id, ...TIPS[id]);
@@ -457,25 +457,9 @@ async function chooseRole(id) {
     pilot.start(f, fighters);
     stats.newLife(id);
   } finally { roleBusy = false; }
-  pilotDeathT = 0; p47Fuel = null;
+  pilotDeathT = 0;
   play();
-  ui.log(id === 'bf109' ? 'Bf 109, JG 26. Break up the bomber stream!' : id === 'fw190' ? 'Fw 190, IV.(Sturm)/JG 3. Go through the bombers head-on!' : 'P-47, 56th Fighter Group. Cover the bombers as far as your fuel takes you!');
-}
-
-// your P-47's fuel: when the escort turns back (fighters.js, ESCORT_FUEL) you have a little longer, then
-// you have to go too (joining after that, you've only that little)
-const P47_GRACE = 40; // s
-let p47Fuel = null;
-function fighterFuel(dt) {
-  if (mode !== 'p47' || !pilot.alive || eject.active || state !== 'playing') return;
-  if (p47Fuel == null) {
-    if (!fighters.escortsHome) return;
-    p47Fuel = P47_GRACE;
-    ui.toast('Bingo fuel! Turn for home soon.', 'warn');
-  }
-  p47Fuel -= dt;
-  ui.hint(p47Fuel > 0 ? `Fuel low: you must turn for home in ${Math.ceil(p47Fuel)} s` : '');
-  if (p47Fuel <= 0) { ui.hint(''); showRoleMenu('Out of fuel: you turned for home'); }
+  ui.log(id === 'bf109' ? 'Bf 109, JG 26. Break up the bomber stream!' : id === 'fw190' ? 'Fw 190, IV.(Sturm)/JG 3. Go through the bombers head-on!' : 'P-47, 56th Fighter Group. Cover the bombers!');
 }
 
 /**
@@ -483,7 +467,6 @@ function fighterFuel(dt) {
  * out a moment later and hang under your chute; otherwise a few seconds watching the fall, then pick again.
  */
 function fighterLife(dt) {
-  fighterFuel(dt);
   if (pilot.alive || eject.active) { if (pilot.alive) pilotDeathT = 0; return; }
   const f = pilot.f;
   if (pilotDeathT === 0 && !bailedOut) { pilotStats.deaths++; ui.toast(f?.killedBy === 'ground' ? 'You flew into the ground.' : 'You\'ve been shot down!', 'kill'); pilot.firing = false; }
@@ -518,7 +501,7 @@ function bailOut() {
   player.away = true;
   player.body.visible = false;
   camera.getWorldPosition(_ej);
-  startEject(_ej.add(_up.set(0, -2.5, 0)), _up.set(0, -3, 0), 'crew'); // out of the waist door, into the slipstream
+  startEject(_ej.add(_up.set(0, player.jumped ? 0 : -2.5, 0)), _up.set(0, -3, 0), 'crew'); // out of the waist door, into the slipstream (from where the jump out of the hatch left you: player.js startExit)
   ui.log(bomber.down ? 'You got out!' : 'You bailed out of a flying bomber!');
 }
 addEventListener('keydown', (e) => {
@@ -1177,7 +1160,7 @@ gfx.renderer.setAnimationLoop((now) => {
       if (mode !== 'crew') { // flying a fighter
         ui.you(null);
         ui.hud({ location: pilot.f ? `${pilot.f.k.name} · ${pilot.view === 'look' ? 'looking round' : !pilot.alive ? 'shot down' : pilot.third ? 'third person' : 'cockpit'}` : '', prompt: '', atStation: true });
-        ui.controls([['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Click', 'guns'], ['Right click', 'hold: lock on (aim assist)'], ['C', 'hold: look round'], ['V', pilot.third ? 'view: third person' : 'view: cockpit'], ['J', 'bail out']], `fighter:${pilot.third}`);
+        ui.controls([['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Click', 'guns'], ['Middle click', 'lock on / off (aim assist)'], ['Right click', 'hold: zoom'], ['C', 'hold: look round'], ['V', pilot.third ? 'view: third person' : 'view: cockpit'], ['J', 'bail out']], `fighter:${pilot.third}`);
         { // the lock-on's brackets round its target, if it's in front of you
           const lp = pilot.lockPos, v = lp && _lockV.copy(lp).project(camera);
           ui.lock(v && v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1 ? [(v.x + 1) / 2 * innerWidth, (1 - v.y) / 2 * innerHeight] : null, lp ? lp.distanceTo(pilot.f.pos) : 0);
