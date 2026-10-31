@@ -246,15 +246,24 @@ export class Mission {
    * along the route; the ground moves, so everything is measured from the target): the route's
    * points, the flak belt, and where `self` (a point in the formation's frame) is now.
    */
-  mapData(time) {
-    const t = this.target.center, along = this.sightError().along;
+  mapData(time, turn = { heading: 0, at: -1500, angle: 0, rate: 1 }) {
+    const t = this.target.center, along = this.sightError().along, h = turn.heading;
+    // the route over the ground: in from England, the IP, over the target, the rally turn to the right
+    // (an arc: the formation's own turning radius), and the long leg home on the new heading
+    const start = AIRSPEED * TIMES.target + 3000, R = AIRSPEED / turn.rate, route = [[0, start], [0, turn.at]];
+    for (let k = 1; k <= 16; k++) { const a = (turn.angle * k) / 16; route.push([R * (1 - Math.cos(a)), turn.at - R * Math.sin(a)]); }
+    const end = route[route.length - 1], rest = Math.max(4000, AIRSPEED * TIMES.home - R * turn.angle);
+    route.push([end[0] + Math.sin(turn.angle) * rest, end[1] - Math.cos(turn.angle) * rest]);
+    const cos = Math.cos(-h), sin = Math.sin(-h);
     return {
       phase: { outbound: 'Outbound', bombrun: 'Bomb run', rally: 'Rally', homeward: 'Heading home', done: 'Mission complete' }[this.phase],
       toTarget: along > 0 ? along / AIRSPEED : null, // s until the target is in the bombsight
-      start: AIRSPEED * TIMES.target + 3000, // where the stream was when the game began (it came on from England)
-      ip: AIRSPEED * TIMES.initialPoint, rally: -4000, home: -4000 - AIRSPEED * TIMES.home,
+      start, // where the stream was when the game began (it came on from England)
+      ip: AIRSPEED * TIMES.initialPoint, rally: route[1], home: route[route.length - 1], route,
       flak: [FLAK_AHEAD, -FLAK_BEHIND],
-      rel: (p) => [p.x - t.x, p.z - t.z],
+      // (a point in the formation's frame, on the ground's map: the formation's frame turns with it, so
+      // after the turn it's turned back, as applyAxisAngle about +Y by -heading)
+      rel: (p) => { const x = p.x - t.x, z = p.z - t.z; return [x * cos + z * sin, -x * sin + z * cos]; },
       city: this.target.layout, wrecked: this.target.destroyed, buildings: this.target.buildings.length,
       time,
     };

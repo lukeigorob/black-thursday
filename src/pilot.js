@@ -25,6 +25,9 @@ const _aim = new V(), _t = new V(), _m = new THREE.Matrix4(), _q = new THREE.Qua
 const _ax = new V(), _ay = new V(), _fq = new THREE.Quaternion(), _l = new V(), _hq = new THREE.Quaternion();
 const AIM_MAX = 0.7; // rad: the aim mark can lead the nose by this much at most (~40 degrees: it stays on the screen)
 const RETICLE_AT = 3; // m ahead of the eye the collimated sight image is drawn (its size scales with it)
+// right click held: lock on (aim assist). Picks the enemy nearest the aim within this cone and range, then
+// draws the aim onto where to point for the bullets to meet him (his lead); the mouse still steers on top
+const LOCK_CONE = THREE.MathUtils.degToRad(25), LOCK_RANGE = 1500, LOCK_KEEP = 2200, LOCK_OFF = THREE.MathUtils.degToRad(70), ASSIST = 3.5;
 
 export class Pilot {
   constructor(audio) {
@@ -47,13 +50,13 @@ export class Pilot {
     this.camPos = new V();
     addEventListener('keydown', (e) => { if (this.active) this.keys[e.code] = true; });
     addEventListener('keyup', (e) => { this.keys[e.code] = false; });
-    addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; });
+    addEventListener('blur', () => { this.keys = {}; this.firing = false; this.zoom = false; this.locking = false; this.locked = null; });
     addEventListener('mousedown', (e) => {
       if (!this.active) return;
       if (e.button === 0) this.firing = true;
-      if (e.button === 2) this.zoom = true;
+      if (e.button === 2) this.locking = true;
     });
-    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; if (e.button === 2) this.zoom = false; });
+    addEventListener('mouseup', (e) => { if (e.button === 0) this.firing = false; if (e.button === 2) { this.locking = false; this.locked = null; } });
     document.addEventListener('mousemove', (e) => {
       if (!this.active || !(document.pointerLockElement || this.freeLook)) return;
       if (Math.abs(e.movementX) > 300 || Math.abs(e.movementY) > 300) return; // a bogus jump (Chrome on Windows)
@@ -89,7 +92,7 @@ export class Pilot {
   }
 
   stop() {
-    this.active = false; this.firing = false; this.keys = {};
+    this.active = false; this.firing = false; this.keys = {}; this.locking = false; this.locked = null;
     this.showCockpit(null);
     for (const r of Object.values(this.reticles)) r.visible = false;
   }
@@ -154,6 +157,7 @@ export class Pilot {
     const want = THREE.MathUtils.lerp(k.cruise * 0.75, k.attack, this.throttle);
     f.speed += (want - f.speed) * (1 - Math.exp(-dt * 0.45)) - f.dir.y * 9.81 * dt * 0.7;
     f.speed = THREE.MathUtils.clamp(f.speed, 70, k.max);
+    this.assist(f, dt);
     if (this.firing) this.fireGuns(f, dt);
     else this.timers.forEach((t, i) => { this.timers[i] = Math.max(t, 0); });
     for (let i = 0; i < this.heat.length; i++) {
@@ -162,6 +166,47 @@ export class Pilot {
     }
     if (ALTITUDE + f.pos.y < 30 && f.alive) { this.fighters.shotDown(f, 'ground'); this.fighters.explode(f); } // flew into the ground
   }
+
+  /** The enemies you can lock on to: their fighters, and for a German, the bombers too. [{ obj, pos, vel }] */
+  enemies(f) {
+    const out = [];
+    for (const x of this.fighters.list) if (x !== f && x.side !== f.side && x.alive) out.push({ obj: x, pos: x.pos, vel: x.velocity, far: 1 });
+    if (f.side === 'axis') for (const b of this.fighters.bombers) if (!b.down && !b.gone) out.push({ obj: b, pos: b.group.position, vel: null, far: 1.4 });
+    return out;
+  }
+
+  /**
+   * Right click held: lock on to the enemy nearest the aim (within LOCK_CONE and LOCK_RANGE), and draw the aim
+   * onto his lead, where the guns must point for the bullets to meet him. Let go, or he's down, out of
+   * range or well off the nose, and the lock's gone.
+   */
+  assist(f, dt) {
+    if (!this.locking || !f.alive) { this.locked = null; return; }
+    const all = this.enemies(f);
+    let t = this.locked && all.find((e) => e.obj === this.locked);
+    if (t && (t.pos.distanceTo(f.pos) > LOCK_KEEP * t.far || _t.copy(t.pos).sub(f.pos).angleTo(f.dir) > LOCK_OFF)) t = null;
+    if (!t && !this.locked) { // (one press, one lock: a target lost stays lost until you press again)
+      let best = LOCK_CONE;
+      for (const e of all) {
+        if (e.pos.distanceTo(f.pos) > LOCK_RANGE * e.far) continue;
+        const a = _t.copy(e.pos).sub(f.pos).angleTo(this.aimV);
+        if (a < best) { best = a; t = e; }
+      }
+      if (!t) { this.locking = false; return; } // (nothing there: no lock)
+    }
+    this.locked = t ? t.obj : null;
+    if (!t) { this.locking = false; return; }
+    // his lead: where he'll be when the bullets get there (they fly at the guns' muzzle speed plus ours)
+    const dist = t.pos.distanceTo(f.pos), tof = dist / (f.k.muzzle + f.speed * 0.5);
+    _l.copy(t.pos);
+    if (t.vel) _l.addScaledVector(t.vel, tof);
+    _l.sub(f.pos).normalize();
+    this.aimV.lerp(_l, 1 - Math.exp(-dt * ASSIST)).normalize();
+    this.limitAim();
+  }
+
+  /** Where the locked target is now (for its brackets on the screen), or null. */
+  get lockPos() { const l = this.locked; return l ? (l.pos ?? l.group?.position ?? null) : null; }
 
   fireGuns(f, dt) {
     const guns = f.k.guns, team = f.side === 'axis' ? 'enemy' : 'allied', vel = f.velocity;

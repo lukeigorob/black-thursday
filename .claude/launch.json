@@ -24,6 +24,12 @@
         "C:\\Users\\Garre\\AppData\\Local\\Temp\\claude\\C--Users-Garre-Documents-bomber-game\\b79d0b25-fad9-4913-b984-1286b8c66f14\\scratchpad\\hosttest"
       ],
       "port": 8090
+    },
+    {
+      "name": "archive-audio",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8091", "--bind", "127.0.0.1", "--directory", "C:\\Users\\Garre\\Documents\\bomber-game\\hackathon\\archive_audio\\voices_only"],
+      "port": 8091
     }
   ]
 }

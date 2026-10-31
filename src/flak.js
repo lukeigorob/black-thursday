@@ -163,6 +163,7 @@ export class Flak {
   }
 
   burst(at) {
+    this.onBurst?.(at); // (the interphone: radio.js)
     const m = this.muffle;
     // the flash, the fireball (both dimmer and softer in cloud), the black smoke swelling and drifting aft
     Object.assign(opts, { life: 0.09, s0: 40, s1: 70, a0: 1 - 0.55 * m, c0: C_FLASH, c1: C_FLASH, drag: 0, grav: 0 });

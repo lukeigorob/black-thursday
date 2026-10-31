@@ -1,5 +1,5 @@
-// The target: a German industrial town of about 2.4 by 2.4 km. Its aircraft factory is the aiming point,
-// with the halls, sheds, chimneys and power house of the works round it. A rail yard runs along the
+// The target: Schweinfurt, a German industrial town of about 2.4 by 2.4 km. Its ball-bearing works (the
+// Kugelfischer and VKF plants) are the aiming point, with the halls, sheds, chimneys and power house round them. A rail yard runs along the
 // south of the works. North of the river (three bridges) is the old town round its church spire and
 // market square, and housing blocks round green courtyards fill the streets in between, thinning out to
 // villas in their gardens, and the town fades into the fields at its edge.
@@ -80,6 +80,75 @@ function groundTexture(gardens) {
   return t;
 }
 
+// ---- round the town: the Main valley, the railways and roads out of it, the suburbs (16 km across) ----
+export const REGION = 16000;
+const REGION_TEX = 2048;
+/** The Main's course out past the town: the town's own river, swinging into wide meanders beyond it. */
+export const mainZ = (x) => riverZ(x) + 700 * Math.sin(x / 3600) * Math.min(1, Math.max(0, (Math.abs(x) - 1000) / 1600));
+/**
+ * The main lines out of the marshalling yard (double track): west to Gemünden, south-west over the Main
+ * to Würzburg, north to Bad Kissingen, east to Bamberg. Each a list of points, m, from the yard out.
+ */
+export const RAILWAYS = (() => {
+  const yz = (RAIL.z0 + RAIL.z1) / 2, line = (x0, pts) => [[x0, yz], ...pts];
+  return [
+    line(-700, [[-2400, yz + 40], [-3800, yz + 300], [-5600, yz + 900], [-8000, yz + 1500]]), // Gemünden
+    line(-700, [[-2000, yz - 100], [-2700, -600], [-3200, -2200], [-3900, -4400], [-4800, -8000]]), // Würzburg, over the river
+    line(-700, [[-1700, yz + 300], [-2000, 1600], [-2100, 3600], [-1800, 6000], [-1500, 8000]]), // Bad Kissingen
+    line(700, [[2600, yz + 60], [4200, yz - 300], [6000, -900], [8000, -1700]]), // Bamberg
+  ];
+})();
+const ROADS = [[[0, -1200], [400, -3500], [1500, -8000]], [[-1000, -300], [-4500, -800], [-8000, -1800]], [[1000, -600], [4000, -2600], [8000, -4500]],
+  [[300, 1200], [900, 4000], [2400, 8000]], [[-800, 1000], [-4400, 4200], [-7000, 8000]], [[1100, 900], [5200, 2600], [8000, 4800]]];
+
+/** The ground round the town (under its own): see REGION. */
+function regionTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = REGION_TEX;
+  const g = c.getContext('2d');
+  const s = REGION_TEX / REGION, X = (m) => REGION_TEX / 2 + m * s;
+  g.clearRect(0, 0, REGION_TEX, REGION_TEX);
+  // the suburbs: house plots and yards, thick by the town and thinning out into the fields
+  // (built-up ground first, then the roofs and yards on it: red tile, grey slate, the yards between)
+  for (let i = 0; i < 2600; i++) {
+    const a = rnd() * Math.PI * 2, r = 900 + Math.pow(rnd(), 1.5) * 2300, x = Math.cos(a) * r, z = Math.sin(a) * r;
+    if (Math.abs(z - mainZ(x)) < 100) continue;
+    g.fillStyle = pick(['#736a58', '#7a6f5b', '#6d6553']);
+    g.beginPath(); g.arc(X(x), X(z), rand(40, 110) * s, 0, 7); g.fill();
+  }
+  for (let i = 0; i < 26000; i++) {
+    const a = rnd() * Math.PI * 2, r = 900 + Math.pow(rnd(), 1.7) * 2500, x = Math.cos(a) * r, z = Math.sin(a) * r;
+    if (Math.abs(z - mainZ(x)) < 100) continue;
+    g.fillStyle = pick(['#7e4a36', '#6f4232', '#8a5038', '#7a5240', '#6c4031', '#5d574f', '#8b8371', '#5b6043']); // (mostly red tile, as Franconia's roofs are)
+    g.fillRect(X(x), X(z), rand(12, 30) * s + 0.8, rand(10, 22) * s + 0.8);
+  }
+  // the main roads out of town: pale, metalled
+  g.strokeStyle = '#aaa38f'; g.lineCap = 'round'; g.lineJoin = 'round'; g.lineWidth = Math.max(3, 22 * s);
+  for (const r of ROADS) { g.beginPath(); r.forEach(([x, z], i) => g[i ? 'lineTo' : 'moveTo'](X(x), X(z))); g.stroke(); }
+  // the Main: the meadows along it, then the water
+  for (const [w, col] of [[260, '#56623f'], [RIVER_W + 18, '#4d5544'], [RIVER_W, '#33424b']]) {
+    g.strokeStyle = col; g.lineWidth = Math.max(2, w * s); g.beginPath();
+    for (let x = -REGION / 2; x <= REGION / 2; x += 40) g[x === -REGION / 2 ? 'moveTo' : 'lineTo'](X(x), X(mainZ(x)));
+    g.stroke();
+  }
+  // the railways: a grey ballast bed, two dark tracks on it
+  for (const r of RAILWAYS) {
+    for (const [w, col] of [[34, '#8e897c'], [16, '#2c2a27']]) {
+      g.strokeStyle = col; g.lineWidth = Math.max(w === 34 ? 4 : 2, w * s); g.beginPath();
+      r.forEach(([x, z], i) => g[i ? 'lineTo' : 'moveTo'](X(x), X(z))); g.stroke();
+    }
+  }
+  // fade out at the edge into the countryside
+  g.globalCompositeOperation = 'destination-in';
+  const edge = g.createRadialGradient(REGION_TEX / 2, REGION_TEX / 2, REGION_TEX * 0.36, REGION_TEX / 2, REGION_TEX / 2, REGION_TEX * 0.5);
+  edge.addColorStop(0, '#000'); edge.addColorStop(1, '#0000');
+  g.fillStyle = edge; g.fillRect(0, 0, REGION_TEX, REGION_TEX);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return t;
+}
+
 /** A unit gable roof: ridge along Z, eaves at y 0, ridge at y 1. */
 function gable() {
   const s = new THREE.Shape([new THREE.Vector2(-0.5, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0, 1)]);
@@ -149,9 +218,20 @@ export class City {
     // the bridges over the river
     for (const x of BRIDGES) add(x, riverZ(x), 16, RIVER_W + 40, 4, 0x8a8478);
 
+    // trains on the main lines out of the yard: goods wagons in strings, on the straight stretches
+    for (const [x0, x1, z] of [[-2300, -1500, (RAIL.z0 + RAIL.z1) / 2 + 30], [1400, 2400, (RAIL.z0 + RAIL.z1) / 2 + 30], [-2200, -1700, (RAIL.z0 + RAIL.z1) / 2 - 4]]) {
+      for (let x = x0; x < x1; x += 14) if (rnd() < 0.92) add(x, z + rand(-1, 1), 12, 3, 3.6, pick([0x5a3a2c, 0x4a4038, 0x3c3a36, 0x5c4a3a]));
+    }
+    // the country round the town: the Main valley, the railways and roads out, the suburbs (under the town's own ground)
+    const region = new THREE.Mesh(new THREE.PlaneGeometry(REGION, REGION), snowy(new THREE.MeshStandardMaterial({ map: regionTexture(), roughness: 1, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 }), 0.85));
+    region.rotation.x = -Math.PI / 2;
+    region.position.y = 0.3;
+    region.renderOrder = 1;
+    this.group.add(region);
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE), snowy(new THREE.MeshStandardMaterial({ map: groundTexture(gardens), roughness: 1, transparent: true, depthWrite: false }), 0.85));
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = 0.5;
+    ground.renderOrder = 2;
     ground.receiveShadow = true;
     this.group.add(ground);
     // trees in the courtyards and gardens

@@ -407,11 +407,13 @@ export class Fighters {
     const f = await this.spawn(kind, -1);
     f.prey = null; f.target = null;
     if (f.side === 'axis') { // (not on an attack line into the stream: hands off the controls, that flew him into a B-17)
-      // off to one side and above, flying with the bombers: the attack is yours to set up
+      // off to one side, ahead and above: the attack is yours to set up
       f.pos.copy(this.center).add(_t.set((Math.random() < 0.5 ? -1 : 1) * 1800, 600, -1500));
-      f.dir.set(0, 0, -1);
       f.plan = null;
     }
+    // facing the formation, level (above it, a 109 left alone passes over the bombers, not into one): you
+    // start with the bombers in front of you, not flying off away from them
+    f.dir.copy(this.center).sub(f.pos).setY(0).normalize();
     return f;
   }
 
@@ -863,6 +865,7 @@ export class Fighters {
     if (owner === 'player' && !this.crewView && f.side === 'axis' && (f.state === 'attack' || f.state === 'approach')) this.onSaved?.(); // (your P-47, not your gun in a B-17)
     f.state = 'down';
     f.killedBy = owner;
+    this.onDown?.(f, owner); // (the interphone: radio.js)
     const t = (this.tally ??= { player: 0, crew: 0, escorts: 0, axisLost: 0, alliedLost: 0 });
     if (f.side === 'axis') {
       t.axisLost++;
@@ -888,7 +891,7 @@ export class Fighters {
     f.speed = Math.min(f.k.max + 40, f.speed + dt * 7);
     f.steer(f.dir.clone().add(new V(0, -0.9, 0)), f.engineDead && !f.burning ? 0.12 : 0.3, dt);
     f.roll += f.spin * dt;
-    if (f.bailT !== undefined && (f.bailT -= dt) <= 0) { this.effects.parachute(f.pos.clone().add(_t.set(0, 3, 0))); f.bailT = undefined; }
+    if (f.bailT !== undefined && (f.bailT -= dt) <= 0) { this.effects.parachute(f.pos.clone().add(_t.set(0, 3, 0))); f.bailT = undefined; this.onBail?.(f); }
     if (f.fuse !== undefined && (f.fuse -= dt) <= 0) { this.explode(f); return; }
     if ((f.downTime -= dt) <= 0 || f.pos.y < -2500) {
       if (f.burning && f.pos.distanceTo(this.playerBomber.group.position) < 2500) this.explode(f);

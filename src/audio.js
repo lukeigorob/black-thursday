@@ -4,6 +4,42 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // every frame, each call is one more event on the param's timeline for the browser to work through)
 const glide = (p, v, t, tau) => { if (p._to !== undefined && Math.abs(v - p._to) <= Math.abs(p._to) * 0.005 + 1e-5) return; p._to = v; p.setTargetAtTime(v, t, tau); };
 export const MIX = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 }; // the channels of the mix, at full
+
+/**
+ * Two seconds of an electric alarm bell, made once, to loop: a steel gong's ringing tones (a struck bell's
+ * partials aren't harmonics of each other: that's its clang), each struck again 18 times a second by the
+ * hammer before it's died away, so it rings on continuously; the hammer's tick on each stroke, a little
+ * uneven, the same every two seconds so the loop doesn't show.
+ */
+function bellBuffer(ctx) {
+  const sr = ctx.sampleRate, n = Math.round(sr * 2), RATE = 18, F0 = 820;
+  const MODES = [[1, 1, 3.2], [1.51, 0.55, 4], [2.02, 0.4, 5], [2.76, 0.5, 6], [3.79, 0.28, 8], [5.4, 0.18, 11], [7.1, 0.1, 14]]; // [freq x F0, level, decay /s]
+  const strikes = RATE * 2, hit = Array.from({ length: strikes }, (_, k) => 0.82 + 0.18 * Math.abs(Math.sin(k * 12.9898) * 43758.5453 % 1)); // (each stroke a little harder or softer)
+  const out = new Float32Array(n);
+  // each ringing tone a resonator the hammer's strokes keep going (it never dies between them); run four
+  // seconds and keep the last two, by when it's ringing steadily, so the loop's ends meet
+  const at = (i) => { const p = (i % n) / sr * RATE, k = Math.floor(p); return p - k < RATE / sr ? hit[k % strikes] : 0; }; // (a stroke: one sample's kick)
+  for (const [m, v, d] of MODES) {
+    const w = (2 * Math.PI * F0 * m) / sr, r = Math.exp(-d / sr), c1 = 2 * r * Math.cos(w), c2 = -r * r;
+    let y1 = 0, y2 = 0;
+    for (let i = 0; i < 2 * n; i++) {
+      const y = c1 * y1 + c2 * y2 + at(i) * v * Math.sin(w);
+      y2 = y1; y1 = y;
+      if (i >= n) out[i - n] += y;
+    }
+  }
+  // the hammer's tick on each stroke: a few milliseconds of hard click
+  for (let k = 0; k < strikes; k++) {
+    const i0 = Math.round((k / RATE) * sr);
+    for (let j = 0; j < sr * 0.004 && i0 + j < n; j++) out[i0 + j] += (Math.sin(j * 1.7) * 0.6 + Math.sin(j * 0.9)) * hit[k] * 0.9 * (1 - j / (sr * 0.004));
+  }
+  let peak = 0; for (const v of out) peak = Math.max(peak, Math.abs(v));
+  for (let i = 0; i < n; i++) out[i] = Math.tanh((out[i] / peak) * 1.6) / Math.tanh(1.6); // (a little hard, as a bell is up close)
+  const buf = ctx.createBuffer(1, n, sr);
+  buf.copyToChannel(out, 0);
+  return buf;
+}
+
 export class GameAudio {
   constructor() { this.volume = 1; this.muted = false; this.mix = { ...MIX }; }
 
@@ -39,16 +75,28 @@ export class GameAudio {
     for (const k of Object.keys(MIX)) { const g = (this.bus[k] = ctx.createGain()); g.gain.value = clamp(this.mix[k], 0, 1); g.connect(this.master); }
   }
 
-  /** The bail-out bell: the alarm bell's hard metallic ring, struck again and again while she goes down. */
-  bell() {
+  /**
+   * The bail-out bell, on (true) or off: the B-17's alarm bell was an electric one, a hammer on a steel gong
+   * buzzing at it twenty times a second, a fire or school bell's continuous clanging ring. Rung while it's
+   * on; let go, it rings on a moment and dies away.
+   */
+  bellRing(on) {
     const ctx = this.ctx;
-    if (!ctx) return;
+    if (!ctx || !!on === !!this.bellOn) return;
     const t = ctx.currentTime;
-    for (const [f, v] of [[880, 0.16], [1320, 0.08], [2210, 0.05]]) {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = f;
-      g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-      o.connect(g).connect(this.bus.crew); o.start(t); o.stop(t + 0.55);
+    if (on) {
+      const src = ctx.createBufferSource(), g = ctx.createGain();
+      src.buffer = this.bellBuf ??= bellBuffer(ctx);
+      src.loop = true;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.32, t + 0.02);
+      src.connect(g).connect(this.bus.crew);
+      src.start(t);
+      this.bellOn = { src, g };
+    } else {
+      const { src, g } = this.bellOn;
+      g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value, t); g.gain.setTargetAtTime(0, t, 0.12); // (the gong rings out)
+      src.stop(t + 0.8);
+      this.bellOn = null;
     }
   }
 
@@ -520,8 +568,8 @@ export class GameAudio {
    * rate: played a touch faster or slower (makes the man); far: the command radio, thinner and noisier.
    * Returns { dur, stop } or null (not loaded yet, or no such clip: see voiceClip).
    */
-  voice(id, { rate = 1, far = false, vol = 1 } = {}) {
-    const ctx = this.ctx, buf = this.voiceClip(id);
+  voice(id, { rate = 1, far = false, vol = 1, url } = {}) {
+    const ctx = this.ctx, buf = this.voiceClip(id, url);
     if (!ctx || !buf) return null;
     const t = ctx.currentTime + 0.06, dur = buf.duration / rate;
     const out = ctx.createGain();

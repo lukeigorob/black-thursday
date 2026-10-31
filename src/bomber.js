@@ -570,6 +570,18 @@ export class Bomber {
     }
     this.base.addScaledVector(this.drift, dt);
     this.home.addScaledVector(this.drift, dt);
+    // a straggler's place, drifting back and down through the box (and where she hangs on behind it): never
+    // where another ship is. It edges over or under her, and her pilot flies there round her (giveWay)
+    if (!this.down && this.home.distanceToSquared(this.slot0) > 100) {
+      for (const o of Bomber.flock ?? []) {
+        if (o === this || o.gone || o.down) continue;
+        const dx = this.home.x - o.base.x, dy = this.home.y - o.base.y, dz = this.home.z - o.base.z;
+        if (Math.abs(dx) > 46 || Math.abs(dz) > 36 || Math.abs(dy) > 18) continue;
+        const over = Math.abs(dy) > 0.5 ? dy > 0 : this.phase > o.phase;
+        this.home.y += (over ? 1 : -1) * Math.min(1, (18 - Math.abs(dy)) / 6) * 8 * dt;
+        this.home.x += (dx >= 0 ? 1 : -1) * 3 * dt;
+      }
+    }
   }
 
   /**
@@ -604,6 +616,31 @@ export class Bomber {
    * Fly the bomber for one frame. `input` = the player at the controls { aimYaw, aimPitch, throttle, roll },
    * or null: the autopilot (the AI pilot) brings her back to her slot in the formation.
    */
+  /**
+   * An AI pilot off his slot (a straggler falling back, an abort leaving, a ship moving up into a gap)
+   * keeps clear of the others on his way: one close ahead of him in his path, he goes over or under her
+   * (whichever side he's already on) and edges away sideways. v: his velocity through the box, changed.
+   */
+  giveWay(v) {
+    let most = 0, px = 0, py = 0;
+    for (const o of Bomber.flock ?? []) {
+      if (o === this || o.gone || o.down) continue;
+      const dx = this.base.x - o.base.x, dy = this.base.y - o.base.y, dz = this.base.z - o.base.z;
+      // (closer than a span and a half and a length and a half, within three times her height: the neighbours
+      // in their own slots, 52 m out or 33 m down, are never in it)
+      if (Math.abs(dx) > 46 || Math.abs(dz) > 36 || Math.abs(dy) > 18) continue;
+      const k = (1 - Math.abs(dy) / 18) * Math.min(1, (46 - Math.abs(dx)) / 14) * Math.min(1, (36 - Math.abs(dz)) / 14);
+      most = Math.max(most, k);
+      const over = Math.abs(dy) > 0.5 ? dy > 0 : this.phase > o.phase; // (level with her: one goes over, the other under)
+      py += (over ? 1 : -1) * k * 10; // (over or under her, whichever he's on: up to 10 m/s)
+      px += (dx >= 0 ? 1 : -1) * k * 4;
+    }
+    if (!most) return;
+    // (and he holds off going on into her while he does)
+    v.x *= 1 - 0.8 * most; v.z *= 1 - 0.8 * most; v.y *= 1 - 0.5 * most;
+    v.x += px; v.y += py;
+  }
+
   fly(dt, input) {
     const f = this.flight;
     if (this.down || this.gone || dt <= 0) return;
@@ -622,6 +659,7 @@ export class Bomber {
         return;
       }
       _d.multiplyScalar(Math.min(0.12, 12 / Math.max(dist, 1e-3)));
+      this.giveWay(_d);
       _d.z -= AIRSPEED; // through the air the formation flies towards -Z
       heading = Math.atan2(-_d.x, -_d.z);
       pitch = Math.atan2(_d.y, Math.hypot(_d.x, _d.z));

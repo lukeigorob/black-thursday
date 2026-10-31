@@ -1,6 +1,7 @@
 // The sky, sun, haze, ground far below and layered clouds.
 // The formation stays near the origin; the ground and clouds scroll past instead.
 import * as THREE from 'three';
+import { Countryside } from './countryside.js';
 import { Sky } from 'three/addons/objects/Sky.js';
 import { TIMES, WEATHER, SNOW, nightSkyScene, moonTexture, moonGlowTexture, Rain, Lightning } from './environment.js';
 
@@ -44,6 +45,7 @@ export class World {
     scene.add(this.hemi);
 
     this.buildGround(renderer);
+    this.countryside = new Countryside(this.drift, -ALTITUDE); // (villages and towns dotted over it)
     this.cloudTextures = [0, 1, 2, 3].map(cloudTexture);
     this.clouds = [];
     this.cloudCount = 0;
@@ -314,6 +316,7 @@ export class World {
     const sx = -Math.sin(this.heading) * speed * dt, sz = Math.cos(this.heading) * speed * dt;
     this.groundTex.offset.y += sz / GROUND_TILE;
     this.groundTex.offset.x -= sx / GROUND_TILE;
+    this.countryside.update(sx, sz, this.keepOut); // (keepOut: the target city's place, main.js)
     for (const c of this.clouds) {
       c.position.x += sx; c.position.z += sz;
       if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);

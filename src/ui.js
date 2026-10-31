@@ -224,6 +224,8 @@ export class UI {
         <div id="controls"></div>
         <div id="fps"></div>
         <div id="hint"></div>
+        <div id="tip"></div>
+        <div id="lock"><span>LOCKED</span></div>
         <div id="hitmarker"><i></i><i></i><i></i><i></i></div>
         <div id="mission"></div>
         <div id="forces"></div>
@@ -1196,31 +1198,37 @@ export class UI {
     box.style.display = d ? 'flex' : 'none';
     if (!d) return;
     const cv = this.el('mmap-canvas'), g = cv.getContext('2d'), W = cv.width;
-    const z0 = d.home - 1500, z1 = d.start + 1500, sc = (W - 60) / (z1 - z0);
-    const P = ([x, z]) => [W / 2 + x * sc, 30 + (z - z0) * sc]; // the way we fly is up the map
+    // the whole route on it, the turn for home and all (north up: the way we fly in is up the map)
+    const xs = d.route.map((p) => p[0]), zs = d.route.map((p) => p[1]);
+    const x0 = Math.min(...xs, -3500), x1 = Math.max(...xs, 3500), z0 = Math.min(...zs) - 1500, z1 = Math.max(...zs) + 1500;
+    const span = Math.max(x1 - x0, z1 - z0) + 2000, sc = (W - 60) / span, cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
+    const P = ([x, z]) => [W / 2 + (x - cx) * sc, W / 2 + 10 + (z - cz) * sc];
     const INK = '#3b2f22', RED = '#a3271c';
     g.fillStyle = '#e8dcbc'; g.fillRect(0, 0, W, W);
     g.strokeStyle = '#cdbf9a'; g.lineWidth = 1; // the grid, 5 km squares
-    for (let k = Math.ceil(z0 / 5000) * 5000; k < z1; k += 5000) {
-      const y = P([0, k])[1]; g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke();
-      const x = P([k - (z0 + z1) / 2, 0])[0]; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, W); g.stroke();
-    }
+    for (let k = Math.floor((cz - span) / 5000) * 5000; k < cz + span; k += 5000) { const y = P([0, k])[1]; g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+    for (let k = Math.floor((cx - span) / 5000) * 5000; k < cx + span; k += 5000) { const x = P([k, 0])[0]; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, W); g.stroke(); }
     g.font = '13px "Courier New", monospace'; g.textBaseline = 'middle';
     const label = (t, [x, y], col = INK, dx = 12) => { g.fillStyle = col; g.fillText(t, x + dx, y); };
     // the flak belt, hatched
-    const fy0 = P([0, d.flak[0]])[1], fy1 = P([0, d.flak[1]])[1], fx = 3500 * sc;
-    g.save(); g.beginPath(); g.rect(W / 2 - fx, fy1, fx * 2, fy0 - fy1); g.clip();
+    const fy0 = P([0, d.flak[0]])[1], fy1 = P([0, d.flak[1]])[1], fx = 3500 * sc, fc = P([0, 0])[0]; // (round the target)
+    g.save(); g.beginPath(); g.rect(fc - fx, fy1, fx * 2, fy0 - fy1); g.clip();
     g.strokeStyle = '#8f8070'; g.lineWidth = 1;
     for (let k = -W; k < W * 2; k += 9) { g.beginPath(); g.moveTo(k, fy1); g.lineTo(k + (fy0 - fy1), fy0); g.stroke(); }
     g.restore();
-    g.strokeStyle = '#6d5f50'; g.setLineDash([4, 3]); g.strokeRect(W / 2 - fx, fy1, fx * 2, fy0 - fy1); g.setLineDash([]);
-    label('FLAK', [W / 2 + fx, (fy0 + fy1) / 2], '#5d5045', 6);
+    g.strokeStyle = '#6d5f50'; g.setLineDash([4, 3]); g.strokeRect(fc - fx, fy1, fx * 2, fy0 - fy1); g.setLineDash([]);
+    label('FLAK', [fc - fx, (fy0 + fy1) / 2], '#5d5045', -44);
     // the route: in from the coast, the initial point, the target, the rally and home
     g.strokeStyle = RED; g.lineWidth = 3; g.beginPath();
-    g.moveTo(...P([0, d.start])); g.lineTo(...P([0, d.home])); g.stroke();
-    for (const [name, z] of [['FROM ENGLAND', d.start], ['I.P.', d.ip], ['RALLY', d.rally], ['HOME', d.home]]) {
-      const p = P([0, z]); g.fillStyle = RED; g.beginPath(); g.arc(p[0], p[1], 5, 0, 7); g.fill(); label(name, p, RED);
+    g.lineJoin = 'round';
+    d.route.forEach((p, i) => g[i ? 'lineTo' : 'moveTo'](...P(p))); g.stroke();
+    for (const [name, at] of [['FROM ENGLAND', [0, d.start]], ['I.P.', [0, d.ip]], ['RALLY', d.rally], ['HOME', d.home]]) {
+      const p = P(at); g.fillStyle = RED; g.beginPath(); g.arc(p[0], p[1], 5, 0, 7); g.fill(); label(name, name === 'RALLY' ? [p[0], p[1] + 14] : p, RED, name === 'RALLY' ? -66 : 12); // (the rally's just past the target: its name below-left, clear of TARGET)
     }
+    // the turn's arrow: which way round it goes
+    const k = Math.floor(d.route.length / 2), a = P(d.route[k - 1]), b = P(d.route[k + 1]), ang = Math.atan2(b[1] - a[1], b[0] - a[0]), m = P(d.route[k]);
+    g.fillStyle = RED; g.beginPath(); g.moveTo(m[0] + Math.cos(ang) * 9, m[1] + Math.sin(ang) * 9);
+    g.lineTo(m[0] + Math.cos(ang + 2.5) * 8, m[1] + Math.sin(ang + 2.5) * 8); g.lineTo(m[0] + Math.cos(ang - 2.5) * 8, m[1] + Math.sin(ang - 2.5) * 8); g.fill();
     // the target town: a ringed square
     const t = P([0, 0]), half = (d.city.size / 2) * sc;
     g.fillStyle = '#9b8f7a'; g.fillRect(t[0] - half, t[1] - half, half * 2, half * 2);
@@ -1269,7 +1277,7 @@ export class UI {
     g.strokeStyle = '#a3271c'; g.lineWidth = 1.5;
     g.beginPath(); g.arc(a[0], a[1], 8, 0, 7); g.moveTo(a[0] - 12, a[1]); g.lineTo(a[0] + 12, a[1]); g.moveTo(a[0], a[1] - 12); g.lineTo(a[0], a[1] + 12); g.stroke();
     g.fillStyle = '#3b2f22'; g.font = '11px "Courier New", monospace';
-    g.fillText('AIMING POINT: AIRCRAFT WORKS', x0 + 6, y0 + 12);
+    g.fillText('AIMING POINT: BALL-BEARING WORKS', x0 + 6, y0 + 12);
     g.fillText('OLD TOWN', ...P(c.oldTown.x - 120, c.oldTown.z));
     g.fillText('RAIL YARD', ...P(-1100, c.rail.z1 + 60));
     g.strokeStyle = '#3b2f22'; g.lineWidth = 1; g.strokeRect(x0, y0, S, S);
@@ -1431,6 +1439,33 @@ export class UI {
     const open = this.ctlPinned ?? performance.now() < this.ctlOpenUntil;
     el.classList.toggle('open', open);
     el.style.display = rows.length ? 'block' : 'none';
+  }
+
+  /**
+   * The first time somewhere (walking, a gun, the pilot's seat, the sight, a fighter, bailing out): its main
+   * keys, big and low in the middle, for a few seconds. Once each, remembered in this browser (so a player
+   * back for another go isn't told again). title: what this is; keys: [[key, what]].
+   */
+  tip(id, title, keys) {
+    let seen = [];
+    try { seen = JSON.parse(localStorage.getItem('bt-tips') ?? '[]'); } catch { /* (private window: shown each game) */ }
+    if ((this.tipsShown ??= new Set()).has(id) || seen.includes(id)) return;
+    this.tipsShown.add(id);
+    try { localStorage.setItem('bt-tips', JSON.stringify([...seen, id])); } catch { /* (as above) */ }
+    const el = this.el('tip');
+    el.innerHTML = `<span class="t">${title}</span>${keys.map(([k, what]) => `<span>${k.split(' / ').map((x) => `<b>${x}</b>`).join(' ')}${what}</span>`).join('')}`;
+    el.classList.add('on');
+    clearTimeout(this.tipTimer);
+    this.tipTimer = setTimeout(() => el.classList.remove('on'), 9000);
+  }
+
+  /** The fighter's lock-on brackets at screen point [x, y] (px), with the range in m; null hides them. */
+  lock(at, range = 0) {
+    const el = this.el('lock');
+    if (!at) { if (el.style.display !== 'none') el.style.display = 'none'; return; }
+    el.style.display = 'block'; el.style.left = `${at[0]}px`; el.style.top = `${at[1]}px`;
+    const t = `LOCKED · ${Math.round(range / 10) * 10} m`;
+    if (el.firstChild.textContent !== t) el.firstChild.textContent = t;
   }
 
   /** H: open the controls card for good, or fold it away. */

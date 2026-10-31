@@ -6,7 +6,13 @@
 // turn, the urgent ones first, and stale ones are dropped. Long gaps between the calls: never a chatter.
 import { LINES, SPEAKERS, allClips, clipId, clockCallers, nameKey, versions, words } from './lines.js';
 import { clock } from './fighters.js';
+import { ARCHIVE, ArchivePicker, archiveId } from './archive.js';
 import { surnameOf } from './history.js';
+
+// the crew's own recorded voices, off for now (not good enough yet): in their place, the real interphone
+// of 1943 (archive.js) when what it says is happening; the game's log shows the rest as text
+const VOICED = false;
+const ARCHIVE_URL = 'audio/archive';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const BANDIT_GAP = 30; // s between two calls of where the fighters are
@@ -50,7 +56,7 @@ export class Radio {
     this.reset();
     // every man's clips fetched ahead, in the background once the game's loaded (the gunners' first: the
     // co-pilot's many are mostly names, said less often)
-    setTimeout(() => audio.prefetchVoices(allClips().map((c) => c.id).sort((a, b) => a.endsWith('.copilot') - b.endsWith('.copilot'))), 6000);
+    if (VOICED) setTimeout(() => audio.prefetchVoices(allClips().map((c) => c.id).sort((a, b) => a.endsWith('.copilot') - b.endsWith('.copilot'))), 6000);
   }
 
   /** A new life aboard: forget what's been said (the distance, the fighters seen, the Forts lost). */
@@ -58,11 +64,13 @@ export class Radio {
     this.queue.length = 0; this.later.length = 0; this.playing?.h?.stop(); this.playing = null; this.busyT = 0; this.onCaption?.(null);
     this.called = new Set(); this.down = null; this.banditT = -1e9; this.manyT = -1e9; this.seenBandits = false;
     this.fireSaid = false; this.fireClearT = 0; this.fortT = -1e9; this.hellT = -1e9;
+    (this.arch ??= new ArchivePicker()).reset(); this.archQ = []; this.burnSeen = null;
   }
 
   /** Who's aboard and which of them you are. on: you're in the bomber, alive, to hear it. */
   set(on, crew, me) {
-    if (!on && this.on) { this.queue.length = 0; this.later.length = 0; this.playing?.h?.stop(); this.playing = null; this.busyT = 0; this.onCaption?.(null); }
+    if (on && !this.warmed) { this.warmed = true; for (const a of ARCHIVE) this.audio.voiceClip(archiveId(a), ARCHIVE_URL); } // (all fetched and ready before they're wanted)
+    if (!on && this.on) { this.queue.length = 0; this.later.length = 0; this.archQ.length = 0; this.playing?.h?.stop(); this.playing = null; this.busyT = 0; this.onCaption?.(null); }
     Object.assign(this, { on, crew, me });
   }
 
@@ -79,6 +87,7 @@ export class Radio {
    */
   hear(text) {
     if (!this.on) return false;
+    if (!VOICED) { this.archiveHear(text); return false; } // (the log shows it as it was)
     for (const [re, fn] of HEARD) {
       const m = text.match(re);
       if (!m) continue;
@@ -145,6 +154,7 @@ export class Radio {
    */
   update(dt, s) {
     this.t += dt;
+    if (!VOICED) { this.archiveUpdate(dt, s); return; }
     for (let i = this.later.length - 1; i >= 0; i--) if (this.later[i].at <= this.t) { const l = this.later.splice(i, 1)[0]; this.say(l.key, l); }
     if (this.on && s) this.notice(dt, s);
     // the next man on the intercom
@@ -181,6 +191,103 @@ export class Radio {
     if (hours > 1 || c.level !== m[3] || !LINES[key]?.by.includes(q.spk)) return false;
     q.key = key; q.text = words(key, q.spk, q.i);
     return true;
+  }
+
+  // ---- the real interphone (archive.js): the same moments, said by the men of 1943 ----
+
+  /** What the game logged that one of the clips fits. */
+  archiveHear(text) {
+    if (/^Initial point\. Bomb run/.test(text)) this.archive('bombRun');
+    const m = /(\d+) o'clock (high|level|low)/.exec(text);
+    if (m && /^(Fighters|Large formation)/.test(text)) this.archive('bandits', { h: +m[1], level: m[2] });
+  }
+
+  /** Queue the clip that fits event `on` (if one does, and it isn't too soon). delay: s from now. */
+  archive(on, opts = {}, delay = 0) {
+    if (!this.on) return null;
+    this.arch.t = this.t;
+    const a = this.arch.pick(on, opts);
+    if (!a) return null;
+    if (on === 'bandits') this.archQ = this.archQ.filter((q) => q.a.on !== 'bandits'); // (the newer call of where they are)
+    this.archQ.push({ a, at: this.t + delay, ttl: on === 'bandits' || on === 'engaged' ? 5 : 10 });
+    if (this.archQ.length > 3) this.archQ.shift();
+    return a;
+  }
+
+  /** The order to bail out (main.js): said now, over whatever's being said, and every time it's given. */
+  archiveBail() {
+    if (!this.on) return;
+    this.arch.said.bail_order = -1e9;
+    const a = ARCHIVE.find((x) => x.id === 'bail_order');
+    this.archQ = [{ a, at: this.t, ttl: 4 }];
+    this.playing?.h?.stop(); this.playing = null; this.busyT = 0;
+  }
+
+  /** Where `pos` is from our ship: { h: o'clock, level, dist }. */
+  where(pos, bomber) {
+    const d = bomber.group.worldToLocal(pos.clone()), up = Math.max(150, Math.hypot(d.x, d.z) * 0.14);
+    return { h: clockOf(d), level: d.y > up ? 'high' : d.y < -up ? 'low' : 'level', dist: d.length() };
+  }
+
+  /** A fighter down (fighters.js): one our gunners got, near enough to see. */
+  downed(f, owner) {
+    if (!this.on || !this.bomber || f.side !== 'axis' || !['player', 'crew'].includes(owner)) return;
+    if (f.pos.distanceTo(this.bomber.group.position) < 1500) this.archive('kill', {}, 0.6);
+  }
+
+  /** Its pilot out (fighters.js). */
+  bailed(f) {
+    if (this.on && this.bomber && f.side === 'axis' && f.pos.distanceTo(this.bomber.group.position) < 1200) this.archive('bail');
+  }
+
+  /** A flak burst (flak.js): one close by, and on the side a clip calls. */
+  burst(at) {
+    if (!this.on || !this.bomber) return;
+    const w = this.where(at, this.bomber);
+    if (w.dist > 60 && w.dist < 450) this.archive('flak', w);
+  }
+
+  archiveUpdate(dt, s) {
+    if (s) this.bomber = s.bomber;
+    if (this.on && s) this.archiveNotice(dt, s);
+    if (this.playing && this.t > this.playing.ends) this.onCaption?.(null);
+    if ((this.busyT -= dt) > 0) return;
+    this.playing = null;
+    this.archQ = this.archQ.filter((q) => this.t - q.at < q.ttl); // (old news, unsaid)
+    const q = this.on && this.archQ.find((x) => x.at <= this.t);
+    if (!q) return;
+    const id = archiveId(q.a), buf = this.audio.voiceClip(id, ARCHIVE_URL);
+    if (buf === null) return; // (still on its way: dropped if it never comes in time)
+    this.archQ.splice(this.archQ.indexOf(q), 1);
+    const h = buf && this.audio.voice(id, { url: ARCHIVE_URL });
+    if (!h) return;
+    this.playing = { h, ends: this.t + h.dur + 0.3 };
+    this.busyT = h.dur + rand(1.5, 3);
+    this.onCaption?.('Intercom', q.a.text);
+  }
+
+  /** The moments the clips fit, from what's to be seen round our ship. */
+  archiveNotice(dt, s) {
+    const me = s.bomber;
+    this.down ??= new Set(s.bombers.filter((b) => b.down));
+    this.burnSeen ??= new Set(s.bombers.filter((b) => b.burning));
+    for (const b of s.bombers) {
+      if (b === me || b.gone) continue;
+      const near = b.group.position.distanceTo(me.group.position);
+      // a Fort near us going down: the men calling for her crew to get out, then the chutes
+      if (b.down && !this.down.has(b)) {
+        this.down.add(b);
+        if (near < 2000 && this.archive('fortDown')) this.archive('chutes', {}, rand(5, 8));
+      }
+      // one starting to burn, on the side a clip calls
+      if (b.burning && !b.down && !this.burnSeen.has(b)) {
+        this.burnSeen.add(b);
+        if (near < 1500) this.archive('fortHit', this.where(b.group.position, me));
+      }
+    }
+    // a fighter boring in on our own ship
+    const f = this.fighters?.axis.find((x) => x.state === 'attack' && x.target === me && x.pos.distanceTo(me.group.position) < 700);
+    if (f) this.archive('engaged', this.where(f.pos, me));
   }
 
   /** The things the crew call of their own accord, from what they can see. */

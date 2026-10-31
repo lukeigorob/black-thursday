@@ -128,6 +128,7 @@ setDetail(gfx.quality);
 for (const m of mids) m.scene.traverse((o) => { if (o.isMesh) o.receiveShadow = true; });
 scene.add(bomber.group);
 const fleet = new Fleet(scene, lod.scene, bombers);
+Bomber.flock = bombers; // (the AI pilots keep clear of each other: Bomber.giveWay)
 const detail = new Detail(scene, bombers, bomber, mids.map((m) => m.scene));
 
 detail.assign();
@@ -158,6 +159,7 @@ for (const b of bombers) b.onBreak = (kind, side, z, vel) => {
 };
 const fighters = new Fighters(scene, { effects, bullets: weapons.bullets, audio, ui, bombers, playerBomber: bomber });
 radio.fighters = fighters; // (where its calls of the fighters came from)
+fighters.onDown = (f, owner) => radio.downed(f, owner); fighters.onBail = (f) => radio.bailed(f); // (the interphone's "I got him" and "he's bailing out")
 const collide = (a, b, team, owner, cannon, src) => fighters.collide(a, b, team, owner, cannon, src);
 // what you play: 'crew' (a B-17 crewman), 'bf109', 'fw190' or 'p47' (flying a fighter yourself)
 const AXIS_ROLES = new Set(['bf109', 'fw190']);
@@ -229,21 +231,32 @@ const flak = new Flak({ effects, audio, ui, bombers, playerBomber: bomber, onBom
   onClose: (k) => { if (mode === 'crew' && !player.away && !eject.active) { player.jolt(k); audio.flakClose(k); shake = Math.max(shake, k); } } }); // (felt inside your bomber)
 player.onSightRefused = () => ui.log(mission.phase === 'outbound' ? `Bombsight: nothing to aim at yet. ${mission.status(missionTime).replace(/^Outbound · /, '')}.` : 'Bombsight: the bombs are away.');
 flak.ear = camera; // (the flak heard from where you are: in your bomber or a fighter)
+flak.onBurst = (at) => radio.burst(at); // ("flak at nine o'clock": the interphone)
 flakEnv = () => { flak.night = env.time === 'night' ? 1 : env.time === 'twilight' ? 0.45 : 0; flak.muffle = WEATHER[env.weather]?.overcast ?? 0; };
 flakEnv();
 const mission = new Mission(scene, { effects, audio, ui, bombers, playerBomber: bomber });
 world.drift.add(mission.target.group); // (the target on the ground: swings round with it in a turn)
+world.keepOut = mission.target.group.position; // (no village set down on the city)
 // ---------- the rally turn: right onto 130 degrees, from the bomb run's 58 (the 351st's briefing) ----------
 // The formation is the frame the game is played in, so it turns by the world turning under it: the ground,
 // the clouds, the target, the sky and the sun swing round (world.setHeading), every bomber banked into the
 // turn (FORMATION.bank). It starts once your wing's bombs are down (the mission's own track never turns:
 // the wings behind still bomb on it).
-const RALLY_TURN = THREE.MathUtils.degToRad(130 - 58), RALLY_RATE = THREE.MathUtils.degToRad(1.2); // rad; rad/s (a gentle, heavy turn)
-let rallyAt = null, heading = 0;
+// (2 degrees a second: the whole formation rolling into twenty degrees of bank together, plain to see from
+// any seat, and round in about forty seconds)
+const RALLY_TURN = THREE.MathUtils.degToRad(130 - 58), RALLY_RATE = THREE.MathUtils.degToRad(2);
+let rallyAt = null, heading = 0, rallyCalled = false, rallyTurnAt = null;
+/** The rally turn as the mission map draws it: where on the track it starts (flown, or to come), how far round it goes. */
+function mapTurn() {
+  const at = rallyTurnAt ?? (rallyAt != null ? mission.mapData(missionTime).rel(_UP0)[1] - AIRSPEED * Math.max(0, rallyAt - missionTime) : -1500); // (before the bombs: just past the target, about)
+  return { heading, at, angle: RALLY_TURN, rate: RALLY_RATE };
+}
+const _UP0 = new THREE.Vector3(); // (the formation's lead: its origin)
 function rallyTurn(dt) {
-  if (rallyAt == null && (mission.phase === 'rally' || mission.phase === 'homeward')) rallyAt = missionTime + 45; // (the last bombs on the ground first)
-  if (rallyAt == null || missionTime < rallyAt || heading >= RALLY_TURN) { FORMATION.bank *= Math.exp(-dt * 0.6); return; }
-  const left = RALLY_TURN - heading, rate = RALLY_RATE * Math.min(1, (missionTime - rallyAt) / 8, left / THREE.MathUtils.degToRad(8)); // (rolling in and out of it)
+  if (rallyAt == null && (mission.phase === 'rally' || mission.phase === 'homeward')) rallyAt = missionTime + 20; // (the bombs on the ground first)
+  if (rallyAt == null || missionTime < rallyAt || heading >= RALLY_TURN) { FORMATION.bank *= Math.exp(-dt * 0.9); return; }
+  if (!rallyCalled) { rallyTurnAt = mission.mapData(missionTime, mapTurn()).rel(_UP0)[1]; rallyCalled = true; ui.toast('Rally turn: the formation banks right for home', 'warn'); ui.log('The lead banks right onto 130 for home. The whole formation turns with her.'); }
+  const left = RALLY_TURN - heading, rate = RALLY_RATE * Math.min(1, (missionTime - rallyAt) / 5, left / THREE.MathUtils.degToRad(10)); // (rolling in and out of it, together)
   const step = Math.min(RALLY_TURN - heading, Math.max(rate, 0.0005) * dt);
   heading += step;
   world.setHeading(heading);
@@ -252,6 +265,7 @@ function rallyTurn(dt) {
   FORMATION.bank += (want - FORMATION.bank) * (1 - Math.exp(-dt * 0.8));
 }
 const _UP = new THREE.Vector3(0, 1, 0), _miniTgt = new THREE.Vector3();
+const _lockV = new THREE.Vector3();
 mission.onEnd((d) => missionComplete(d));
 bomber.onEvent((msg) => { if (mode === 'crew') ui.log(msg); }); // you only hear your crew aboard
 for (const c of crews.values()) c.onEvent((msg) => { if (mode === 'crew') ui.log(msg); }); // only the visible crew speaks
@@ -274,7 +288,16 @@ gfx.onQualityChange(pixelScale);
 // The game starts on the click even if the browser refuses to capture the mouse;
 // then you drag with the left button to look, and Esc still pauses.
 let state = 'menu';
-const viewHinted = new Set(); // (the V hint, once a game for the B-17 and once for the fighters)
+// the first time somewhere: its main keys, big in the middle (ui.tip: once each, remembered)
+const TIPS = {
+  walk: ['Moving about the ship', [['W A S D', 'walk'], ['E', 'take a station'], ['M', 'formation map'], ['H', 'all the controls']]],
+  gun: ['On a gun', [['Click', 'fire'], ['Right click', 'zoom'], ['R', 'reload'], ['C', 'hold: look round'], ['E', 'leave the gun']]],
+  seat: ['At the controls', [['Mouse', 'steer'], ['W / S', 'throttle'], ['V', 'switch view'], ['C', 'hold: look round'], ['E', 'leave the seat']]],
+  sight: ['On the bombsight', [['A / D', 'steer the formation'], ['Space', 'bombs away'], ['E', 'leave the sight']]],
+  fighter: ['Flying a fighter', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['Click', 'guns'], ['Right click', 'hold: lock on'], ['V', 'switch view'], ['J', 'bail out']]],
+  bail: ['Bail out', [['W A S D', 'to a red hatch'], ['E', 'jump']]],
+};
+const tip = (id) => ui.tip(id, ...TIPS[id]);
 let miniT = 0; const _miniAt = new THREE.Vector3(), _miniDir = new THREE.Vector3(); // (the mini map)
 const canvas = gfx.renderer.domElement;
 
@@ -314,6 +337,7 @@ function play() {
 
 function pause() {
   state = 'paused';
+  audio.bellRing(false);
   player.enabled = false;
   player.keys = {};
   pilot.active = false; pilot.keys = {}; pilot.firing = false;
@@ -510,15 +534,15 @@ const HATCHES = [ // in bomber space (x, z): the main door aft of the waist, the
   { name: 'the main door', at: [0.72, 4.45] }, { name: 'the tail door', at: [0.45, 8.6] }, { name: 'the bomb bay', at: [0, -4.4] }, { name: 'the nose hatch', at: [-0.35, -8.25] },
   { name: 'the nose hatch, down the crawlway', at: [0, -7.55], y: -0.40 }, // (from the flight deck: down past the panel and out under the nose)
 ].map((h) => ({ ...h, pos: new THREE.Vector3(h.at[0], h.y ?? bomber.interior?.floorAt(h.at[0], h.at[1], 2) ?? -1.9, h.at[1]) }));
-let bellT = 0, bailCalled = false, bailOrdered = false;
+let bailCalled = false, bailOrdered = false;
 let shake = 0; const _brassQ = new THREE.Quaternion(); // (how hard she's being thrown about, for the brass on the floor)
 function goingDown(dt) {
   const on = (bomber.down || bailOrdered) && mode === 'crew' && !player.away && !player.dead && !player.ridingTail && !eject.active && state === 'playing';
   // (the ones still there: none on a tail that's gone, nor the main door with the waist broken away)
   player.hatches = on ? HATCHES.filter((h) => !(bomber.noTail && h.pos.z > 5.2) && !(bomber.lost.waist && h.pos.z > -1.25)) : null;
+  audio.bellRing(on); // the alarm bell ringing on and on (stopped when you're out, or the game's paused)
   if (!on) { bailCalled = false; return; }
-  if (!bailCalled) { bailCalled = true; ui.toast('Bail out! Get to a hatch!', 'kill'); crew.bailOut(HATCHES, effects); }
-  if ((bellT -= dt) <= 0) { bellT = 0.55; audio.bell(); } // the alarm bell, on and on
+  if (!bailCalled) { bailCalled = true; ui.toast('Bail out! Get to a hatch!', 'kill'); crew.bailOut(HATCHES, effects); radio.archiveBail(); } // ("pilot to crew, bail out!" over the bell)
 }
 player.onHatch = () => { bailOut(); };
 addEventListener('keydown', (e) => { if (e.code === 'KeyH' && !e.repeat && state === 'playing') ui.toggleControls(); });
@@ -551,7 +575,7 @@ addEventListener('keydown', (e) => { if (e.code === 'KeyM' && state === 'playing
 addEventListener('keyup', (e) => { if (e.code === 'KeyM') mapHeld = false; });
 addEventListener('blur', () => { mapHeld = false; });
 function missionMapData() {
-  const d = mission.mapData(missionTime);
+  const d = mission.mapData(missionTime, mapTurn());
   const me = eject.active ? eject.pos : mode === 'crew' ? bomber.group.position : pilot.f?.pos;
   const near = me ?? bomber.group.position;
   d.self = me ? d.rel(me) : null;
@@ -948,14 +972,17 @@ function reform() {
       const k = table.findIndex((t) => t.pos.distanceToSquared(b.slot0) < 4);
       if (k >= 0 && !held.has(k)) held.set(k, b); else loose.push(b);
     }
+    // a slot a ship is still sitting in is taken, whether or not she can keep it (an engine out, her pilot
+    // dead, about to drop back): nobody's sent into it on top of her
+    const taken = new Set(table.flatMap((t, i) => (bombers.some((b) => !b.down && !b.gone && !list.includes(b) && b.base.distanceToSquared(t.pos) < 40 * 40) ? [i] : [])));
     for (const b of loose) { // newcomers into the empty slots nearest them
       let k = -1, bd = Infinity;
-      for (const [i, t] of table.entries()) { if (held.has(i)) continue; const d = t.pos.distanceToSquared(b.base); if (d < bd) { bd = d; k = i; } }
+      for (const [i, t] of table.entries()) { if (held.has(i) || taken.has(i)) continue; const d = t.pos.distanceToSquared(b.base); if (d < bd) { bd = d; k = i; } }
       if (k >= 0) { held.set(k, b); goTo(b, table[k]); }
     }
     // command passing on: an empty leader's slot (the group's lead, an element's lead), the lead's first
     for (const [i, t] of table.entries()) {
-      if (held.has(i) || (t.wingman !== 0 && !t.lead)) continue;
+      if (held.has(i) || taken.has(i) || (t.wingman !== 0 && !t.lead)) continue;
       const pick = (ok) => { let best = -1, bd = Infinity; for (const [j, b] of held) { if (!ok(table[j], j) || table[j].lead) continue; const d = b.base.distanceToSquared(t.pos); if (d < bd) { bd = d; best = j; } } return best; };
       let j = pick((u) => u.squadron === t.squadron && u.element === t.element && u.wingman !== 0); // his own wingman
       if (j < 0) j = pick((u) => u.squadron === t.squadron && (t.lead || u.wingman !== 0)); // else the nearest of his squadron
@@ -1061,6 +1088,7 @@ gfx.renderer.setAnimationLoop((now) => {
         }
       });
       safely('life', () => (mode !== 'crew' ? fighterLife(dt) : eject.active || player.away ? null : lifeAndDeath(dt)));
+      if (mode !== 'crew' || eject.active || player.away) audio.bellRing(false); // (the bail-out bell only aboard, in the bomber)
       stats.fired(weapons.bullets.playerFired); weapons.bullets.playerFired = 0;
       if (!eject.active && (mode === 'crew' ? !player.dead && !player.away : pilot.alive)) stats.tick(dt);
       bomberKills();
@@ -1149,9 +1177,13 @@ gfx.renderer.setAnimationLoop((now) => {
       if (mode !== 'crew') { // flying a fighter
         ui.you(null);
         ui.hud({ location: pilot.f ? `${pilot.f.k.name} · ${pilot.view === 'look' ? 'looking round' : !pilot.alive ? 'shot down' : pilot.third ? 'third person' : 'cockpit'}` : '', prompt: '', atStation: true });
-        ui.controls([['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Click', 'guns'], ['C', 'hold: look round'], ['V', pilot.third ? 'view: third person' : 'view: cockpit'], ['J', 'bail out']], `fighter:${pilot.third}`);
+        ui.controls([['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Click', 'guns'], ['Right click', 'hold: lock on (aim assist)'], ['C', 'hold: look round'], ['V', pilot.third ? 'view: third person' : 'view: cockpit'], ['J', 'bail out']], `fighter:${pilot.third}`);
+        { // the lock-on's brackets round its target, if it's in front of you
+          const lp = pilot.lockPos, v = lp && _lockV.copy(lp).project(camera);
+          ui.lock(v && v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1 ? [(v.x + 1) / 2 * innerWidth, (1 - v.y) / 2 * innerHeight] : null, lp ? lp.distanceTo(pilot.f.pos) : 0);
+        }
         if (pilot.f) { ui.fighter(pilot.status(camera)); ui.fighterDamage(pilot.f); }
-        if (pilot.alive && !viewHinted.has('fighter')) { viewHinted.add('fighter'); ui.toast('V: third-person view'); }
+        if (pilot.alive) tip('fighter');
         tags.update(camera, fighters.list, { side: fighters.playerSide, lead: pilot.alive, self: pilot.f, bombers });
         return;
       }
@@ -1177,10 +1209,11 @@ gfx.renderer.setAnimationLoop((now) => {
           if (inBall) { c.userData.shownBeforeBall = c.visible; c.visible = false; } else c.visible = c.userData.shownBeforeBall ?? true;
         }
       }
-      if (player.station?.flies && player.blend > 0.9 && !viewHinted.has('b17')) { viewHinted.add('b17'); ui.toast('V: third-person view'); } // (once a game)
       bomber.flown = !!player.station?.flies && mode === 'crew'; // (pilots dead: you at the controls keep her up)
       const [rows, key] = controlsFor(player);
       ui.controls(rows, key);
+      ui.lock(null); // (the fighter's lock-on brackets: not in the bomber)
+      if (player.hatches) tip('bail'); else if (key === 'walk' || key === 'sight') tip(key); else if (player.blend > 0.9 && (key.startsWith('seat') || key.startsWith('gun'))) tip(key.split(':')[0]);
       ui.gun(weapons.status(player));
       ui.crew(crew.members);
       ui.engines(bomber, !!player.station?.flies);

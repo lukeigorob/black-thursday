@@ -40,6 +40,17 @@
       @keyframes warnpulse { 50% { border-color: #ffb04aff; } }
       #prompt b { display: inline-block; min-width: 22px; padding: 1px 6px; margin-right: 6px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; }
       #prompt .dim { opacity: .75; font-size: 15px; }
+      /* first time somewhere (a gun, the controls, the sight...): the keys that matter there, big and low in the middle, then fading */
+      /* the fighter's lock-on (right click): brackets round the target it's holding you on */
+      #lock { display: none; position: fixed; width: 54px; height: 54px; margin: -27px 0 0 -27px; pointer-events: none; }
+      #lock::before { content: ''; position: absolute; inset: 0; border: 2px solid #ff6b4a; border-radius: 4px; clip-path: polygon(0 0, 30% 0, 30% 8%, 8% 8%, 8% 30%, 0 30%, 0 70%, 8% 70%, 8% 92%, 30% 92%, 30% 100%, 0 100%, 0 0, 100% 0, 100% 100%, 70% 100%, 70% 92%, 92% 92%, 92% 70%, 100% 70%, 100% 30%, 92% 30%, 92% 8%, 70% 8%, 70% 0, 100% 0); }
+      #lock span { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font: 700 12px 'Barlow Condensed', system-ui; letter-spacing: .12em; color: #ff8a6a; text-shadow: 0 1px 2px #000; white-space: nowrap; }
+      #tip { position: fixed; left: 50%; bottom: 25%; transform: translateX(-50%); max-width: min(92vw, 860px); padding: 9px 16px; border-radius: 6px; background: #0b0d10d0; border: 1px solid #ece8dc33;
+        font: 500 16.5px Barlow, system-ui; color: #ece8dc; text-align: center; line-height: 2; opacity: 0; transition: opacity .5s; pointer-events: none; }
+      #tip.on { opacity: 1; }
+      #tip .t { display: block; font: 700 12.5px 'Barlow Condensed', system-ui; letter-spacing: .12em; text-transform: uppercase; color: #e0b25a; line-height: 1.4; }
+      #tip span { white-space: nowrap; margin: 0 9px; }
+      #tip b { display: inline-block; min-width: 22px; padding: 0 6px; margin-right: 5px; border: 1px solid #ece8dc99; border-radius: 3px; background: #0006; font-weight: 700; line-height: 1.5; }
       #hint { display: none; position: fixed; left: 50%; top: 124px; transform: translateX(-50%); max-width: 70ch; padding: 6px 12px; border-radius: 4px; background: #0b0d10c8; font-size: 15px; text-align: center; }
       #gun { display: none; position: fixed; right: 24px; bottom: 22px; width: 220px; text-align: right; text-shadow: 0 1px 3px #000; }
       #gun-ammo { font: 600 15px ui-monospace, Consolas, monospace; color: #ece8dcbb; }

@@ -15,15 +15,15 @@
 // through it are in sight. ?spacing=historical flies the historical one.
 const SHARED = {
   // an element of three: the lead, the wingmen back and out on either side (50 ft wingtip and nose-to-tail
-  // clearance: B-17 Pilot Training Manual, PROBABLE)
-  element: [[0, 0, 0], [-47, 0, 38], [47, 0, 38]],
+  // clearance: B-17 Pilot Training Manual, PROBABLE; opened a tenth for the game, as is everything below)
+  element: [[0, 0, 0], [-52, 0, 42], [52, 0, 42]],
   // a squadron of six (or seven): the second element stepped down behind the first, the seventh ship down
   // behind that (the 303rd's 3-3-1 chart: VERIFIED as an arrangement; the distances ESTIMATE)
-  squadron: { second: [0, -30, 76], seventh: [0, -55, 114], third: [0, -58, 152] }, // (third: a squadron of eight or nine, the 385th's: ESTIMATE, clear of the low squadron)
+  squadron: { second: [0, -33, 84], seventh: [0, -60, 126], third: [0, -64, 168] }, // (third: a squadron of eight or nine, the 385th's: ESTIMATE, clear of the low squadron)
   // a group: the high squadron up and to the right, the low down and to the left (vertical: the official
   // history's +100 / -250 ft diagram, PROBABLE; lateral and fore-aft ESTIMATE); the 100th's four-ship
   // flights trailing the group they joined (ESTIMATE)
-  group: { lead: [0, 0, 0], high: [100, 30, 120], low: [-100, -76, 120], attached: [0, -45, 250] },
+  group: { lead: [0, 0, 0], high: [110, 33, 132], low: [-110, -84, 132], attached: [0, -50, 276] },
 };
 export const HISTORICAL_LAYOUT = {
   ...SHARED,
@@ -40,12 +40,13 @@ export const HISTORICAL_LAYOUT = {
 export const COMPACT_LAYOUT = {
   ...SHARED,
   // (the wing: the high and low groups closer in, still a squadron's height and more clear of the lead's)
-  wing: { lead: [0, 0, 0], high: [175, 150, 210], low: [-175, -150, 420] },
+  wing: { lead: [0, 0, 0], high: [192, 165, 232], low: [-192, -165, 462] },
   // (the wings ~700 m apart in trail, each stepped down and out a little so the one behind sees past the
-  // one ahead; the 3rd Division close alongside, to the right as it flew, a little back and below. As
-  // tight as it goes with every group still 120 m clear of the next: the test's limit)
-  wingTrail: [-70, -50, 720],
-  division: { '1st': [0, 0, 0], '3rd': [930, -95, 320] },
+  // one ahead; the 3rd Division close alongside, to the right as it flew, a little back and below. A
+  // tenth looser than the tightest it would go: any tighter looked squashed, and ships wandering off their
+  // slots met)
+  wingTrail: [-77, -55, 792],
+  division: { '1st': [0, 0, 0], '3rd': [1023, -105, 352] },
 };
 const historical = typeof location !== 'undefined' && new URLSearchParams(location.search).get('spacing') === 'historical';
 export const LAYOUT = historical ? HISTORICAL_LAYOUT : COMPACT_LAYOUT;
