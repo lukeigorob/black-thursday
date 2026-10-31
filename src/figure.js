@@ -20,6 +20,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 import { insideLight } from './cabinlook.js';
+import { shrinkTextures } from './models.js';
 
 const V = THREE.Vector3, Q = THREE.Quaternion;
 let BASE = null; // the dressed model, loaded once: cloned for each man
@@ -41,6 +42,7 @@ const CREW_AMBIENT = 0.5;
 export async function loadCrewModel() {
   if (BASE) return;
   const gltf = await new GLTFLoader().loadAsync('models/crew/crewman1943.glb');
+  await shrinkTextures(gltf.scene); // (its 2048 maps: models.js)
   const scene = gltf.scene;
   scene.updateMatrixWorld(true);
   const done = new Set();

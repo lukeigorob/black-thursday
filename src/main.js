@@ -302,6 +302,14 @@ const TIPS = {
 const tip = (id) => ui.tip(id, ...TIPS[id]);
 let miniT = 0; const _miniAt = new THREE.Vector3(), _miniDir = new THREE.Vector3(); // (the mini map)
 const canvas = gfx.renderer.domElement;
+// if the browser's graphics process crashes (it runs out of memory on a busy PC), the 3D view is lost: shaders
+// fail and the sky and cabin go black, or the page goes white. Nothing comes back from that by itself, so say so
+// and load the game afresh
+canvas.addEventListener('webglcontextlost', (e) => {
+  e.preventDefault();
+  ui.toast('The graphics ran out of memory. Reloading the game…', 'warn');
+  setTimeout(() => location.reload(), 2500);
+}, { once: true });
 
 // Capture the mouse with raw input (no OS pointer acceleration, so the same hand movement always turns
 // the view the same amount). Browsers without raw input get a plain capture.

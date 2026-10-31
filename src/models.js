@@ -19,6 +19,28 @@ export const MODELS = {
 // so sunlight falls through the windows into the cabin).
 const WINDOWED = new Set(['MainHull', 'Tail_TBTurrets']);
 
+// the largest a loaded model's texture is kept: 2048 maps at full size four times over (the B-17, its crew) filled
+// a browser tab's memory past what it allows (Chrome's "Out of Memory", or a white screen as the GPU gave up), so
+// below High quality they're scaled down to this as they load (High keeps them)
+const TEX_MAX = (() => { try { return localStorage.getItem('bomber.quality') === 'high' ? Infinity : 1024; } catch { return 1024; } })();
+
+/** Scale a loaded model's textures down to TEX_MAX (each image once, however many textures share it). */
+export async function shrinkTextures(root) {
+  if (TEX_MAX === Infinity || typeof createImageBitmap !== 'function') return;
+  const done = new Set(), jobs = [];
+  root.traverse((o) => {
+    for (const m of [o.material].flat()) if (m) for (const t of Object.values(m)) {
+      const im = t?.isTexture ? t.source.data : null;
+      if (!im || done.has(t.source) || !(im.width > TEX_MAX || im.height > TEX_MAX)) continue;
+      done.add(t.source);
+      const k = TEX_MAX / Math.max(im.width, im.height), src = t.source;
+      jobs.push(createImageBitmap(im, { resizeWidth: Math.round(im.width * k), resizeHeight: Math.round(im.height * k), resizeQuality: 'high', premultiplyAlpha: 'none', colorSpaceConversion: 'none' })
+        .then((small) => { im.close?.(); src.data = small; src.needsUpdate = true; }, () => {})); // (kept as it was if it can't be)
+    }
+  });
+  await Promise.all(jobs);
+}
+
 /** Turn a material's base-colour alpha into a hard window cut-out. `keepColor` false = alpha only. */
 export function windowCutout(material, keepColor = true) {
   material.transparent = false;
@@ -263,7 +285,7 @@ export async function loadModel(name, { lod = false, mid = false } = {}) {
       loader
         .loadAsync(url)
         // lower-detail versions are only looked at, never taken apart: merge them for speed
-        .then((gltf) => { if (name === 'b17') shortenBarrels(gltf.scene); return gltf; })
+        .then(async (gltf) => { if (name === 'b17') shortenBarrels(gltf.scene); await shrinkTextures(gltf.scene); return gltf; })
         .then((gltf) => ({ scene: suffix ? mergeByMaterial(prepare(gltf.scene), /^Prop_\d$/, mid ? MID_TURRETS : null) : prepare(gltf.scene), ok: true }))
         .catch((err) => {
           console.warn(`Could not load ${url}, using a placeholder.`, err);
