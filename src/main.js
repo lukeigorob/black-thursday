@@ -48,7 +48,7 @@ const audio = new GameAudio();
 // the crew on the intercom: what they'd call out of what the game logs is said aloud, by the man who'd say it
 const radio = new Radio(audio, ui.log.bind(ui));
 { const log = ui.log.bind(ui); ui.log = (text) => { if (!radio.hear(text)) log(text); }; }
-radio.onCaption = (who, text) => ui.caption(who, text); // (and shown while he says it)
+// (no subtitles: what the crew say over the interphone is heard, not shown on the screen)
 
 
 // the bomber stream (the player's bomber starts at the origin, the scenery moves instead).
@@ -141,13 +141,8 @@ const effects = new Effects(scene);
 weapons.effects = effects; // (the guns' muzzle smoke)
 ui.fullscreen(); // (the full-screen buttons and Alt+Enter)
 ui.sound((v, muted, mix) => audio.setVolume(v, muted, mix)); // (the menus' mute button and volume line, and the mix)
-// the menus answer you: a tick on what you can press, a click when you press it (sound starts at the first click)
-{
-  const PRESSABLE = '.btn, .seat-btn[data-seat], .crew-row:not(:disabled), .role-card, .tool, .tab, .z, [data-z], .icon-btn';
-  let over = null;
-  document.addEventListener('pointerover', (e) => { const el = e.target.closest?.(PRESSABLE); if (el && el !== over && state !== 'playing') audio.uiTick('hover'); over = el; });
-  document.addEventListener('pointerdown', (e) => { if (state === 'playing') return; audio.ensure(); if (e.target.closest?.(PRESSABLE)) audio.uiTick('select'); });
-}
+// (the menus make no sound of their own: the tick and click sounded cheap. The first click starts the sound)
+document.addEventListener('pointerdown', () => { if (state !== 'playing') audio.ensure(); });
 // bombers coming apart: their lost wings and tails fall away on their own (breakup.js), copied from
 // clean models (the pooled ones may be cut at the time)
 const breakup = new Breakup(scene, effects, { lod: lod.scene, mid: (await loading.track(loadModel('b17', { mid: true }), ARM)).scene });
@@ -231,7 +226,14 @@ const flak = new Flak({ effects, audio, ui, bombers, playerBomber: bomber, onBom
   onClose: (k) => { if (mode === 'crew' && !player.away && !eject.active) { player.jolt(k); audio.flakClose(k); shake = Math.max(shake, k); } } }); // (felt inside your bomber)
 player.onSightRefused = () => ui.log(mission.phase === 'outbound' ? `Bombsight: nothing to aim at yet. ${mission.status(missionTime).replace(/^Outbound · /, '')}.` : 'Bombsight: the bombs are away.');
 flak.ear = camera; // (the flak heard from where you are: in your bomber or a fighter)
-flak.onBurst = (at) => radio.burst(at); // ("flak at nine o'clock": the interphone)
+flak.onBurst = (at) => { // ("flak at nine o'clock": the interphone), and every B-17 near it shudders
+  radio.burst(at);
+  for (const b of bombers) {
+    if (b.down || b.gone) continue;
+    const d = b.group.position.distanceTo(at);
+    if (d < 160) b.shudder = Math.min(1, b.shudder + (1 - d / 160) ** 1.5 * 1.2);
+  }
+};
 flakEnv = () => { flak.night = env.time === 'night' ? 1 : env.time === 'twilight' ? 0.45 : 0; flak.muffle = WEATHER[env.weather]?.overcast ?? 0; };
 flakEnv();
 const mission = new Mission(scene, { effects, audio, ui, bombers, playerBomber: bomber });
@@ -643,6 +645,10 @@ async function warmUp() {
   for (const p of pilot.warmParts()) extra.add(p);
   const turrets = [bomber.interior?.topCockpit, bomber.interior?.ballCockpit].filter((c) => c && !c.parent); // (the turrets round your head: on the camera only while you're in them)
   for (const c of turrets) extra.add(c);
+  // (the mid-detail bombers not handed out yet: their windows' shadow shaders were made the first time one
+  // came into the sun's shadow box, the stall when you went to third person in your B-17)
+  const pooled = detail.pool.filter((m) => !m.parent);
+  pooled.forEach((m, i) => { m.position.set(i * 40, 0, 0); m.traverse((o) => { if (o.isMesh) o.castShadow = true; }); extra.add(m); });
   extra.position.set(0, 0, -30); // (in front of the camera, for the shadow and depth passes too)
   scene.add(extra);
   // (compiled for the off-screen target the game draws into: a shader for the screen is a different one)
@@ -654,7 +660,10 @@ async function warmUp() {
   r.setRenderTarget(prev);
   // and every texture sent to the GPU now (the first P-47 close by stalled on its textures going up)
   const sent = new Set();
-  extra.traverse((o) => { for (const m of [o.material].flat()) if (m) for (const v of Object.values(m)) if (v?.isTexture && !sent.has(v)) { sent.add(v); r.initTexture(v); } });
+  // (and the target city's and the countryside's: the town's 4096 px ground going up the first time the city
+  // came over the horizon froze the game for seconds)
+  for (const root of [extra, mission.target.group, world.countryside.group])
+    root.traverse((o) => { for (const m of [o.material].flat()) if (m) for (const v of Object.values(m)) if (v?.isTexture && !sent.has(v)) { sent.add(v); r.initTexture(v); } });
   // (one real frame: the post-processing and the shadow maps; nothing culled, so every shadow caster's
   // depth shader is made now, wherever the sun's shadow camera happens to be)
   const culled = []; scene.traverse((o) => { if (o.frustumCulled) { culled.push(o); o.frustumCulled = false; } });
@@ -663,6 +672,7 @@ async function warmUp() {
   scene.remove(extra);
   for (const p of pilot.warmParts()) p.removeFromParent();
   for (const c of turrets) c.removeFromParent();
+  for (const m of pooled) { m.removeFromParent(); m.position.set(0, 0, 0); }
   for (const o of shown) o.visible = false;
   world.warmSkies(); // (the night sky's shader, so changing the time of day doesn't stall either)
   // the winter countryside's texture takes a moment to paint: done while nothing's happening, not when winter's picked
@@ -995,6 +1005,26 @@ function steerLosses() {
   fighters.lossBias = flak.lossBias = THREE.MathUtils.clamp(1 + (want - have) * 25, 0.02, 3.5);
 }
 
+/** What the B-17's instruments read: her speed, height, attitude and the engines (cockpitb17.js turns the needles). */
+const cockpitIn = { ias: 150, feet: 25000, climb: 0, bank: 0, pitch: 0, heading: 0, turn: 0, slip: 0, mp: [31, 31, 31, 31], rpm: [2300, 2300, 2300, 2300], pdi: 0 };
+let lastFeet = null, lastHeading = null;
+function cockpitState(dt) {
+  const f = bomber.flight, s = cockpitIn, feet = (ALTITUDE + bomber.base.y) * 3.281, hd = ((-f.heading * 180) / Math.PI + 360) % 360;
+  const k = 1 - Math.exp(-dt * 2);
+  if (lastFeet != null && dt > 0) s.climb += (((feet - lastFeet) / dt) * 60 - s.climb) * k; // (ft/min, the instrument's lag)
+  if (lastHeading != null && dt > 0) s.turn += ((((hd - lastHeading + 540) % 360) - 180) / dt / 180 * Math.PI - s.turn) * k;
+  lastFeet = feet; lastHeading = hd;
+  s.feet = feet; s.heading = hd; s.bank = f.bank; s.pitch = f.pitch;
+  s.ias = 150 + (f.speed - AIRSPEED) * 2.237;
+  s.slip += ((f.bank * 0.4 - s.turn * 2) - s.slip) * k;
+  bomber.engines.forEach((e, i) => {
+    const running = e.state === 'ok' || e.state === 'smoking';
+    s.mp[i] += ((running ? 20 + (player.controls?.throttle ?? f.throttle ?? 0.5) * 24 : 11.2) - s.mp[i]) * k;
+    s.rpm[i] += ((running ? 2300 + i * 6 : e.feathered ? 0 : 1100) - s.rpm[i]) * k;
+  });
+  return s;
+}
+
 /** Speed, height, heading and where the nose points, while you fly. */
 const _nose = new THREE.Vector3();
 function flightHud() {
@@ -1033,7 +1063,6 @@ gfx.renderer.setAnimationLoop((now) => {
   const rawDt = timer.getDelta(), dt = Math.min(rawDt, 0.05);
   const live = state === 'playing';
   const running = live || state === 'menu'; // the world stands still while paused or picking a seat
-  if (!live) ui.caption(null); // (no one talking over the menus)
   if (running) {
     t += dt;
     safely('world', () => { world.update(dt, AIRSPEED); world.follow(eject.active ? eject.pos : mode === 'crew' || !pilot.f ? bomber.group.position : pilot.f.pos, mode === 'crew' && !eject.active && !player.away && !player.dead); });
@@ -1054,8 +1083,12 @@ gfx.renderer.setAnimationLoop((now) => {
     });
   }
   if (mode === 'crew' && !eject.active) safely('player', () => player.update(live ? dt : 0));
+  // third person from the pilots' seats: the cabin (2.4 million triangles, all its fittings) can't be seen from
+  // out behind her, so it isn't drawn; that was most of the stutter (and the sound breaking up with it)
+  if (bomber.interior) bomber.interior.group.visible = !(mode === 'crew' && player.third && player.station?.flies && player.blend > 0.999);
   if (mode === 'crew' && !eject.active) safely('shafts', () => {
     bomber.interior.updateShafts(_sunLocal.copy(world.sunDir).applyQuaternion(_bq.copy(bomber.group.quaternion).invert()));
+    if (player.feet.z < -6) bomber.interior.cockpitLive?.(cockpitState(live ? dt : 0), live ? dt : 0); // (only the flight deck's people see the panel)
     (bomber.interior.dust ??= new Dust(bomber.interior)).update(dt, camera, _sunLocal, gfx.quality.dust && !player.away); // dust in the sunbeams
   });
   else if (bomber.interior?.dust) bomber.interior.dust.mesh.visible = false;

@@ -93,16 +93,7 @@ export function addMoreDetail(it, MAT, DECKS) {
     it.add(M.lamp, new THREE.SphereGeometry(0.05, 12, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2).translate(-0.12, y - 0.04, z));
   }
 
-  // ---- cockpit (the panel, wheels, pedestal and seats are in cockpitb17.js): side consoles
-  const cf = -0.40;
-  const plate = dialPlate(8);
-  for (const s of [-1, 1]) { // side consoles along the walls, with their dials
-    const x = s * Math.min(0.9, wallX(-7.9, cf + 0.35, 0.12));
-    it.box(x - 0.09, x + 0.09, cf, cf + 0.42, -8.35, -7.45, MAT.dark, false);
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.16), plate);
-    face.rotation.x = -Math.PI / 2; face.position.set(x, cf + 0.425, -7.9);
-    it.group.add(face);
-  }
+  // (the cockpit's panel, controls, seats, side panels and padding are in cockpitb17.js)
 
   // ---- nose: ammunition for the cheek and nose guns, the oxygen bottles, a fire extinguisher, the
   // Norden's stabiliser and eyepiece on their stand
@@ -181,7 +172,6 @@ export function addMoreDetail(it, MAT, DECKS) {
     for (const z of [z0, ...splits, z1]) it.rod(P(z, y0), P(z, y1), 0.009, MAT.metal);
   };
   for (const side of [-1, 1]) {
-    frame(side, -8.75, -6.3, 0.27, 0.67, [-7.6]); // the pilots' side windows (the front one slides)
     frame(side, -9.4, -8.2, -0.72, -0.38); // the nose's side windows
     frame(side, -2.52, -2.08, -0.25, 0.06); // the radio room's
   }
@@ -228,7 +218,7 @@ export function addMoreDetail(it, MAT, DECKS) {
   // ---- rivets along the fuselage frames, from the radio room to the tail
   for (let z = -2.5; z < 9.5; z += 0.5) {
     const deck = deckAt(z);
-    if (!deck) continue;
+    if (!deck || (it.frameZs && !it.frameZs.has(z))) continue; // (no frame here, across a window or the gun hatch: no rivets hanging in the air)
     const [, , pts] = it.outline(z, deck.y + 0.9, 0.03);
     for (let i = 0; i < pts.length; i += 2) {
       const p = pts[i];
@@ -257,6 +247,7 @@ export function addMoreDetail(it, MAT, DECKS) {
 
   // ---- pulleys on the control cables, every two metres along both walls
   for (const s of [-1, 1]) for (let z = 0; z <= 8; z += 2) {
+    if (z > 1 && z < 2.6) continue; // (not in the waist window)
     const d = deckAt(z), y = d.y + 1.32, x = s * (it.hw(z, y) - 0.06);
     if (!Number.isFinite(x) || Math.abs(x) < 0.2) continue;
     it.add(M.black, new THREE.TorusGeometry(0.03, 0.008, 5, 14).rotateY(Math.PI / 2).translate(x, y, z));

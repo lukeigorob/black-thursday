@@ -20,6 +20,9 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { wetGlass } from './environment.js';
+import { build109 } from './cockpit109.js';
+import { buildFw190Cockpit } from './cockpitfw190.js';
+import { buildCockpitP47 } from './cockpitp47.js';
 
 /*
  * Each type, relative to the pilot's eye (x right, y up, -z ahead):
@@ -80,7 +83,7 @@ const LAYOUT = {
     [150, 320, 70, 'boost'], [310, 320, 70, 'rpm'], [470, 320, 62, 'coolant'], [620, 320, 62, 'oil'], [775, 330, 62, 'fuel']],
 };
 
-const rng = (seed) => () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+export const rng = (seed) => () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
 
 /** Draws the panel's dials into a canvas, with the needles where the values say. */
 class PanelArt {
@@ -264,7 +267,7 @@ function rivetTex() {
 // ---------- geometry helpers
 
 /** Bring a geometry to the shared layout (non-indexed, position, normal, uv, and colour if wanted) so it can be merged. */
-function tidy(geo, colour) {
+export function tidy(geo, colour) {
   const g = geo.index ? geo.toNonIndexed() : geo;
   for (const k of Object.keys(g.attributes)) if (!['position', 'normal', 'uv', 'color'].includes(k)) g.deleteAttribute(k);
   if (!g.attributes.normal) g.computeVertexNormals();
@@ -275,7 +278,7 @@ function tidy(geo, colour) {
 }
 
 /** A box-section bar from a to b (w across, d deep), its depth turned towards `out`. */
-function barGeo(a, b, w, d, out = new V3(0, 1, 0)) {
+export function barGeo(a, b, w, d, out = new V3(0, 1, 0)) {
   const dir = new V3().subVectors(b, a), len = dir.length();
   const geo = new THREE.BoxGeometry(w, d, len + w * 0.5);
   const z = dir.normalize(), x = new V3().crossVectors(out, z).normalize();
@@ -286,7 +289,7 @@ function barGeo(a, b, w, d, out = new V3(0, 1, 0)) {
 }
 
 /** A flat pane through four corners (two triangles), its uv across it. */
-function quadGeo(a, b, c, d) {
+export function quadGeo(a, b, c, d) {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute([a, b, c, a, c, d].flatMap((p) => p.toArray()), 3));
   g.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1], 2));
@@ -400,6 +403,8 @@ function hand(mat) {
 
 /** The cockpit for one type; call .userData.update(state) every frame (cockpit.js manages its own refresh rate). */
 export function buildCockpit(kind) {
+  if (kind === 'fw190') return buildFw190Cockpit(); // (its own file: cockpitfw190.js)
+  if (kind === 'p47') return buildCockpitP47(); // (its own file: cockpitp47.js)
   const T = TYPES[kind];
   const root = new THREE.Group();
   root.matrixAutoUpdate = false; // placed on the fighter each frame (pilot.js)
@@ -449,7 +454,7 @@ export function buildCockpit(kind) {
   // ---- outside: the fuselage skin (painted outside, the interior colour inside), spinner, propeller blur, exhausts, wings
   const body = fuselageGeo(T);
   putM(skin, body, new THREE.Matrix4());
-  putM(inside, tidy(body.clone(), false), new THREE.Matrix4());
+  if (kind !== 'bf109') putM(inside, tidy(body.clone(), false), new THREE.Matrix4()); // (the 109's: cockpit109.js, shaded)
   const front = T.body[0], cy = front[3], prop = -T.prop;
   const spinner = new THREE.MeshStandardMaterial({ color: T.spinner, roughness: 0.45, metalness: 0.3, map: T.spiral ? spiralTex() : null });
   put(spinner, new THREE.SphereGeometry(T.hub ?? front[1] * 0.95, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(-Math.PI / 2).scale(1, 1, T.hub ? 1.2 : 2.1), 0, cy, prop + 0.05);
@@ -471,6 +476,10 @@ export function buildCockpit(kind) {
   }
   for (const s of [-1, 1]) putM(skin, wingGeo(T, s), new THREE.Matrix4());
 
+  // the Bf 109 G-6's cockpit is its own (cockpit109.js); what follows to the merge is the Fw 190's and the P-47's
+  let live; // what moves each frame (needles, stick, throttle) and the night glow: { update(s, dt), night(k) }
+  others: {
+  if (kind === 'bf109') { live = build109({ g, T, body, widthAt, sill, wear, rivets, glass, armour, armourEdge }); break others; }
   // ---- the tub: ribs and stringers on the walls, the floor, the canopy rails on the sills, the seat and the
   // armour behind it, the rudder pedals
   const wall = (z) => widthAt(z) - 0.03;
@@ -675,6 +684,19 @@ export function buildCockpit(kind) {
     if (kind === 'fw190') for (const s of [-1, 1]) bar(steel, P(s * 0.15, sill - 0.1, z1 - 0.13), P(s * 0.12, sill + 0.16, z1 - 0.16), 0.02, 0.02, P(0, 0, 1));
   }
 
+  // ---- what moves: the needles (redrawn ~15 times a second), stick, throttle, and the night glow
+  let redraw = 0;
+  live = {
+    update: (s, dt) => {
+      if ((redraw -= dt) <= 0) { redraw = 1 / 15; art.draw(s); }
+      stick.rotation.x = THREE.MathUtils.clamp(-s.stickY, -1, 1) * 0.22; // back to pull up
+      stick.rotation.z = THREE.MathUtils.clamp(-s.stickX, -1, 1) * 0.25;
+      lever.rotation.x = -0.6 + s.throttle * 1.0;
+    },
+    night: (k) => { panelMat.emissive.setRGB(0.7, 1.0, 0.75).multiplyScalar(k * 1.4); }, // the radium paint
+  };
+  }
+
   // ---- merge: one mesh per material (glass drawn after the rest)
   for (const [mat, list] of parts) {
     const coloured = !!mat.vertexColors;
@@ -683,15 +705,8 @@ export function buildCockpit(kind) {
     g.add(m);
   }
 
-  // ---- what moves: the needles (redrawn ~15 times a second), stick, throttle, and the night glow
-  let redraw = 0;
-  root.userData.update = (s, dt) => {
-    if ((redraw -= dt) <= 0) { redraw = 1 / 15; art.draw(s); }
-    stick.rotation.x = THREE.MathUtils.clamp(-s.stickY, -1, 1) * 0.22; // back to pull up
-    stick.rotation.z = THREE.MathUtils.clamp(-s.stickX, -1, 1) * 0.25;
-    lever.rotation.x = -0.6 + s.throttle * 1.0;
-  };
-  root.userData.night = (k) => { panelMat.emissive.setRGB(0.7, 1.0, 0.75).multiplyScalar(k * 1.4); }; // the radium paint
+  root.userData.update = live.update;
+  root.userData.night = live.night;
   root.traverse((o) => { if (o.isMesh) { o.castShadow = false; o.receiveShadow = false; } });
   return root;
 }
@@ -719,9 +734,14 @@ export function buildReticle(kind) {
   c.width = c.height = 256;
   const x = c.getContext('2d'), col = kind === 'p47' ? 'rgba(255,170,90,1)' : 'rgba(255,190,80,1)';
   x.strokeStyle = col; x.fillStyle = col; x.lineWidth = 5; x.shadowColor = col; x.shadowBlur = 8; x.lineCap = 'round';
-  for (const [a, b, cc, d] of [[128, 30, 128, 104], [128, 152, 128, 226], [30, 128, 104, 128], [152, 128, 226, 128]]) { x.beginPath(); x.moveTo(a, b); x.lineTo(cc, d); x.stroke(); }
+  if (kind === 'p47') {
+    for (const [a, b, cc, d] of [[128, 30, 128, 104], [128, 152, 128, 226], [30, 128, 104, 128], [152, 128, 226, 128]]) { x.beginPath(); x.moveTo(a, b); x.lineTo(cc, d); x.stroke(); }
+    x.lineWidth = 4; x.beginPath(); x.arc(128, 128, 88, 0, 7); x.stroke(); // the N-3B's ring round the pip
+  } else { // the Revi 16B's: the ring, the cross broken at the middle, its bars out past the ring either side and below
+    for (const [a, b, cc, d] of [[128, 34, 128, 106], [128, 150, 128, 250], [6, 128, 106, 128], [150, 128, 250, 128]]) { x.beginPath(); x.moveTo(a, b); x.lineTo(cc, d); x.stroke(); }
+    x.lineWidth = 4; x.beginPath(); x.arc(128, 128, 96, 0, 7); x.stroke();
+  }
   x.beginPath(); x.arc(128, 128, 7, 0, 7); x.fill();
-  if (kind === 'p47') { x.lineWidth = 4; x.beginPath(); x.arc(128, 128, 88, 0, 7); x.stroke(); } // the N-3B's ring round the pip
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: t, color: new THREE.Color(4.5, 2.2, 0.7), transparent: true, depthTest: false, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }));

@@ -88,7 +88,7 @@ export function hullPaint(sh, posVar) {
       float luma = dot(paint, vec3(0.3, 0.55, 0.15));
       // tinted to interior green; where it's worn through (light, unsaturated) bare aluminium shows
       vec3 green = vec3(0.30, 0.34, 0.23) * (0.74 + 0.5 * luma); // (gently: big blotches read as camouflage)
-      vec3 bronze = vec3(0.085, 0.2, 0.17) * (0.9 + 0.2 * luma);
+      vec3 bronze = vec3(0.075, 0.13, 0.095) * (0.9 + 0.2 * luma); // (Boeing's dark green lacquer, Bronze Green 234G9)
       float bare = smoothstep(0.62, 0.8, luma) * mix(0.35, 0.08, deck);
       diffuseColor.rgb = mix(mix(green, bronze, deck), vec3(0.55, 0.56, 0.54), bare);
       if (uDetailOn > 0.5) {

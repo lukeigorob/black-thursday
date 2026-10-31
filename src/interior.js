@@ -11,7 +11,7 @@ import { buildTopTurret } from './topturret.js';
 import { addMoreDetail } from './interiordetail.js';
 import { buildB17Cockpit } from './cockpitb17.js';
 import { buildStations } from './stations.js';
-import { buildWaistSection } from './waist.js';
+import { buildWaistSection, WAIST_WINDOW } from './waist.js';
 import { wetGlass } from './environment.js';
 import { hullPaint, insideLight, planks, leather, propWear } from './cabinlook.js';
 import { SCARS, SCAR_MAX } from './scars.js';
@@ -86,6 +86,21 @@ function cutRadioHatch(m, offset) {
         if (vRadP.y > ${h.y.toFixed(2)} && abs(vRadP.x) < ${h.x.toFixed(2)} && vRadP.z > ${h.z0.toFixed(2)} && vRadP.z < ${h.z1.toFixed(2)}) discard;`);
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|radiohatch`;
+}
+/** Cut the waist gun windows out of a hull material (skin or lining), wider than the model's own: open holes. */
+function cutWaistWindows(m, offset) {
+  const prev = m.onBeforeCompile, prevKey = m.customProgramCacheKey?.bind(m), w = WAIST_WINDOW, f = (v) => v.toFixed(3);
+  m.onBeforeCompile = (sh, r) => {
+    prev?.call(m, sh, r);
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
+      varying vec3 vWaiP;`).replace('#include <begin_vertex>', `#include <begin_vertex>
+      vWaiP = position + vec3(${f(offset.x)}, ${f(offset.y)}, ${f(offset.z)});`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+      varying vec3 vWaiP;`).replace('void main() {', `void main() {
+        { vec2 q = abs(vWaiP.zy - vec2(${f((w.z0 + w.z1) / 2)}, ${f((w.y0 + w.y1) / 2)})) - vec2(${f((w.z1 - w.z0) / 2 - w.r)}, ${f((w.y1 - w.y0) / 2 - w.r)});
+          if (abs(vWaiP.x) > 0.45 && length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) < ${f(w.r)}) discard; }`);
+  };
+  m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|waistwin`;
 }
 const ROOF = 1.12; // m: just under the top of the fuselage at the cockpit (the turret dome rises above it)
 // the crawlway from the flight deck to the nose: down through the hatch in the floor between the
@@ -187,10 +202,10 @@ export const STATIONS = [
   // sill: the window's bottom, where the mount's socket stands; feed: the side the belt comes in (-1 the
   // gun's left); feedBox: the top of its ammunition box (waist.js), where the chute comes out; bag: a
   // canvas bag catches the cases (hackathon/WAIST_SPEC.md)
-  { id: 'waistL', name: 'Left waist gun', stand: [-0.22, -1.95, 2.02], eye: [-0.26, -0.84, 2.02], yaw: 90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel10'], hide: ['SideGunPanels'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true, // behind the gun, swinging round its mount with it
-    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [-0.98, -1.06, 2.02], rest: [-1, 0, 0], sill: -1.33, feed: -1, bag: true, feedBox: [-0.8, -1.42, 2.42] },
-  { id: 'waistR', name: 'Right waist gun', stand: [0.22, -1.95, 1.58], eye: [0.26, -0.84, 1.58], yaw: -90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel005'], hide: ['SideGunPanels'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true,
-    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [0.98, -1.06, 1.58], rest: [1, 0, 0], sill: -1.33, feed: 1, bag: true, feedBox: [0.8, -1.42, 1.98] },
+  { id: 'waistL', name: 'Left waist gun', stand: [-0.22, -1.95, 2.02], eye: [-0.26, -0.84, 2.02], yaw: 90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel10'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true, // behind the gun, swinging round its mount with it
+    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [-0.98, -1.06, 2.02], rest: [-1, 0, 0], sill: -1.47, feed: -1, bag: true, feedBox: [-0.8, -1.42, 2.42] },
+  { id: 'waistR', name: 'Right waist gun', stand: [0.22, -1.95, 1.58], eye: [0.26, -0.84, 1.58], yaw: -90, yawLim: 65, pitch: [-55, 50], guns: ['GunBarrel005'], eyeBehind: 0.72, eyeUp: 0.22, roundArc: true,
+    browning: 'flex', front: 0.92, gunRear: 0.52, pivot: [0.98, -1.06, 1.58], rest: [1, 0, 0], sill: -1.47, feed: 1, bag: true, feedBox: [0.8, -1.42, 1.98] },
   { id: 'tail', name: 'Tail gun', stand: [0, -2.32, 9.6], eye: [0, -1.55, 10.1], lean: 0.05, duck: 0.3, // (up close behind the rear window: you see where the guns point, up too)
     yaw: 180, yawLim: 50, pitch: [-40, 35], roundArc: true, // (wider than the real one's: more fun; the corners cut off by the cab's frames)
     guns: ['GunBarrel007', 'GunBarrel12'], // (aimed with the plain crosshair, as the other guns are)
@@ -249,7 +264,7 @@ const MAT = {
   floor: planks(std(0x9a8a70, 0.85)), // wooden planks (cabinlook.js)
   metal: std(0x767a70, 0.55, 0.6),
   green: std(0x5d6640, 0.75),
-  deck: std(0x45695f, 0.65, 0.15), // (the flight deck's bronze-green paint, as the lining's there: cabinlook.js)
+  deck: std(0x34402f, 0.65, 0.15), // (the flight deck's bronze-green paint, as the lining's there: cabinlook.js)
   dark: std(0x232323, 0.6, 0.3),
   well: Object.assign(std(0x2a2b28, 0.7, 0.4), { side: THREE.DoubleSide }), // seen from below, from inside
   leather: leather(std(0x5b3b24, 0.7)),
@@ -487,6 +502,7 @@ export class Interior {
     this.stations = STATIONS;
 
     this.lineHull(hull);
+    this.setHidden(['SideGunPanels'], true); // (the model's waist window panels: the windows are open holes, waist.js)
     this.buildRibs();
     this.buildFloors();
     this.buildBulkheads();
@@ -676,9 +692,11 @@ export class Interior {
       if (mesh.name === 'TopTurret') { cutBelow(outer, mesh.position.y, TURRET_CUT.ring); continue; }
       if (mesh.name === 'MainFuselage2' || mesh.name === 'Tail') cutTailCab(outer, mesh.position); // (the gunner's cab: buildTailCab)
       cutRadioHatch(outer, mesh.position); // (and the radio room's gun hatch, open to the sky)
+      if (mesh.name === 'MainFuselage2') cutWaistWindows(outer, mesh.position); // (and the waist windows, wide open)
       const lining = new THREE.Mesh(mesh.geometry, liningMaterial(outer, inverted, mesh.position));
       if (mesh.name === 'MainFuselage2' || mesh.name === 'Tail') cutTailCab(lining.material, mesh.position);
       cutRadioHatch(lining.material, mesh.position);
+      if (mesh.name === 'MainFuselage2') cutWaistWindows(lining.material, mesh.position);
       lining.name = `${mesh.name}_lining`;
       lining.position.copy(mesh.position);
       lining.quaternion.copy(mesh.quaternion);
@@ -747,8 +765,9 @@ export class Interior {
     // fuselage frames every 50 cm from the radio room to the tail, following the hull's shape
     // (the waist windows sit between two frames: those run either side of them, not across them)
     const zs = [];
-    for (let z = -2.5; z < 9.5; z += 0.5) zs.push((z > 1.4 && z < 2.2) || (z > RADIO_HATCH.z0 && z < RADIO_HATCH.z1) ? null : z); // (none across the radio room's gun hatch either)
-    for (let z of [...zs.filter((x) => x !== null), 1.37, 2.24]) {
+    for (let z = -2.5; z < 9.5; z += 0.5) zs.push((z > WAIST_WINDOW.z0 - 0.25 && z < WAIST_WINDOW.z1 - 0.05) || (z > RADIO_HATCH.z0 && z < RADIO_HATCH.z1) ? null : z); // (none across the radio room's gun hatch either)
+    this.frameZs = new Set(zs.filter((x) => x !== null)); // (where there's a frame: interiordetail.js puts its rivets only there, none in mid air across a window)
+    for (let z of [...zs.filter((x) => x !== null), WAIST_WINDOW.z0 - 0.04]) { // (and one just forward of the waist windows: the one aft of them is a regular frame)
       const deck = DECKS.find((d) => z >= d.z0 && z < d.z1);
       if (!deck) continue;
       const [, , outer] = this.outline(z, deck.y + 0.3, 0.01);
@@ -1108,7 +1127,7 @@ varying vec3 vTpP;`)
         const deck = DECKS.find((d) => z >= d.z0 && z < d.z1) ?? DECKS.at(-1);
         const y = deck.y + 1.32, x = s * (this.hw(z, y) - 0.06);
         if (!Number.isFinite(x) || Math.abs(x) < 0.2) { prev = null; continue; }
-        if (prev && !(z > 1.3 && z < 2.3)) this.rod(prev, [x, y, z], 0.006, MAT.cable, 4); // (not across the waist windows)
+        if (prev && !(z > WAIST_WINDOW.z0 - 0.05 && z < WAIST_WINDOW.z1 + 0.1)) this.rod(prev, [x, y, z], 0.006, MAT.cable, 4); // (not across the waist windows)
         prev = [x, y, z];
       }
     }
@@ -1185,9 +1204,12 @@ varying vec3 vTpP;`)
         [0xff9a70, 0.12, 2.5, [0, -0.6, 2.2]], // the waist
         [0xff9a70, 0.1, 1.6, [0, -1.5, 8.6]], // the tail
       ].map(([c, i, d, p]) => { const l = new THREE.PointLight(c, 0, d, 2); l.position.set(...p); l.userData.full = i; return l; });
-      for (const l of this.nightLights) this.group.add(l);
+      // (hung on the bomber, where the cabin is, not in the cabin: the cabin's hidden in third person, and a light
+      // leaving the scene with it would rebuild every shader in the game, a long stall: main.js)
+      for (const l of this.nightLights) { this.group.add(l); this.group.parent?.attach(l); }
     }
     for (const l of this.nightLights) l.intensity = l.userData.full * k;
+    this.cockpitNight?.(k); // the instruments' radium figures glow (cockpitb17.js)
   }
 
   buildTail() {

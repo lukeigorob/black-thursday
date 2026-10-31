@@ -6,7 +6,7 @@
 // turn, the urgent ones first, and stale ones are dropped. Long gaps between the calls: never a chatter.
 import { LINES, SPEAKERS, allClips, clipId, clockCallers, nameKey, versions, words } from './lines.js';
 import { clock } from './fighters.js';
-import { ARCHIVE, ArchivePicker, archiveId } from './archive.js';
+import { ARCHIVE, ArchivePicker, archiveId, holds, near } from './archive.js';
 import { surnameOf } from './history.js';
 
 // the crew's own recorded voices, off for now (not good enough yet): in their place, the real interphone
@@ -206,7 +206,7 @@ export class Radio {
   archive(on, opts = {}, delay = 0) {
     if (!this.on) return null;
     this.arch.t = this.t;
-    const a = this.arch.pick(on, opts);
+    const a = this.arch.pick(on, opts, this.world);
     if (!a) return null;
     if (on === 'bandits') this.archQ = this.archQ.filter((q) => q.a.on !== 'bandits'); // (the newer call of where they are)
     this.archQ.push({ a, at: this.t + delay, ttl: on === 'bandits' || on === 'engaged' ? 5 : 10 });
@@ -221,6 +221,16 @@ export class Radio {
     const a = ARCHIVE.find((x) => x.id === 'bail_order');
     this.archQ = [{ a, at: this.t, ttl: 4 }];
     this.playing?.h?.stop(); this.playing = null; this.busyT = 0;
+  }
+
+  /** What the clips' claims are checked against (archive.js holds): what's round our ship now. */
+  get world() {
+    const me = this.bomber, live = () => (this.fighters?.axis ?? []).filter((f) => f.alive && !f.player && f.state !== 'rtb' && me && f.pos.distanceTo(me.group.position) < 2500);
+    return {
+      anyFighters: () => live().length > 0,
+      fightersAt: (clocks) => live().some((f) => { const h = this.where(f.pos, me).h; return clocks.some((c) => near(h, c)); }),
+      flakAt: (clocks) => (this.bursts ?? []).some((b) => this.t - b.t < 10 && clocks.some((c) => near(b.h, c))),
+    };
   }
 
   /** Where `pos` is from our ship: { h: o'clock, level, dist }. */
@@ -244,6 +254,7 @@ export class Radio {
   burst(at) {
     if (!this.on || !this.bomber) return;
     const w = this.where(at, this.bomber);
+    if (w.dist < 700) { (this.bursts ??= []).push({ t: this.t, h: w.h }); if (this.bursts.length > 30) this.bursts.shift(); } // (what "flak at nine o'clock" is checked against)
     if (w.dist > 60 && w.dist < 450) this.archive('flak', w);
   }
 
@@ -256,6 +267,7 @@ export class Radio {
     this.archQ = this.archQ.filter((q) => this.t - q.at < q.ttl); // (old news, unsaid)
     const q = this.on && this.archQ.find((x) => x.at <= this.t);
     if (!q) return;
+    if (!holds(q.a, this.world)) { this.archQ.splice(this.archQ.indexOf(q), 1); return; } // (no longer so by the time it'd be said: left unsaid)
     const id = archiveId(q.a), buf = this.audio.voiceClip(id, ARCHIVE_URL);
     if (buf === null) return; // (still on its way: dropped if it never comes in time)
     this.archQ.splice(this.archQ.indexOf(q), 1);
@@ -282,7 +294,7 @@ export class Radio {
       // one starting to burn, on the side a clip calls
       if (b.burning && !b.down && !this.burnSeen.has(b)) {
         this.burnSeen.add(b);
-        if (near < 1500) this.archive('fortHit', this.where(b.group.position, me));
+        if (near < 1100) this.archive('fortHit', this.where(b.group.position, me)); // (close enough that "that B-17" is plainly her)
       }
     }
     // a fighter boring in on our own ship

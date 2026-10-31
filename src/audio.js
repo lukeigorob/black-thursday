@@ -100,17 +100,6 @@ export class GameAudio {
     }
   }
 
-  /** The menus answering you: a soft tick as the pointer comes onto something you can press, a click as you press it. */
-  uiTick(kind = 'hover') {
-    const ctx = this.ctx;
-    if (!ctx || ctx.state !== 'running') return;
-    const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(), hover = kind === 'hover';
-    o.type = hover ? 'sine' : 'triangle';
-    o.frequency.setValueAtTime(hover ? 2200 : 1100, t); o.frequency.exponentialRampToValueAtTime(hover ? 1800 : 520, t + (hover ? 0.03 : 0.06));
-    g.gain.setValueAtTime(hover ? 0.035 : 0.09, t); g.gain.exponentialRampToValueAtTime(0.0005, t + (hover ? 0.04 : 0.09));
-    o.connect(g).connect(this.bus.ui); o.start(t); o.stop(t + 0.1);
-  }
-
   /** Four Wright Cyclones heard through the fuselage: detuned low saws, beating slowly, plus wind. */
   engines() {
     const ctx = this.ctx;

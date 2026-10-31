@@ -237,6 +237,7 @@ export class Bomber {
     this.dive = false; // going down nose first (tail or cockpit gone) rather than spinning
     this.warned = {};
     this.listeners = [];
+    this.shudder = 0; // 0..1: shaken by a flak burst close by
   }
 
   /** 0 (untouched) .. 1 (destroyed) for one part, for the damage diagram. */
@@ -729,6 +730,14 @@ export class Bomber {
       Math.sin(s * 0.13) * 0.004 + (this.down && this.spiral ? this.downT * this.spiral.w * this.spiral.side * Math.min(1, this.downT / 4) : 0),
       Math.sin(s * 0.23) * 0.018 + Math.sin(s * 0.9) * 0.002 - slip * 0.05 - (this.down ? 0 : FORMATION.bank) + this.roll + (this.deadEngines ? (this.engines[0].state !== 'ok' || this.engines[1].state !== 'ok' ? 0.02 : -0.02) : 0),
     );
+    // a flak burst close by (main.js, flak's onBurst): she shudders, nose and wings kicked and the whole
+    // airframe shaking, dying away over a second or two
+    if (this.shudder > 0.003) {
+      const k = this.shudder;
+      _rock.x += (Math.random() - 0.5) * 0.045 * k; _rock.y += (Math.random() - 0.5) * 0.02 * k; _rock.z += (Math.random() - 0.5) * 0.07 * k;
+      this.group.position.y += (Math.random() - 0.5) * 0.5 * k;
+      this.shudder *= Math.exp(-dt * 3.5);
+    }
     const f = this.flight;
     if (f.heading || f.pitch || f.bank) { // flown off the formation's course: heading, then pitch, then bank
       _q.setFromEuler(_fe.set(f.pitch, f.heading, f.bank, 'YXZ'));

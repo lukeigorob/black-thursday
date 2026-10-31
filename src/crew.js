@@ -24,6 +24,7 @@ function slab(o, d) {
 import { SECTIONS } from './bomber.js';
 import { makeFigure, reachFor, plantFeet } from './figure.js';
 import { SURNAMES } from './lines.js';
+import { WHEEL } from './cockpitb17.js';
 
 const V = THREE.Vector3, D = Math.PI / 180;
 const _ab = new V(), _ap = new V(), _los = new V(), _cross = new V();
@@ -812,8 +813,8 @@ export class Crew {
       if (!b || !f.visible || m.task !== 'station' || !(m.state === 'ok' || m.standIn)) continue;
       const s = id === 'pilot' ? -1 : 1, x = s * 0.55;
       m.wheel ??= [new V(), new V()];
-      m.wheel[0].set(x - 0.15, 0.32, -8.09); m.wheel[1].set(x + 0.15, 0.32, -8.09);
-      if (id === 'pilot') m.wheel[1].set(-0.06, 0.21, -8.06); // (his right hand on the throttles)
+      m.wheel[0].set(x - WHEEL.r, WHEEL.hubY + 0.045, WHEEL.z + 0.006); m.wheel[1].set(x + WHEEL.r, WHEEL.hubY + 0.045, WHEEL.z + 0.006); // (on the grips: cockpitb17.js)
+      if (id === 'pilot') m.wheel[1].set(-0.07, 0.115, -8.06); // (his right hand on the throttles' bar)
       for (const w of m.wheel) it.localToWorld(w);
       reachFor(f, m.wheel);
       // he sits forward to the wheel (and the pilot over to his throttles) until the farther hand is in

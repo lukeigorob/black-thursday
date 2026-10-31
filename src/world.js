@@ -2,13 +2,13 @@
 // The formation stays near the origin; the ground and clouds scroll past instead.
 import * as THREE from 'three';
 import { Countryside } from './countryside.js';
+import { layoutCountry, groundMaterial } from './ground.js';
 import { Sky } from 'three/addons/objects/Sky.js';
 import { TIMES, WEATHER, SNOW, nightSkyScene, moonTexture, moonGlowTexture, Rain, Lightning } from './environment.js';
 
 export const ALTITUDE = 7600; // ~25,000 ft
 const SUN_ELEVATION = 38, SUN_AZIMUTH = 150; // degrees
 const CLOUD_RECYCLE_Z = 4000, CLOUD_SPAN_Z = 18000;
-const GROUND_TILE = 6000; // m of countryside per texture tile (blended at a second scale so it doesn't repeat)
 const HAZE = new THREE.Color(0.32, 0.42, 0.56); // linear
 // at 25,000 ft the sky is a deep blue: draw it darker than the raw sky model so planes, smoke and
 // fires stand out against it instead of being lost in the glare
@@ -45,7 +45,7 @@ export class World {
     scene.add(this.hemi);
 
     this.buildGround(renderer);
-    this.countryside = new Countryside(this.drift, -ALTITUDE); // (villages and towns dotted over it)
+    this.countryside = new Countryside(this.drift, -ALTITUDE, this.layout); // (villages and towns where the layout put them)
     this.cloudTextures = [0, 1, 2, 3].map(cloudTexture);
     this.clouds = [];
     this.cloudCount = 0;
@@ -78,8 +78,9 @@ export class World {
     this.setCloudCount(this.cloudCount, true);
     // snow on the fields and the town
     SNOW.value = winter ? 1 : 0;
-    this.groundMat.map = winter ? this.winterGround() : env.season === 'autumn' ? this.autumnGround() : this.groundTex;
-    this.groundMat.needsUpdate = true;
+    const gu = this.groundMat.userData.ground;
+    gu.uSeason.value = env.season === 'summer' ? 0 : 1; // (winter: autumn's ploughland under the snow)
+    gu.uSunL.value.copy(this.sunBase); // (the ground turns with the sun in a turn: in its own frame the sun stays put)
     return L.exp * (1 + 0.25 * o);
   }
 
@@ -170,55 +171,25 @@ export class World {
   }
 
   buildGround(renderer) {
-    const tex = groundTexture();
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    tex.repeat.set(400000 / GROUND_TILE, 400000 / GROUND_TILE);
-    this.groundTex = tex;
-    const mat = this.groundMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0, envMapIntensity: 0.3 });
-    // break up the tiling: blend the same farmland at a second, rotated scale, under a slow
-    // patchwork of lighter and darker country (all in the shader, one texture)
-    mat.onBeforeCompile = (sh) => {
-      sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', `#ifdef USE_MAP
-        vec2 uvA = vMapUv;
-        vec2 uvB = mat2(0.8, -0.6, 0.6, 0.8) * vMapUv * 0.37 + vec2(0.31, 0.71);
-        float n = sin(vMapUv.x * 0.61 + sin(vMapUv.y * 0.43) * 2.0) * sin(vMapUv.y * 0.53 + sin(vMapUv.x * 0.37) * 2.0);
-        vec4 a = texture2D(map, uvA), b = texture2D(map, uvB);
-        vec4 texel = mix(a, b, smoothstep(-0.35, 0.35, n));
-        texel.rgb *= 0.92 + 0.16 * sin(vMapUv.x * 0.21 + vMapUv.y * 0.17); // big gentle variations
-        diffuseColor *= texel;
-      #endif`);
-    };
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400000, 400000), mat);
-    ground.rotation.x = -Math.PI / 2;
+    // the country laid out (woods, streams, villages, roads), drawn by the ground's own shader (ground.js)
+    this.layout = layoutCountry();
+    const mat = this.groundMat = groundMaterial(this.layout);
+    for (const t of [this.layout.macro, this.layout.grid, this.layout.segs]) renderer.initTexture(t); // (sent up now, behind the loading screen)
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400000, 400000).rotateX(-Math.PI / 2), mat);
     ground.position.y = -ALTITUDE;
+    ground.receiveShadow = false;
     this.drift.add(ground);
+    this.ground = ground;
   }
 
-  /** The snow-covered countryside's texture (painted once, the first time it's needed or in idle time). */
-  winterGround() {
-    if (!this.winterTex) { this.winterTex = this.tile(groundTexture('winter')); this.renderer.initTexture(this.winterTex); }
-    return this.winterTex;
-  }
-
-  /** The autumn countryside's (painted once, the first time it's needed). */
-  autumnGround() {
-    if (!this.autumnTex) { this.autumnTex = this.tile(groundTexture('autumn')); this.renderer.initTexture(this.autumnTex); }
-    return this.autumnTex;
-  }
+  /** (The old painted winter ground: nothing to paint now, the shader does the snow.) */
+  winterGround() {}
 
   /** Draw the other kinds of sky once now (the night sky's shader), so switching to them later doesn't stall. */
   warmSkies() {
     const rt = new THREE.WebGLCubeRenderTarget(16, { type: THREE.HalfFloatType });
     new THREE.CubeCamera(1, 1000, rt).update(this.renderer, nightSkyScene());
     rt.dispose();
-  }
-
-  /** A ground texture set up to tile like the first (anisotropy, repeat; the offset shared, so both scroll). */
-  tile(t) {
-    t.anisotropy = this.groundTex.anisotropy;
-    t.repeat.copy(this.groundTex.repeat);
-    t.offset = this.groundTex.offset;
-    return t;
   }
 
   setQuality(q) {
@@ -272,6 +243,7 @@ export class World {
       this.sun.shadow.normalBias = inside ? 0.015 : 0.04;
       c.updateProjectionMatrix();
     }
+    this.focus = pos; // (where you are: the villages near it get their houses in 3D)
     this.sun.target.position.copy(pos);
     this.sun.position.copy(this.sunDir).multiplyScalar(200).add(pos);
   }
@@ -314,9 +286,11 @@ export class World {
     this.rain.uniforms.uSpeed.value = speed;
     // straight aft in the formation's frame: in drift's turned frame, back along the turn (-heading)
     const sx = -Math.sin(this.heading) * speed * dt, sz = Math.cos(this.heading) * speed * dt;
-    this.groundTex.offset.y += sz / GROUND_TILE;
-    this.groundTex.offset.x -= sx / GROUND_TILE;
-    this.countryside.update(sx, sz, this.keepOut); // (keepOut: the target city's place, main.js)
+    this.countryside.update(sx, sz, this.keepOut, this.focus); // (keepOut: the target city's place, main.js)
+    // the ground's layout rides with the countryside's group; the target town's own ground keeps ours off it
+    const gp = this.countryside.group.position, gu = this.groundMat.userData.ground;
+    gu.uOrigin.value.set(gp.x, gp.z);
+    if (this.keepOut) gu.uCity.value.set(this.keepOut.x - gp.x, this.keepOut.z - gp.z, 5600);
     for (const c of this.clouds) {
       c.position.x += sx; c.position.z += sz;
       if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);
@@ -369,105 +343,5 @@ function cloudTexture(seed) {
   g.fillRect(0, 0, 256, 256);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-/**
- * Farmland seen from 25,000 ft, tileable: patchwork fields (crops, pasture, ploughed earth) edged with
- * hedgerows, woods, villages along the roads, and a river. Everything is laid out first, then drawn
- * wrapped round the edges, so the tiles join without a seam.
- */
-function groundTexture(season = 'summer') {
-  const winter = season === 'winter', autumn = season === 'autumn';
-  const S = 2048, c = document.createElement('canvas');
-  c.width = c.height = S;
-  const g = c.getContext('2d');
-  let seed = 7;
-  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  const wrap = (draw) => { for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) { g.save(); g.translate(ox, oy); draw(); g.restore(); } };
-  const CROPS = winter ? ['#e6eaee', '#dde2e6', '#eef1f3', '#d6dbdf', '#cfd3d4', '#c4c6c2', '#e2e5e7', '#bcbdb6', '#d9dde0', '#e9ecee', '#c9ccc9']
-    : autumn ? ['#8a7a4a', '#a08c56', '#b39c62', '#6e5a38', '#5e4c30', '#7a6a3c', '#5f6a36', '#6b7440', '#94824e', '#4f4330', '#86804c'] // (stubble, ploughed earth, the last green pasture)
-    : ['#5f7036', '#6d7b3a', '#7f8a44', '#8c8a4e', '#a39a5c', '#b5a464', '#76653f', '#6a5a3a', '#586a34', '#90955a', '#9a8a52'];
-
-  // lay it all out
-  const blocks = []; // blocks of land at their own angle, cut into strips and parcels (old field systems)
-  for (let by = 0; by < S; by += 256) for (let bx = 0; bx < S; bx += 256) {
-    const fields = [];
-    const split = (x, y, w, h, depth) => {
-      if (depth > 4 || (w < 90 && h < 90) || (depth > 2 && rnd() < 0.25)) {
-        fields.push({ x, y, w, h, col: CROPS[Math.floor(rnd() * CROPS.length)], furrows: rnd() < 0.35 });
-        return;
-      }
-      if (w > h ? rnd() < 0.8 : rnd() < 0.2) { const k = w * (0.3 + rnd() * 0.4); split(x, y, k, h, depth + 1); split(x + k, y, w - k, h, depth + 1); }
-      else { const k = h * (0.3 + rnd() * 0.4); split(x, y, w, k, depth + 1); split(x, y + k, w, h - k, depth + 1); }
-    };
-    split(-170, -170, 340, 340, 0);
-    blocks.push({ x: bx + 128 + rnd() * 40, y: by + 128 + rnd() * 40, a: (rnd() - 0.5) * 1.2, fields });
-  }
-  const crowns = [];
-  for (let i = 0; i < 60; i++) {
-    const x = rnd() * S, y = rnd() * S, r = 25 + rnd() * 70, n = 20 + Math.floor(rnd() * 50);
-    for (let k = 0; k < n; k++) {
-      const a = rnd() * 6.28, d = Math.sqrt(rnd()) * r;
-      crowns.push({ x: x + Math.cos(a) * d, y: y + Math.sin(a) * d * 0.8, r: 6 + rnd() * 10, dark: rnd() < 0.5 });
-    }
-  }
-  const villages = Array.from({ length: 14 }, () => ({ x: rnd() * S, y: rnd() * S, n: 12 + Math.floor(rnd() * 40) }));
-  const roads = villages.map((v, i) => {
-    const w = villages[(i + 1) % villages.length];
-    return { v, w, cx: (v.x + w.x) / 2 + (rnd() - 0.5) * 300, cy: (v.y + w.y) / 2 + (rnd() - 0.5) * 300 };
-  });
-  const ROOFS = winter ? ['#e4e7ea', '#d8dcdf', '#cfd2d4', '#e9ebed', '#9a948c'] : ['#7a4a3a', '#8a5a44', '#6c6a66', '#9a8a7a', '#704036'];
-  const houses = villages.flatMap((v) => Array.from({ length: v.n }, () => {
-    const a = rnd() * 6.28, d = Math.sqrt(rnd()) * (12 + v.n * 0.9);
-    return { x: v.x + Math.cos(a) * d, y: v.y + Math.sin(a) * d, rot: rnd() * 3, len: 5 + rnd() * 3, col: ROOFS[Math.floor(rnd() * ROOFS.length)] };
-  }));
-
-  // then draw it (the same every time round the wrap)
-  g.fillStyle = winter ? '#d8dcdf' : autumn ? '#6a6238' : '#5d6a39';
-  g.fillRect(0, 0, S, S);
-  wrap(() => {
-    for (const b of blocks) {
-      g.save();
-      g.translate(b.x, b.y);
-      g.rotate(b.a);
-      for (const f of b.fields) {
-        g.fillStyle = f.col;
-        g.fillRect(f.x, f.y, f.w, f.h);
-        if (f.furrows) { // ploughed or harvested: faint furrows
-          g.strokeStyle = winter ? 'rgba(90,86,78,0.22)' : 'rgba(40,34,20,0.18)'; g.lineWidth = 1;
-          g.beginPath();
-          for (let k = 3; k < f.w; k += 5) { g.moveTo(f.x + k, f.y); g.lineTo(f.x + k, f.y + f.h); }
-          g.stroke();
-        }
-        g.strokeStyle = winter ? 'rgba(70,64,58,0.7)' : autumn ? 'rgba(74,58,30,0.75)' : 'rgba(38,52,26,0.75)'; g.lineWidth = 2.2; // hedgerow (bare in winter, brown in autumn)
-        g.strokeRect(f.x, f.y, f.w, f.h);
-      }
-      g.restore();
-    }
-    for (const t of crowns) { // woods
-      // (in winter: bare woods, the odd dark pine; in autumn: russet and gold, the pines still dark green)
-      g.fillStyle = winter ? (t.dark ? 'rgba(52,62,50,0.8)' : 'rgba(104,96,88,0.7)') : autumn ? (t.dark ? (t.r > 11 ? 'rgba(40,50,28,0.85)' : 'rgba(110,62,28,0.85)') : t.r > 11 ? 'rgba(150,96,36,0.82)' : 'rgba(168,130,48,0.8)')
-        : t.dark ? 'rgba(34,48,26,0.85)' : 'rgba(44,58,30,0.85)';
-      g.beginPath(); g.arc(t.x, t.y, t.r, 0, 7); g.fill();
-    }
-    // a river: a slow meander right across the tile (it joins up with the next tile)
-    g.lineCap = 'round';
-    g.beginPath(); g.moveTo(-10, 300);
-    for (let x = 0; x <= S + 10; x += 32) g.lineTo(x, 300 + Math.sin((x / S) * Math.PI * 6) * 140 + Math.sin((x / S) * Math.PI * 18) * 40);
-    g.strokeStyle = winter ? 'rgba(150,154,156,0.5)' : 'rgba(60,80,60,0.5)'; g.lineWidth = 14; g.stroke(); // banks and water meadows
-    g.strokeStyle = winter ? '#8a979d' : '#56686e'; g.lineWidth = 6; g.stroke(); // (iced over in winter)
-    g.strokeStyle = winter ? 'rgba(150,146,138,0.8)' : 'rgba(178,168,140,0.8)'; g.lineWidth = 2; // roads between the villages
-    for (const r of roads) { g.beginPath(); g.moveTo(r.v.x, r.v.y); g.quadraticCurveTo(r.cx, r.cy, r.w.x, r.w.y); g.stroke(); }
-    for (const h of houses) {
-      g.fillStyle = h.col;
-      g.save(); g.translate(h.x, h.y); g.rotate(h.rot); g.fillRect(-2.5, -1.8, h.len, 3.6); g.restore();
-    }
-    g.fillStyle = '#8f8a80';
-    for (const v of villages) g.fillRect(v.x - 3, v.y - 3, 6, 6); // the church
-  });
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
   return t;
 }

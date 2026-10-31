@@ -620,6 +620,9 @@ export class Player {
       // looking round over your shoulder from the pilots' seats (C): your own shoulders and collar would fill the
       // view from inside, so you don't see yourself then
       if (s.flies && !this.third && Math.abs(this.headYaw) > 1.0) b.visible = false;
+      // in the top turret your hands are on the handles as the guns elevate: your arms and shoulders would close
+      // round the camera, so (as in the ball) you see only the sight, the guns and the dome
+      if (s.id === 'top' && !this.third) { b.visible = false; return; }
       const yaw = s.yaw + this.sYaw * (s.yawLim >= Math.PI ? 1 : 0.6);
       const y = E.y - 0.6 - BODY_DROP - j.hips.position.y;
       b.rotation.y = yaw;

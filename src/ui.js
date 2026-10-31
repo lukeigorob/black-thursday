@@ -178,7 +178,7 @@ export class UI {
               <div class="sound"><button id="snd-mute" class="icon-btn" title="Mute (N)" aria-label="Mute"></button>
                 <input id="snd-vol" type="range" min="0" max="100" step="1" value="100" aria-label="Volume"><output id="snd-val"></output></div></div>
             <div class="set-row"><label>Sound mix</label><p>Each kind of sound on its own.</p>
-              <div class="mix">${[['guns', 'Guns'], ['engines', 'Engines'], ['battle', 'Flak and hits'], ['crew', 'Crew and turret motors'], ['ui', 'Menu sounds']].map(([k, l]) => `<label class="sound"><span>${l}</span>
+              <div class="mix">${[['guns', 'Guns'], ['engines', 'Engines'], ['battle', 'Flak and hits'], ['crew', 'Crew and turret motors']].map(([k, l]) => `<label class="sound"><span>${l}</span>
                 <input type="range" min="0" max="100" step="1" value="100" data-mix="${k}" aria-label="${l}"><output data-mix-val="${k}"></output></label>`).join('')}</div></div>
             ${[['time', 'Time of day', 'Morning sun, high noon, dusk or a moonlit night.'], ['season', 'Season', 'Autumn browns the fields (mid-October, as on the day); winter brings snow and thicker contrails.'],
     ['weather', 'Weather', 'Clear, cloudy, rain, or a thunderstorm with lightning.']].map(([k, name, help]) => `<div class="set-row"><label for="env-${k}">${name}</label><p>${help}</p>
@@ -1284,20 +1284,6 @@ export class UI {
   }
 
   /** Short pop-up message (only for your own death now). */
-  /** The line being said on the intercom, under the middle of the screen while it's said (null: nothing). */
-  caption(who, text) {
-    if (!text && !this.capOn) return;
-    let c = document.getElementById('radio-cap');
-    if (!c) { c = document.createElement('div'); c.id = 'radio-cap'; document.body.append(c); }
-    this.capOn = !!text;
-    if (!text) { c.classList.remove('on'); return; }
-    c.innerHTML = '';
-    const b = document.createElement('b');
-    b.textContent = who;
-    c.append(b, text);
-    c.classList.add('on');
-  }
-
   toast(text, kind = '') {
     const t = document.createElement('div');
     t.className = `toast ${kind}`;

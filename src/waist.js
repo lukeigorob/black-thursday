@@ -1,6 +1,6 @@
 // The B-17's waist, as the photos of the real ones show it (hackathon/WAIST_SPEC.md): the open gun
-// windows with their riveted frames, the hinged window panels swung up and latched under the roof and the
-// wind deflectors ahead of them, armour plate under the sills; the tall 1943 ammunition boxes on their
+// windows, open holes cut wide (nothing in them: the guns and the gunner's view are clear) in riveted frames,
+// armour plate under the sills; the tall 1943 ammunition boxes on their
 // racks under each window (the feed chutes up to the guns are weapons.js's, they move with the guns);
 // dense Z-section stringers in zinc chromate between the frames; an A-12 oxygen regulator and a BC-366
 // interphone jack box at each gunner; the yellow oxygen bottles strapped by the ball turret; the ball's
@@ -11,14 +11,18 @@ import * as THREE from 'three';
 const V = THREE.Vector3;
 const std = (color, roughness = 0.7, metalness = 0.2) => new THREE.MeshStandardMaterial({ color, roughness, metalness, envMapIntensity: 0.15 });
 
-// the waist window's opening in the model's skin (bomber space, z and y; the same both sides), traced from
-// the paint's cut-out: square at the bottom, its top edge falling away aft
-const WIN = [[1.43, -1.29], [1.52, -1.33], [1.85, -1.35], [2.13, -1.345], [2.24, -1.3], [2.26, -1.0], [2.26, -0.76], [2.17, -0.705],
-  [1.8, -0.675], [1.55, -0.655], [1.46, -0.675], [1.425, -0.76], [1.425, -1.0]];
+// the waist windows' openings (bomber space, z and y; the same both sides): open holes, cut wider than the
+// model's own (interior.js cuts them out of the skin and its lining), so the gunner has the sky round his gun
+export const WAIST_WINDOW = { z0: 1.15, z1: 2.48, y0: -1.47, y1: -0.5, r: 0.07 };
+const WIN = (() => { // its outline, going round, the corners rounded
+  const { z0, z1, y0, y1, r } = WAIST_WINDOW, pts = [];
+  for (const [cz, cy, a0] of [[z1 - r, y0 + r, -Math.PI / 2], [z1 - r, y1 - r, 0], [z0 + r, y1 - r, Math.PI / 2], [z0 + r, y0 + r, Math.PI]])
+    for (let k = 0; k <= 3; k++) { const a = a0 + (k / 3) * (Math.PI / 2); pts.push([cz + Math.cos(a) * r, cy + Math.sin(a) * r]); }
+  return pts;
+})();
 
 let M = null;
 function materials() {
-  const outside = (m) => { m.userData.outside = true; return m; }; // (lit as the outside of the plane is)
   return {
     zinc: std(0x7d874c, 0.6, 0.35), // zinc chromate on the bare structure
     alu: std(0x7a7e78, 0.55, 0.6), // bare aluminium: treads, rack angles
@@ -29,8 +33,6 @@ function materials() {
     red: std(0x8a1c14, 0.5, 0.2),
     yellow: std(0xb8932c, 0.55, 0.15),
     webbing: std(0x5f5a44, 0.95, 0),
-    glass: Object.assign(new THREE.MeshStandardMaterial({ color: 0xb8c4c8, roughness: 0.1, metalness: 0, transparent: true, opacity: 0.22, depthWrite: false, envMapIntensity: 0.6 }), { side: THREE.DoubleSide }),
-    deflector: outside(std(0x4b5036, 0.7, 0.1)),
     regulator: faceMaterial(regulatorFace()),
     jackbox: faceMaterial(jackFace()),
   };
@@ -89,7 +91,7 @@ export function buildWaistSection(it, MAT) {
   };
   const inward = (s) => new V(-s, 0, 0);
 
-  // ---- the gun windows: a riveted frame round each opening, the panel swung up inside, the deflector outside
+  // ---- the gun windows: open holes, a riveted frame round each (nothing in them: the guns and the gunner's view are clear)
   for (const s of [-1, 1]) {
     const ring = WIN.map(([z, y]) => [s * wallX(z, y, 0.012), y, z]), lip = WIN.map(([z, y]) => [s * wallX(z, y, 0.05), y, z]);
     for (let i = 0; i < WIN.length; i++) {
@@ -99,38 +101,13 @@ export function buildWaistSection(it, MAT) {
       const a = new V(...ring[i]), b = new V(...ring[j]), L = a.distanceTo(b);
       for (let t = 0.02; t < L; t += 0.045) it.add(MAT.metal, new THREE.SphereGeometry(0.0055, 5, 3).translate(...a.clone().lerp(b, t / L).add(new V(-s * 0.012, 0, 0)).toArray()));
     }
-    // the window's panel: hinged along the top of the opening, swung in and up, latched under the roof
-    const hy = -0.66, hx = s * wallX(1.85, hy, 0.03), th = 0.42, dir = new V(-s * Math.cos(th), Math.sin(th), 0), up = new V(s * Math.sin(th), Math.cos(th), 0);
-    const P = (z, v, o = 0) => new V(hx, hy, z).addScaledVector(dir, v).addScaledVector(up, o).toArray();
-    const z0 = 1.47, z1 = 2.22, w = 0.62;
-    for (const [a, b] of [[P(z0, 0), P(z1, 0)], [P(z0, w), P(z1, w)], [P(z0, 0), P(z0, w)], [P(z1, 0), P(z1, w)]]) beam(a, b, 0.035, 0.022, up, M.od);
-    beam(P(z0 + 0.06, w * 0.5), P(z1 - 0.06, w * 0.5), 0.03, 0.02, up, M.od); // its glazing bar
-    const quad = new THREE.BufferGeometry();
-    quad.setAttribute('position', new THREE.Float32BufferAttribute([...P(z0 + 0.02, 0.02, 0.004), ...P(z1 - 0.02, 0.02, 0.004), ...P(z1 - 0.02, w - 0.02, 0.004), ...P(z0 + 0.02, w - 0.02, 0.004)], 3));
-    quad.setIndex([0, 1, 2, 0, 2, 3]); quad.computeVertexNormals();
-    it.group.add(new THREE.Mesh(quad, M.glass)); // its Plexiglas
-    for (const z of [1.55, 2.14]) { // the hinges along the top of the opening
-      it.cylinder(0.012, 0.07, hx, hy, z, 'z', MAT.dark, 8);
-      beam([hx, hy, z], [s * wallX(z, hy + 0.05, 0.015), hy + 0.05, z], 0.05, 0.006, new V(0, 0, 1), MAT.dark);
-    }
-    const lz = 1.85, free = new V(...P(lz, w)), roof = it.ceilingAt(lz, free.x, f + 0.5);
-    it.rod(free.toArray(), [free.x, roof - 0.01, lz], 0.005, MAT.cable, 4); // the latch strap up to the roof
-    it.add(MAT.dark, new THREE.BoxGeometry(0.04, 0.015, 0.05).translate(free.x, roof - 0.012, lz)); // its clip
-    it.add(MAT.dark, new THREE.BoxGeometry(0.03, 0.02, 0.06).translate(...P(lz, w, -0.012))); // the panel's latch
-    // the wind deflector: a plate standing out from the skin at the window's forward edge, raked aft
-    const dz = 1.4, x0 = s * (it.hw(dz, -1.0) + 0.01);
-    for (const [ya, yb] of [[-1.3, -0.69]]) {
-      const g = new THREE.BoxGeometry(0.005, yb - ya, 0.09).translate(0, 0, 0.045).rotateY(s * 0.95).translate(x0, (ya + yb) / 2, dz);
-      it.add(M.deflector, g);
-      it.add(M.deflector, new THREE.BoxGeometry(0.02, 0.02, 0.1).translate(x0 + s * 0.03, ya + 0.04, dz + 0.02));
-    }
     // armour plate under the sill: a curved slab on the wall, bolted round its edge
-    for (let y = -1.86; y < -1.38; y += 0.06) {
+    for (let y = -1.86; y < WAIST_WINDOW.y0 - 0.06; y += 0.06) {
       const yc = y + 0.03, x = s * wallX(1.84, yc, 0.032);
       it.add(M.armour, new THREE.BoxGeometry(0.014, 0.062, 0.84).translate(x, yc, 1.84));
     }
-    for (const z of [1.46, 1.65, 1.84, 2.03, 2.22]) for (const y of [-1.84, -1.42]) it.cylinder(0.008, 0.012, s * (wallX(z, y, 0.04) - 0.0), y, z, 'x', M.steel, 6);
-    it.stencil(['ARMOR PLATE'], 0.16, [s * wallX(1.84, -1.62, 0.042), -1.62, 1.84], -s * Math.PI / 2, '#d8d0a8');
+    for (const z of [1.46, 1.65, 1.84, 2.03, 2.22]) for (const y of [-1.84, WAIST_WINDOW.y0 - 0.06]) it.cylinder(0.008, 0.012, s * (wallX(z, y, 0.04) - 0.0), y, z, 'x', M.steel, 6);
+    it.stencil(['ARMOR PLATE'], 0.16, [s * wallX(1.84, -1.7, 0.042), -1.7, 1.84], -s * Math.PI / 2, '#d8d0a8');
   }
 
   // ---- the ammunition boxes under the windows, on their racks: the tall boxes of 1943, the chute out of the top
@@ -164,7 +141,7 @@ export function buildWaistSection(it, MAT) {
   it.add(MAT.ammo, new THREE.BoxGeometry(0.2, 0.36, 0.32).rotateZ(1.2).translate(0.5, f + 0.1, 3.75)); // (one on its side, kicked over)
 
   // ---- the structure: Z-section stringers all the way round between the frames, in zinc chromate
-  const inWin = (z, y) => z > 1.36 && z < 2.3 && y > -1.38 && y < -0.62;
+  const inWin = (z, y) => z > WAIST_WINDOW.z0 - 0.06 && z < WAIST_WINDOW.z1 + 0.06 && y > WAIST_WINDOW.y0 - 0.04 && y < WAIST_WINDOW.y1 + 0.04;
   for (const s of [-1, 1]) for (let up = 0.1; up < 1.72; up += 0.125) {
     let prev = null;
     for (let z = -1.15; z <= 5.15; z += 0.25) {
@@ -205,7 +182,8 @@ export function buildWaistSection(it, MAT) {
   // ---- oxygen and interphone at each gunner: the A-12 regulator, its hose outlet; the BC-366 jack box, its cord
   for (const st of it.stations) {
     if (!st.feedBox) continue;
-    const s = Math.sign(st.pivot[0]), z = st.pivot[2] + (s < 0 ? 0.6 : -0.46), y = -0.98, x = s * wallX(z, y, 0.045);
+    const s = Math.sign(st.pivot[0]), z = WAIST_WINDOW.z1 + 0.16, y = -0.98, // (aft of the window, clear of it)
+      x = s * wallX(z, y, 0.045);
     it.add(M.od, new THREE.BoxGeometry(0.075, 0.17, 0.115).translate(x, y, z));
     const face = new THREE.Mesh(new THREE.PlaneGeometry(0.105, 0.158), M.regulator);
     face.position.set(x - s * 0.0385, y, z); face.rotation.y = -s * Math.PI / 2;
@@ -216,7 +194,7 @@ export function buildWaistSection(it, MAT) {
     it.rod([x - s * 0.02, y - 0.085, z], [x - s * 0.04, y - 0.13, z], 0.013, MAT.hose, 8); // the outlet
     it.add(MAT.metal, new THREE.CylinderGeometry(0.016, 0.016, 0.02, 10).translate(x - s * 0.04, y - 0.14, z)); // (its bayonet coupling)
     outlets.push(new V(x - s * 0.04, y - 0.15, z));
-    const jz = z + (s < 0 ? 0.17 : -0.17), jy = -1.22, jx = s * wallX(jz, jy, 0.032);
+    const jz = z + 0.17, jy = -1.22, jx = s * wallX(jz, jy, 0.032);
     it.add(M.black, new THREE.BoxGeometry(0.05, 0.13, 0.1).translate(jx, jy, jz));
     const jf = new THREE.Mesh(new THREE.PlaneGeometry(0.095, 0.125), M.jackbox);
     jf.position.set(jx - s * 0.0255, jy, jz); jf.rotation.y = -s * Math.PI / 2;
@@ -230,7 +208,7 @@ export function buildWaistSection(it, MAT) {
   }
 
   // ---- the oxygen bottles by the ball, standing in their brackets, strapped to the wall
-  for (const s of [-1, 1]) for (const z of [0.8, 1.06]) {
+  for (const s of [-1, 1]) for (const z of [0.62, 0.88]) { // (forward of the window, clear of it)
     const y = -1.2, x = s * Math.min(wallX(z, y, 0.13), wallX(z, y - 0.32, 0.12), wallX(z, y + 0.32, 0.12));
     it.add(M.yellow, new THREE.CapsuleGeometry(0.1, 0.4, 6, 18).translate(x, y, z));
     it.cylinder(0.022, 0.05, x, y + 0.32, z, 'y', MAT.metal, 10); // its valve
@@ -243,7 +221,7 @@ export function buildWaistSection(it, MAT) {
     it.add(MAT.dark, new THREE.CylinderGeometry(0.11, 0.11, 0.02, 18).translate(x, y - 0.32, z)); // the cup it stands in
     it.rod([x, y - 0.33, z], [s * wallX(z, y - 0.33, 0.01), y - 0.33, z], 0.012, MAT.metal, 6); // (its cup's arm to the wall)
   }
-  it.stencil(['OXYGEN'], 0.14, [-wallX(0.93, -1.2, 0.235), -1.2, 0.93], Math.PI / 2, '#1a1a1a');
+  it.stencil(['OXYGEN'], 0.14, [-wallX(0.75, -1.2, 0.235), -1.2, 0.75], Math.PI / 2, '#1a1a1a');
 
   // ---- the ball turret: the azimuth drum on its top, the hand crank, and the support column up to its beam
   { const z = -0.13, top = -1.58, roof = it.ceilingAt(z, 0, f + 0.5);

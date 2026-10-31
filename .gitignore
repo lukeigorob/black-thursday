@@ -5,3 +5,6 @@ b17-flying-fortress.zip
 
 # stock music used in the trailer (Pixabay licence: fine inside the video, not to redistribute on its own)
 hackathon/music/
+
+# Local Netlify folder
+.netlify
