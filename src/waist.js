@@ -7,12 +7,16 @@
 // azimuth drum, crank and support column up to its beam under the roof; aluminium treads on the walkway;
 // the radio room's door standing open against its bulkhead.
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const V = THREE.Vector3;
 const std = (color, roughness = 0.7, metalness = 0.2) => new THREE.MeshStandardMaterial({ color, roughness, metalness, envMapIntensity: 0.15 });
 
-// the waist windows' openings (bomber space, z and y; the same both sides): open holes, cut wider than the
-// model's own (interior.js cuts them out of the skin and its lining), so the gunner has the sky round his gun
+// the waist windows' openings (bomber space, z and y; the same both sides). Normally the model's own (WIN_SMALL,
+// traced from its paint's cut-out); while you're at a waist gun, its window is cut wider (WAIST_WINDOW: interior.js
+// cuts it out of the skin and its lining, setWaistWide), so you have the sky round your gun
+const WIN_SMALL = [[1.43, -1.29], [1.52, -1.33], [1.85, -1.35], [2.13, -1.345], [2.24, -1.3], [2.26, -1.0], [2.26, -0.76], [2.17, -0.705],
+  [1.8, -0.675], [1.55, -0.655], [1.46, -0.675], [1.425, -0.76], [1.425, -1.0]];
 export const WAIST_WINDOW = { z0: 1.15, z1: 2.48, y0: -1.47, y1: -0.5, r: 0.07 };
 const WIN = (() => { // its outline, going round, the corners rounded
   const { z0, z1, y0, y1, r } = WAIST_WINDOW, pts = [];
@@ -81,25 +85,34 @@ export function buildWaistSection(it, MAT) {
   const f = -1.95, wallX = (z, y, inset = 0.02) => it.hw(z, y) - inset;
   const outlets = it.group.userData.oxygen ?? (it.group.userData.oxygen = []);
   // a beam of w x h section from a to b, its h side along `n` (the way it stands off the wall)
+  // what's drawn only with a window at one size: [side][state] = [[material, geometry], ...] (put() sends to it
+  // while `into` is set), made into meshes at the end for interior.js setWaistWide to swap
+  const swap = { [-1]: { small: [], wide: [] }, [1]: { small: [], wide: [] } };
+  let into = null;
+  const put = (mat, g) => (into ? into.push([mat, g]) : it.add(mat, g));
   const beam = (a, b, w, h, n, mat) => {
     const A = new V(...a), B = new V(...b), t = B.clone().sub(A), len = t.length();
     if (len < 1e-4) return;
     t.divideScalar(len);
     const y = n.clone().addScaledVector(t, -n.dot(t)).normalize(), x = new V().crossVectors(y, t);
     const g = new THREE.BoxGeometry(w, h, len).applyMatrix4(new THREE.Matrix4().makeBasis(x, y, t));
-    it.add(mat, g.translate((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2));
+    put(mat, g.translate((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2));
   };
   const inward = (s) => new V(-s, 0, 0);
 
   // ---- the gun windows: open holes, a riveted frame round each (nothing in them: the guns and the gunner's view are clear)
   for (const s of [-1, 1]) {
-    const ring = WIN.map(([z, y]) => [s * wallX(z, y, 0.012), y, z]), lip = WIN.map(([z, y]) => [s * wallX(z, y, 0.05), y, z]);
-    for (let i = 0; i < WIN.length; i++) {
-      const j = (i + 1) % WIN.length;
-      beam(ring[i], ring[j], 0.03, 0.022, inward(s), MAT.metal); // the frame on the skin
-      beam(lip[i], lip[j], 0.012, 0.03, inward(s), MAT.metal); // its turned-in lip
-      const a = new V(...ring[i]), b = new V(...ring[j]), L = a.distanceTo(b);
-      for (let t = 0.02; t < L; t += 0.045) it.add(MAT.metal, new THREE.SphereGeometry(0.0055, 5, 3).translate(...a.clone().lerp(b, t / L).add(new V(-s * 0.012, 0, 0)).toArray()));
+    for (const [state, win] of [['small', WIN_SMALL], ['wide', WIN]]) { // (a frame round each size of opening, the one showing drawn)
+      into = swap[s][state];
+      const ring = win.map(([z, y]) => [s * wallX(z, y, 0.012), y, z]), lip = win.map(([z, y]) => [s * wallX(z, y, 0.05), y, z]);
+      for (let i = 0; i < win.length; i++) {
+        const j = (i + 1) % win.length;
+        beam(ring[i], ring[j], 0.03, 0.022, inward(s), MAT.metal); // the frame on the skin
+        beam(lip[i], lip[j], 0.012, 0.03, inward(s), MAT.metal); // its turned-in lip
+        const a = new V(...ring[i]), b = new V(...ring[j]), L = a.distanceTo(b);
+        for (let t = 0.02; t < L; t += 0.045) put(MAT.metal, new THREE.SphereGeometry(0.0055, 5, 3).translate(...a.clone().lerp(b, t / L).add(new V(-s * 0.012, 0, 0)).toArray()));
+      }
+      into = null;
     }
     // armour plate under the sill: a curved slab on the wall, bolted round its edge
     for (let y = -1.86; y < WAIST_WINDOW.y0 - 0.06; y += 0.06) {
@@ -142,15 +155,18 @@ export function buildWaistSection(it, MAT) {
 
   // ---- the structure: Z-section stringers all the way round between the frames, in zinc chromate
   const inWin = (z, y) => z > WAIST_WINDOW.z0 - 0.06 && z < WAIST_WINDOW.z1 + 0.06 && y > WAIST_WINDOW.y0 - 0.04 && y < WAIST_WINDOW.y1 + 0.04;
+  const inSmall = (z, y) => z > 1.36 && z < 2.3 && y > -1.38 && y < -0.62; // (the model's own window, give or take)
   for (const s of [-1, 1]) for (let up = 0.1; up < 1.72; up += 0.125) {
     let prev = null;
     for (let z = -1.15; z <= 5.15; z += 0.25) {
       const y = f + up, w = wallX(z, y, 0.012);
-      if (!Number.isFinite(w) || w < 0.5 || inWin(z, y) || (z > -0.2 && z < 0.12 && up < 1.05)) { prev = null; continue; } // (and not through the ball's heavy frame)
+      if (!Number.isFinite(w) || w < 0.5 || inSmall(z, y) || (z > -0.2 && z < 0.12 && up < 1.05)) { prev = null; continue; } // (and not through the ball's heavy frame)
       const p = [s * w, y, z];
       if (prev) {
+        into = inWin(z, y) || inWin(prev[2], prev[1]) ? swap[s].small : null; // (where the wide window opens: only while it's the small one)
         beam(prev, p, 0.004, 0.03, inward(s), M.zinc); // its web
         beam([prev[0] - s * 0.028, prev[1], prev[2]], [p[0] - s * 0.028, p[1], p[2]], 0.004, 0.022, new V(0, 1, 0), M.zinc); // its flange
+        into = null;
       }
       prev = p;
     }
@@ -249,5 +265,18 @@ export function buildWaistSection(it, MAT) {
     for (const y of [y0 + 0.2, y1 - 0.2]) it.cylinder(0.014, 0.1, hx + 0.005, y, bz + 0.01, 'y', MAT.dark, 8); // the hinges
     it.add(MAT.metal, new THREE.BoxGeometry(0.03, 0.12, 0.03).translate(x1 + 0.05, (y0 + y1) / 2 + 0.1, bz + 0.05)); // the latch handle
     it.stencil(['RADIO', 'COMPARTMENT'], 0.2, [(hx + x1) / 2, y1 - 0.35, bz + 0.041], 0, '#d8d0a8');
+  }
+
+  // ---- the parts drawn with one size of window or the other (interior.js setWaistWide swaps them)
+  it.waistParts = {};
+  for (const s of [-1, 1]) {
+    const parts = (it.waistParts[s < 0 ? 'L' : 'R'] = {});
+    for (const state of ['small', 'wide']) {
+      const g = (parts[state] = new THREE.Group()), byMat = new Map();
+      for (const [mat, geo] of swap[s][state]) { if (!byMat.has(mat)) byMat.set(mat, []); byMat.get(mat).push(geo.index ? geo.toNonIndexed() : geo); }
+      for (const [mat, list] of byMat) { const m = new THREE.Mesh(mergeGeometries(list), mat); m.castShadow = m.receiveShadow = true; g.add(m); }
+      g.visible = state === 'small';
+      it.group.add(g);
+    }
   }
 }

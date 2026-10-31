@@ -87,17 +87,21 @@ function cutRadioHatch(m, offset) {
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|radiohatch`;
 }
-/** Cut the waist gun windows out of a hull material (skin or lining), wider than the model's own: open holes. */
+// which waist window is cut wide (1) right now: the one whose gun you're at (setWaistWide); the other, and both
+// while you're anywhere else, are the model's own size
+const WAIST_WIDE = { L: { value: 0 }, R: { value: 0 } };
+/** Cut the waist gun windows out of a hull material (skin or lining) wider than the model's own, while WAIST_WIDE says. */
 function cutWaistWindows(m, offset) {
   const prev = m.onBeforeCompile, prevKey = m.customProgramCacheKey?.bind(m), w = WAIST_WINDOW, f = (v) => v.toFixed(3);
   m.onBeforeCompile = (sh, r) => {
     prev?.call(m, sh, r);
+    sh.uniforms.uWideL = WAIST_WIDE.L; sh.uniforms.uWideR = WAIST_WIDE.R;
     sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
       varying vec3 vWaiP;`).replace('#include <begin_vertex>', `#include <begin_vertex>
       vWaiP = position + vec3(${f(offset.x)}, ${f(offset.y)}, ${f(offset.z)});`);
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      varying vec3 vWaiP;`).replace('void main() {', `void main() {
-        { vec2 q = abs(vWaiP.zy - vec2(${f((w.z0 + w.z1) / 2)}, ${f((w.y0 + w.y1) / 2)})) - vec2(${f((w.z1 - w.z0) / 2 - w.r)}, ${f((w.y1 - w.y0) / 2 - w.r)});
+      varying vec3 vWaiP; uniform float uWideL, uWideR;`).replace('void main() {', `void main() {
+        if ((vWaiP.x < 0.0 ? uWideL : uWideR) > 0.5) { vec2 q = abs(vWaiP.zy - vec2(${f((w.z0 + w.z1) / 2)}, ${f((w.y0 + w.y1) / 2)})) - vec2(${f((w.z1 - w.z0) / 2 - w.r)}, ${f((w.y1 - w.y0) / 2 - w.r)});
           if (abs(vWaiP.x) > 0.45 && length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) < ${f(w.r)}) discard; }`);
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|waistwin`;
@@ -706,6 +710,14 @@ export class Interior {
       mesh.parent.add(lining);
       this.parts.get(mesh.name).push(lining);
     }
+  }
+
+  /** Cut a waist window ('L' or 'R') wide while you're at its gun, or back to the model's own size (waist.js). */
+  setWaistWide(side, on) {
+    if (!WAIST_WIDE[side]) return;
+    WAIST_WIDE[side].value = on ? 1 : 0;
+    const p = this.waistParts?.[side];
+    if (p) { p.wide.visible = on; p.small.visible = !on; }
   }
 
   /** Hide (or show again) hull parts by name, e.g. the painted tail cap while at the tail gun. */

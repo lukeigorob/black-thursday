@@ -565,6 +565,13 @@ export class Player {
       if (hide) this.it.setHidden(hide, true);
       this.hidden = hide;
     }
+    // at a waist gun its window is cut wide for the view (interior.js setWaistWide); anywhere else, the model's own size
+    const wide = this.blend > 0.3 && /^waist[LR]$/.test(this.station?.id ?? '') ? this.station.id.slice(5) : null;
+    if (wide !== this.waistWide) {
+      if (this.waistWide) this.it.setWaistWide(this.waistWide, false);
+      if (wide) this.it.setWaistWide(wide, true);
+      this.waistWide = wide;
+    }
     const ghost = this.blend > 0.3 ? this.station?.ghost : null;
     if (ghost !== this.ghosted) {
       if (this.ghosted) this.it.setGhost(this.ghosted, false);
