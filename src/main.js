@@ -35,7 +35,28 @@ import { loadEnv, saveEnv, WET, WEATHER, loadEnvMode, saveEnvMode, rollEnv, DEFA
 
 const ui = new UI();
 const tags = new Tags(); // red / blue markers over the fighters, and the gunner's lead marker
-const gfx = new Graphics();
+/**
+ * Without the graphics card there's no game: after Chrome's graphics process has crashed a few times it stops
+ * using the card for the rest of that browser session and draws on the processor (SwiftShader), and loading
+ * this then leaves a white page that stops answering. Say so plainly (and stop) rather than hang.
+ */
+function noGraphics(why) {
+  const d = document.createElement('div');
+  d.style.cssText = 'position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#16181b;color:#e9e3d2;font:16px/1.5 system-ui,sans-serif;padding:16px';
+  d.innerHTML = `<div style="max-width:560px"><h2 style="margin:0 0 12px;font-size:24px">The game can't use your graphics card</h2>
+    <p>${why} Black Thursday needs it to run.</p>
+    <p><b>Close every Chrome window</b> (and check Chrome isn't still running by the clock, bottom right), then open it again and reload this page.</p>
+    <p>If it still happens: Chrome's Settings → System → turn on <i>Use graphics acceleration when available</i>, and relaunch.</p></div>`;
+  document.body.append(d);
+  throw new Error(why);
+}
+let gfx;
+try { gfx = new Graphics(); } catch { noGraphics('The browser couldn\'t start 3D graphics.'); }
+{
+  const gl = gfx.renderer.getContext(), ext = gl.getExtension('WEBGL_debug_renderer_info');
+  const name = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+  if (/swiftshader|llvmpipe|basic render|software/i.test(name)) noGraphics('Chrome has switched off graphics acceleration (it does after its graphics have crashed).');
+}
 const scene = new THREE.Scene();
 const VIEW_FOV = 80, ZOOM_FOV = 28; // wide view to take in the battle; hold right click to zoom
 const camera = new THREE.PerspectiveCamera(VIEW_FOV, innerWidth / innerHeight, 0.03, 200000);
