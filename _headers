@@ -1,0 +1,6 @@
+# the crew's voice clips and the models never change between deploys of the same file name: let the browser
+# keep them (without this Netlify asks it to check every one again, a second each, and lines came late)
+/audio/*
+  Cache-Control: public, max-age=604800
+/models/*
+  Cache-Control: public, max-age=86400
