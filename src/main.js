@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import { Graphics } from './graphics.js';
 import { World, ALTITUDE } from './world.js';
+import { SCENARIO, PLANES, STARTS, SKILLS } from './scenario.js';
+import { showScenarios } from './scenariomenu.js';
 import { loadModel } from './models.js';
 import { Bomber, AIRSPEED, swapBombers, PART, FORMATION, PropBlur } from './bomber.js';
 import { Player } from './player.js';
@@ -79,7 +81,15 @@ const funk = new Funk(audio, ui.log.bind(ui)); // (the German fighters' radio, f
 // the bomber stream (the player's bomber starts at the origin, the scenery moves instead).
 // The player's bomber gets the full model, its nearest neighbours a mid-detail one (handed out
 // by Detail, wherever the player is), and everything further away is drawn as instanced copies.
-const slots = formationSlots();
+const slots = scenarioSlots(formationSlots());
+/** A scenario's bombers: none in a dogfight (yours is kept, hidden: the world's built round it), a small box in the intercept. */
+function scenarioSlots(all) {
+  if (!SCENARIO) return all;
+  const me = all.find((s) => s.player);
+  if (SCENARIO.dogfight) return [me];
+  const rest = all.filter((s) => !s.player).sort((a, b) => a.pos.lengthSq() - b.pos.lengthSq());
+  return [me, ...rest.slice(0, SCENARIO.bombers - 1)];
+}
 const neighbours = slots.filter((s) => s.near && !s.player).length;
 // the loading screen follows the pieces as they come in: your bomber and the far ones, the near ones and the
 // break-up copies, the crewmen, then the formation built
@@ -88,7 +98,7 @@ const loading = ui.loading(['Fuelling', 'Arming', 'Crew aboard', 'Forming up'], 
 const [own, lod, ...mids] = await Promise.all([loading.track(loadModel('b17'), FUEL), loading.track(loadModel('b17', { lod: true }), FUEL), loading.track(loadCrewModel(), CREW),
   ...Array.from({ length: neighbours }, () => loading.track(loadModel('b17', { mid: true }), ARM))]).then(([a, b, , ...rest]) => [a, b, ...rest]); // (the crewmen load alongside)
 bakeBomberSpace(own.scene); // (for the battle damage and exhaust stains drawn on her skin, scars.js)
-const bombers = slots.map((s) => new Bomber(s.player ? own.scene : null, { position: s.pos, interior: s.player, label: s.label, squad: s.group, lead: s.lead }));
+const bombers =slots.map((s) => new Bomber(s.player ? own.scene : null, { position: s.pos, interior: s.player, label: s.label, squad: s.group, lead: s.lead }));
 for (const [i, b] of bombers.entries()) b.unit = slots[i].unit ?? null; // (its place in the order of battle: division, wing, group, squadron: oob.js)
 // who each bomber was: the group's aircraft from the records (history.js) into its slots, the ship the
 // records name as the group's lead into the lead slot, the aborts last; the other places aren't documented,
@@ -165,7 +175,7 @@ weapons.attach(bomber);
 const effects = new Effects(scene);
 weapons.effects = effects; // (the guns' muzzle smoke)
 ui.fullscreen(); // (the full-screen buttons and Alt+Enter)
-ui.sound((v, muted, mix) => audio.setVolume(v, muted, mix)); // (the menus' mute button and volume line, and the mix)
+ui.sound((v, muted, mix, radio) => { audio.setVolume(v, muted, mix); audio.setRadio(radio); }); // (the menus' mute button and volume line, and the mix)
 // (the menus make no sound of their own: the tick and click sounded cheap. The first click starts the sound)
 document.addEventListener('pointerdown', () => { if (state !== 'playing') audio.ensure(); });
 // bombers coming apart: their lost wings and tails fall away on their own (breakup.js), copied from
@@ -178,6 +188,27 @@ for (const b of bombers) b.onBreak = (kind, side, z, vel) => {
   if (b === bomber && mode === 'crew' && !player.away && !player.dead) { player.kick(4); audio.explosion(5); } // (you feel it go)
 };
 const fighters = new Fighters(scene, { effects, bullets: weapons.bullets, audio, ui, bombers, playerBomber: bomber });
+// a fighter scenario (scenario.js): who's up, and what of the raid there is
+const SC = { started: false, over: false, t: 0, endT: null, win: false, why: '', foes: [], friends: [] };
+if (SCENARIO) {
+  fighters.escortFuel = Infinity; // (no running out of fuel and going home in a small fight)
+  if (SCENARIO.dogfight) { // just fighters: no waves, no escort, no bombers (yours hidden away), the wrecks fall to the ground
+    fighters.noWaves = true; fighters.alliedSlots = []; fighters.axisSlots = []; fighters.reserve = { axis: 0, allied: 0 };
+    fighters.bombers = []; fighters.noBombers = true;
+    fighters.fallFloor = -ALTITUDE + 120;
+    bomber.group.visible = false;
+    world.wrapClouds = true; // (the clouds kept round you: in still air you can fly out of where they were put)
+    world.cloudShift = -1800; // (and down to the fight's height, 4,000 m: the deck under it, the cumulus round it)
+    world.setCloudCount(world.cloudCount, true);
+  } else { // the intercept: the raid's own fighters, but a handful
+    const axisMe = SCENARIO.side === 'axis';
+    fighters.axisSlots = Array.from({ length: axisMe ? 3 : 6 }, () => -1);
+    fighters.reserve = { axis: axisMe ? 3 : 8, allied: axisMe ? 3 : 1 };
+    fighters.gaggle = axisMe ? [3, 3] : [2, 4];
+    fighters.alliedSlots = Array.from({ length: axisMe ? 3 : 1 }, (_, i) => 0.2 + i * 0.1);
+    fighters.fwLeft = axisMe ? 1 : 3;
+  }
+}
 radio.fighters = fighters; // (where its calls of the fighters came from)
 fighters.onDown = (f, owner) => radio.downed(f, owner); fighters.onBail = (f) => radio.bailed(f); // (the interphone's "I got him" and "he's bailing out")
 const collide = (a, b, team, owner, cannon, src) => fighters.collide(a, b, team, owner, cannon, src);
@@ -322,7 +353,7 @@ const TIPS = {
   gun: ['On a gun', [['Click', 'fire'], ['Right click', 'zoom'], ['R', 'reload'], ['C', 'hold: look round'], ['E', 'leave the gun']]],
   seat: ['At the controls', [['Mouse', 'steer'], ['W / S', 'throttle'], ['V', 'switch view'], ['C', 'hold: look round'], ['E', 'leave the seat']]],
   sight: ['On the bombsight', [['A / D', 'steer the formation'], ['Space', 'bombs away'], ['E', 'leave the sight']]],
-  fighter: ['Flying a fighter', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['Click', 'guns'], ['Middle click', 'lock on / off'], ['Right click', 'hold: zoom'], ['V', 'switch view'], ['J', 'bail out']]],
+  fighter: ['Flying a fighter', [['Mouse', 'look where you want to fly'], ['Shift / Ctrl', 'throttle (past 100%: WEP)'], ['W / S', 'pitch yourself'], ['F', 'flaps'], ['A / D', 'roll yourself'], ['Click', 'guns'], ['Middle click', 'lock on / off'], ['Right click', 'hold: zoom'], ['V', 'switch view'], ['J', 'bail out']]],
   bail: ['Bail out', [['W A S D', 'to a red hatch'], ['E', 'jump']]],
 };
 const tip = (id) => ui.tip(id, ...TIPS[id]);
@@ -384,12 +415,14 @@ function pause() {
 
 function showMenu(paused) {
   const quality = gfx.qualityName, onQuality = (q) => gfx.setQuality(q);
+  if (SCENARIO) return paused ? scenarioPause() : scenarioBrief();
   if (!paused) {
     ui.menu({
       kind: 'start', kicker: 'Eighth Air Force · 14 October 1943', title: 'Black Thursday', sub: 'B-17 Flying Fortress', stamp: 'Restricted',
       text: 'Mission briefing: Schweinfurt, the ball-bearing works, deep in Germany. The Thunderbolts can only take you as far as the border; after that you are on your own. Fly with the stream, or against it.',
       facts: [['Target', 'Schweinfurt'], ['Altitude', '25,000 ft'], ['Force', `${bombers.length} B-17s`], ['Escort', `${ALLIED_TOTAL} P-47s (to the border)`], ['Opposition', `${AXIS_TOTAL} fighters`], ['Conditions', envLabel(env)]],
       roles: chooseRole, quality, onQuality,
+      actions: [{ label: 'Fighter scenarios: duels and dogfights', onClick: () => showScenarios(ui, () => showMenu(false)) }],
       hint: '<kbd>1</kbd>–<kbd>4</kbd> pick a role · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>Enter</kbd> take it',
     });
     return;
@@ -496,6 +529,164 @@ async function chooseRole(id) {
   pilotDeathT = 0;
   play();
   ui.log(id === 'bf109' ? 'Bf 109, JG 26. Break up the bomber stream!' : id === 'fw190' ? 'Fw 190, IV.(Sturm)/JG 3. Go through the bombers head-on!' : 'P-47, 56th Fighter Group. Cover the bombers!');
+}
+
+// ---------- fighter scenarios (scenario.js): a smaller fight, set up from the link ----------
+const SC_Y = -3600; // a dogfight's height: 4,000 m (13,000 ft), where the air's thick enough for a sharp fight (the clouds moved down to it)
+const leaveScenario = () => { location.href = location.pathname; }; // (back to the raid's briefing)
+
+/** The scenario's briefing card: what it is, and Take off. */
+function scenarioBrief() {
+  const S = SCENARIO;
+  ui.menu({
+    kind: 'start', kicker: 'Fighter scenario', title: S.label, sub: PLANES[S.me], stamp: 'Training',
+    text: S.raid ? `${S.blurb} ${S.side === 'axis' ? 'Break up the box: bring down three of them.' : 'Keep them off the bombers: lose no more than two.'} Shot down, you take off again.` : `${S.blurb} ${STARTS[S.start].blurb}`,
+    facts: [['You fly', PLANES[S.me]],
+      ['Against', S.raid ? (S.side === 'axis' ? '6 B-17s, P-47 escort' : 'Bf 109s and Fw 190s') : `${S.foes > 1 ? S.foes + ' x ' : ''}${PLANES[S.foe]}`],
+      ['Wingman', S.raid ? (S.side === 'axis' ? '3 x ' + PLANES.bf109 : '1 x P-47') : S.friends ? PLANES[S.me] : 'None'],
+      ...(S.raid ? [] : [['Start', STARTS[S.start].label], ['Their pilots', SKILLS[S.skill].label]]),
+      ['Altitude', S.raid ? '25,000 ft' : '13,000 ft'], ['Conditions', envLabel(env)]],
+    button: 'Take off', onClick: startScenario, quality: gfx.qualityName, onQuality: (q) => gfx.setQuality(q),
+    actions: [{ label: 'Change scenario', onClick: () => showScenarios(ui, scenarioBrief) }, { label: 'Back to the raid', onClick: leaveScenario }],
+    hint: 'Mouse: look where you want to fly · <kbd>W</kbd> <kbd>S</kbd> pitch · <kbd>A</kbd> <kbd>D</kbd> roll · <kbd>Shift</kbd> <kbd>Ctrl</kbd> throttle · <kbd>Q</kbd> <kbd>E</kbd> rudder',
+  });
+}
+
+function scenarioPause() {
+  ui.menu({
+    kind: 'pause', kicker: SCENARIO.label, title: 'Paused', stamp: 'Hold', button: 'Resume', onClick: play,
+    quality: gfx.qualityName, onQuality: (q) => gfx.setQuality(q),
+    actions: [{ label: 'Start again', onClick: () => location.reload() }, { label: 'Change scenario', onClick: () => showScenarios(ui, scenarioPause) },
+      { label: 'Controls', onClick: () => ui.drawer('controls') }, { label: 'Options', onClick: () => ui.drawer('options') },
+      { label: 'Back to the raid', confirm: 'Click again to leave', onClick: leaveScenario }],
+    hint: 'Starting again reloads the fight',
+  });
+}
+
+/** Where everyone starts: { me, friends[], foes[] } of { pos, dir, speed }. */
+function scenarioGeometry() {
+  const S = SCENARIO, V = THREE.Vector3, at = (x, y, z, d, v) => ({ pos: new V(x, y, z), dir: d.clone().normalize(), speed: v });
+  const north = new V(0, 0, -1), south = new V(0, 0, 1), dive = new V(0, -0.15, -1);
+  const g = { me: null, friends: [], foes: [] }, spread = (i, n) => (i - (n - 1) / 2) * 90;
+  if (S.start === 'merge') { // nose to nose, 3.2 km apart, level
+    g.me = at(0, SC_Y, 1600, north, 150);
+    for (let i = 0; i < S.friends; i++) g.friends.push(at(80 * (i + 1), SC_Y + 10, 1650, north, 150));
+    for (let i = 0; i < S.foes; i++) g.foes.push(at(spread(i, S.foes) + 30, SC_Y + (i % 2) * 15, -1600 - (i % 2) * 50, south, 150));
+  } else if (S.start === 'advantage') { // you above and behind them, with the speed
+    g.me = at(0, SC_Y + 900, 1900, dive, 165);
+    for (let i = 0; i < S.friends; i++) g.friends.push(at(80 * (i + 1), SC_Y + 910, 1950, dive, 165));
+    for (let i = 0; i < S.foes; i++) g.foes.push(at(spread(i, S.foes), SC_Y + (i % 2) * 15, (i % 2) * 50, north, 140));
+  } else { // you're bounced: them above and behind
+    g.me = at(0, SC_Y, 0, north, 140);
+    for (let i = 0; i < S.friends; i++) g.friends.push(at(80 * (i + 1), SC_Y + 5, 40, north, 140));
+    for (let i = 0; i < S.foes; i++) g.foes.push(at(spread(i, S.foes), SC_Y + 900 + (i % 2) * 15, 1900 + (i % 2) * 50, dive, 165));
+  }
+  return g;
+}
+
+/** Take off: you, your wingman and them, in the air where the scenario puts you. */
+async function startScenario() {
+  if (roleBusy || SC.started) return;
+  const S = SCENARIO;
+  roleBusy = true;
+  eject.stop(); ui.ejected(null); bailedOut = false;
+  if (mode === 'crew') leaveCrew(); else leaveFighter();
+  mode = S.me;
+  fighters.crewView = false;
+  fighters.playerSide = S.side;
+  scene.attach(camera);
+  camera.up.set(0, 1, 0);
+  ui.hurt(null); ui.sight(null); ui.aid(null);
+  try {
+    const f = await fighters.spawnPlayer(S.me);
+    if (S.dogfight) {
+      const g = scenarioGeometry();
+      f.pos.copy(g.me.pos); f.dir.copy(g.me.dir); f.up.set(0, 1, 0);
+      fighters.physics(f, g.me.speed);
+      for (const [i, p] of g.friends.entries()) SC.friends.push(await fighters.spawnBrain(S.me, p.pos, p.dir, p.speed, { skill: 'veteran', leader: f, wingSide: i % 2 ? -1 : 1 }));
+      for (const [i, p] of g.foes.entries()) SC.foes.push(await fighters.spawnBrain(S.foe, p.pos, p.dir, p.speed, { skill: S.skill, leader: i % 2 ? SC.foes[i - 1] : null, wingSide: 1 }));
+    }
+    pilot.start(f, fighters);
+    stats.newLife(S.me);
+  } finally { roleBusy = false; }
+  if (S.dogfight) fighters.totals = { [S.side]: S.friends, [S.side === 'axis' ? 'allied' : 'axis']: S.foes }; // (the forces panel: this fight's numbers)
+  pilotDeathT = 0;
+  SC.started = true;
+  play();
+  ui.log(S.raid ? (S.side === 'axis' ? 'Six of them, and a few Thunderbolts. Go through the box!' : 'Bandits coming in on the bombers. Keep them off!')
+    : S.start === 'bounced' ? 'Bandits above and behind! Break!' : S.start === 'advantage' ? "You've got height and the sun on them. Take your pick." : 'Bandits dead ahead, closing fast!');
+}
+
+/** Each frame of a scenario: is it won or lost? */
+function scenarioTick(dt) {
+  if (!SC.started || SC.over || state !== 'playing') return;
+  SC.t += dt;
+  const S = SCENARIO, end = (win, why, toast) => { SC.endT = SC.t + 3; SC.win = win; SC.why = why; if (toast) ui.toast(toast, win ? 'good' : 'kill'); };
+  if (SC.endT == null && pilot.alive) {
+    if (S.dogfight) {
+      if (SC.foes.length && SC.foes.every((e) => !e.alive)) end(true, SC.foes.length > 1 ? "They're all down" : "He's down", 'All enemy aircraft down!');
+    } else {
+      const down = bombers.filter((b) => b.down).length, axisLeft = fighters.reserve.axis + fighters.axis.filter((e) => !e.player).length;
+      if (down >= 3) end(S.side === 'axis', 'The box is broken', S.side === 'axis' ? 'Three of them down: the box is broken!' : 'Three bombers down: the box is broken.');
+      else if (S.side === 'allied' && axisLeft === 0 && SC.t > 20) end(true, "They've had enough", 'The bandits are gone!');
+      else if (S.side === 'axis' && SC.t > 420) end(false, 'Out of fuel', 'Fuel low: you have to break off.');
+    }
+  }
+  if (SC.endT != null && SC.t >= SC.endT) scenarioOver(SC.win, SC.why);
+}
+
+/** The intercept: shot down (or bailed out), but the fight goes on: another aircraft, and back into it. */
+function scenarioRespawnMenu(title) {
+  if (SC.over) return;
+  state = 'choosing';
+  pilot.active = false;
+  audio.fighterDrone(Infinity, 0);
+  if (document.pointerLockElement) document.exitPointerLock();
+  SC.sorties = (SC.sorties ?? 1) + 1;
+  const down = bombers.filter((b) => b.down).length;
+  ui.menu({
+    kind: 'roles', kicker: SCENARIO.label, title, stamp: 'Sortie over',
+    text: SCENARIO.side === 'axis' ? 'Another machine is fuelled and armed. The bombers are still up there.' : 'Another Thunderbolt is ready. The bombers still need you.',
+    facts: [['B-17s down', `${down} of ${bombers.length}`], ['Your kills', String(fighters.tally?.player ?? 0)], ['Next sortie', String(SC.sorties)]],
+    button: 'Take off again', onClick: respawnScenario,
+    actions: [{ label: 'End the fight', confirm: 'Click again to end it', onClick: () => scenarioOver(false, 'You broke off') }, { label: 'Back to the raid', onClick: leaveScenario }],
+  });
+}
+
+async function respawnScenario() {
+  if (roleBusy || SC.over) return;
+  roleBusy = true;
+  eject.stop(); ui.ejected(null); bailedOut = false;
+  leaveFighter();
+  ui.hurt(null); ui.sight(null); ui.aid(null);
+  try {
+    const f = await fighters.spawnPlayer(SCENARIO.me);
+    pilot.start(f, fighters);
+    stats.newLife(SCENARIO.me);
+  } finally { roleBusy = false; }
+  pilotDeathT = 0;
+  play();
+}
+
+/** The end of the fight: how it went, and fly it again. */
+function scenarioOver(won, title) {
+  if (SC.over) return;
+  SC.over = true;
+  state = 'over';
+  pilot.active = false;
+  audio.fighterDrone(Infinity, 0);
+  if (document.pointerLockElement) document.exitPointerLock();
+  const S = SCENARIO, kills = fighters.tally?.player ?? 0, m = Math.floor(SC.t / 60), sec = String(Math.floor(SC.t % 60)).padStart(2, '0');
+  const lost = bombers.filter((b) => b.down).length;
+  const show = () => ui.menu({
+    kind: 'over', kicker: S.label, title, stamp: won ? 'Victory' : 'Lost',
+    text: won ? 'Well flown.' : pilot.alive ? 'Not this time.' : "You were shot down. Take it again: keep your speed up, and don't turn with a better turner.",
+    facts: [['Your kills', String(kills)], ['Time', `${m}:${sec}`],
+      S.raid ? ['B-17s down', `${lost} of ${bombers.length}`] : ['Enemy still flying', `${SC.foes.filter((e) => e.alive).length} of ${SC.foes.length}`]],
+    button: 'Fly it again', onClick: () => location.reload(),
+    actions: [{ label: 'Change scenario', onClick: () => showScenarios(ui, show) }, { label: 'Back to the raid', onClick: leaveScenario }],
+  });
+  show();
 }
 
 /**
@@ -624,6 +815,7 @@ function finishEject() {
 
 let mapBack = null, lastRoles = 'Pick again'; // (the plot's way back; the role menu's last title)
 function showRoleMenu(title, change = false) {
+  if (SCENARIO && !change) return SCENARIO.raid ? scenarioRespawnMenu(title) : scenarioOver(false, title); // (a dogfight: shot down, that's it; the intercept goes on, in another aircraft)
   if (!change) lastRoles = title;
   state = 'choosing';
   pilot.active = false;
@@ -1102,7 +1294,7 @@ gfx.renderer.setAnimationLoop((now) => {
   if (running) {
     t += dt;
     safely('world', () => { world.update(dt, AIRSPEED); world.follow(eject.active ? eject.pos : mode === 'crew' || !pilot.f ? bomber.group.position : pilot.f.pos, mode === 'crew' && !eject.active && !player.away && !player.dead); });
-    safely('bombers', () => {
+    if (!SCENARIO?.dogfight) safely('bombers', () => {
       const controls = live && mode === 'crew' ? player.controls : null;
       bomber.manualFires = !!controls;
       for (const b of bombers) {
@@ -1132,7 +1324,7 @@ gfx.renderer.setAnimationLoop((now) => {
   else if (bomber.interior?.dust) bomber.interior.dust.mesh.visible = false;
   if (running) {
     if (live) {
-      safely('crew', () => {
+      if (!SCENARIO?.dogfight) safely('crew', () => {
         pickActiveGunners(dt);
         crew.setDisplaced(mode === 'crew' && !eject.active ? player.station?.id : null, mode === 'crew' && !eject.active && !player.away && !player.dead && !player.wounded ? player.feet : null);
         camera.getWorldPosition(camPos);
@@ -1142,6 +1334,7 @@ gfx.renderer.setAnimationLoop((now) => {
         }
       });
       safely('life', () => (mode !== 'crew' ? fighterLife(dt) : eject.active || player.away ? null : lifeAndDeath(dt)));
+      if (SCENARIO) safely('scenario', () => scenarioTick(dt));
       if (mode !== 'crew' || eject.active || player.away) audio.bellRing(false); // (the bail-out bell only aboard, in the bomber)
       stats.fired(weapons.bullets.playerFired); weapons.bullets.playerFired = 0;
       if (!eject.active && (mode === 'crew' ? !player.dead && !player.away : pilot.alive)) stats.tick(dt);
@@ -1159,11 +1352,11 @@ gfx.renderer.setAnimationLoop((now) => {
     safely('engine', () => (mode !== 'crew' && pilot.alive ? audio.ownEngine(mode, pilot.throttle, pilot.f.speed) : audio.ownEngine(null)));
     if (live) {
       missionTime += dt;
-      safely('mission', () => mission.update(dt, { player, time: missionTime, flak, fighters }));
-      safely('turn', () => rallyTurn(dt));
-      if ((reformT -= dt) <= 0) { reformT = 8; reform(); }
-      safely('stream', () => stream.update(dt, { center: bomber.group.position, want: lossWant, fighters, flak, lossBias: fighters.lossBias }));
-      if ((lossT -= dt) <= 0) {
+      if (!SCENARIO) safely('mission', () => mission.update(dt, { player, time: missionTime, flak, fighters }));
+      if (!SCENARIO) safely('turn', () => rallyTurn(dt));
+      if (!SCENARIO?.dogfight && (reformT -= dt) <= 0) { reformT = 8; reform(); }
+      if (!SCENARIO) safely('stream', () => stream.update(dt, { center: bomber.group.position, want: lossWant, fighters, flak, lossBias: fighters.lossBias }));
+      if (!SCENARIO && (lossT -= dt) <= 0) {
         lossT = 1; steerLosses(); historicalAborts();
         if (identOpen) showIdentity(); // (kept up to date: another seat, another bomber, a man hit)
         for (const [b, c] of crews) if (b.noTail) { const tg = c.members.find((m) => m.role.id === 'tail'); if (tg && (tg.state === 'ok' || tg.state === 'wounded')) c.kill(tg); }
@@ -1180,8 +1373,8 @@ gfx.renderer.setAnimationLoop((now) => {
         wasOut = out;
       }
       flak.inside = mode === 'crew' && !player.away && !eject.active && !(player.third && player.station?.flies);
-      safely('flak', () => flak.update(dt));
-      safely('radio', () => {
+      if (!SCENARIO) safely('flak', () => flak.update(dt));
+      if (!SCENARIO) safely('radio', () => {
         radio.set(mode === 'crew' && !player.away && !player.dead && !eject.active, crew, player.role);
         radio.update(dt, { phase: mission.phase, toGo: mission.sightError().along, released: !!mission.groups.get(bomber.squad)?.released, atSight: !!mission.atSight,
           flak: flak.on, time: missionTime, quietT: mission.quietT ?? 0, fighting: fighters.axis.some((f) => f.state === 'attack' && f.target === bomber), bombers, bomber });
@@ -1213,13 +1406,13 @@ gfx.renderer.setAnimationLoop((now) => {
     if (live) ui.sight(s);
   });
   safely('map', () => {
-    const open = live && mapHeld && state === 'playing';
+    const open = live && mapHeld && state === 'playing' && !SCENARIO?.dogfight; // (a dogfight has no route to show)
     if (open && (mapT -= dt) <= 0) { mapT = 0.2; ui.missionMap(missionMapData()); } // redrawn a few times a second
     else if (!open && mapT !== 0) { mapT = 0; ui.missionMap(null); }
   });
   if (live) {
     safely('hud', () => {
-      ui.mission(mission.status(missionTime));
+      ui.mission(SCENARIO ? (SCENARIO.dogfight ? `${SCENARIO.label} · ${SC.foes.filter((e) => e.alive).length} of ${SC.foes.length} still flying` : `${SCENARIO.label} · ${bombers.filter((b) => b.down).length} of ${bombers.length} B-17s down`) : mission.status(missionTime));
       ui.lifeStats(stats.life);
       if ((forcesT -= dt) <= 0) { forcesT = 0.3; ui.forces(bomberCounts(), fighters.counts()); } // a few times a second
       if (eject.active) { // under the parachute: the battle goes on above you
@@ -1238,6 +1431,7 @@ gfx.renderer.setAnimationLoop((now) => {
           ui.lock(v && v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1 ? [(v.x + 1) / 2 * innerWidth, (1 - v.y) / 2 * innerHeight] : null, lp ? lp.distanceTo(pilot.f.pos) : 0);
         }
         if (pilot.f) { ui.fighter(pilot.status(camera)); ui.fighterDamage(pilot.f); }
+        ui.gload(mode !== 'crew' && pilot.alive && pilot.f?.sys ? pilot.f.sys.vision() : null); // (greying out, black, red)
         if (pilot.alive) tip('fighter');
         tags.update(camera, fighters.list, { side: fighters.playerSide, lead: pilot.alive, self: pilot.f, bombers });
         return;
@@ -1287,6 +1481,7 @@ gfx.renderer.setAnimationLoop((now) => {
   safely('crowds', () => crowds.update(camera, { bombers, mine: bomber, crews, fighters, me: mode !== 'crew' && !pilot.third ? pilot.f : null, mineOutside: outside })); // (after everything's moved)
   safely('figures', syncFigures); // the crew's poses onto their skeletons
   safely('scars', flushScars); // the holes from the latest hits, a few a frame
+  safely('clouds', () => { camera.updateMatrixWorld(); world.levelClouds(camera); }); // (level with the ground, however the view's rolled)
   if (gfx.ssao) gfx.ssao.enabled = !(mode === 'crew' && player.station?.id === 'ball' && player.blend > 0.5); // (in the ball you see out only through its window: no shading from what's behind its steel)
   // (the formation inspection's framing views: the camera taken out to look at the force, then put back)
   const dbg = formationDebug && (formationDebug.update(dt), formationDebug.frame());

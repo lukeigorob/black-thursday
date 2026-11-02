@@ -42,7 +42,13 @@ function bellBuffer(ctx) {
 }
 
 export class GameAudio {
-  constructor() { this.volume = 1; this.muted = false; this.mix = { ...MIX }; }
+  constructor() { this.volume = 1; this.muted = false; this.mix = { ...MIX }; this.radio = true; this.onAir = new Set(); }
+
+  /** Radio chatter (the interphone's calls, the German fighters' radio) on or off: off, nothing's said, and what's being said stops. */
+  setRadio(on) {
+    this.radio = on;
+    if (!on) { for (const h of this.onAir) h.stop(); this.onAir.clear(); }
+  }
 
   /**
    * The volume (0..1, 1 = as loud as it was made) and mute, and the mix: each channel's own level
@@ -596,6 +602,7 @@ export class GameAudio {
    * Returns { dur, stop } or null (not loaded yet, or no such clip: see voiceClip).
    */
   voice(id, { rate = 1, far = false, vol = 1, url } = {}) {
+    if (!this.radio) return null; // (radio chatter switched off in the settings: left unsaid)
     const buf = this.ctx && this.voiceClip(id, url), ctx = buf && this.live(2, buf.duration / rate + 0.4);
     if (!ctx) return null;
     const t = ctx.currentTime + 0.06, dur = buf.duration / rate;
@@ -630,7 +637,9 @@ export class GameAudio {
     };
     burst(t - 0.05, 0.02, 2500, 0.25);
     burst(t + dur + 0.04, far ? 0.18 : 0.11, 2200, far ? 0.22 : 0.15);
-    return { dur: dur + 0.15, stop: () => { const n = ctx.currentTime; try { src.stop(n); hiss.stop(n + 0.05); } catch { /* (already over) */ } out.gain.setTargetAtTime(0, n, 0.01); } };
+    const h = { dur: dur + 0.15, stop: () => { const n = ctx.currentTime; try { src.stop(n); hiss.stop(n + 0.05); } catch { /* (already over) */ } out.gain.setTargetAtTime(0, n, 0.01); } };
+    this.onAir.add(h); setTimeout(() => this.onAir.delete(h), (dur + 0.4) * 1000); // (on the air until it's said)
+    return h;
   }
 
   driveCurve(k) { // soft clipping (tanh): the amplifier pushed a little

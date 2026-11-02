@@ -47,6 +47,9 @@ const WOUND_TIME = 30, REVIVE_TIME = 4, WALK = 1.2; // s, s, m/s
 const GUN_RANGE = 900, FIRE_RANGE = 650, AI_RPM = 750, AI_SPREAD = 0.006;
 const AIM_ERROR = 0.03; // rad: real bomber gunners hit very little at range (grows with crossing speed)
 const ACQUIRE = [0.8, 2.2], BURST = [0.5, 1.3], PAUSE = [1.4, 3.5], SPRAY = 0.1; // s, s, s, chance of a burst at nothing much
+// (for the game, not the record: on the fighter you fly they're worse shots, so a pass through a box is a risk, not
+// a death sentence: this much more aim error and spread, slower to walk the tracers in and to pick you up)
+const VS_PLAYER = { err: 2.2, spread: 2.5, walk: 0.45, acquire: 1.5 };
 const ACTIVE_RANGE = 1200; // bombers further than this from the player don't simulate their gunners
 export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 
@@ -948,7 +951,7 @@ export class Crew {
         if (s < score) { score = s; best = f; }
       }
       // a new target takes him a moment: spotting it, swinging the guns round, getting it in the sight
-      if (best && best !== g.target) g.pause = Math.max(g.pause, rand(...ACQUIRE));
+      if (best && best !== g.target) g.pause = Math.max(g.pause, rand(...ACQUIRE) * (best.player ? VS_PLAYER.acquire : 1));
       g.target = best;
     }
     if (!g.target) return null;
@@ -964,12 +967,12 @@ export class Crew {
         g.burst = rand(...BURST);
         g.lead = rand(0.45, 1.25);
         const spray = Math.random() < SPRAY ? 4 : 1; // a nervous burst at nothing much
-        g.err.set(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(dist * AIM_ERROR * (1 + crossing / 90) * spray);
+        g.err.set(rand(-1, 1), rand(-1, 1), rand(-1, 1)).multiplyScalar(dist * AIM_ERROR * (1 + crossing / 90) * spray * (f.player ? VS_PLAYER.err : 1));
         // friendly fire is real: a gunner holds his burst if another B-17 is in the line of fire
         g.clear = this.lineClear(origin, aimPoint, fighters.nearBombers());
       }
     } else {
-      g.err.multiplyScalar(Math.exp(-dt * 0.6)); // walking the tracers in
+      g.err.multiplyScalar(Math.exp(-dt * 0.6 * (f.player ? VS_PLAYER.walk : 1))); // walking the tracers in
       if ((g.burst -= dt) <= 0) g.pause = rand(...PAUSE);
     }
     const dir = aimPoint.clone().applyMatrix4(inv).sub(local).normalize();
@@ -1006,7 +1009,8 @@ export class Crew {
       while (g.timer <= 0) {
         g.timer += 60 / AI_RPM; // one simulated stream per position, even for twin guns, to save work
         const d = a.aimPoint.clone().sub(a.origin).normalize();
-        d.x += rand(-1, 1) * AI_SPREAD; d.y += rand(-1, 1) * AI_SPREAD; d.z += rand(-1, 1) * AI_SPREAD;
+        const sp = AI_SPREAD * (this.gunners.get(s.id)?.target?.player ? VS_PLAYER.spread : 1);
+        d.x += rand(-1, 1) * sp; d.y += rand(-1, 1) * sp; d.z += rand(-1, 1) * sp;
         bullets.spawn(a.origin.clone().addScaledVector(d, 1.5), d.normalize().multiplyScalar(890), (g.n = (g.n ?? 0) + 1) % 5 === 0, 'allied', 'crew', false, this.bomber, 1.4);
       }
       if (Math.random() < dt * 6) audio.distantGun(a.origin.distanceTo(playerPos));

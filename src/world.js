@@ -210,7 +210,7 @@ export class World {
     while (this.clouds.length > n) { const c = this.clouds.pop(); this.drift.remove(c); c.material.dispose(); }
     while (this.clouds.length < n) {
       const c = new THREE.Sprite(new THREE.SpriteMaterial({
-        map: this.cloudTextures[this.clouds.length % 4], depthWrite: false, fog: true }));
+        map: this.cloudTextures[this.clouds.length % 4], depthWrite: false, fog: true, rotation: this.cloudRoll ?? 0 }));
       this.placeCloud(c, rand(-CLOUD_SPAN_Z + CLOUD_RECYCLE_Z, CLOUD_RECYCLE_Z));
       this.drift.add(c);
       this.clouds.push(c);
@@ -220,12 +220,13 @@ export class World {
   placeCloud(c, z) {
     const layer = Math.random(), L = this.look, deck = L.deck ?? 0.5, o = L.overcast ?? 0;
     let y, size, opacity = 1, bright = 1.55; // sunlit cloud, a little brighter than the dimmed horizon
+    const shift = this.cloudShift ?? 0; // (a dogfight lower down: the layers moved down with it)
     if (layer < deck) { y = rand(-2700, -2200); size = rand(700, 1500) * (1 + o * 0.6); bright = 1.35; } // the deck far below (solid under overcast)
     else if (layer < deck + (1 - deck) * 0.7) { y = rand(-1500, -350); size = rand(250, 650); } // cumulus we fly over
     else { y = rand(350, 900 + o * 1500); size = rand(400, 900) * (1 + o); opacity = 0.35 + o * 0.5; } // wisps above (a grey ceiling in rain)
     let x = rand(-9000, 9000);
     if (Math.abs(x) < 350 && y > -500) x += Math.sign(x || 1) * 700; // keep the formation's own air clear
-    c.position.set(x, y, z);
+    c.position.set(x, y + shift, z);
     c.scale.set(size * rand(1.2, 1.8), size * (layer < 0.5 ? 0.45 : 0.8), 1);
     c.material.opacity = opacity;
     c.material.color.copy(this.cloudTint ?? WHITE).multiplyScalar(bright / 1.55);
@@ -282,6 +283,24 @@ export class World {
   }
 
 
+  /**
+   * Keep the clouds level with the ground. They're sprites, and a sprite faces the camera roll and all: bank a
+   * fighter and every cloud banked with you. Each is turned on the screen by the camera's roll, so its "up" is
+   * the world's up as you see it. Looking straight up or down there is no roll to undo: left as it was.
+   */
+  levelClouds(camera) {
+    const e = camera.matrixWorld.elements;
+    const rx = e[0], ry = e[1], rz = e[2], ux = e[4], uy = e[5], uz = e[6], fx = -e[8], fy = -e[9], fz = -e[10];
+    // the world's up, on the picture plane: (0,1,0) less its part along the view
+    const wx = -fy * fx, wy = 1 - fy * fy, wz = -fy * fz;
+    const across = wx * rx + wy * ry + wz * rz, upward = wx * ux + wy * uy + wz * uz;
+    if (across * across + upward * upward < 1e-6) return;
+    const rot = Math.atan2(-across, upward); // (a sprite's rotation turns it anticlockwise on the screen)
+    if (rot === this.cloudRoll) return;
+    this.cloudRoll = rot;
+    for (const c of this.clouds) c.material.rotation = rot;
+  }
+
   update(dt, speed) {
     this.rain.uniforms.uSpeed.value = speed;
     // straight aft in the formation's frame: in drift's turned frame, back along the turn (-heading)
@@ -293,7 +312,11 @@ export class World {
     if (this.keepOut) gu.uCity.value.set(this.keepOut.x - gp.x, this.keepOut.z - gp.z, 5600);
     for (const c of this.clouds) {
       c.position.x += sx; c.position.z += sz;
-      if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);
+      if (this.wrapClouds && this.focus) { // (still air, a dogfight: the field of them kept round you, wherever you fly)
+        const span = CLOUD_SPAN_Z / 2;
+        if (c.position.x - this.focus.x > span) c.position.x -= 2 * span; else if (this.focus.x - c.position.x > span) c.position.x += 2 * span;
+        if (c.position.z - this.focus.z > span) c.position.z -= 2 * span; else if (this.focus.z - c.position.z > span) c.position.z += 2 * span;
+      } else if (c.position.z > CLOUD_RECYCLE_Z) this.placeCloud(c, c.position.z - CLOUD_SPAN_Z);
     }
   }
 }
