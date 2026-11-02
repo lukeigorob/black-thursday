@@ -1,0 +1,260 @@
+{
+ "group": "91st",
+ "division": "1st",
+ "combat_wing": "1st CBW (91st, 351st, 381st)",
+ "dispatched": 11,
+ "lost": 1,
+ "dispatched_confidence": "PROBABLE",
+ "dispatched_notes": "11 from the 1st Air Division table reproduced in the 303rd BG mission 078 report (91-04). Lost = 1 (42-5714, MACR 899): the only 91st BG aircraft among the 74 aircraft that b17flyingfortress.de tags with this status date (91-01 database query) besides 42-29741 (damaged). Treat as PROBABLE until checked against the 91st BG's own records (91stbombgroup.com is behind a Cloudflare challenge and could not be read).",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5714",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-5-VE",
+   "nickname": "Old Faithful",
+   "nose_art": null,
+   "bomb_squadron": "323rd",
+   "squadron_code": "OR",
+   "aircraft_letter": "N",
+   "pilot": "Robert M. Slane",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Enemy fighters knocked out engines #3 and #4 (91-01; the MACR text quoted there also says No. 4 feathered and No. 1 smoking). Seen at 1530 hrs from 20,000 ft at 48°40'N 06°40'E descending under control, four parachutes seen (observer 2nd Lt. Joseph A. Sulli). Crash-landed on a rail line south of Metz, France; salvaged by the Luftwaffe and used by KG 200 for spares.",
+   "macr": "899",
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "91-01",
+    "91-02"
+   ],
+   "notes": "Nickname given as 'Old Faithful II' (91-01 title) and 'Old Faithful' (91-02, IWM). Ex-306th BG 423rd BS (RD-S), to 91st BG 323rd BS 11 Sep 1943; 91-01/91-02 also list 322nd BS code LL-S (conflicting / other period). Squadron code+letter OR-N is from 91-01, not confirmed for this date. Crew names in 91-01 are informal (Bob, Joe, Art...). MACR 899 itself not consulted.",
+   "crew": [
+    {
+     "name": "Robert M. Slane",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-02",
+      "91-05"
+     ],
+     "note": "Given as 'Bob Slane' in 91-01/91-02. Full name 'Robert M. Slane' (91st BG, POW Stalag Luft 3) from 91-05 NARA-derived POW listing; match by name and group only. Pilot role inferred from being listed first and the aircraft being lost 'with Bob Slane' (91-02). 91-02 note says the Slane crew were from the 401st BS. Rank not documented here."
+    },
+    {
+     "name": "Joseph A. Johnson",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "'Joe Johnson' in 91-01; full name, rank and POW from IWM person record (91-03)."
+    },
+    {
+     "name": "Arthur G. Foster",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "evaded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "'Art Foster' in 91-01, which says he returned to UK 19/9/44; IWM (91-03) gives evaded."
+    },
+    {
+     "name": "Bill Runner",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "91-01"
+     ],
+     "note": "Informal name only, as given in 91-01; full name not found."
+    },
+    {
+     "name": "Sherman Sly",
+     "rank": null,
+     "position": "engineer",
+     "fate": "unknown",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "91-01"
+     ],
+     "note": "As given in 91-01 (flight engineer/top turret); full name/rank not found."
+    },
+    {
+     "name": "Victor H. Kuhlmann",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "'Vic Kuhlman' in 91-01."
+    },
+    {
+     "name": "Louis L. Brown",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "'Lou Brown' in 91-01."
+    },
+    {
+     "name": "Charles J. Croth",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "'Chas Croth' in 91-01. Rank is the highest rank recorded by IWM, not necessarily rank on the date."
+    },
+    {
+     "name": "Bob Solomon",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "91-01"
+     ],
+     "note": "Informal name as given in 91-01."
+    },
+    {
+     "name": "Claud Smith",
+     "rank": null,
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "91-01",
+      "91-02"
+     ],
+     "note": "As given in 91-01/91-02; full name, rank and burial not confirmed (a search for an ABMC/Fields of Honor record found none under 'Claud')."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29741",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-70-BO",
+   "nickname": "Corn State Terror",
+   "nose_art": null,
+   "bomb_squadron": "324th",
+   "squadron_code": "DF",
+   "aircraft_letter": null,
+   "pilot": "Harold Robert Christensen",
+   "pilot_rank": "1st Lt.",
+   "formation_position": null,
+   "mission_outcome": "returned_damaged",
+   "loss_details": "Battle damaged over Schweinfurt; pilot Lt Christensen wounded and died the next day. Co-pilot Lt Mendelsohn flew it back and crash-landed at RAF Tangmere, striking a tree. Not struck off: after a long repair it returned to service with the 401st BS (LL-D) (91-01, 91-02).",
+   "macr": null,
+   "historical_confidence": "PROBABLE",
+   "sources": [
+    "91-01",
+    "91-02",
+    "91-03"
+   ],
+   "notes": "Crash-landed in the UK, long repair (not written off). Letters given only as 'DF-F/D/P' (91-01), so the aircraft letter on this date is unknown. Whether it bombed the target is not documented (the IWM Christensen narrative describes an abort - conflict).",
+   "crew": [
+    {
+     "name": "Harold Robert Christensen",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-738094",
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "Wounded in the left arm, died the next day / after the crash-landing at Tangmere (died of wounds; 'KIA' used as closest schema value). IWM record (91-03) gives service numbers 17065567 (enlisted) / O-738094 and DSC, AM, PH, but its narrative says 'mission to Merseburg' and describes an abort with a non-feathering engine, flying home alone; that conflicts with the Schweinfurt attribution in the same archive's aircraft record. Recorded as found."
+    },
+    {
+     "name": "Stuart Bernard Mendelsohn",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-672379",
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-01",
+      "91-03"
+     ],
+     "note": "Flew the aircraft back and crash-landed at RAF Tangmere after Christensen was incapacitated (91-01, 91-03). Rank as on IWM record. Later KIA 31 Dec 1943 in 42-29895 'The Black Swan' (MACR 1975)."
+    },
+    {
+     "name": "Kenneth C. Homuth",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-801069",
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-03"
+     ],
+     "note": "Named in the IWM Christensen narrative as the navigator who treated Christensen in the nose; Homuth's own record does not mention the date."
+    },
+    {
+     "name": "Homer Edwin Chatfield",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-03"
+     ],
+     "note": "IWM record says he treated wounded ball gunner S/Sgt Walter J. Molzon during a running fight with Me 109s on the return from Schweinfurt aboard 42-29741. Service number shown on IWM is incomplete; not recorded."
+    },
+    {
+     "name": "Walter J. Molzon",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "wounded",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "91-03"
+     ],
+     "note": "Named as the wounded ball turret gunner in the IWM Chatfield record."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "91stbombgroup.com (the main source: daily mission/loading lists) returned HTTP 403 to the fetch tool and a Cloudflare 'Attention Required' challenge in the browser; it was not bypassed. Only 2 of 11 aircraft identified. A person with browser access to 91stbombgroup.com (Daily Journal / mission loading lists) could likely complete this group.",
+  "americanairmuseum.com returns HTTP 403; the IWM American archive mirror (americanarchive.iwm.org.uk) worked and was used for person records.",
+  "Nine 91st BG aircraft, pilots and crews unknown. Searched: web search for 91st/14 Oct 1943/Schweinfurt crews, b17flyingfortress.de REST API (all aircraft tagged with this date: only 42-5714 and 42-29741 are 91st), Wikipedia, libertyladybook.com, 100thbg.com Black Week page (100th only).",
+  "Slane crew: 5 of 10 full names via IWM; bombardier 'Bill Runner', engineer 'Sherman Sly', waist 'Bob Solomon', tail 'Claud Smith' are informal names only. Pilot full name 'Robert M. Slane' is a name+group match only. MACR 899 not consulted (would give full names, ranks, serial numbers).",
+  "42-29741 crew: only 5 names connected to the date; the IWM record also links radio operator T/Sgt Lloyd Derousse (37375849) to the aircraft/pilot but not to this date, so he is not listed. The Christensen record narrative ('Merseburg', abort) conflicts with Schweinfurt.",
+  "No formation positions found; the 91st flew in the 1st CBW (91-04 table) but its slot (lead/high/low) is ambiguous in the extracted table."
+ ]
+}

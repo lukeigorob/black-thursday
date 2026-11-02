@@ -1,0 +1,2733 @@
+{
+ "group": "95th",
+ "division": "3rd",
+ "combat_wing": "13th CBW",
+ "dispatched": 18,
+ "lost": 1,
+ "dispatched_confidence": "VERIFIED",
+ "dispatched_notes": "95-01 (95th BG Memorials Foundation database, mission 10/14/1943): took off 18, completed 16, damaged 5, lost 1, salvaged 0; 2 aborts (Kring 42-3465, R.M. Smith 42-30167). Lost = 42-30135 (MACR 855). 42-3462 returned but 3 gunners bailed out and became POW (MACR 856). Four 100th BG crews in 100th BG aircraft also flew in the 95th's formation (100th report: 'high group with 95th'); they are recorded in 100th.json, not counted here.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30182",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Blondie II",
+   "nose_art": null,
+   "bomb_squadron": "334th",
+   "squadron_code": "BG",
+   "aircraft_letter": "E",
+   "pilot": "Alden R. Witt",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: BG-E : QW-E. CAUTION: squadron in 95-01 for this sortie differs from (some of) the AAM codes for this airframe; squadron/code here follow 95-01, code letters PROBABLE. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Alden R. Witt",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-665367",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William P. Overstreet",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "0680693",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James F. Goff",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0669271",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Richard H. Holmes",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Roy D. Baughman",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Kingsley F. Spitzer",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "55383061",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Wendall Verbulecz",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "35008172",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Sator S. Sanchez",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Charles D. Schrack",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "33316836",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Everett W. Lewis",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-37756",
+   "aircraft_type": "B-17G",
+   "block": null,
+   "nickname": "Roarin' Bill",
+   "nose_art": null,
+   "bomb_squadron": "335th",
+   "squadron_code": "OE",
+   "aircraft_letter": "Q",
+   "pilot": "Charles E. Tucker",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: OE-O. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Charles E. Tucker",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Wayne W. McIntyre",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ralph B. Hayes",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0735955",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John T. Clancy",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "0-671283",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Linwood D. Faunce",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "11053091",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "George L. England",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "12127297",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William R. Mortimer",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "33297417",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Floyd L. Mathis",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "34038421",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Hartwig B. Meyer",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Chester T. Maslowski",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30226",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Spook V",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "L",
+   "pilot": "Donald H. Merten",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: BG-L : ET-L. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Donald H. Merten",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-414077",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Paul E. Perceful",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John F. Gill",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0671418",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Edward M. Praisner",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-735343",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John C. Sweeney",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Donald W. Bryan",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "19080101",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Stanley A. Rouse",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Lloyd H. Glick",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "35358618",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "George R. Nelson",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John J. Hillabrandt",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32385541",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3273",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Impatient Virgin",
+   "nose_art": null,
+   "bomb_squadron": "412th",
+   "squadron_code": "QW",
+   "aircraft_letter": "W",
+   "pilot": "Edmund L. Barraclough",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-W. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Edmund L. Barraclough",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Horace H. Beyette",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-742940",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert Bessette",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William S. Duree",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-735292",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Louis F. Schillinger",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "16092624",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Lawrence A. Ott",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "36344569",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert L. Walden",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Leo F. Fuller",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "17070882",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Vincent V. Orman",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "32142625",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Reece D. Donley",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "16124454",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3263",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Slightly Dangerous",
+   "nose_art": null,
+   "bomb_squadron": "335th",
+   "squadron_code": "OE",
+   "aircraft_letter": "V",
+   "pilot": "Glenn B. Infield",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: OE-V : QW-V. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Glenn B. Infield",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "0797998",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Gene D. Munson",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-681168",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Melvin A. Fladeboe",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Edward F. Weislo",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-676993",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Charles A. Merryman",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "18135817",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ziggie A. Topolski",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "33283278",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Barton B. Sklar",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "12029697",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ellis F. Steere",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "39191176",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Hamp B. Baker",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "35265967",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Harry L. Bumgardner",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "15118102",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30353",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Ten Knights in a Bar Room",
+   "nose_art": null,
+   "bomb_squadron": "335th",
+   "squadron_code": "OE",
+   "aircraft_letter": "V",
+   "pilot": "Harry L. O'Neal",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: OE-Z : BG-C. CAUTION: squadron in 95-01 for this sortie differs from (some of) the AAM codes for this airframe; squadron/code here follow 95-01, code letters PROBABLE. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Harry L. O'Neal",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Frank V. Sances",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-670730",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Drapper H. Hand",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Frank P. Hawk",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "0741519",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Warren A. Irving",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "36507241",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William H. Roth",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Charles B. Zakszeski",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "32361414",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Alfred B. Nabholz",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Charles W. Stafford",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Stanley P. Michaels",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32490535",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30342",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "T'aint A Bird II",
+   "nose_art": null,
+   "bomb_squadron": "335th",
+   "squadron_code": "OE",
+   "aircraft_letter": "B",
+   "pilot": "John A. Storie",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: BG-B. CAUTION: squadron in 95-01 for this sortie differs from (some of) the AAM codes for this airframe; squadron/code here follow 95-01, code letters PROBABLE. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "John A. Storie",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-727278",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert C. Cozens",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-727183",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt Col",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Francis A. Ruh",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-731333",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Louis A. Matarazzo",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "O-731394",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Maurice J. Fitzgibbons",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "13058572",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Jack E. Johnston",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "38093714",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Lyle P. Blacklidge",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "39245669",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Howard V. Breyfogle",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "37094607",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert W. Decelles",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "31126670",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Richard T. Bell",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30634",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Liberty Belle",
+   "nose_art": null,
+   "bomb_squadron": "412th",
+   "squadron_code": "QW",
+   "aircraft_letter": "O",
+   "pilot": "John P. Caspers",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-O. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "John P. Caspers",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Shirley L. Callaway",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert Clowes",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Henry D. Bowen",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "0676914",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Peter D. Trotta",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "31082086",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William D. Burns",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James J. Saunders",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Harry A. Forst",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "32626511",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ralph E. Griffin",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Durland Abbe",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "18217487",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3317",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "The Spirit of '76",
+   "nose_art": null,
+   "bomb_squadron": "412th",
+   "squadron_code": "QW",
+   "aircraft_letter": "Y",
+   "pilot": "John R. Miller",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-Y : QW-V. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "John R. Miller",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "O-1699367",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Capt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Theodore D. Patrick",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "O-680687",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert E. Langan",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Lyle V. Jensen",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Patrick W. Murphy",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "33338000",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James W. Thorpe",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Edward J. Castona",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "16035992",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Charles O. Witbeck",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "35318921",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Dennis J. O'Sullivan",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "32478458",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James J. Cooke",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "32828343",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3465",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Wee Bonnie II",
+   "nose_art": null,
+   "bomb_squadron": "412th",
+   "squadron_code": "QW",
+   "aircraft_letter": "N",
+   "pilot": "L.E. Kring",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "95-02 sortie note: \"No Oxygen in back of plane\". Crew members not listed in 95-02. Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-N. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date. Pilot given only as initials ('L.E. Kring') in 95-01; crew not listed.",
+   "crew": []
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-37734",
+   "aircraft_type": "B-17G",
+   "block": null,
+   "nickname": "Cuddle Cat",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "G",
+   "pilot": "Louis G. Reno",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: ET-G. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Louis G. Reno",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Capt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert N. Moon",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Dale C. Morgan",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William V. Gadek",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Edgar M. Hickey",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Harry A. Shade",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Dewey J. Cox",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Eugene Downey",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John P. Bigley",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James W. Leithead",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3462",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "San Antonio Rose",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "B",
+   "pilot": "Larry L. Kerr",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "returned_damaged",
+   "loss_details": "Aircraft returned. Both waist gunners and the tail gunner became POW after rocket damage to the oxygen system aft of the radio room; MACR 856 (95-02, 95-05).",
+   "macr": "856",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06",
+    "95-05"
+   ],
+   "notes": "95-02 sortie note: rockets damaged oxygen system aft of radio compartment; 3 POW, 7 RTD; MACR 856 filed for the three men who bailed out. Aircraft returned (95-05). Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: ET-B. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Larry L. Kerr",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "0671959",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Major",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "John F. Murphy",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "0581463",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Louis Feingold",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0747055",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Edward V. Hearty",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Arthur J. Lynch",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Marion D. Brace",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "33271939",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Clayton E. Seymour",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "13100858",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Stephen Smierski",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Robert C. Roy",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Robert E. Crawford",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-5918",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Heavenly Daze",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "J",
+   "pilot": "Robert E. Fischer",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: none found. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Robert E. Fischer",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "0737558",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William F. Wilkinson",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "0802506",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Theodore W. Bozarth",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0801054",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Bart T. Keaveny",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": "0676290",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Vincent H. McEvoy",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "16109407",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Roy B. Bass",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William E. Hall",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert C. Kirkaldie",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Joseph O. Tyner",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "34336199",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ernest L. Morrow",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "20739483",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-6098",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Superstitious Al-o-ysius",
+   "nose_art": null,
+   "bomb_squadron": "335th",
+   "squadron_code": "OE",
+   "aircraft_letter": "R",
+   "pilot": "Robert L. Carson",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: OE-R. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Robert L. Carson",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "F/O",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Mark M. Veck",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "T-67",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "F/O",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Francis S. Hapner",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Leonard W. Herman",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John A. Neal",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Randale W. Cowan",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "18077026",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "John Sliwka",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "12131331",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Harrell W. Baker",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Winfield S. Pratt",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "11045053",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "William F. Banghart",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3095",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Peggy Ann",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "Z",
+   "pilot": "Robert L. Yuenger",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-Z. CAUTION: squadron in 95-01 for this sortie differs from (some of) the AAM codes for this airframe; squadron/code here follow 95-01, code letters PROBABLE. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "Robert L. Yuenger",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": "0795330",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert P. Bensel",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": "0742050",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Sabbatino Corsaro",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "0891061",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Martin R. Neel",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Joseph E. Sleitweiler",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": "36251151",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Albert B. Zalecki",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": "33325447",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Erastus Powell",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James C. Drake",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "14134764",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Homer A. Christie",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "37225717",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "James E. Schmautz",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30167",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Destiny's Tot",
+   "nose_art": null,
+   "bomb_squadron": "336th",
+   "squadron_code": "ET",
+   "aircraft_letter": "H",
+   "pilot": "R.M. Smith",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "95-02 sortie note: \"#2 Engine Feathered\". Crew members not listed in 95-02. Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: ET-H. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date. Pilot given only as initials ('R.M. Smith') in 95-01; crew not listed.",
+   "crew": []
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30135",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Trouble Shooter",
+   "nose_art": null,
+   "bomb_squadron": "334th",
+   "squadron_code": "BG",
+   "aircraft_letter": "H",
+   "pilot": "William R. McPherson",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "lost",
+   "loss_details": "Left formation shortly after target with No.3 engine feathered and gear down (95-02); crashed between Reims and Sedan, France (95-04). MACR 855.",
+   "macr": "855",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06",
+    "95-04"
+   ],
+   "notes": "95-02 sortie note: aircraft left formation shortly after the target with No.3 engine feathered and landing gear extended. Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: BG-H. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "William R. McPherson",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-791315",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Capt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "George G. Byrnes",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-360045",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Austin E. Pritchard",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03",
+      "95-04"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. CONFLICT: 95-02 lists Pritchard navigator / Prochaska bombardier; 95-04 lists Prochaska navigator / Pritchard bombardier."
+    },
+    {
+     "name": "William Prochaska",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03",
+      "95-04"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. CONFLICT: 95-02 lists Pritchard navigator / Prochaska bombardier; 95-04 lists Prochaska navigator / Pritchard bombardier."
+    },
+    {
+     "name": "Anthony Kosmala",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "10601109",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Leonard L. Ciaccia",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "32461289",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. 95-04 narrative gives 'Leon'; 95-02 and AAM person record give Leonard L."
+    },
+    {
+     "name": "Frank A. Castellucci",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "32459430",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Morris V. Eckard",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "15062131",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "T/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Henry P. Rhodes",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "11041742",
+     "confidence": "VERIFIED",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943."
+    },
+    {
+     "name": "Frederick G. Nunnold",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": null,
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "95-02",
+      "95-03",
+      "95-04"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. CONFLICT: 95thbgdb (95-03) lists POW; American Air Museum (95-04) says 'EVD-and returned'. Unresolved; POW recorded."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30255",
+   "aircraft_type": "B-17F",
+   "block": null,
+   "nickname": "Lonesome Polecat II",
+   "nose_art": null,
+   "bomb_squadron": "412th",
+   "squadron_code": "QW",
+   "aircraft_letter": "V",
+   "pilot": "William V. Owen",
+   "pilot_rank": null,
+   "formation_position": null,
+   "mission_outcome": "bombed",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "95-01",
+    "95-02",
+    "95-06"
+   ],
+   "notes": "Aircraft letter = call sign in 95-01. AAM (95-06) codes recorded over the aircraft's life: QW-V. Nickname is the aircraft name in 95-01; not confirmed as painted on this exact date.",
+   "crew": [
+    {
+     "name": "William V. Owen",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Frank L. McAllister",
+     "rank": null,
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Albert J. Engelhardt",
+     "rank": null,
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Marshall J. Thixton",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "2Lt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Max Gottlieb",
+     "rank": null,
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Donald E. White",
+     "rank": null,
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "George E. Moffat",
+     "rank": null,
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Harry V. Stotler",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": "33372138",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Ellsworth A. Beans",
+     "rank": null,
+     "position": "waist",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    },
+    {
+     "name": "Robert J. Cupp",
+     "rank": null,
+     "position": "tail",
+     "fate": "returned",
+     "service_number": "33277137",
+     "confidence": "PROBABLE",
+     "sources": [
+      "95-02",
+      "95-03"
+     ],
+     "rank_in_source": "S/Sgt",
+     "notes": "rank_in_source is the single rank in the 95thbgdb person record (often final/highest rank), not necessarily rank on 14 Oct 1943. Fate 'returned' inferred: sortie listed with no casualty status in 95-02."
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Ranks on 14 Oct 1943 not established: 95thbgdb person records give one rank (often final, e.g. Kerr 'Major'); stored as rank_in_source, rank left null.",
+  "Left/right waist positions not distinguished in 95thbgdb (recorded as 'waist').",
+  "Crews of the two aborts (L.E. Kring 42-3465, R.M. Smith 42-30167) not listed in 95thbgdb; full pilot names not resolved.",
+  "Which 5 aircraft were damaged (95-01 'Damaged: 5') not identified apart from 42-3462.",
+  "Formation positions not found; searched 95thbgdb mission page, crew pages and AAM aircraft records.",
+  "Squadron code letters use the standard squadron codes (334 BG, 335 OE, 336 ET, 412 QW) corroborated by AAM 'Coded' fields; AAM codes are undated and some airframes changed squadron, so codes on 14 Oct are PROBABLE.",
+  "Nicknames are 95thbgdb aircraft names; whether each was painted by 14 Oct 1943 not verified.",
+  "Nunnold fate (POW vs evaded) and McPherson crew navigator/bombardier swap unresolved; MACR 855 not consulted directly.",
+  "Block numbers not researched (not in sources consulted)."
+ ]
+}

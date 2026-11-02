@@ -291,7 +291,24 @@ export function paintUrban(o) {
   // ---- the town ends where its last gardens do: the mask, blurred a little
   const fm = mk(), fg = fm.getContext('2d');
   fg.imageSmoothingEnabled = true; fg.filter = `blur(${(6 * s).toFixed(1)}px)`; fg.drawImage(mask, 0, 0, px, px);
-  for (const st of streets) { fg.strokeStyle = '#fff'; fg.lineWidth = st.w * 2.2 * s; fg.beginPath(); st.pts.forEach(([x, z], i) => fg[i ? 'lineTo' : 'moveTo'](X(x), X(z))); fg.stroke(); }
+
+  // Create temporary canvas for streets (fixes the GPU RAM issue on AMD/Windows)
+  const sl = document.createElement('canvas');
+  const slg = sl.getContext('2d');
+  sl.width = px;
+  sl.height = px;
+
+  slg.strokeStyle = '#fff';
+  for (const st of streets) {
+    slg.lineWidth = st.w * 2.2 * s;
+    slg.beginPath();
+    st.pts.forEach(([x, z], i) => slg[i ? 'lineTo' : 'moveTo'](X(x), X(z)));
+    slg.stroke();
+  }
+
+  fg.drawImage(sl, 0, 0); // Draw the blurred streets layer once
+  sl.width = sl.height = 0; // Free the 64 MB layer at once
+
   fg.filter = 'none';
   for (const [x, z, w, d, rot] of ag) { fg.save(); fg.translate(X(x), X(z)); fg.rotate(rot); fg.fillStyle = '#fff'; fg.fillRect((-w / 2 - 2) * s, (-d / 2 - 2) * s, (w + 4) * s, (d + 4) * s); fg.restore(); }
   for (const [x, z, w, d, rot] of roofs) { fg.save(); fg.translate(X(x), X(z)); fg.rotate(rot); fg.fillStyle = '#fff'; fg.fillRect((-w / 2 - 3) * s, (-d / 2 - 3) * s, (w + 6) * s, (d + 6) * s); fg.restore(); }

@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- The web game's UI (src/ui.js, menus.css and index.html's own styles) on its own, driven with the same
+     stand-in numbers as the Godot test (../states.json), one screen per #hash: the other half of the side-by-side
+     comparison. Served by the vite dev server from the repo root: /godot/tests/ui/web/harness.html#pause -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>UI harness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Special+Elite&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/menus.css" />
+    <style id="game-style"></style>
+    <style>
+      /* the battle behind the menus: a still, as the Godot test has */
+      #scene { position: fixed; inset: 0; background: url(/loading/formation.jpg) center / cover; }
+      canvas#scene-canvas { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="scene"></div>
+    <canvas id="scene-canvas"></canvas>
+    <div id="ui"></div>
+    <script type="module" src="./harness.js"></script>
+  </body>
+</html>

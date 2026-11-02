@@ -1,0 +1,2868 @@
+{
+ "group": "306th",
+ "division": "1st",
+ "combat_wing": "40th CBW (92nd, 305th, 306th). Per 306-01 narrative only the 92nd and 306th made rendezvous (the wing leader then told the 41st CBW to take the lead), and the 306th's 5 bombing aircraft attached to the 92nd",
+ "base": "Thurleigh (Station 111)",
+ "dispatched": 18,
+ "lost": 10,
+ "aborted": 3,
+ "bombed": 5,
+ "dispatched_confidence": "VERIFIED",
+ "dispatched_notes": "306-01 intelligence narrative: '18 A/C of 306th Bomb Group were dispatched'; flak report: 5 over target, 3 returned early (767, 728, 812), 10 down. 306-04 war diary (369th Sqn): 18 dispatched, three returned early, five completed, ten failed to return; score 4-1-6.",
+ "aircraft": [
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-29971",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-80-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "F",
+   "pilot": "Vernon K. Cole",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "423rd element, low (bottom) right of formation chart 'Formation for October 14, 1943' (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01 intelligence narrative): two B-17s 'peeled off few minutes before target', reported as A/C 971 and 813; Cole, A/C 971, 'reported smoking but headed in direction of Switzerland'. Secondary (306-06): hit by a rocket from a Ju 88, exploded, crashed at Beek near Maastricht, Netherlands. These locations conflict and are recorded as found; 306-07 (Gottgens, 'Thunder in Heaven') is a detailed study of this crew and the Beek crash.",
+   "macr": "819 (per 306-06; 306bg.us files it as '14oct43macr1')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06",
+    "306-07"
+   ],
+   "notes": "Serial confirmed by S-4 Combat Damage Report ('B 17F No. 42-29971 missing in action', 423rd Sqn) and loading list (Cole, 971, letter F). Task giver's code 'RO-F' is not supported: 306th/423rd BS code was RD per 306-06; the primary records seen give only the letter F. 306-06 wrongly attributes this aircraft to the 305th BG; 306th primary records place it in the 423rd BS/306th BG.",
+   "crew": [
+    {
+     "name": "Vernon K. Cole",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-796309",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Robert E. Partridge",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-675280",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Charles R. Kuehn",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "O-676077",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Joseph M. Columbus",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-735276",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card reads MIA with 'Stalag III' handwritten."
+    },
+    {
+     "name": "Robert D. Folk",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "36181410",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Robah C. Shields Jr.",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": "14105271",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Donald Richardson",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": "37228846",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Frederick W. Zumpf",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "11066589",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Adrien N. Wright",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "11068477",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "306th card/MACR index spell 'Adrien N.'; 306-06 table gives 'Adrian H.'"
+    },
+    {
+     "name": "Irving J. Mills",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "31248306",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card shows his regular crew was the Daniel Carey crew; flew with Cole this day."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30710",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "I",
+   "pilot": "John D. Jackson",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "423rd element lead (camera ship) per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): 'B17 at 1415 hrs. #2 engine on fire. Big flames; 4 chutes. A/C #710. Pilot: Lt. J. D. Jackson.' Secondary (306-06): lost to flak, crashed at Friedburg near Nieder-Florstadt, about 15 miles N of Frankfurt.",
+   "macr": "818 (per 306-06; 306bg.us '14oct43macr3')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Pilot rank: card shows promotion to 1st Lt 19 Sep 43. Fates below follow the 306th card file; 306-06 gives 5 KIA / 5 POW without clear per-name assignment.",
+   "crew": [
+    {
+     "name": "John D. Jackson",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-734094",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Daniel H. Carey",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-798433",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ],
+     "notes": "Card lists him as a 423rd pilot with his own crew; position copilot this day per 306-06."
+    },
+    {
+     "name": "Bernard A. Bernstein",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "O-731251",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card handwritten 'POW 14 Oct 43 Schweinfurt (w. Jackson)'; 306-06 groups him among the 5 KIA."
+    },
+    {
+     "name": "Henry H. Farmer",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-670052",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Sol D. Levine",
+     "rank": null,
+     "position": "engineer",
+     "fate": "MIA",
+     "service_number": "12066313",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card reads only 'MIA 14 Oct 43' (no POW/Rtd entry); 306-06 groups him with POWs."
+    },
+    {
+     "name": "Warren V. Eitner",
+     "rank": null,
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": "12006080",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Burl W. Ford",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "18149200",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Elza McQuithy",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "35474735",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Jerry Greenberg",
+     "rank": null,
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "32411888",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Raymond J. Ristau",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "16126289",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card reads 'MIA Rtd'; 306-06 lists POW."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30813",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": "Queen Jeannie",
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "L",
+   "pilot": "Robert McCallum",
+   "pilot_rank": "2nd Lt.",
+   "formation_position": "423rd element, low left (camera ship) per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): peeled off a few minutes before target, A/C 813, 'Lt. R. (NMI) McCallum'. Secondary (306-06): attacked by fighters, broke in half, crashed near Dorne, Belgium.",
+   "macr": "820 (per 306-06; 306bg.us '14oct43macr4')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Nickname 'Queen Jeannie' is given by b17flyingfortress.de (306-06) only; not confirmed for 14 Oct 1943 by any primary record seen.",
+   "crew": [
+    {
+     "name": "Robert McCallum",
+     "rank": "2nd Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-885904",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Homer D. Fitzer",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": "O-736500",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Albert J. Prentice",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "O-801089",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Paul V. Manning",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-670058",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Marvin L. Bartlett",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "37449842",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "John W. Drennan",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": "31202124",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "James E. Dunford",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": "36029686",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Ned L. Bostic",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "34209191",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Austin M. Sadler",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "20703377",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Willard H. McQuarrie",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "31081995",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30175",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": "Hammer of Hell",
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "B",
+   "pilot": "Richard Butler",
+   "pilot_rank": null,
+   "formation_position": "367th element, far left per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Secondary (306-06): enemy aircraft knocked out three engines; crashed in the Schweinfurt area. No primary loss description for this aircraft found in 306-01 'Hot News'.",
+   "macr": "822 (per 306-06; 306bg.us '14oct43macr8')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Nickname 'Hammer of Hell' is given by b17flyingfortress.de (306-06) only; not confirmed for 14 Oct 1943 by any primary record seen.",
+   "crew": [
+    {
+     "name": "Richard Butler",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-885476",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-04"
+     ]
+    },
+    {
+     "name": "John W. Kappmeyer",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-746364",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Harold K. McCaleb",
+     "rank": null,
+     "position": "navigator",
+     "fate": "POW",
+     "service_number": "O-670148",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Francis X. Banda",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-741221",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Alexander Heyburn",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "15101646",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Amos R. May",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "16043996",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Edward DeBuyser Jr.",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "12138530",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card reads only 'MIA 14 Oct 43'; 306-06 states all 10 POW."
+    },
+    {
+     "name": "Ernest H. Henderson",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "38259045",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Marcel J. St. Louis",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "16109481",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ],
+     "notes": "306-06: released from Wurzburg hospital 17/3/44."
+    },
+    {
+     "name": "James E. Harris",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "32490121",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30727",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": "Fightin' Bitin'",
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "Z",
+   "pilot": "William C. Bisson",
+   "pilot_rank": null,
+   "formation_position": "367th low element per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Secondary (306-06): flak knocked out two engines, fighters riddled the tail; crashed at Hoehefeld about 15 miles W of Wurzburg.",
+   "macr": "817 (per 306-06; 306bg.us '14oct43macr6')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Nickname 'Fightin' Bitin'' is given by b17flyingfortress.de (306-06) only; not confirmed for 14 Oct 1943 by any primary record seen.",
+   "crew": [
+    {
+     "name": "William C. Bisson",
+     "rank": null,
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-793717",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Charles R. Stafford",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-680748",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "George W. Young Jr.",
+     "rank": null,
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-683369",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Joseph W. Lukens",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": "O-734363",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Edward J. Osep",
+     "rank": null,
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": "16048172",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "John J. McLellan",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "11052460",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Richard H. Vader",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "32215262",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Peter Giovanini",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "16097381",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "306-06 spells 'Giovanni'; 306th card/MACR index 'Giovanini'."
+    },
+    {
+     "name": "Constantine J. Lamb",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "32502444",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Thompson E. Wilson",
+     "rank": null,
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": "20349914",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-37720",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-85-DL (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "N",
+   "pilot": "Douglas H. White",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "367th low element lead (camera ship) per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): 'B17 at 1400 hrs, horizontal stabilizer shot up. No more information. A/C #420 [sic]. Pilot: Lt. D. H. White.' Secondary (306-06): hit by enemy aircraft, exploded, broke in half at radio room, crashed Schweinfurt area.",
+   "macr": "823 (per 306-06; 306bg.us '14oct43macr9')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "S-4 report types the type as 'B 17B' (evident typo); loading list and flak report give 720. Intelligence narrative's 'A/C #420' is presumed a typo for 720.",
+   "crew": [
+    {
+     "name": "Douglas H. White",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "KIA",
+     "service_number": "O-736436",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ],
+     "notes": "Card has typo 'KIA 14 Sep 43'."
+    },
+    {
+     "name": "Emil O. Rasmussen Jr.",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "KIA",
+     "service_number": "O-735450",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Carl A. Alexander",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-795166",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "George Toney Jr.",
+     "rank": "S/Sgt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": "34247980",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Enlisted togglier: card lists him as 367th waist gunner/'Togglier'; 306-06 lists him in the BOMB position."
+    },
+    {
+     "name": "Gus Riecke",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "KIA",
+     "service_number": "39092509",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Joseph C. Bocelli",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "13045657",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Francis W. Pulliam",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": "39393944",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card reads only 'MIA 14 Oct 43'; 306-06 lists KIA."
+    },
+    {
+     "name": "William R. Earnest",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "13041315",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card (added 2017) gives no fate; 306-06 lists KIA."
+    },
+    {
+     "name": "Charles A. Adams",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "KIA",
+     "service_number": "13113209",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Walter D. Sherrill",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "KIA",
+     "service_number": "39529633",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30811",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "369th",
+   "squadron_code": "WW",
+   "aircraft_letter": "D",
+   "pilot": "Ralph T. Peters",
+   "pilot_rank": null,
+   "formation_position": "369th lead element, left wing of Schoolfield per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): 'B17 at approximately 1500 hrs. peeled off under control; 7 chutes. No fighters around. This A/C # 811. Pilot: Lt. R.T. Peters.' Secondary (306-06): enemy aircraft knocked out #2 engine; crashed at Bellheim (306-06 says 'near Schweinfurt'; location unconfirmed).",
+   "macr": "814 (per 306-06; 306bg.us '14oct43macr10')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "A 2024 reader comment on 306-06 claiming Noisat was the only survivor is contradicted by the 306th card file, which records 9 of 10 as 'POW Rtd'.",
+   "crew": [
+    {
+     "name": "Ralph T. Peters",
+     "rank": null,
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-731896",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Edward B. Hughel",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-746113",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Dan H. Peterson",
+     "rank": null,
+     "position": "navigator",
+     "fate": "MIA",
+     "service_number": "O-360638",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ],
+     "notes": "Card reads only 'MIA 14 Sep [sic] 43 Schweinfurt (w.Peters)'; final fate not recorded in sources seen."
+    },
+    {
+     "name": "James J. Vaughter",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-428603",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Raymond M. Grimm",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "15102695",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Manford L. John",
+     "rank": null,
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "38119516",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Richard L. Kern",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "37225564",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Blair S. Steed",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "19011266",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ],
+     "notes": "Card lists him as (eng); waist position per 306-06."
+    },
+    {
+     "name": "Daniel J. Piedmont",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "12138505",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Pierre L. Noisat Jr.",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "39098683",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30199",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-90-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": "The Wicked WAAC",
+   "nose_art": null,
+   "bomb_squadron": "369th",
+   "squadron_code": "WW",
+   "aircraft_letter": "R",
+   "pilot": "George C. Bettinger",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "369th low element lead (camera ship) per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Secondary (306-06): fighters knocked out an engine, interphone and tail guns failed, both wings on fire; 306-06 gives crash at Ginnick near Wettweiss SE of Duren but notes the tail gunner's statement places the attack near Frankfurt (location unresolved).",
+   "macr": "821 (per 306-06; 306bg.us '14oct43macr5')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Nickname 'The Wicked WAAC' is given by b17flyingfortress.de (306-06) only; not confirmed for 14 Oct 1943 by any primary record seen.",
+   "crew": [
+    {
+     "name": "George C. Bettinger",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-733592",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ]
+    },
+    {
+     "name": "Abraham Block",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-736085",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Elbert S. Wood Jr.",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-683365",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Leland A. Dowden",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "POW",
+     "service_number": "O-676577",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Wounded; card: hospitalized throughout POW status, repatriated early 1945 on SS Gripsholm."
+    },
+    {
+     "name": "Samuel F. Gerking",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "39303948",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Gordon F. Lewis",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "39828747",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Elmer W. Mills",
+     "rank": "T/Sgt.",
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "32399676",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Donald E. Williams",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "17024562",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "James F. Montana",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "36349974",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Linden K. Voight",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "37372321",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Wounded: card 'Lost leg on this mission'."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30707",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": "Piccadilly Commando II",
+   "nose_art": null,
+   "bomb_squadron": "369th",
+   "squadron_code": "WW",
+   "aircraft_letter": "B",
+   "pilot": "Gustave S. Holmstrom",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "369th low element, right wing per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): 'B17 at 1430 hrs. On fire and disintegrated; 4-5 chutes. Believed to be A/C # 707. Pilot: Lt. G. S. Holmstrom.' Secondary (306-06): enemy aircraft knocked out #4 engine; crashed SE of Hanau.",
+   "macr": "816 (per 306-06; 306bg.us '14oct43macr7')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "S-4 report lists 42-30707 under '368th Squadron (aircraft flown by 369th Sq.)'. Loading list places Holmstrom with the 369th. Nickname 'Piccadilly Commando II' is given by b17flyingfortress.de (306-06) only; not confirmed for 14 Oct 1943 by any primary record seen. 306-06 also quotes the MACR entry as 'PICCADILLY COMMANDO'.",
+   "crew": [
+    {
+     "name": "Gustave S. Holmstrom",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "MIA",
+     "service_number": "O-726237",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-04"
+     ],
+     "notes": "Card: 'MIA 14 Oct 43'; reverse note says he was 'Reported as KIA in Missing Air Crew Report--eronneous', implying survival; POW status not stated in sources seen."
+    },
+    {
+     "name": "Francis E. Ferguson",
+     "rank": null,
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-799364",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Wounded (card PH; 306-06 WIA)."
+    },
+    {
+     "name": "Philip D. Anderson",
+     "rank": "F/O",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "T-190877",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "T-prefix service number indicates Flight Officer."
+    },
+    {
+     "name": "Jack A. Kelly",
+     "rank": null,
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": "O-733320",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Paul R. Loubet",
+     "rank": null,
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "32066668",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Position conflict: 306-06 lists flight engineer/top turret; card lists 369th (bt)."
+    },
+    {
+     "name": "Michael Uhrin",
+     "rank": null,
+     "position": "radio",
+     "fate": "KIA",
+     "service_number": "32459151",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Frederick K. Massey",
+     "rank": null,
+     "position": "ball",
+     "fate": "POW",
+     "service_number": "32076944",
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card 'POW Rtd'; 306-06 has a second entry saying he evaded."
+    },
+    {
+     "name": "Bill Oliver",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "39255019",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Ralph E. Ellsworth",
+     "rank": null,
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "38211615",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02"
+     ]
+    },
+    {
+     "name": "Charles A. Fatigati",
+     "rank": null,
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "15070144",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30779",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "369th",
+   "squadron_code": "WW",
+   "aircraft_letter": "U",
+   "pilot": "Willard H. Lockyear",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "369th low element, left wing per formation chart (306-01 p.6)",
+   "mission_outcome": "lost",
+   "loss_details": "Primary (306-01): 'B17 at 1400 hrs. left formation with #4 engine on fire. 4 chutes. Ship blew up. Another chute opened from middle of flames and got out OK. A/C #779. Pilot: Lt. W. H. Lockyear.' Secondary (306-06): enemy aircraft set three engines on fire; crashed at Hammerstein, 7 miles NW of Koblenz.",
+   "macr": "815 (per 306-06; 306bg.us '14oct43macr2')",
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-04",
+    "306-02",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Three fate conflicts between 306th card file and 306-06 (both total 3 KIA / 7 POW but disagree on who): card KIA = Welton, Nagy, Weiland; 306-06 KIA = Powell, Welton, Rich.",
+   "crew": [
+    {
+     "name": "Willard H. Lockyear",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "POW",
+     "service_number": "O-733672",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06",
+      "306-04"
+     ],
+     "notes": "Card shows 423rd (P); flew in 369th slot per loading list."
+    },
+    {
+     "name": "Craig S. Powell",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "POW",
+     "service_number": "O-663940",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card 'POW Rtd'; 306-06 KIA."
+    },
+    {
+     "name": "Paul N. Welton",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "KIA",
+     "service_number": "O-683360",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Albert J. Nagy",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "KIA",
+     "service_number": "O-735906",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card 'KIA 14 Oct 43 Schweinfurt (w. Lockyear)'; 306-06 POW."
+    },
+    {
+     "name": "Don C. Rich",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "POW",
+     "service_number": "39826724",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card 'POW Rtd'; 306-06 KIA."
+    },
+    {
+     "name": "Bernie A. Swift",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "POW",
+     "service_number": "16110277",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Alfred H. Weiland Jr.",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "KIA",
+     "service_number": "33333442",
+     "confidence": "UNVERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "CONFLICT: card 'KIA 14 Oct 43'; 306-06 table POW (its text appends '(3 KIA)' after his name). Spelled 'Wieland' by 306-06 and the MACR index."
+    },
+    {
+     "name": "John J. Regan",
+     "rank": "S/Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "32390711",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    },
+    {
+     "name": "Earnest J. Gilbert",
+     "rank": "Sgt.",
+     "position": "waist",
+     "fate": "POW",
+     "service_number": "6922667",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ],
+     "notes": "Card: badly wounded in aircraft, rescued from a river by Germans."
+    },
+    {
+     "name": "Lester J. Kurk",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "POW",
+     "service_number": "39610542",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-02",
+      "306-06"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30782",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "368th (flown by 369th crew)",
+   "squadron_code": "BO (per 306-06)",
+   "aircraft_letter": "O",
+   "pilot": "Charles T. Schoolfield",
+   "pilot_rank": "Capt.",
+   "formation_position": "Group lead (camera ship) per formation chart and interrogation form",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Bombed primary 1445 from 22,500 ft, 6 x 1000 lb; landed 1755 (form) / 1754 (loading list). S-4: serious damage (20mm hits to props, aileron, stabilizer, wing; flak to tail and nose). Carried 11 men including two navigators; Lt. J.B. Mazanek signed the navigation narrative as Lead Navigator. A tail-position officer (Lt. C.L. Dunlap) is listed, consistent with a lead-ship formation observer.",
+   "crew": [
+    {
+     "name": "Charles T. Schoolfield",
+     "rank": "Capt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Charles E. Flannagan",
+     "rank": "Capt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "David B. Dash",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John B. Mazanek",
+     "rank": "Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Lead navigator."
+    },
+    {
+     "name": "Floyd A. Evans",
+     "rank": "Capt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Mervin A. Narum",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Joseph C. Stoner",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Listed as Top T."
+    },
+    {
+     "name": "Bruce A. Hardy",
+     "rank": "T/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Bertram H. Perlmutter",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Robert J. Conley",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "wounded",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Combat claim form: hit by 20mm about 14:25, left hand blown off; returned to his gun after a tourniquet. Rank given as T/Sgt on the claim form, S/Sgt on the interrogation form."
+    },
+    {
+     "name": "Curtis L. Dunlap",
+     "rank": "Lt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3169",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-30-DL (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "369th",
+   "squadron_code": "WW",
+   "aircraft_letter": "S",
+   "pilot": "John P. Noack",
+   "pilot_rank": null,
+   "formation_position": "369th lead element, right wing of Schoolfield per formation chart",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Bombed (over target per flak report); landed 1756 per loading list. S-4: 20mm damage to oxygen and hydraulic systems, right flap and wing, 'serious damage'. No interrogation form for this aircraft was found in 306-01, so the crew list is partial (three combat claim forms plus the card file and an oral history for the engineer). Pilot first name from 306th card file (Noack, John P.); formation chart and loading list give only 'Noack'.",
+   "crew": [
+    {
+     "name": "John P. Noack",
+     "rank": null,
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03",
+      "306-09"
+     ],
+     "notes": "Card of Edward K. Fox names him as 'J. P. Noack'."
+    },
+    {
+     "name": "Edward K. Fox",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "wounded",
+     "service_number": "33245495",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-03",
+      "306-09"
+     ],
+     "notes": "Card: DSC 10-14-43, 'Schweinfurt mission as engineer for J. P. Noack'; to 2nd General Hospital 14 Oct 43, later to U.S. for treatment. 306-09 (Noack oral history) calls him Kenneth Fox, top turret gunner/flight engineer, severely wounded, refused to leave his turret. Rank per card rank box (T/Sgt marked)."
+    },
+    {
+     "name": "Dudley H. Fay Jr.",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": "O-801124",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01"
+     ],
+     "notes": "From combat claim form; partially legible."
+    },
+    {
+     "name": "Albert E. Sewald",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": "13107091",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01"
+     ]
+    },
+    {
+     "name": "Duncan J. Williams",
+     "rank": "Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": "11071133",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01"
+     ],
+     "notes": "Rank 'Sgt.' on his own claim form, 'S/Sgt' where he corroborates Sewald."
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30603",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-110-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "H",
+   "pilot": "Virgil H. Jeffries",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "423rd element lead (camera ship) per formation chart",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Bombed 1439 from 22,900 ft; landed 1752 (loading list). S-4: flak to stabilizers, wing and fuselage, serious damage.",
+   "crew": [
+    {
+     "name": "Virgil H. Jeffries",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Thomas R. McGalliard",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "William H. Dickenson",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John H. Moon",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Richard G. Mowrer",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "James S. Porter Jr.",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "wounded",
+     "service_number": "33279509",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Combat claim form: 'Gunner has been in hospital due to wounds from this mission.'"
+    },
+    {
+     "name": "Carl Shelley",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "William L. Threatt Jr.",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "wounded",
+     "service_number": "14072211",
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Combat claim form: 'Claimant was hospitalized for wounds received on this mission.'"
+    },
+    {
+     "name": "George Michaely",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Henry C. Cordery",
+     "rank": "T/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30714",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "S (loading list) / U (interrogation form)",
+   "pilot": "Kenneth R. Bickett",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "423rd element, right wing of Jeffries per formation chart (chart shows '606-U', overwritten by 714 on the loading list)",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Formation chart lists Bickett in 606-U but the loading list (hand-corrected to 714), interrogation form, S-4 and flak reports show he flew 42-30714. Letter recorded as S on the loading list and U on the interrogation form (306-06 lists codes RD-A and RD-S). Bombed 1440 from 24,000 ft; landed 1745 (form) / 1753 (list). S-4: flak damage, serious.",
+   "crew": [
+    {
+     "name": "Kenneth R. Bickett",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Richard B. Thompson",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Form gives 'R.B. Thompson'; full name matched to 306th card 'Thompson, Richard B'."
+    },
+    {
+     "name": "Daniel McCauley",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Form: '(368)', i.e. from the 368th Sqn."
+    },
+    {
+     "name": "David A. Cook",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Form 'D.A. Cook'; card match."
+    },
+    {
+     "name": "Wallace A. Snedden",
+     "rank": "S/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Leo C. Capper",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "James H. Coleman",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John P. Clarke",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Howard C. Turner",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John C. Dehler",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30812",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "423rd",
+   "squadron_code": "RD",
+   "aircraft_letter": "Q",
+   "pilot": "Charles E. Munger",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "423rd element per formation chart",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Abortive: No. 2 oil cooler out and No. 3 supercharger induction elbow split (S-4). Turned back 1312, bombs dropped in the Channel, landed 1410.",
+   "crew": [
+    {
+     "name": "Charles E. Munger",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Henry J. Engel",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Roger D. Barton",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Leon Feldman",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "E.J. Borlik",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01"
+     ],
+     "notes": "Initials only; no matching 306th card found."
+    },
+    {
+     "name": "Herbert W. Hawkes",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John T. Brinkman",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Jay L. Braman",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John H. Jessup",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Lester B. Parks",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30767",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-120-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "Y",
+   "pilot": "William J. Tackmier",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "367th element lead (camera ship) per formation chart",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Abortive: No. 2 supercharger waste gate linkage broke (S-4). Landed 1430, bombs returned. Interrogation form initials read 'J.W.' (partly illegible); 306th card is 'Tackmier, William J'.",
+   "crew": [
+    {
+     "name": "William J. Tackmier",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Dallas L. Jacobs",
+     "rank": "2nd Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Clark D. Moore",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Walter Z. Morey",
+     "rank": "1st Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Arnold G. Coulter",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "James Argentos",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John E. Corcoran",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Henry Sall",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Harold K. Twing",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John P. Bloom",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-3301",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-45-DL (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "P",
+   "pilot": "William S. Kirk",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "367th element, right wing of Tackmier per formation chart",
+   "mission_outcome": "returned_damaged",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Bombed 1440 from 24,000 ft; landed 1755 (loading list). After Tackmier aborted, Kirk took the squadron lead per handwritten note on the form. S-4: flak and 20mm damage, severe. 306-06 gives code GY-F and nickname 'Cavalier' (not evidenced for this date); loading list letter is P.",
+   "crew": [
+    {
+     "name": "William S. Kirk",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Clyde W. Cosper",
+     "rank": "F/O",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "John L. Dougherty",
+     "rank": "2nd Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Joseph A. Sparks",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "George G. Roberts",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Thomas E. Boyd",
+     "rank": "S/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Thomas R. Hill",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Also named on combat claim form."
+    },
+    {
+     "name": "T.R. Kelly",
+     "rank": "S/Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01"
+     ],
+     "notes": "Initials only; no exact 306th card match found."
+    },
+    {
+     "name": "Robert E. Weber",
+     "rank": "S/Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Cecil A. Poff",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  },
+  {
+   "mission_date": "1943-10-14",
+   "serial_number": "42-30728",
+   "aircraft_type": "B-17F",
+   "block": "B-17F-115-BO (per 306-06)",
+   "nickname": null,
+   "nickname_unverified": null,
+   "nose_art": null,
+   "bomb_squadron": "367th",
+   "squadron_code": "GY",
+   "aircraft_letter": "S",
+   "pilot": "Zias D. Davis",
+   "pilot_rank": "1st Lt.",
+   "formation_position": "367th low element per formation chart",
+   "mission_outcome": "aborted",
+   "loss_details": null,
+   "macr": null,
+   "historical_confidence": "VERIFIED",
+   "sources": [
+    "306-01",
+    "306-03",
+    "306-06"
+   ],
+   "notes": "Flak report and interrogation form: returned early (crossed enemy coast 13:08, turned back 13:20 at 51:16N 04:35E; bombs jettisoned). Combat claim at 13:25 (Sgt Bell). S-4: explosive shell hit No. 2 nacelle, left inner wing damaged, 'category AC, severe damage'. Not counted among the 5 aircraft over target. Pilot initials on the form read 'Z.D.'; matched to 306th card 'Davis, Zias D'.",
+   "crew": [
+    {
+     "name": "Zias D. Davis",
+     "rank": "1st Lt.",
+     "position": "pilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Ian R. Elliott",
+     "rank": "1st Lt.",
+     "position": "copilot",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Form 'I.R. Elliot'; card 'Elliott, Ian R'."
+    },
+    {
+     "name": "Herbert C. Edelstein",
+     "rank": "1st Lt.",
+     "position": "navigator",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Clarence L. Couch",
+     "rank": "2nd Lt.",
+     "position": "bombardier",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Loren C. McCuller",
+     "rank": "T/Sgt.",
+     "position": "radio",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "PROBABLE",
+     "sources": [
+      "306-01",
+      "306-03"
+     ],
+     "notes": "Form 'L.C. McCullar'; card 'McCuller, Loren C'."
+    },
+    {
+     "name": "Gerald T. Webb",
+     "rank": "T/Sgt.",
+     "position": "engineer",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Duane J. Foster",
+     "rank": "S/Sgt.",
+     "position": "ball",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Bennett E. Bell",
+     "rank": "Sgt.",
+     "position": "waist_right",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Floyd M. Shade",
+     "rank": "Sgt.",
+     "position": "waist_left",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    },
+    {
+     "name": "Daniel J. Antonelli",
+     "rank": "S/Sgt.",
+     "position": "tail",
+     "fate": "returned",
+     "service_number": null,
+     "confidence": "VERIFIED",
+     "sources": [
+      "306-01",
+      "306-03"
+     ]
+    }
+   ]
+  }
+ ],
+ "research_gaps": [
+  "Noack crew (42-3169): no interrogation form found in the 14 Oct 43 mission report folder; only 5 of ~10 men identified (pilot, engineer Edward K. Fox from card file/oral history, plus three from combat claim forms).",
+  "Ranks for most lost-crew members of the Jackson, Butler, Bisson, Holmstrom and Peters crews are null: 306-06 gives no ranks for those crews and the card files' rank boxes are not dated reliably. MACR PDFs (306-02) would give ranks but the scans (mirrored/bled-through JPEGs) were not legible enough to transcribe.",
+  "Fate conflicts between the 306th card file and b17flyingfortress.de for the Lockyear crew (Powell, Nagy, Rich, Weiland), Bernstein (Jackson crew) and Massey (Holmstrom crew) are unresolved; MACRs/ABMC/NARA POW records not checked.",
+  "Holmstrom: card says MACR KIA report erroneous, but POW status not confirmed; Peterson (Peters crew) and Levine (Jackson crew) final fates not confirmed.",
+  "MACR numbers (814-823) come from b17flyingfortress.de only; 306bg.us files them as 14oct43macr1-10 without visible numbers. The mapping macr1=Cole, 2=Lockyear, 3=Jackson, 4=McCallum, 5=Bettinger, 6=Bisson, 7=Holmstrom, 8=Butler, 9=White, 10=Peters is from the 306bg.us name index.",
+  "Positions for lost crews come from b17flyingfortress.de (MACR-derived) and card codes; not checked against the MACR crew pages.",
+  "Nicknames: none confirmed for 14 Oct 1943 by a primary record. Secondary names (Queen Jeannie, Hammer of Hell, Fightin' Bitin', The Wicked WAAC, Piccadilly Commando II, plus Rationed Passion 42-30782, Las Vegas Avenger 42-30603, Hustling Sue 42-30714, Cavalier 42-3301) are held in 'nickname_unverified' / notes only.",
+  "Squadron code prefixes (GY/BO/WW/RD) are from 306-06; the primary records give only the aircraft letter.",
+  "americanairmuseum.com returned HTTP 403 to automated fetch and was not used.",
+  "Searched: 306bg.us mission-report search (14 Oct 43), aircraft search for all 18 serials, veteran name/card/MACR index for every crew member, Oct 43 war diary, 14oct43macr1 PDF (illegible scan), b17flyingfortress.de pages for all 18 serials."
+ ]
+}
