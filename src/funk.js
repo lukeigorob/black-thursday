@@ -1,8 +1,9 @@
 // The German fighters' radio (the FuG 16): what you hear flying a Bf 109 or an Fw 190. Real voices: a
 // night fighter crew's radio traffic recorded in 1944 (the static taken out), cut into its calls. Their
 // cover words were the same by day: the ground station calling, "Pauke, Pauke!" as a man goes in to
-// attack, "Viktor" for understood. Each is said only when it's so: "Pauke" when a fighter near you really
-// does start his attack on the bombers. public/audio/funk/<id>.mp3, from the recording published as
+// attack, "Viktor" for understood, and "Otto, Otto" (by night: the bomber caught in the searchlights; by
+// day, now and then, the chatter of the fight). "Pauke" only when a fighter near you really does start his
+// attack on the bombers. public/audio/funk/<id>.mp3, from the recording published as
 // "Original Luftwaffe Radio Chatter 1944 / Nightfighter" (youtube.com/watch?v=PXwbmkS9kYA), denoised.
 const URL = 'audio/funk';
 const CLIPS = {
@@ -10,7 +11,10 @@ const CLIPS = {
   pauke: { ids: ['pauke_1', 'pauke_2', 'pauke_3', 'pauke_4'], text: '"Pauke, Pauke!"', note: 'going in to attack' },
   viktor: { ids: ['viktor_1', 'viktor_2'], text: '"Viktor, Viktor."', note: 'understood' },
   vor: { ids: ['vorwaerts'], text: '"Vorwärts!"', note: 'go in!' },
+  otto: { ids: ['otto_1', 'otto_2'], text: '"Otto, Otto!"', note: 'caught in the searchlights' },
+  chatter: { ids: ['chatter_1', 'chatter_2', 'chatter_3', 'chatter_4', 'chatter_5'], text: '…', note: 'the Staffel talking' },
 };
+const OTTO = { day: 0.25, night: 0.7 }; // (how often a "Pauke" is followed by "Otto")
 const rand = (a, b) => a + Math.random() * (b - a);
 const PAUKE_GAP = 20; // s between two "Pauke"s (a gaggle all going in at once: one call)
 const PAUKE_NEAR = 2500; // m: a man close enough to be in your Staffel
@@ -28,7 +32,7 @@ export class Funk {
     this.leitT = rand(3, 6); this.paukeT = -1e9; this.vorSaid = false; this.going = new WeakSet(); this.last = {};
   }
 
-  /** Each frame. s: { on (flying a German fighter, alive), me (your fighter), fighters, bombers }. */
+  /** Each frame. s: { on (flying a German fighter, alive), me (your fighter), fighters, bombers, night }. */
   update(dt, s) {
     this.t += dt;
     if (s.on !== this.on) {
@@ -58,6 +62,8 @@ export class Funk {
     this.log(`Funk: ${c.text} (${c.note})`);
     // ground control answered, as often as not
     if (x.kind === 'leit' && Math.random() < 0.65) this.say('viktor', h.dur + rand(0.6, 1.4));
+    // a man going in: as often as not, the searchlights have him (always at night, now and then by day)
+    if (x.kind === 'pauke' && Math.random() < (this.night ? OTTO.night : OTTO.day)) this.say('otto', h.dur + rand(1.5, 4));
   }
 
   say(kind, delay = 0) {
@@ -68,6 +74,7 @@ export class Funk {
 
   notice(dt, s) {
     const me = s.me.pos;
+    this.night = !!s.night;
     // a man of yours going in on the bombers
     if (this.t - this.paukeT > PAUKE_GAP) {
       const f = s.fighters.axis.find((x) => x !== s.me && x.alive && x.state === 'attack' && x.target && !this.going.has(x) && x.pos.distanceTo(me) < PAUKE_NEAR);
@@ -79,7 +86,7 @@ export class Funk {
     // the ground station between the fights
     if ((this.leitT -= dt) <= 0) {
       this.leitT = rand(45, 80);
-      if (this.t - this.paukeT > 15) this.say('leit');
+      if (this.t - this.paukeT > 15) this.say(Math.random() < 0.6 ? 'leit' : 'chatter');
     }
   }
 }

@@ -1185,7 +1185,7 @@ gfx.renderer.setAnimationLoop((now) => {
         if (weapons.ear) audio.brass(dt, Math.min(1, (weapons.casings?.lying ?? 0) / 700), Math.min(1, turn * 3 + shake));
       });
     }
-    if (live) safely('funk', () => funk.update(dt, { on: AXIS_ROLES.has(mode) && pilot.alive, me: pilot.f, fighters, bombers }));
+    if (live) safely('funk', () => funk.update(dt, { on: AXIS_ROLES.has(mode) && pilot.alive, me: pilot.f, fighters, bombers, night: env.time === 'night' }));
     safely('bullets', () => weapons.bullets.update(dt, camera.getWorldPosition(camPos), collide));
     safely('effects', () => effects.update(dt));
     safely('weather', () => { // rain past the windows (not inside your own bomber), lightning and its thunder
