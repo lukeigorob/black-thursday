@@ -7,6 +7,7 @@
 // Near the middle every building is one instance (walls, and a roof), so the town costs a handful of
 // draw calls; the rest is painted with its roofs' shadows. Bombs wreck what they land near.
 import * as THREE from 'three';
+import { freeAfterUpload } from './texmem.js';
 import { snowy } from './environment.js';
 import { AIRSPEED } from './bomber.js';
 import { paintUrban, distToLine } from './urban.js';
@@ -76,7 +77,7 @@ function regionTexture() {
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 8;
-  return t;
+  return freeAfterUpload(t); // (texmem.js)
 }
 
 /**
@@ -184,7 +185,7 @@ function townTexture(special) {
   line(river, RIVER_W + 22, '#55604a'); line(river, RIVER_W, '#33424b');
   for (const r of RAILWAYS) { line(r, 30, '#8f846f'); line(r, 14, '#3a332b'); }
   g.globalCompositeOperation = 'source-over';
-  const t = new THREE.CanvasTexture(u.canvas);
+  const t = freeAfterUpload(new THREE.CanvasTexture(u.canvas)); // (texmem.js)
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 8;
   return { texture: t, buildings: u.buildings, tm: u.tm };

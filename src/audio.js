@@ -3,6 +3,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // (a setting eased toward `v`, as setTargetAtTime: but not again if it's already heading there. Called
 // every frame, each call is one more event on the param's timeline for the browser to work through)
 const glide = (p, v, t, tau) => { if (p._to !== undefined && Math.abs(v - p._to) <= Math.abs(p._to) * 0.005 + 1e-5) return; p._to = v; p.setTargetAtTime(v, t, tau); };
+const SOUNDING = [96, 160, 256]; // short sounds playing at once, at most: see live()
 export const MIX = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 }; // the channels of the mix, at full
 
 /**
@@ -146,7 +147,7 @@ export class GameAudio {
    * than the P-47's R-2800. The slipstream gets louder with speed.
    */
   ownEngine(kind, throttle = 0, speed = 0) {
-    const ctx = this.ctx;
+    const ctx = this.steady();
     if (!ctx) return;
     const t = ctx.currentTime;
     if (!kind) {
@@ -192,7 +193,7 @@ export class GameAudio {
 
   /** A short cue for your score: a kill (two rising notes), an assist (one soft note), a crit (a low ping). */
   chime(kind) {
-    const ctx = this.ctx;
+    const ctx = this.live(2, 0.4);
     if (!ctx) return;
     const t = ctx.currentTime;
     const notes = { kill: [[660, 0], [990, 0.11]], assist: [[740, 0]], crit: [[330, 0]] }[kind] ?? [];
@@ -210,7 +211,7 @@ export class GameAudio {
 
   /** A powered turret's motors: a soft electric hum under everything, rising with how fast it's turning (0 = still). */
   turretWhine(speed) {
-    const ctx = this.ctx;
+    const ctx = this.steady();
     if (!ctx) return;
     if (!this.whine) { // (rounded waves through a low-pass: a hum, not a buzz)
       const o = ctx.createOscillator(), o2 = ctx.createOscillator(), bp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
@@ -222,6 +223,40 @@ export class GameAudio {
     glide(w.o.frequency, 120 + 220 * k, t, 0.1); glide(w.o2.frequency, 242 + 440 * k, t, 0.1);
     glide(w.bp.frequency, 300 + 500 * k, t, 0.1);
     glide(w.g.gain, k > 0.02 ? 0.006 + 0.014 * k : 0, t, 0.08); // (about a quarter of what it was)
+  }
+
+  /**
+   * The audio context, if a sound made now will play and be done with. A sound's nodes are only freed once
+   * the context's clock has played them: while it's suspended (paused, before the first click) or stalled
+   * (the output device gone or changed: a headset unplugged, Bluetooth, Discord or another app taking the
+   * device) every sound made waits for ever, and a big battle makes about a thousand nodes a second. They
+   * live outside the page's memory limits, so they can take all of a machine's RAM (on a friend's 64 GB PC
+   * they did, and Windows blue-screened). So nothing is made unless the clock has moved in the last quarter
+   * second. The steady sounds (engines, the drone, the whine) only ask this; for the short ones see live().
+   */
+  steady() {
+    const ctx = this.ctx;
+    if (!ctx || ctx.state !== 'running') return null;
+    const now = performance.now(), t = ctx.currentTime;
+    if (t !== this.clockT || this.clockAt === undefined) { this.clockT = t; this.clockAt = now; }
+    return now - this.clockAt > 250 ? null : ctx;
+  }
+
+  /**
+   * steady(), for a short sound of `dur` seconds, and only so many at once: SOUNDING[prio] (0 the background
+   * chatter: other bombers' guns, brass on the floor; 1 the battle round you; 2 your own gun, hits on your
+   * bomber, the crew's voices). A sound over the cap isn't made; the background goes first, and only in the
+   * thick of it.
+   */
+  live(prio = 1, dur = 0.2) {
+    const ctx = this.steady();
+    if (!ctx) return null;
+    const t = ctx.currentTime, ends = (this.ends ??= []);
+    if (ends.length >= SOUNDING[0]) { let k = 0; for (const e of ends) if (e > t) ends[k++] = e; ends.length = k; }
+    if (ends.length >= SOUNDING[prio]) { this.dropped = (this.dropped ?? 0) + 1; return null; }
+    ends.push(t + dur);
+    this.peakSounding = Math.max(this.peakSounding ?? 0, ends.length);
+    return ctx;
   }
 
   noise() { // shared 1 s of white noise for gunshots and clanks
@@ -238,7 +273,7 @@ export class GameAudio {
 
   /** One .50 cal round: a sharp crack plus a low thump through the airframe. vol: 1 = your own gun. */
   gunshot(vol = 1) {
-    const ctx = this.ctx;
+    const ctx = this.live(vol >= 0.9 ? 2 : 1, 0.12);
     if (!ctx) return;
     const out = ctx.createGain();
     out.gain.value = vol;
@@ -268,7 +303,7 @@ export class GameAudio {
 
   /** Metallic clanks: the old ammo can coming off (start) or the new belt locking in (end). */
   reload(start, vol = 1) {
-    const ctx = this.ctx;
+    const ctx = this.live(2, 1);
     if (!ctx) return;
     const out = ctx.createGain();
     out.gain.value = vol;
@@ -291,11 +326,12 @@ export class GameAudio {
 
   /** Heartbeat while you're wounded: faster as time runs out (call each frame with 0..1). */
   heartbeat(urgency, dt) {
-    const ctx = this.ctx;
-    if (!ctx) return;
+    if (!this.ctx) return;
     this.beatT = (this.beatT ?? 0) - dt;
     if (urgency <= 0 || this.beatT > 0) return;
     this.beatT = 1.1 - urgency * 0.6;
+    const ctx = this.live(2, 0.4);
+    if (!ctx) return;
     for (const [i, d] of [0, 0.18].entries()) {
       const t = ctx.currentTime + d, o = ctx.createOscillator(), g = ctx.createGain();
       o.frequency.setValueAtTime(60 - i * 8, t);
@@ -310,7 +346,7 @@ export class GameAudio {
 
   /** Hiss of an overheated barrel. */
   overheat() {
-    const ctx = this.ctx;
+    const ctx = this.live(2, 1);
     if (!ctx) return;
     const t = ctx.currentTime;
     const n = this.noise();
@@ -326,7 +362,7 @@ export class GameAudio {
 
   /** Snarl of the nearest Bf 109: louder as it closes, pitch shifted by closing speed (Doppler). */
   fighterDrone(dist, closing) {
-    const ctx = this.ctx;
+    const ctx = this.steady();
     if (!ctx) return;
     if (!this.drone) {
       const lp = ctx.createBiquadFilter();
@@ -356,8 +392,9 @@ export class GameAudio {
 
   /** German guns heard from a distance. */
   distantGun(dist) {
-    const ctx = this.ctx;
-    if (!ctx || dist > 900) return;
+    if (dist > 900) return;
+    const ctx = this.live(0, 0.13);
+    if (!ctx) return;
     const t = ctx.currentTime, n = this.noise();
     const bp = ctx.createBiquadFilter();
     bp.type = 'bandpass';
@@ -374,7 +411,7 @@ export class GameAudio {
    * through the aluminium, a metallic ring, and for a 20 mm shell the bang of it going off.
    */
   impact(cannon, vol = 1) {
-    const ctx = this.ctx;
+    const ctx = this.live(2, 0.5);
     if (!ctx) return;
     const t = ctx.currentTime;
     // the crack: a very short bright burst
@@ -411,8 +448,9 @@ export class GameAudio {
    * pitch falling, with breath noise. vol 0..1 (far down the fuselage, quieter); deep varies the voice.
    */
   pain(vol = 1, severe = false, deep = 0) {
-    const ctx = this.ctx;
-    if (!ctx || vol < 0.03) return;
+    if (vol < 0.03) return;
+    const ctx = this.live(2, 0.8);
+    if (!ctx) return;
     const t = ctx.currentTime + 0.02, len = severe ? 0.75 : 0.28 + Math.random() * 0.12;
     const f0 = (severe ? 175 : 150) * (0.85 + deep * 0.3) * (0.92 + Math.random() * 0.16);
     const o = ctx.createOscillator();
@@ -441,7 +479,7 @@ export class GameAudio {
   /** A flak burst: a hard crump, close ones loud and sharp, far ones a dull thud. */
   /** A flak burst at `dist` m: the deep crump of it (later and duller far off), a sharp crack on top when near. */
   flak(dist, muffle = 0) {
-    const ctx = this.ctx;
+    const ctx = this.live(1, Math.min(dist / 343, 3) + 1.6);
     if (!ctx) return;
     const t = ctx.currentTime + Math.min(dist / 343, 3), n = this.noise();
     const lp = ctx.createBiquadFilter();
@@ -467,7 +505,7 @@ export class GameAudio {
    * rattling on the skin like thrown gravel, a scatter of small hard ticks.
    */
   flakClose(k) {
-    const ctx = this.ctx;
+    const ctx = this.live(2, 0.6);
     if (!ctx) return;
     const t = ctx.currentTime + 0.02;
     const o = ctx.createOscillator(), og = ctx.createGain(); // the airframe's thump
@@ -485,7 +523,7 @@ export class GameAudio {
 
   /** A plane blowing up: a deep boom, quieter and duller with distance. */
   explosion(dist) {
-    const ctx = this.ctx;
+    const ctx = this.live(1, Math.min(dist / 343, 4) + 1.7);
     if (!ctx) return;
     const t = ctx.currentTime + Math.min(dist / 343, 4), n = this.noise(); // sound arrives late
     const lp = ctx.createBiquadFilter();
@@ -500,7 +538,7 @@ export class GameAudio {
 
   /** Thunder: a crack if it's close, then a long low rumble, arriving late from `dist` m away. */
   thunder(dist) {
-    const ctx = this.ctx;
+    const ctx = this.live(1, Math.min(dist / 343, 12) + 6);
     if (!ctx) return;
     const t = ctx.currentTime + Math.min(dist / 343, 12), dur = 2.5 + Math.min(dist / 2500, 3);
     const n = ctx.createBufferSource();
@@ -523,7 +561,7 @@ export class GameAudio {
 
   /**
    * A recorded line (scripts/voices: one small MP3 a clip): fetched and decoded the first time it's
-   * wanted, and the last few dozen kept. Returns the AudioBuffer, null while it's still on its way, or
+   * wanted, and the last 120 kept (~25 MB; older ones come back from the disk cache when wanted). Returns the AudioBuffer, null while it's still on its way, or
    * false if there's no such recording. Decoded at 22 kHz (the intercom carries nothing above 3 kHz):
    * a quarter of the memory of the 48 kHz sound system's own rate.
    */
@@ -537,7 +575,7 @@ export class GameAudio {
     fetch(`${url}/${id}.mp3`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`${r.status}`))))
       .then((data) => this.decoder.decodeAudioData(data)).then((buf) => { c.buf = buf; })
       .catch((e) => { c.failed = true; console.warn(`crew voice ${id} not loaded:`, e.message); });
-    for (const [k, o] of clips) { if (clips.size <= 400) break; if (o.buf || o.failed) clips.delete(k); } // (the oldest go: never one still on its way)
+    for (const [k, o] of clips) { if (clips.size <= 120) break; if (o.buf || o.failed) clips.delete(k); } // (the oldest go: never one still on its way)
     return null;
   }
 
@@ -558,8 +596,8 @@ export class GameAudio {
    * Returns { dur, stop } or null (not loaded yet, or no such clip: see voiceClip).
    */
   voice(id, { rate = 1, far = false, vol = 1, url } = {}) {
-    const ctx = this.ctx, buf = this.voiceClip(id, url);
-    if (!ctx || !buf) return null;
+    const buf = this.ctx && this.voiceClip(id, url), ctx = buf && this.live(2, buf.duration / rate + 0.4);
+    if (!ctx) return null;
     const t = ctx.currentTime + 0.06, dur = buf.duration / rate;
     const out = ctx.createGain();
     out.gain.value = vol;
@@ -606,8 +644,9 @@ export class GameAudio {
    * two or three high partials that die away almost at once, and the tick of it landing. vol 0..1.
    */
   caseTink(vol, link = false) {
-    const ctx = this.ctx;
-    if (!ctx || vol < 0.01) return;
+    if (vol < 0.01) return;
+    const ctx = this.live(0, 0.15);
+    if (!ctx) return;
     const t = ctx.currentTime + Math.random() * 0.02, f = link ? 1900 + Math.random() * 900 : 3300 + Math.random() * 2400;
     const out = ctx.createGain();
     out.gain.value = vol * (link ? 0.5 : 0.7) * 0.4; // (well under the guns: a tinkle at your feet, not a bell)

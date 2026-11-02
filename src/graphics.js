@@ -40,6 +40,8 @@ const VignetteShader = {
     }`,
 };
 
+const MAX_PIXELS = 3840 * 2160; // the most the scene is ever rendered at: see pixelRatio()
+
 export class Graphics {
   constructor() {
     // A cockpit 30 cm away and bombers 3 km away need a lot of depth precision. A reversed float
@@ -77,7 +79,7 @@ export class Graphics {
     this.qualityName = name;
     try { localStorage.setItem(KEY, name); } catch { /* storage blocked */ }
     const q = this.quality;
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, q.pixelRatio));
+    this.renderer.setPixelRatio(this.pixelRatio());
     const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
     if (this.composer) { for (const p of this.composer.passes) p.dispose?.(); this.composer.dispose(); } // passes own render targets too
     const target = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: q.msaa });
@@ -102,7 +104,18 @@ export class Graphics {
 
   onQualityChange(fn) { this.listeners.push(fn); }
 
+  /**
+   * The rendering's pixels per screen pixel: the quality's, but never more than MAX_PIXELS in all. High's 2x
+   * on a 4K screen would be 7680 x 4320, and every buffer of the post-processing (the scene in half floats
+   * with 4x MSAA, its depth, SSAO, bloom) at that size is several GB of graphics memory, which Windows spills
+   * into the machine's RAM when the card runs out. Past 4K's own pixel count nobody sees the difference.
+   */
+  pixelRatio() {
+    return Math.min(devicePixelRatio, this.quality.pixelRatio, Math.sqrt(MAX_PIXELS / Math.max(1, innerWidth * innerHeight)));
+  }
+
   resize() {
+    if (this.composer && Math.abs(this.renderer.getPixelRatio() - this.pixelRatio()) > 1e-3) { this.renderer.setPixelRatio(this.pixelRatio()); this.composer.setPixelRatio(this.pixelRatio()); } // (moved to another screen, or resized)
     this.renderer.setSize(innerWidth, innerHeight);
     this.composer?.setSize(innerWidth, innerHeight);
     if (this.camera) {

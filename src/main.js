@@ -28,6 +28,7 @@ import { walkSweep } from './walksweep.js';
 import { loadCrewModel, syncFigures, crewInfo } from './figure.js';
 import { Stats, POINTS } from './stats.js';
 import { Eject } from './eject.js';
+import { MemGuard } from './memguard.js';
 import { Dust } from './dust.js';
 import { Breakup } from './breakup.js';
 import { StreamBattle } from './streambattle.js';
@@ -1091,8 +1092,10 @@ function safely(name, fn) {
   }
   if (prof) prof.parts[name] = (prof.parts[name] ?? 0) + performance.now() - t0;
 }
+const memGuard = new MemGuard({ gfx, audio, ui, stop: () => { state = 'over'; gfx.renderer.setAnimationLoop(null); } }); // (memguard.js: never eat the machine's RAM)
 gfx.renderer.setAnimationLoop((now) => {
   timer.update(now);
+  memGuard.update(now, state === 'playing');
   const rawDt = timer.getDelta(), dt = Math.min(rawDt, 0.05);
   const live = state === 'playing';
   const running = live || state === 'menu'; // the world stands still while paused or picking a seat
@@ -1298,4 +1301,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, funk, crowds, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });
+Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, funk, crowds, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, memGuard, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });

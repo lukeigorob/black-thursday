@@ -4,6 +4,7 @@
 // fields; the ones near you also stand up in 3D, the same houses on the same plan: walls, a tiled roof, the
 // church tower and its spire. The layout wraps every 82 km: each place is shown at its copy nearest to you.
 import * as THREE from 'three';
+import { freeAfterUpload } from './texmem.js';
 import { snowy } from './environment.js';
 import { MACRO, aerial } from './ground.js';
 import { paintAtlas, BY_KIND, ATLAS } from './villages.js';
@@ -33,6 +34,7 @@ export class Countryside {
     this.plans = atlas.plans;
     const tex = new THREE.CanvasTexture(atlas.canvas);
     tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+    freeAfterUpload(tex); // (the 64 MB atlas canvas, once it's on the card: texmem.js)
     const n = layout.villages.length;
     // the plans on the ground: one quad each, its cell of the atlas
     const geo = new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2);
