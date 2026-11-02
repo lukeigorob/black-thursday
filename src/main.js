@@ -7,6 +7,7 @@ import { Bomber, AIRSPEED, swapBombers, PART, FORMATION, PropBlur } from './bomb
 import { Player } from './player.js';
 import { GameAudio } from './audio.js';
 import { Radio } from './radio.js';
+import { Funk } from './funk.js';
 import { Weapons } from './weapons.js';
 import { Effects } from './effects.js';
 import { Fighters, AXIS_TOTAL, ALLIED_TOTAL } from './fighters.js';
@@ -69,6 +70,7 @@ const audio = new GameAudio();
 // the crew on the intercom: what they'd call out of what the game logs is said aloud, by the man who'd say it
 const radio = new Radio(audio, ui.log.bind(ui));
 { const log = ui.log.bind(ui); ui.log = (text) => { if (!radio.hear(text)) log(text); }; }
+const funk = new Funk(audio, ui.log.bind(ui)); // (the German fighters' radio, flying one)
 // (no subtitles: what the crew say over the interphone is heard, not shown on the screen)
 
 
@@ -1183,6 +1185,7 @@ gfx.renderer.setAnimationLoop((now) => {
         if (weapons.ear) audio.brass(dt, Math.min(1, (weapons.casings?.lying ?? 0) / 700), Math.min(1, turn * 3 + shake));
       });
     }
+    if (live) safely('funk', () => funk.update(dt, { on: AXIS_ROLES.has(mode) && pilot.alive, me: pilot.f, fighters, bombers }));
     safely('bullets', () => weapons.bullets.update(dt, camera.getWorldPosition(camPos), collide));
     safely('effects', () => effects.update(dt));
     safely('weather', () => { // rain past the windows (not inside your own bomber), lightning and its thunder
@@ -1290,4 +1293,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });
+Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, funk, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });
