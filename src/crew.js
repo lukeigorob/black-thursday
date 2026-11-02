@@ -57,7 +57,7 @@ export const tally = { saved: 0, savedByYou: 0 }; // for the debrief
 // them (as the 303rd's pilots wore them that first year in England); everyone else in a B-6 helmet; every
 // man in the A-10 Revised mask. No flak vests: the heavy plated vests were left off (they read as a shapeless
 // box over the jacket); opts.flak still adds one if a station ever needs it.
-const KIT = {
+export const KIT = {
   pilot: { outfit: 'b3od', flak: false, cap: true }, copilot: { outfit: 'b3od', flak: false, cap: true }, // (the B-3's sheepskin collar under the cap, as the officers wore it)
   bombardier: { outfit: 'b10', flak: false }, navigator: { outfit: 'a2', flak: false },
   engineer: { outfit: 'b3od', flak: false }, radio: { outfit: 'b10', flak: false },
@@ -80,7 +80,7 @@ const WHERE = { head: 'the head', torso: 'the chest', armL: 'the left arm', armR
 
 // where each man is in the player's bomber: spot = feet, pose, yaw (0 = facing the nose); lie = where he falls
 // (his feet: lying, he stretches 1.8 m forward of them, so the men in the nose lie well back in it)
-const SPOTS = {
+export const SPOTS = {
   pilot: { at: [-0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [-0.55, 0.05, -7.6], liePose: 'slump', help: [-0.18, -0.40, -7.2] },
   copilot: { at: [0.55, 0.05, -7.6], pose: 'sit', yaw: 0, lie: [0.55, 0.05, -7.6], liePose: 'slump', help: [0.18, -0.40, -7.2] },
   bombardier: { at: [0.26, -0.72, -9.9], pose: 'kneel', yaw: 0, lie: [0.24, -0.72, -8.75], liePose: 'lie' }, // (kneeling upright behind the right nose gun: standing, the low nose bent him double)

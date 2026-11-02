@@ -41,6 +41,8 @@ const CREW_AMBIENT = 0.5;
 /** Load the crewman (once, before any figure is made). */
 export async function loadCrewModel() {
   if (BASE) return;
+  // (and his light copy, ~5% of the triangles, no textures of its own: the men seen from outside, crowd.js)
+  const lodP = new GLTFLoader().loadAsync('models/crew/crewman1943_lod.glb').catch((e) => { console.warn('crew LOD not loaded:', e.message); return null; });
   const gltf = await new GLTFLoader().loadAsync('models/crew/crewman1943.glb');
   await shrinkTextures(gltf.scene); // (its 2048 maps: models.js)
   const scene = gltf.scene;
@@ -62,6 +64,13 @@ export async function loadCrewModel() {
   let top = 0;
   scene.traverse((o) => { if (o.isMesh) { o.geometry.computeBoundingBox(); top = Math.max(top, o.geometry.boundingBox.max.y); } });
   BASE = { scene, info: { height: top * SCALE } };
+  const lod = (await lodP)?.scene; // (its meshes given the full model's materials)
+  if (lod) {
+    const mats = new Map();
+    scene.traverse((o) => { if (o.isMesh) mats.set(o.name.replace(/_\d+$/, ''), o.material); });
+    lod.traverse((o) => { if (o.isMesh) { o.material = mats.get(o.name.replace(/_\d+$/, '')) ?? o.material; o.frustumCulled = false; o.castShadow = false; } });
+    BASE.lod = lod;
+  }
 }
 
 export const crewInfo = () => BASE?.info;
@@ -91,13 +100,14 @@ const FINGERS = ['index', 'middle', 'ring', 'pinky'];
 
 /**
  * opts.outfit: 'sheep' | 'b10' | 'a2' | 'f1' (OUTFITS; opts.pilot: the A-2). opts.flak: the M1 vest over the
- * Mae West. opts.self: your own body (no head: it would sit round your eyes). Feet at the origin, facing -Z.
+ * Mae West. opts.self: your own body (no head: it would sit round your eyes). opts.lod: the light copy (seen
+ * from outside the bomber, crowd.js). Feet at the origin, facing -Z.
  */
 export function makeFigure(opts = {}) {
   if (!BASE) throw new Error('loadCrewModel() first');
   const root = new THREE.Group();
   const j = makeRig(root);
-  const model = cloneSkinned(BASE.scene);
+  const model = cloneSkinned(opts.lod && BASE.lod ? BASE.lod : BASE.scene);
   model.rotation.y = Math.PI; // the model faces +Z; the crew face -Z
   root.add(model);
   model.scale.setScalar(SCALE);
@@ -382,3 +392,43 @@ function aimBone(bone, tip, to) {
 }
 
 export { figures };
+
+const _bp = new V(), _bn = new V(), _bm = new THREE.Matrix3(), _bf = new THREE.Matrix4();
+/**
+ * Bake posed figures into plain meshes, in `frame`'s space: Map(figure -> Map(material -> geometry)), for
+ * drawing men who needn't move many at a time (crowd.js). Best made of light copies (opts.lod).
+ */
+export function bakeFigures(figs, frame) {
+  const out = new Map(), inv = new THREE.Matrix4().copy(frame.matrixWorld).invert();
+  for (const fig of figs) {
+    const mine = new Map();
+    out.set(fig, mine);
+    fig.updateMatrixWorld(true);
+    sync(fig);
+    fig.updateMatrixWorld(true);
+    fig.traverse((t) => {
+      if (!t.isSkinnedMesh || !t.visible) return;
+      t.skeleton.update();
+      const src = t.geometry, n = src.attributes.position.count, pos = new Float32Array(n * 3), nor = new Float32Array(n * 3);
+      _bf.multiplyMatrices(inv, t.matrixWorld);
+      _bm.getNormalMatrix(_bf);
+      for (let i = 0; i < n; i++) {
+        t.getVertexPosition(i, _bp); // (skinned, in the mesh's own space)
+        // the normal: where a point a centimetre out along it goes, less where the vertex goes
+        _bn.fromBufferAttribute(src.attributes.position, i).addScaledVector(_v.fromBufferAttribute(src.attributes.normal, i), 0.01);
+        t.applyBoneTransform(i, _bn);
+        _bn.sub(_bp).applyMatrix3(_bm).normalize();
+        _bp.applyMatrix4(_bf);
+        pos[i * 3] = _bp.x; pos[i * 3 + 1] = _bp.y; pos[i * 3 + 2] = _bp.z;
+        nor[i * 3] = _bn.x; nor[i * 3 + 1] = _bn.y; nor[i * 3 + 2] = _bn.z;
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+      if (src.attributes.uv) g.setAttribute('uv', src.attributes.uv.clone());
+      if (src.index) g.setIndex(src.index.clone());
+      mine.set(t.material, g);
+    });
+  }
+  return out;
+}

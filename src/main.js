@@ -8,6 +8,7 @@ import { Player } from './player.js';
 import { GameAudio } from './audio.js';
 import { Radio } from './radio.js';
 import { Funk } from './funk.js';
+import { Crowds } from './crowd.js';
 import { Weapons } from './weapons.js';
 import { Effects } from './effects.js';
 import { Fighters, AXIS_TOTAL, ALLIED_TOTAL } from './fighters.js';
@@ -228,6 +229,7 @@ fighters.report = (kind, name, dmg) => {
 const crews = new Map(bombers.map((b) => [b, new Crew(b, b === bomber ? { visible: true, playerRole: 'radio', interior: bomber.interior } : {})]));
 radio.crews = crews; // (the other Forts' pilots, by name: "they're going for Miller's ship!")
 let crew = crews.get(bomber); // the crew you're part of (changes when you move to another bomber)
+const crowds = new Crowds(scene, bomber.interior); // the men in the other bombers near you, and the pilots of fighters close by
 // (you can only be hurt aboard while you're a crewman, not while you're off flying a fighter)
 // another B-17 bumping yours: the jolt through the airframe and the crunch of it (fighters.bomberContact)
 // flak fragments through a bomber's fuselage: the men inside take them, and your bomber's skin shows the holes
@@ -1115,8 +1117,10 @@ gfx.renderer.setAnimationLoop((now) => {
   }
   if (mode === 'crew' && !eject.active) safely('player', () => player.update(live ? dt : 0));
   // third person from the pilots' seats: the cabin (2.4 million triangles, all its fittings) can't be seen from
-  // out behind her, so it isn't drawn; that was most of the stutter (and the sound breaking up with it)
-  if (bomber.interior) bomber.interior.group.visible = !(mode === 'crew' && player.third && player.station?.flies && player.blend > 0.999);
+  // out behind her, so it isn't drawn; that was most of the stutter (and the sound breaking up with it). Her
+  // crew are drawn from outside instead, as the other bombers' are (crowd.js): seen through her windows
+  const outside = mode === 'crew' && player.third && player.station?.flies && player.blend > 0.999;
+  if (bomber.interior) { bomber.interior.group.visible = !outside; bomber.interior.modelShell(outside); }
   if (mode === 'crew' && !eject.active) safely('shafts', () => {
     bomber.interior.updateShafts(_sunLocal.copy(world.sunDir).applyQuaternion(_bq.copy(bomber.group.quaternion).invert()));
     if (player.feet.z < -6) bomber.interior.cockpitLive?.(cockpitState(live ? dt : 0), live ? dt : 0); // (only the flight deck's people see the panel)
@@ -1277,6 +1281,7 @@ gfx.renderer.setAnimationLoop((now) => {
     const on = state === 'playing' && !eject.active && (mode === 'crew' ? !player.away : !!pilot.f);
     ui.minimap(on ? { at: camera.getWorldPosition(_miniAt), yaw: Math.atan2(-camera.getWorldDirection(_miniDir).x, -_miniDir.z), bombers, fighters: fighters.list, target: mission.target.center, range: 3000, flak: flak.on ? flak.heavy : 0 } : null);
   }
+  safely('crowds', () => crowds.update(camera, { bombers, mine: bomber, crews, fighters, me: mode !== 'crew' && !pilot.third ? pilot.f : null, mineOutside: outside })); // (after everything's moved)
   safely('figures', syncFigures); // the crew's poses onto their skeletons
   safely('scars', flushScars); // the holes from the latest hits, a few a frame
   if (gfx.ssao) gfx.ssao.enabled = !(mode === 'crew' && player.station?.id === 'ball' && player.blend > 0.5); // (in the ball you see out only through its window: no shading from what's behind its steel)
@@ -1293,4 +1298,4 @@ gfx.renderer.setAnimationLoop((now) => {
 });
 
 // handy for testing from the browser console
-Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, funk, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });
+Object.assign(window, { game: { THREE, PART, tally, formationDebug, crewInfo, walkSweep: () => walkSweep(player), scene, camera, player, bomber, bombers, get crew() { return crew; }, crews, gfx, world, weapons, fighters, effects, flak, mission, showSeatMap, takeSeat, audio, missionComplete, pilot, chooseRole, showRoleMenu, ui, radio, funk, crowds, pilotStats, stats, eject, bailOut, addScar, breakup, fleet, propBlur, get mode() { return mode; }, skip: (s) => { missionTime += s; mission.target.center.z += AIRSPEED * s; } } });

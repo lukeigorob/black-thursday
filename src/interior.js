@@ -33,6 +33,15 @@ const STEPS = [ // from the flight deck down into the bomb bay
   { z0: -6.35, z1: -6.1, y: -0.72 }, { z0: -6.1, z1: -5.85, y: -1.02 }, { z0: -5.85, z1: -5.6, y: -1.32 },
 ];
 const TURRET_CUT = { z: -6.71, y: 0.9, r: 0.5, ring: 1.14 }; // the hole in the cockpit roof up into the top turret
+// the cuts in her outer skin for the cabin's own parts (the tail cab, the radio hatch, under the top turret, the
+// tailplanes' roots): made only while the cabin's drawn. Seen from outside without it (modelShell), she's whole.
+const CABIN = { value: 1 };
+const CABIN_U = `
+#ifndef CABIN_U
+#define CABIN_U
+uniform float uCabin;
+#endif
+`; // (declared once, however many cuts a material has)
 
 /** Discard everything of a mesh below bomber-space height y (offsetY = the mesh's own height). */
 function cutBelow(m, offsetY, y) {
@@ -44,9 +53,11 @@ function cutBelow(m, offsetY, y) {
       .replace('#include <begin_vertex>', `#include <begin_vertex>
       vCutY = position.y;`);
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      varying float vCutY;`)
+      varying float vCutY;
+${CABIN_U}`)
       .replace('void main() {', `void main() {
-        if (vCutY + ${offsetY.toFixed(3)} < ${y.toFixed(3)}) discard;`);
+        if (uCabin > 0.5 && vCutY + ${offsetY.toFixed(3)} < ${y.toFixed(3)}) discard;`);
+    sh.uniforms.uCabin = CABIN;
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|cut${y}`;
 }
@@ -65,8 +76,10 @@ function cutTailCab(m, offset) {
       varying vec3 vCabP;`).replace('#include <begin_vertex>', `#include <begin_vertex>
       vCabP = position + vec3(${offset.x.toFixed(4)}, ${offset.y.toFixed(4)}, ${offset.z.toFixed(4)});`);
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      varying vec3 vCabP;`).replace('void main() {', `void main() {
-        if (vCabP.z > ${CAB.z0.toFixed(3)} && vCabP.y < (vCabP.z < ${(CAB.step - 0.02).toFixed(3)} ? -1.17 - 0.2 * (vCabP.z - 9.3) : ${CAB.podTop.toFixed(3)})) discard;`);
+      varying vec3 vCabP;
+${CABIN_U}`).replace('void main() {', `void main() {
+        if (uCabin > 0.5 && vCabP.z > ${CAB.z0.toFixed(3)} && vCabP.y < (vCabP.z < ${(CAB.step - 0.02).toFixed(3)} ? -1.17 - 0.2 * (vCabP.z - 9.3) : ${CAB.podTop.toFixed(3)})) discard;`);
+    sh.uniforms.uCabin = CABIN;
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|cab`;
 }
@@ -82,8 +95,10 @@ function cutRadioHatch(m, offset) {
       varying vec3 vRadP;`).replace('#include <begin_vertex>', `#include <begin_vertex>
       vRadP = position + vec3(${offset.x.toFixed(4)}, ${offset.y.toFixed(4)}, ${offset.z.toFixed(4)});`);
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-      varying vec3 vRadP;`).replace('void main() {', `void main() {
-        if (vRadP.y > ${h.y.toFixed(2)} && abs(vRadP.x) < ${h.x.toFixed(2)} && vRadP.z > ${h.z0.toFixed(2)} && vRadP.z < ${h.z1.toFixed(2)}) discard;`);
+      varying vec3 vRadP;
+${CABIN_U}`).replace('void main() {', `void main() {
+        if (uCabin > 0.5 && vRadP.y > ${h.y.toFixed(2)} && abs(vRadP.x) < ${h.x.toFixed(2)} && vRadP.z > ${h.z0.toFixed(2)} && vRadP.z < ${h.z1.toFixed(2)}) discard;`);
+    sh.uniforms.uCabin = CABIN;
   };
   m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|radiohatch`;
 }
@@ -720,6 +735,20 @@ export class Interior {
     if (p) { p.wide.visible = on; p.small.visible = !on; }
   }
 
+  /**
+   * Seen from outside, the cabin not drawn (the third-person view from the pilots' seats): the model's own tail
+   * gun pod and nose glazing back in their places (the cabin's own replace them, and go with it), and no cuts in
+   * her skin for the cabin's parts.
+   */
+  modelShell(on) {
+    if (this.shellShown === on) return;
+    this.shellShown = on;
+    CABIN.value = on ? 0 : 1;
+    for (const m of this.parts.get('TailGunPod') ?? []) if (!this.group.getObjectById(m.id)) m.visible = on; // (its lining is the cabin's)
+    const nose = this.model.getObjectByName('Nose');
+    if (nose) nose.visible = on;
+  }
+
   /** Hide (or show again) hull parts by name, e.g. the painted tail cap while at the tail gun. */
   setHidden(names, hidden) {
     for (const n of names) for (const m of this.parts.get(n) ?? [this.model.getObjectByName(n) ?? this.group.getObjectByName(n)]) if (m) m.visible = !hidden;
@@ -1032,15 +1061,16 @@ export class Interior {
       const M = toModel.clone();
       m.onBeforeCompile = (sh, r) => {
         prev?.call(m, sh, r);
-        sh.uniforms.uToBomber = { value: M };
+        sh.uniforms.uToBomber = { value: M }; sh.uniforms.uCabin = CABIN;
         sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
 uniform mat4 uToBomber; varying vec3 vTpP;`)
           .replace('#include <begin_vertex>', `#include <begin_vertex>
 vTpP = (uToBomber * vec4(position, 1.0)).xyz;`);
         sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
-varying vec3 vTpP;`)
+varying vec3 vTpP;
+${CABIN_U}`)
           .replace('void main() {', `void main() {
-  if (vTpP.z > 4.8 && vTpP.y < -0.9 && abs(vTpP.x) < 0.78 - 0.045 * (vTpP.z - 5.0)) discard;`);
+  if (uCabin > 0.5 && vTpP.z > 4.8 && vTpP.y < -0.9 && abs(vTpP.x) < 0.78 - 0.045 * (vTpP.z - 5.0)) discard;`);
       };
       m.customProgramCacheKey = () => `${prevKey ? prevKey() : ''}|tailplane-in`;
       o.material = m;

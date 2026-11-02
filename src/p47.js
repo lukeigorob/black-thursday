@@ -528,17 +528,14 @@ function bellyParts() {
   return { paintParts, detail };
 }
 
-/** The pilot and his cockpit seen through the glass: leather helmet, the oxygen mask, shoulders, the armour and headrest behind him. */
+/** His cockpit seen through the glass: its dark well and walls, the coaming and gunsight, the armour and headrest behind him. */
 function pilotParts() {
   const p = [];
   p.push(tint(new THREE.BoxGeometry(0.66, 0.02, 1.2).translate(0, 0.5, -0.2), 0x1a1f16)); // (the dark well of the cockpit)
   for (const s of [-1, 1]) p.push(tint(new THREE.BoxGeometry(0.02, 0.3, 1.25).translate(s * 0.33, 0.66, -0.2), 0x37432e)); // its walls, dull dark green
   p.push(tint(new THREE.BoxGeometry(0.66, 0.1, 0.12).translate(0, 0.82, -0.72), 0x161616)); // the coaming over the panel
   p.push(tint(new THREE.BoxGeometry(0.08, 0.1, 0.13).translate(0, 0.92, -0.6), 0x161616)); // the gunsight
-  p.push(tint(new THREE.SphereGeometry(0.105, 14, 10).scale(0.95, 1.05, 1.05).translate(0, 1.08, -0.13), 0x4a3020)); // the helmet
-  p.push(tint(new THREE.TorusGeometry(0.1, 0.018, 6, 14, Math.PI).rotateZ(Math.PI).rotateX(-0.2).translate(0, 1.13, -0.16), 0x2a2a28)); // the goggles up on it
-  p.push(tint(new THREE.SphereGeometry(0.05, 10, 6).scale(1, 1, 0.8).translate(0, 1.02, -0.22), 0x34392c)); // the oxygen mask
-  p.push(tint(new THREE.CapsuleGeometry(0.11, 0.26, 4, 10).rotateZ(Math.PI / 2).translate(0, 0.88, -0.08), 0x5a5040)); // the shoulders
+  // (the pilot himself is the crewman, drawn in his seat when you're close enough to see him: crowd.js)
   p.push(tint(new THREE.BoxGeometry(0.4, 0.42, 0.03).translate(0, 0.98, 0.14), 0x2c2e2c)); // the head armour
   p.push(tint(new THREE.BoxGeometry(0.2, 0.12, 0.06).translate(0, 1.1, 0.1), 0x3a2a1e)); // the headrest
   return p;
