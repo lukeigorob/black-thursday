@@ -12,6 +12,9 @@ import { FarFighters } from './farfighters.js';
 import { BATTLE } from './battle.js';
 import { COMPACT, FIGHT_RANGE as REAL } from './oob.js';
 import { ALTITUDE } from './world.js';
+import { FlightModel, instruct } from './flight.js';
+import { Systems } from './airframe.js';
+import { Brain } from './bfm.js';
 
 const V = THREE.Vector3;
 const WIND = new V(0, 0, AIRSPEED);
@@ -34,6 +37,9 @@ const RAM_PAD = 2.5; // m added round a B-17's hit boxes for a fighter's size
 const AI_RAM_CHANCE = 0.06, AI_MIDAIR_CHANCE = 0.3; // AI pilots mostly just miss (rolled once per close pass)
 const BOMBER_RAM = 11; // m between two B-17s' centres: a crippled or falling one drifting into another (their bodies, not their spans)
 const FLOOR = 1500; // m above the ground: an AI fighter lower than this climbs back up
+// (for the game, not the record) the fighter you fly: this share of the bomber gunners' hits glance off, and only
+// this share of the hits that land can also start a leak, damage a control or cut a cable
+const PLAYER_GLANCE = 0.4, PLAYER_SYSTEMS = 0.5;
 // The fight goes on all through the force, not only round you (oob.js COMPACT: the whole of it within a
 // few km): the fighters pick their bombers anywhere in FIGHT_RANGE of yours, work the part of the force
 // they're over, and run out and come round from the force's middle (hub) rather than from you
@@ -242,7 +248,8 @@ class Fighter {
 
   get alive() { return this.state !== 'down' && this.state !== 'gone'; }
   /** Motion in the formation's frame: airspeed along the nose plus the wind. (A shared vector: copy it to keep it.) */
-  get velocity() { return this._vel.copy(this.dir).multiplyScalar(this.speed).add(WIND); }
+  // (flown by the flight model, flight.js: its own velocity through the air, which needn't be along the nose)
+  get velocity() { return this.fm && this.alive ? this._vel.copy(this.fm.vAir).add(WIND) : this._vel.copy(this.dir).multiplyScalar(this.speed).add(WIND); }
 
   /**
    * Turn the nose towards `want` at up to `rate` rad/s; the wings bank into the turn. push: when the turn
@@ -250,6 +257,13 @@ class Fighter {
    */
   steer(want, rate, dt, push = false) {
     if (!(dt > 0) || want.lengthSq() < 1e-9) return;
+    // flying by the flight model (every fighter, while it's flying): the state's turn becomes an aim for the
+    // instructor, and its rate how hard he'll pull for it (a cruising turn ~3 g up to a hard break at the limit)
+    if (this.fm && this.alive && !this.player) {
+      (this.aimWant ??= new V()).copy(want).normalize();
+      this.aimG = THREE.MathUtils.clamp((rate / (this.k.breakTurn ?? 0.6)) * 7, 2.5, 7);
+      return;
+    }
     want = _want.copy(want).normalize();
     if (push) return this.fly(want, rate, dt);
     const old = _old.copy(this.dir);
@@ -398,6 +412,7 @@ export class Fighters {
       if (f.role === 'raider') this.newAttack(f); else f.state = 'hunt';
     }
     f.slot = slot;
+    this.physics(f, f.speed); // (on the flight model, flight.js, as yours is)
     this.list.push(f); // (FarFighters puts it in the scene when it's near)
     return f;
   }
@@ -490,7 +505,7 @@ export class Fighters {
     this.tickWaves(dt);
     // the escort's fuel: soon after the fight starts they turn for home (your own P-47: main.js)
     if (this.fightT == null && this.axis.some((f) => f.state === 'attack')) this.fightT = this.time;
-    if (!this.escortsHome && this.fightT != null && this.time - this.fightT > ESCORT_FUEL) {
+    if (!this.escortsHome && this.fightT != null && this.time - this.fightT > (this.escortFuel ?? ESCORT_FUEL)) {
       this.escortsHome = true;
       for (const f of this.allied) if (!f.player) { f.state = 'rtb'; f.prey = null; }
       this.ui.log("The Thunderbolts are turning back, they're out of fuel. We're on our own!");
@@ -502,12 +517,17 @@ export class Fighters {
     const cam = player.camera.getWorldPosition(_t2);
     for (const f of this.list) {
       if (f.player && f.alive) this.pilot?.fly(f, dt); // the player's own fighter
-      else if (f.alive) {
+      else if (f.alive && f.brain) { // a dogfight's AI pilot (bfm.js), flying by the flight model as you do
+        f.brain.update(dt);
+        if (f.alive) this.flyPhysics(f, f.brain.aim, f.brain.throttle, dt, { maxG: f.brain.maxG, loop: f.brain.loop });
+        if (f.alive && ALTITUDE + f.pos.y < 30) { this.shotDown(f, 'ground'); this.explode(f); }
+      } else if (f.alive) {
         const check = (this.frame + f.slot) % SPREAD_CHECKS === 0;
         if (check && f.state !== 'evade' && f.state !== 'break' && this.threatened(f)) { f.resume = f.state; this.startEvade(f); }
         if (this.leaving && f.side === 'axis' && f.state !== 'attack' && f.state !== 'rtb' && f.state !== 'evade') f.state = 'rtb';
         // fuel: a German fighter has so long over the bombers, then heads home (and the next comes up in his place)
         if (f.side === 'axis' && (f.fuel = (f.fuel ?? rand(140, 230)) - dt) <= 0 && f.state !== 'attack' && f.state !== 'rtb') f.state = 'rtb';
+        if (f.sys?.crippled(f.fm) && f.state !== 'rtb' && f.state !== 'attack') f.state = 'rtb'; // (hurt: out of it, for home)
         f.checkNow = check;
         this.fly(f, dt);
       } else this.fall(f, dt);
@@ -526,7 +546,7 @@ export class Fighters {
       if (f.state !== 'gone') continue;
       if (f.obj.parent) this.scene.remove(f.obj);
       this.list.splice(i, 1);
-      if (f.player) continue; // the player's fighter has no slot
+      if (f.player || f.brain) continue; // the player's fighter (and a scenario's) has no slot
       if (f.side === 'axis') this.freeAxisSlot(f.slot); else this.alliedSlots[f.slot] = this.escortsHome ? -1 : rand(...ESCORT_RESPAWN);
     }
     this.far.update(this.list, cam);
@@ -536,6 +556,87 @@ export class Fighters {
   }
 
   freeAxisSlot(slot) { this.axisSlots[slot] = FREE; }
+
+  /**
+   * One frame of flight by the flight model (flight.js) for fighter f: the mouse-aim instructor flies the nose
+   * to `aim` (a world direction) at `throttle`. opts: roll (-1..1, your own aileron), rudder (-1..1), pitch (-1..1,
+   * your own elevator), hold (hold the bank: no roll of the instructor's), maxG (the most the instructor pulls:
+   * none given, as hard as the wing and the stick allow at this speed), loop.
+   * Its systems (airframe.js) and damage show: a hit engine loses power, a shot-up wing lifts less and pulls her
+   * over, a holed tail answers slower; the engine heats, leaks and seizes, the fuel runs out, the pilot greys out
+   * and blacks out (no control till he comes round), the wings fold past their breaking load and the tail
+   * flutters apart past the never-exceed speed.
+   */
+  flyPhysics(f, aim, throttle, dt, { roll = 0, rudder = 0, maxG = Infinity, loop = false, pitch = 0, hold = false } = {}) {
+    const fm = f.fm, p = f.parts, k = f.k.parts, sys = f.sys;
+    fm.throttle = sys?.seized || sys?.dry ? 0 : throttle;
+    const wl = Math.max(0, p.wingL / k.wingL.hp), wr = Math.max(0, p.wingR / k.wingR.hp);
+    fm.lift = 0.7 + 0.3 * Math.min(wl, wr);
+    fm.rollBias = (wl - wr) * 0.9; // (the weaker wing drops)
+    fm.pitchScale = 0.55 + 0.45 * Math.max(0, p.tail / k.tail.hp);
+    // the instructor keeps the pilot conscious, as War Thunder's does: past the grey it eases off to what he can
+    // hold. Blacked out (or red), nobody's flying her: the stick goes slack
+    // (yours: only on the edge of black, and S still pulls past it if you want; the AI's ease off sooner)
+    if (sys && sys.gStress > (f.player ? 0.85 : 0.5)) maxG = Math.min(maxG, f.player ? 5.6 : 4.2);
+    if (sys?.blackout || sys?.redout) { maxG = 1.5; roll = 0; pitch = 0; rudder = 0; hold = true; }
+    const n = Math.max(1, Math.ceil(dt / (1 / 30))); // (steps of 1/30 s at most: stable, and cheap for a sky full of them)
+    for (let i = 0; i < n; i++) {
+      const alt = ALTITUDE + f.pos.y;
+      instruct(fm, aim, alt, { maxG, roll, loop, pitch, hold });
+      if (rudder) fm.cmd.beta = -rudder * 0.06;
+      fm.step(dt / n, alt);
+    }
+    f.dir.copy(fm.fwd); f.up.copy(fm.up); f.speed = fm.speed; f.roll = 0;
+    if (!sys) return;
+    const ev = sys.update(dt, fm, fm.throttle, Math.min(wl, wr));
+    fm.thrust *= f.engineDead ? 0 : f.smoking ? 0.72 : 1; // (a hit engine on top of a hot one)
+    const by = f.lastHitBy && this.time - f.lastHitT < 60 ? f.lastHitBy : null; // (whose hits did for her, if anyone's)
+    const against = f.side === 'axis' ? 'allied' : 'enemy'; // (damage()'s team: the other side's, so not counted as friendly fire)
+    for (const e of ev) {
+      if (!f.alive) break;
+      if (e === 'seized' || e === 'dry') {
+        f.engineDead = true; f.smoking = e === 'seized';
+        if (f.player) this.ui.toast(e === 'seized' ? 'Engine seized!' : "Out of fuel: the engine's stopped", 'kill');
+        this.shotDown(f, by ?? 'mechanical');
+      } else if (e === 'fold') { // past the breaking load: the weaker wing goes
+        if (f.player) this.ui.toast("Overstressed: the wing's folded!", 'kill');
+        const w = wl <= wr ? 'wingL' : 'wingR';
+        p[w] = 1; this.damage(f, w, by ?? 'overstress', against);
+      } else if (e === 'strain') { // near it: the wings weaken (and you're told)
+        p.wingL -= dt * 0.5; p.wingR -= dt * 0.5;
+        if (f.player && this.time - (f.strainCall ?? -9) > 4) { f.strainCall = this.time; this.ui.toast('Overstressing the airframe!', 'warn'); }
+      } else if (e === 'flutter') { // past the never-exceed speed: the tail and ailerons shaking apart
+        p.tail -= dt * 1.5; fm.ctl.ailL = Math.max(0, fm.ctl.ailL - dt * 0.08); fm.ctl.ailR = Math.max(0, fm.ctl.ailR - dt * 0.08);
+        if (f.player && this.time - (f.flutterCall ?? -9) > 3) { f.flutterCall = this.time; this.ui.toast('Overspeed! Flutter!', 'warn'); }
+      } else if (e === 'flutterBreak') {
+        if (f.player) this.ui.toast("The tail's torn away!", 'kill');
+        p.tail = 1; this.damage(f, 'tail', by ?? 'overstress', against);
+      }
+    }
+  }
+
+  /** Put fighter f on the flight model (flying along its nose at `speed`), with its systems (airframe.js). */
+  physics(f, speed = f.speed) {
+    f.fm = new FlightModel(f.kind, f.dir, f.up.lengthSq() > 0.5 ? f.up : UP, speed);
+    f.sys ??= new Systems(f.kind);
+    f.fm.onFlapsBroken = () => { if (f.player) this.ui.toast('Flaps torn off: too fast!', 'warn'); };
+    f.speed = speed;
+    return f;
+  }
+
+  /**
+   * A dogfight scenario's AI pilot: a fighter of `kind` at pos, flying along dir at speed, on the flight
+   * model, with a brain (bfm.js: skill, leader, wingSide).
+   */
+  async spawnBrain(kind, pos, dir, speed, opts = {}) {
+    const f = await this.spawn(kind, -1);
+    f.pos.copy(pos); f.dir.copy(dir).normalize(); f.up.copy(UP);
+    f.state = 'brain'; f.target = null; f.plan = null; f.prey = null; f.role = 'scenario';
+    f.fireLeft = 90; // s of firing: enough for a long fight (the raid's pilots carry a fighter's real load)
+    this.physics(f, speed);
+    f.brain = new Brain(f, this, { ground: ALTITUDE, ...opts });
+    return f;
+  }
 
   /** Out of the flak belt: a fresh attack, gaggle after gaggle, fully armed. */
   surge() { this.surgeT = 45; this.waveT = 0; }
@@ -547,7 +648,7 @@ export class Fighters {
     for (const f of this.list) if (f.alive && !f.player) { c[f.side].air++; if (f.kind === 'fw190') c.axis.fw++; }
     c.axis.down = t.axisLost ?? 0; c.allied.down = t.alliedLost ?? 0;
     c.axis.reserve = this.reserve.axis; c.allied.reserve = this.reserve.allied;
-    c.axis.total = AXIS_TOTAL; c.allied.total = ALLIED_TOTAL;
+    c.axis.total = this.totals?.axis ?? AXIS_TOTAL; c.allied.total = this.totals?.allied ?? ALLIED_TOTAL;
     return c;
   }
 
@@ -559,8 +660,9 @@ export class Fighters {
     if (this.suppressed && Math.random() < 0.8) { this.waveT = rand(...WAVE_GAP); return; } // (over the flak belt, only the odd gaggle)
     const free = [];
     for (let i = 0; i < this.axisSlots.length; i++) if (this.axisSlots[i] === FREE) free.push(i);
-    if (free.length < GAGGLE[0]) { this.waveT = 2; return; }
-    const n = Math.min(free.length, Math.round(rand(...GAGGLE)), this.reserve.axis);
+    const gaggle = this.gaggle ?? GAGGLE; // (a scenario's own: a handful, not the raid's dozens)
+    if (free.length < gaggle[0]) { this.waveT = 2; return; }
+    const n = Math.min(free.length, Math.round(rand(...gaggle)), this.reserve.axis);
     if (n <= 0) { this.waveT = 5; return; } // the Luftwaffe has nothing left to send
     const near = this.nearBombers();
     // (a third of the gaggles come for the groups round you, the rest anywhere in the force: you're at its
@@ -617,7 +719,25 @@ export class Fighters {
     f.breakDir = new V().crossVectors(f.dir, UP).normalize().multiplyScalar(s).add(new V(0, rand(-0.9, 0.2), 0)).add(f.dir.clone().multiplyScalar(0.2));
   }
 
+  /**
+   * One frame of an AI fighter of the raid. Its pilot's state (decide) says where to point the nose (steer) and
+   * how fast to go (its speed nudged towards what it wants); on the flight model those become the instructor's
+   * aim and a throttle, and the airframe does the rest, with the same energy and limits as yours.
+   */
   fly(f, dt) {
+    if (!f.fm) return this.decide(f, dt);
+    const s0 = f.speed;
+    f.aimWant = null; f.aimG = 4;
+    this.decide(f, dt);
+    if (!f.alive || !f.fm) return;
+    // (decide eased the speed towards what it wants: which way, and how hard, is the throttle)
+    const accel = dt > 0 ? (f.speed - s0) / dt : 0;
+    f.speed = s0;
+    const throttle = THREE.MathUtils.clamp(0.75 + accel * 0.15, 0.2, 1);
+    this.flyPhysics(f, f.aimWant ?? f.dir, throttle, dt, { maxG: f.aimG });
+  }
+
+  decide(f, dt) {
     const k = f.k;
     // too near the ground (a dogfight spiralling down): climb out of it first, whatever he was doing
     if (ALTITUDE + f.pos.y < FLOOR && f.dir.y < 0.35) {
@@ -836,7 +956,14 @@ export class Fighters {
 
   damage(f, part, owner, team) {
     if ((team === 'enemy') === (f.side === 'axis')) owner = 'friendly'; // shot by its own side: nobody's kill
+    // (for the game: some of the bombers' hits on the fighter you fly glance off, armour and luck)
+    if (f.player && owner === 'crew' && Math.random() < PLAYER_GLANCE) { this.audio.impact(false, 0.4); return; } // (a ping off the armour)
     f.parts[part] -= 1;
+    if (owner !== 'friendly' && owner !== 'overstress') { f.lastHitBy = owner; f.lastHitT = this.time; }
+    if (f.sys && f.alive && f.parts[part] > 0) { // (what else the round broke: a leak, a control, a cable, the pilot hurt)
+      const news = !f.player || Math.random() < PLAYER_SYSTEMS ? f.sys.hit(part, f.parts[part] / f.k.parts[part].hp, f.fm) : [];
+      if (f.player) for (const n of news) this.ui.toast(n, 'warn');
+    }
     if (f.player) { // your own fighter hit: you hear it strike, and feel it if it's the cockpit
       this.audio.impact(false, 0.8);
       if (part === 'pilot') { this.audio.pain(1, f.parts.pilot <= 0, 0.3); this.ui.hitFlash(1); }
@@ -869,7 +996,7 @@ export class Fighters {
     const t = (this.tally ??= { player: 0, crew: 0, escorts: 0, axisLost: 0, alliedLost: 0 });
     if (f.side === 'axis') {
       t.axisLost++;
-      if (owner === 'player') t.player++; else if (owner === 'crew') t.crew++; else if (!['friendly', 'bailout', 'collision', 'ground'].includes(owner)) t.escorts++;
+      if (owner === 'player') t.player++; else if (owner === 'crew') t.crew++; else if (!['friendly', 'bailout', 'collision', 'ground', 'mechanical', 'overstress'].includes(owner)) t.escorts++;
     } else t.alliedLost++;
     f.downTime = rand(8, 14);
     // the pilot gets out (if he's alive and the plane isn't in pieces at once)
@@ -893,7 +1020,7 @@ export class Fighters {
     f.roll += f.spin * dt;
     if (f.bailT !== undefined && (f.bailT -= dt) <= 0) { this.effects.parachute(f.pos.clone().add(_t.set(0, 3, 0))); f.bailT = undefined; this.onBail?.(f); }
     if (f.fuse !== undefined && (f.fuse -= dt) <= 0) { this.explode(f); return; }
-    if ((f.downTime -= dt) <= 0 || f.pos.y < -2500) {
+    if ((f.downTime -= dt) <= 0 || f.pos.y < (this.fallFloor ?? -2500)) { // (out of sight below the clouds: or the ground, in a dogfight)
       if (f.burning && f.pos.distanceTo(this.playerBomber.group.position) < 2500) this.explode(f);
       else f.state = 'gone';
     }
@@ -1008,6 +1135,7 @@ export class Fighters {
    * hit into a fuselage takes both straight down.
    */
   bomberContact(dt) {
+    if (this.noBombers) return; // (a dogfight: the one B-17 there is, is hidden away)
     const pb = this.playerBomber;
     if (!pb.offStation || pb.down || pb.gone || dt <= 0) { this.lastPb = null; return; }
     const at = pb.group.position;

@@ -7,8 +7,11 @@
 import * as THREE from 'three';
 import { Interior } from './interior.js';
 import { applyMarkings } from './markings.js';
+import { SCENARIO } from './scenario.js';
 
-export const AIRSPEED = 75; // m/s: 270 km/h (~170 mph), a loaded B-17's cruise at altitude
+// m/s: 270 km/h (~170 mph), a loaded B-17's cruise at altitude. In a dogfight scenario there's no bomber stream
+// to ride with: the frame is the air's own, nothing streams past (scenario.js)
+export const AIRSPEED = SCENARIO?.dogfight ? 0 : 75;
 export const FORMATION = { bank: 0 }; // (the whole formation banked in a turn: rad, + right wing down; main.js)
 const V = THREE.Vector3;
 const rand = (a, b) => a + Math.random() * (b - a);

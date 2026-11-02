@@ -97,7 +97,7 @@ const CONTROLS = [
     ['C', 'hold: look round'], ['F', 'hold by a wounded man: first aid']]],
   ['Pilot\'s seat', [['Mouse', 'steer'], ['W / S', 'throttle'], ['A / D', 'roll'], ['T', 'fire bottle, worst engine'], ['F', 'feather it'], ['1 – 4', 'a bottle on that engine'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view']]],
   ['Bombsight', [['1 – 4', 'in the nose: its guns, left to right'], ['5 / B', 'in the nose, from the initial point: the bombsight'], ['A / D', 'steer the formation'], ['Space / Click', 'bombs away'], ['B / E', 'leave the sight']]],
-  ['Fighters', [['Mouse', 'aim where you fly'], ['W / S', 'throttle'], ['A / D', 'roll'], ['Left click', 'guns'], ['Middle click', 'lock on / off (aim assist)'], ['Right click', 'hold: zoom'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view'], ['J', 'bail out']]],
+  ['Fighters', [['Mouse', 'look where you want to fly: she rolls and pulls to get there'], ['Shift / Ctrl', 'throttle up / down (hold Shift past 100%: WEP, emergency power, heats the engine)'], ['F', 'combat flaps (tighter, slower turns; torn off if too fast)'], ['W / S', 'pitch: S pulls up, W dives (S pulls past the safe G: brief over-G, grey-out, folded wings)'], ['A / D', 'roll (you take the roll, she keeps the pull)'], ['Q / E', 'rudder'], ['Ctrl + W', 'closes the browser tab outside full screen: fly full screen'], ['Left click', 'guns'], ['Middle click', 'lock on / off (aim assist)'], ['Right click', 'hold: zoom'], ['C', 'hold: look round'], ['V', 'cockpit / third-person view'], ['J', 'bail out']]],
 ];
 /** "W / S" -> <kbd>W</kbd> <kbd>S</kbd>; "W A S D" -> four keys. */
 const keycaps = (k) => k.split(' / ').flatMap((x) => (/^([A-Z] )+[A-Z]$/.test(x) ? x.split(' ') : [x])).map((x) => `<kbd>${x}</kbd>`).join(' ');
@@ -180,6 +180,8 @@ export class UI {
             <div class="set-row"><label>Sound mix</label><p>Each kind of sound on its own.</p>
               <div class="mix">${[['guns', 'Guns'], ['engines', 'Engines'], ['battle', 'Flak and hits'], ['crew', 'Crew and turret motors']].map(([k, l]) => `<label class="sound"><span>${l}</span>
                 <input type="range" min="0" max="100" step="1" value="100" data-mix="${k}" aria-label="${l}"><output data-mix-val="${k}"></output></label>`).join('')}</div></div>
+            <div class="set-row"><label for="snd-radio">Radio chatter</label><p>The crew's interphone calls, and the German fighters' radio.</p>
+              <div class="select"><select id="snd-radio"><option value="on">On</option><option value="off">Off</option></select></div></div>
             ${[['time', 'Time of day', 'Morning sun, high noon, dusk or a moonlit night.'], ['season', 'Season', 'Autumn browns the fields (mid-October, as on the day); winter brings snow and thicker contrails.'],
     ['weather', 'Weather', 'Clear, cloudy, rain, or a thunderstorm with lightning.']].map(([k, name, help]) => `<div class="set-row"><label for="env-${k}">${name}</label><p>${help}</p>
               <div class="select"><select id="env-${k}" data-env="${k}">${ENV_OPTIONS[k].map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select></div></div>`).join('')}
@@ -340,9 +342,16 @@ export class UI {
     if (!s) return;
     if (s.marker) { at(nose, s.marker); at(sight, s.marker); }
     const ammo = Object.entries(s.ammo).map(([k, a]) => `<div>${k === 'cannon' ? '20 mm' : 'MG'} <b>${a.n}</b></div>`).join('');
-    box.innerHTML = `<div class="lbl">${s.kind}${s.damage ? ` · <span class="warn">${s.damage}</span>` : ''}</div>
-      <div><b>${Math.round(s.speed * 3.6)}</b> km/h · <b>${Math.round(s.alt).toLocaleString()}</b> ft</div>
-      <div class="bar"><i style="width:${s.throttle * 100}%"></i></div><span class="lbl">Throttle ${Math.round(s.throttle * 100)}%</span>
+    // the G meter (amber as the grey comes on, red near black), the engine's heat (its red line at the gauge's end),
+    // emergency power, the fuel, the flaps, and everything that's wrong
+    const gCol = s.gStress > 0.7 ? '#ff4a3a' : s.gStress > 0.35 ? '#ffa23a' : '';
+    const tC = Math.round(30 + 80 * (s.temp ?? 0)), tCol = s.temp > 1 ? '#ff4a3a' : s.temp > 0.9 ? '#ffa23a' : '#d9d2b8';
+    const warn = [...(s.damage ? [s.damage] : []), ...(s.warn ?? [])];
+    box.innerHTML = `<div class="lbl">${s.kind}${warn.length ? ` · <span class="warn">${warn.join(' · ')}</span>` : ''}</div>
+      <div><b>${Math.round(s.speed * 3.6)}</b> km/h <span class="lbl">(IAS ${Math.round((s.ias ?? s.speed) * 3.6)})</span> · <b>${Math.round(s.alt).toLocaleString()}</b> ft</div>
+      <div><b style="color:${gCol}">${(s.g ?? 1).toFixed(1)}</b> g${s.flaps > 0.05 ? ` · flaps <b>${Math.round(s.flaps * 100)}%</b>` : ''} · fuel <b>${Math.round((s.fuel ?? 1) * 100)}%</b></div>
+      <div class="bar"><i style="width:${Math.min(1, s.throttle) * 100}%;${s.wep ? 'background:#ff8a3a' : ''}"></i></div><span class="lbl">Throttle ${Math.round(s.throttle * 100)}%${s.wep ? ' · <b class="warn">WEP</b>' : ''}</span>
+      <div class="bar"><i style="width:${Math.min(1, (s.temp ?? 0) / 1.15) * 100}%;background:${tCol}"></i></div><span class="lbl">Engine ${tC}°C${s.temp > 1 ? ' · <b class="warn">OVERHEATING</b>' : ''}</span>
       ${ammo}
       <div class="bar"><i style="width:${Math.min(1, s.heat) * 100}%;background:${s.jammed ? '#ff4a3a' : s.heat > 0.7 ? '#ffa23a' : '#d9d2b8'}"></i></div>
       <span class="lbl">${s.jammed ? 'Guns overheated' : 'Gun heat'}</span>`;
@@ -1005,6 +1014,26 @@ export class UI {
     }
   }
 
+  /**
+   * The pilot's sight under G (airframe.js vision: { grey, red, wound }), or null: greying at the edges and closing
+   * in to black, the red-out, a wound's red at the rim.
+   */
+  gload(v) {
+    let el = this.gloadEl;
+    if (!el) {
+      el = this.gloadEl = document.createElement('div');
+      el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:40;transition:background .15s linear;';
+      document.body.append(el);
+    }
+    if (!v || (v.grey < 0.01 && v.red < 0.01 && !v.wound)) { el.style.background = 'none'; return; }
+    const g = v.grey, r = v.red, inner = Math.round(70 - 62 * Math.max(g, r)); // (the clear middle shrinks as it comes on)
+    const layers = [];
+    if (g > 0.01) layers.push(`radial-gradient(circle at 50% 50%, rgba(10,10,10,${(g * 0.75).toFixed(2)}) 0%, rgba(10,10,10,${(g * 0.75).toFixed(2)}) ${g >= 1 ? 0 : 1}%, transparent ${g >= 1 ? 0 : inner}%), radial-gradient(circle at 50% 50%, transparent ${inner}%, rgba(0,0,0,${Math.min(1, 0.3 + g).toFixed(2)}) ${inner + 25}%)`);
+    if (r > 0.01) layers.push(`radial-gradient(circle at 50% 50%, rgba(140,0,0,${(r * 0.45).toFixed(2)}) ${inner}%, rgba(110,0,0,${Math.min(0.95, 0.3 + r * 0.7).toFixed(2)}) 100%)`);
+    if (v.wound > 0) layers.push(`radial-gradient(circle at 50% 50%, transparent 72%, rgba(120,0,0,${(0.15 + 0.3 * v.wound).toFixed(2)}) 100%)`);
+    el.style.background = layers.join(', ');
+  }
+
   /** Your health, top left (null hides it: flying a fighter, your plane's own health shows instead). */
   /**
    * The mini map: a round radar plot, always up in the corner, turned with your view (straight up is where
@@ -1299,8 +1328,9 @@ export class UI {
    * onChange(volume 0..1, muted, mix) is called now and whenever they change. N mutes too.
    */
   sound(onChange) {
-    let vol = 1, muted = false, mix = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 };
-    try { const s = JSON.parse(localStorage.getItem('bomber.sound') ?? 'null'); if (s) { ({ vol, muted } = s); mix = { ...mix, ...s.mix }; } } catch { /* (no storage: defaults) */ }
+    let vol = 1, muted = false, mix = { guns: 1, engines: 1, battle: 1, crew: 1, ui: 0.8 }, radio = true;
+    try { const s = JSON.parse(localStorage.getItem('bomber.sound') ?? 'null'); if (s) { ({ vol, muted } = s); mix = { ...mix, ...s.mix }; radio = s.radio ?? true; } } catch { /* (no storage: defaults) */ }
+    const radioSel = this.el('snd-radio');
     const sets = [['snd-mute', 'snd-vol', 'snd-val'], ['snd-mute-top', 'snd-vol-top', 'snd-val-top']].map((ids) => ids.map((i) => this.el(i)));
     const mixers = [...document.querySelectorAll('[data-mix]')];
     const apply = () => {
@@ -1313,14 +1343,16 @@ export class UI {
         val.textContent = muted ? 'off' : `${Math.round(vol * 100)}%`;
       }
       for (const m of mixers) { m.value = Math.round(mix[m.dataset.mix] * 100); document.querySelector(`[data-mix-val="${m.dataset.mix}"]`).textContent = `${m.value}%`; }
-      try { localStorage.setItem('bomber.sound', JSON.stringify({ vol, muted, mix })); } catch { /* (not remembered) */ }
-      onChange(vol, muted, mix);
+      radioSel.value = radio ? 'on' : 'off';
+      try { localStorage.setItem('bomber.sound', JSON.stringify({ vol, muted, mix, radio })); } catch { /* (not remembered) */ }
+      onChange(vol, muted, mix, radio);
     };
     for (const [btn, slider] of sets) {
       btn.addEventListener('click', () => { muted = !muted; apply(); });
       slider.addEventListener('input', () => { vol = slider.value / 100; if (vol > 0) muted = false; apply(); });
     }
     for (const m of mixers) m.addEventListener('input', () => { mix[m.dataset.mix] = m.value / 100; apply(); });
+    radioSel.addEventListener('change', () => { radio = radioSel.value === 'on'; apply(); });
     addEventListener('keydown', (e) => {
       if (e.code !== 'KeyN' || e.repeat || e.target.matches?.('input, select')) return;
       muted = !muted; apply();
